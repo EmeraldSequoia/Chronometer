@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Kyoto I.xml
+  Emerald Chronometer
+
+  Copied from Kyoto.xml 2017 May 22
+ 
+  Created 12/3/2009 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Kyoto I' landscapeZoomFactor='0.9' beatsPerSecond='5' faceWidth='276' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='256' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=276, backerWidth=faceWidth' />
+
+  <init expr='faceRad=136, outrRad=135, jSignRad=145, midoRad=109, jNumbRad=116, midiRad=88,innRad=82, hrRad=67' />
+  <init expr='jhrRad=(midoRad+outrRad)/2, jstRad=(midiRad+midoRad)/2-2' />
+  <init expr='subfs=9, subR=30, subRIn=subR-subfs-1' />
+  <init expr='jhrLen=innRad, hrLen=hrRad*.65, minLen=hrRad*.80, secLen=hrRad, mWidth=1.25' />
+  <init expr='faceColor=0xffe0e0e0, nfgclr2=0xff008072, textColor=black, timText=textColor, innerBg=0x80e0e0e0, dstBorder=0x80a0a0a0, subBg=0xffe7e7e7, midbg=0x40000000' />
+  <init expr='hrColor=minColor=black, secColor=0xff000000' />
+
+  <static   name='front' modes='front' n='3'>
+    <QRect      name='maskRect'     x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image      name='face'         x='0' y='0'     modes='front' src='face.png' />
+    <QDial	name='outer'	    x='0' y='0' modes='front'	radius='outrRad'    markWidth='mWidth' marks='outer'   bgColor='clear' />
+    <QDial	name='hourSigns'    x='0' y='0' modes='front'	radius='jSignRad'   orientation='radial' fontSize='21' fontName='Helvetica-Bold' bgColor='clear' strokeColor='textColor' text='午,未,申,酉,戌,亥,子,丑,寅,卯,辰,巳' />
+    <QDial	name='mido'	    x='0' y='0' modes='front'	radius='midoRad'    markWidth='mWidth' marks='outer'   bgColor='midbg' />
+    <QDial	name='hourNums'	    x='0' y='0' modes='front'	radius='jNumbRad'   orientation='radial' fontSize='15' fontName='AppleGothic' bgColor='clear' strokeColor='textColor' text='九,八,七,六,五,四,九,八,七,六,五,四' />
+    <QDial	name='midi'	    x='0' y='0'	modes='front'	radius='midiRad'    markWidth='mWidth' marks='outer'   bgColor='clear' />
+    <QDial	name='tick48'	    x='0' y='0'	modes='front'	radius='midiRad'    markWidth='mWidth' marks='tickOut' nMarks='48' mSize='midiRad-innRad' bgColor='clear' />
+    <QDial	name='inner'	    x='0' y='0'	modes='front'	radius='innRad'	    markWidth='mWidth+1' marks='outer'   bgColor='clear' />
+    <QDial	name='tick12'	    x='0' y='0'	modes='front'	radius='outrRad' markWidth='mWidth' marks='tickOut' nMarks='12' mSize='outrRad-innRad' angle0='pi/12' bgColor='clear' />
+    <QDial	name='night mask'   x='0' y='0' modes='front'	radius='outrRad' bgColor='clear' strokeColor='0x70000000' marks='tickOut' nMarks='2*pi*outrRad' markWidth='1.0'  mSize='outrRad-innRad' angle1='pi/2' angle2='3*pi/2' />
+    <Image	name='berry shadow' x='0.7' y='58.7' modes='front' src='../partsBin/berry-shadow.png'/>
+    <Image	name='berry'	    x='0' y='60' modes='front'     src='../partsBin/berry.png'/>
+  </static>
+
+  <static    name='night' modes='night' >
+    <QRect      name='maskRectn'    x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <QDial	name='hourSignsn'   x='0' y='0' modes='night'	radius='jSignRad'   orientation='radial' fontSize='21' fontName='Helvetica-Bold' bgColor='clear' strokeColor='white' text='午,未,申,酉,戌,亥,子,丑,寅,卯,辰,巳' />
+  </static>
+
+  <hand		name='jhr'	    x='0' y='0' z='3' thick='2' modes='front' xAnchor= '70' yAnchor='70' src='hand.png'      update='1' angle='japanHourValueAngle()' />
+  <hand		name='jhrn'	    x='0' y='0' z='3' thick='2' modes='night|back' xAnchor= '70' yAnchor='70' src='white-hand.png' update='10' angle='japanHourValueAngle()' />
+
+</watch>

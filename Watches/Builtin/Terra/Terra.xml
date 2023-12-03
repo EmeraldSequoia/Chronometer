@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Terra.xml  (was Auckland.xml)
+  Emerald Chronometer
+
+  Created by Bill Arnett on 11 Dec 2009
+  Copyright Emerald Sequoia LLC 2009. All rights reserved.
+-->
+
+<watch name='Terra' numEnvironments='29' maxSeparateLoc='4' beatsPerSecond='8'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='512' backHeight='1024' nightWidth='512' nightHeight='512'/>
+
+<!-- env slot specifications -->
+  <!-- The first four env slots, with locations, are allocated to the subdials -->
+  <init expr='subdial0Slot=1, subdial1Slot=2, subdial2Slot=3, subdial3Slot=4' />
+  <!-- The ring starts at env slot 5 and continues on through env slot 28 -->
+  <init expr='firstRingSlot=5, UTRingSlot=16, utSlotOffsetAngle=22*pi/24'/>
+  <!-- The env slot which is currently at the top of the ring -->
+  <init expr='topRingSlot=fetchPersistentValue(0)'/>
+
+<!-- sizes, lengths, positions -->
+  <init	expr='hour12FS=16, hour12smallFS=10, hour24FS=14, cityFS=10, DSTFS=12, DSTZ=3, DSTThick=0.5, DST2Z=2, DST2Thick=0.25' />
+  <init	expr='faceR=138' />
+  <init	expr='cityRad2=faceR,     dot2Rad=cityRad2-cityFS-2.5, channel2Rad=dot2Rad*2, channelWidth=.25, dotHeight=3, dotWidth=4, moverWidth=24' />
+  <init	expr='cityRad1=dot2Rad-1, dot1Rad=cityRad1-cityFS-2.5, channel1Rad=dot1Rad*2' />
+  <init	expr='hourWheelOR=dot1Rad-4, hourWheelIR=hourWheelOR-hour12FS-2' />
+  <init expr='ringOR=hourWheelOR, ringW=5, ringIR=hourWheelIR, dnNum=48' />
+  <init expr='hour12IR=ringIR-2' />
+  <init expr='dotZ=3, dotThick=1.5' />
+  <init	expr='secLen=hour12IR, minLen=hour12IR-2, hrLen=minLen*.67, hrWid=1.5, minWid=1, secWid=.75, ly=40, hrArrow=hrLen/6, hrArrowWid=hrWid+2, minArrow=minLen/6, minArrowWid=minWid+2, secArrow=secLen/6, secArrowWid=secWid+2, handTailRadius=4' />
+  <init expr='dotBorder=0.1, dotR=2' />
+  <init expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+<!-- colors -->
+<init	expr='fgColor=black, handFillColor=black, handStrokeColor=black, handoFillColor=handFillColor, arrowColor=0xff000040, secColor=0xff800000, nfgColor=0xff00c0ac, numBgClr=0x40808080, cityColor=clear, utHand=0xa060b060, nfgclr=0xff00c0ac' />
+  <init	expr='ringBack=black, leafBorder=lightGray, leafFill=white, moonLeafFill=0xff808080, nleafFill=0xff007064, nMoonLeafFill=0xff004034' />
+  <init	expr='dot1Color=black, dot2Color=black, channel1Color=black, channel2Color=black' />
+  <init	expr='utstroke=0xff402040, utfill=0xff80b080, DSTColor=black, DST2Color=white' />
+  <init expr='windowBorder=1, shadowOff=-.5, shadowOpc=.25, shadowSig=1.5' />
+  <init expr='sameColor=black, lessColor=0xff600000, moreColor=0xff005050' />
+<!--
+  <init expr='sameColor=0xff606060, lessColor=0xff602020, moreColor=0xff205050, selColor=black' />
+-->  
+  <init expr='aSpeed=.75, aSpeed2=4, iSpeed=aSpeed/2, alph=1, secUpdate=.125'/>
+  <init expr='dotOffset=-pi/24, cityOffset=-pi/24, dateHandSpan=.58, offRad1=11, offRad2=15' />
+  <init	expr='wheelfs=11, wheelspace=10' />
+  <init	expr='logoX=0, logoY=-36.5' />
+  <init	expr='monX=-wheelspace*2.5, dayX=wheelspace, dayY=-55, monY=dayY, wkdX=-wheelspace*3+4, wkdY=50, bgclr=0xffe9dacf' />
+
+<!-- case buttons -->
+    <button	name='stem'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/rose/front/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+    <button	name='stemn'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	     src='../partsBin/HD/rose/night/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+    <button	name='Reset'	    x='bx-1'  y='-by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset04.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3+1' yMotion='-my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+    <button	name='Reset b'	    x='bx-1'  y='-by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'       src='../partsBin/HD/reset04b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3+1' yMotion='-my*1.3' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+    <button	name='F/R'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/rose/front/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+    <button	name='F/Rn'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='../partsBin/HD/rose/night/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+    <button	name='adv hr  but'  x='-bx' y='-by' modes='front|back' src='../partsBin/HD/rose/front/button08.png' action='advanceHour()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+    <button	name='adv hr  butn' x='-bx' y='-by' modes='night'      src='../partsBin/HD/rose/night/button08.png' action='advanceHour()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+    
+  <button	name='rotate cw '   x='-bx+10' y=' by+15' modes='front' src='../partsBin/HD/rose/front/smbutton10.png'  xMotion='-mx' yMotion='-my' enabled='always' repeatStrategy='ECPartRepeatsSlowlyOnly'	action='topRingSlot = (topRingSlot - firstRingSlot + 23) % 24 + firstRingSlot, storePersistentValue(0,topRingSlot)' motion='!thisButtonPressed()' />
+  <button	name='rotate ccw'   x=' bx-10' y=' by+15' modes='front' src='../partsBin/HD/rose/front/smbutton02.png' xMotion=' mx' yMotion='-my' enabled='always' repeatStrategy='ECPartRepeatsSlowlyOnly'	action='topRingSlot = (topRingSlot - firstRingSlot +  1) % 24 + firstRingSlot, storePersistentValue(0,topRingSlot)' motion='!thisButtonPressed()' />
+
+<!-- == Front ==     a world time watch -->
+
+<!-- window buttons -->
+  <button   name='adv mon'	x='monX-wheelspace/2+2'	 y='monY-wheelspace/2'  modes='front' w='wheelspace*3' h='wheelfs' action='advanceMonthN(topRingSlot)' />
+  <button   name='adv day'	x='dayX-wheelspace/2+2'	 y='dayY-wheelspace/2'  modes='front' w='wheelspace*2' h='wheelfs' action='advanceDayN(topRingSlot)' />
+  <button   name='advwday'	x='wkdX-wheelspace/2+2'	 y='wkdY-wheelspace/2-1'  modes='front' w='wheelspace*6' h='wheelfs+1' action='advanceDayN(topRingSlot)' />
+
+<!-- month/day/weekday wheels -->
+  <QRect    name='day bak'	    x='dayX-wheelspace/2+2'  y='dayY-wheelspace/2'     modes='front' w='wheelspace*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   name='digits'	    x='dayX-16.5'	     y='dayY+1'  dragAnimationType='dragAnimationHack1'    modes='front'  radius='32' orientation='three'  update='1 * days()' angle='fmod((dayNumberN(topRingSlot)+1),          10)*2*pi/10'                text='0,1,2,3,4,5,6,7,8,9' fontSize='wheelfs' fontName='Arial' strokeColor='black' bgColor='clear' />
+  <SWheel   refName='digits'	    x='dayX-wheelspace-16.5' y='dayY+1'  dragAnimationType='dragAnimationHack1'    modes='front'  radius='32' orientation='three'  update='1 * days()' angle='fmod(floor((dayNumberN(topRingSlot)+1)/10),10)*2*pi/10' 		 text='0,1,2,3,4,5,6,7,8,9' fontSize='wheelfs' fontName='Arial' strokeColor='black' bgColor='clear' />
+  <QRect    name='mon bak'	    x='monX-wheelspace/2+2'  y='monY-wheelspace/2'     modes='front' w='wheelspace*3' h='wheelfs' bgColor='bgclr' />
+  <TWheel   name='Qmonths'	    x='monX-17.5'	     y='monY+1.5'  dragAnimationType='dragAnimationHack1'  modes='front'  radius='42' orientation='three'  update='1 * days()' angle='monthNumberAngleN(topRingSlot)'            text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' fontSize='wheelfs' fontName='Arial'  strokeColor='black' bgColor='clear' />
+  <QRect    name='wkd bak'	    x='wkdX-wheelspace/2+2'  y='wkdY-wheelspace/2-2'   modes='front' w='wheelspace*6' h='wheelfs+2' bgColor='bgclr' />
+  <TWheel   name='wkdays'	    x='wkdX+27.3'		     y='wkdY-67'  dragAnimationType='dragAnimationHack1' modes='front'  radius='74' orientation='twelve' update='1 * days()' angle='weekdayNumberAngleN(topRingSlot)' text='Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday' fontSize='wheelfs' fontName='Arial' strokeColor='black' bgColor='clear' />
+
+<!-- windows -->
+    <window	name='f/r'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  <window   name='day winb'	x='dayX-wheelspace/2+2'  y='dayY-wheelspace/2+1' w='wheelspace*2-1' h='wheelfs - 1' border='1' strokeColor='darkGray' modes='front' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window   name='mon winb'	x='monX-wheelspace/2+2'  y='monY-wheelspace/2+1' w='wheelspace*3' h='wheelfs - 1' border='1' strokeColor='darkGray' modes='front' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window   name='wkd winb'	x='wkdX-wheelspace/2+2'  y='wkdY-wheelspace/2-1' w='wheelspace*6' h='wheelfs + 1' border='1' strokeColor='darkGray' modes='front' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+
+  <static   name='front'	modes='front' >
+    <Image	name='bandf'	    x='0' y='0' modes='front'	src='../partsBin/HD/brown/front/straight/wide/band.png' />
+    <Image	name='casef'	    x='0' y='0'	modes='front'	src='../partsBin/HD/rose/front/wide/case.png' alpha='alph' />
+    <Image	name='face f'	    x='0' y='0'	modes='front'	src='../partsBin/HD/rose/face.png' />
+    <QDial	name='city backg'   x='0' y='0' modes='front' radius='(cityRad2+cityRad1-cityFS-2)/2' markWidth='cityRad2-cityRad1+cityFS+2' marks='outer' bgColor='clear' strokeColor='sameColor' />
+    <QDial	name='face borderf' x='0' y='0'	modes='front' radius='faceR' bgColor='clear' strokeColor='black' marks='outer'  markWidth='.5' />
+    <Image	name='logo'	    x='logoX' y='logoY'	modes='front'	src='../partsBin/logos/black.png' />
+    <QDial	name='num bordero'  x='0' y='0' modes='front' radius='hourWheelOR-1' markWidth='.5' marks='outer' bgColor='clear' />
+    <QDial	name='num borderi'  x='0' y='0' modes='front' radius='hourWheelIR-1' markWidth='.5' marks='outer' bgColor='clear' />
+    <QDial	name='ring border'  x='0' y='0' modes='front' radius='ringIR' markWidth='.5' marks='outer' bgColor='clear' />
+<!--    <QDial	name='hour ticf'    x='0' y='0'	modes='front' radius='hour12IR' markWidth='2.0' marks='tickOut' nMarks='12' mSize='10' bgColor='clear' />  -->
+    <QDial	name='hr  ticf'     x='0' y='0'	modes='front' radius='hour12IR-2' markWidth='1.25' marks='tickOut' nMarks='12' mSize=' 6' bgColor='clear' />
+    <QDial	name='min ticf'     x='0' y='0'	modes='front' radius='hour12IR-2' markWidth='1.0' marks='tickOut' nMarks='60' mSize=' 4' bgColor='clear' />
+    <QDial	name='submin ticf'  x='0' y='0'	modes='front' radius='hour12IR-2' markWidth='.5' marks='tickOut' nMarks='240' mSize=' 2' bgColor='clear' />
+    <QDial	name='12 numsf'     x='0' y='1'	modes='front' radius='hour12IR+1' orientation='upright' fontSize='hour12FS'      fontName='Times New Roman' bgColor='clear' strokeColor='fgColor' text='12,,, ,,,6,,,9,,' />
+    <QDial	name='12 numsfa'    x='0' y='0'	modes='front' radius='hour12IR'   orientation='upright' fontSize='hour12smallFS' fontName='Times New Roman' bgColor='clear' strokeColor='fgColor' text=',1, ,,4,5,,7,8,, ,11' />
+  </static>
+    <Image	name='decoration'   x='0' y='0' modes='front'	src='continents.png'  alpha='.75*alph' special='specialDotsMap' />
+
+<!-- date coloring hands -->
+  <QWedge    name='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  0, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' 
+	     angle='moreDay(firstRingSlot +  0, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge    name='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  0, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' 
+	     angle='lessDay(firstRingSlot +  0, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  1, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' 
+	     angle='moreDay(firstRingSlot +  1, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  1, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  1, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  2, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  2, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  2, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  2, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  3, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  3, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  3, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  3, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  4, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  4, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  4, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  4, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  5, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  5, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  5, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  5, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  6, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  6, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  6, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  6, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  7, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  7, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  7, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  7, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  8, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  8, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot +  8, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  8, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  9, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot +  9, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot +  9, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot +  9, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 10, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 10, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 10, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 10, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 11, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 11, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 11, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 11, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 12, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 12, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 12, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 12, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 13, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 13, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 13, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 13, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 14, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 14, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 14, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 14, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 15, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 15, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 15, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 15, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 16, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 16, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 16, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 16, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 17, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 17, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 17, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 17, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 18, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 18, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 18, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 18, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 19, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 19, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 19, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 19, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 20, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 20, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 20, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 20, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 21, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 21, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 21, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 21, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 22, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 22, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='60' offsetRadius='offRad1' offsetAngle='sectorAngle(firstRingSlot + 22, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 22, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='moreW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 23, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='moreDay(firstRingSlot + 23, topRingSlot) ? 0 : pi' strokeColor='moreColor' fillColor='moreColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge refName='lessW'   x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='60' offsetRadius='offRad2' offsetAngle='sectorAngle(firstRingSlot + 23, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='lessDay(firstRingSlot + 23, topRingSlot) ? 0 : pi' strokeColor='lessColor' fillColor='lessColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+
+<!-- color the top city differently
+  <QWedge   name='theCityE'  x='0' y='0' modes='front' outerRadius='cityRad2-1-offRad2' innerRadius='cityRad2-cityFS-2-offRad2' angleSpan='dateHandSpan' update='updateAtNextDSTChange' offsetRadius='offRad2' offsetAngle='- cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='topRingSlot % 2 == 0 ? 0 : pi' strokeColor='selColor' fillColor='selColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+  <QWedge   name='theCityO'  x='0' y='0' modes='front' outerRadius='cityRad1-1-offRad1' innerRadius='cityRad1-cityFS-2-offRad1' angleSpan='dateHandSpan' update='updateAtNextDSTChange' offsetRadius='offRad1' offsetAngle='- cityIndicatorOffset(topRingSlot, firstRingSlot)'
+             angle='topRingSlot % 2 == 1 ? 0 : pi' strokeColor='selColor' fillColor='selColor' animSpeed='aSpeed2' dragAnimationType='dragAnimationAlways' />
+-->
+
+<!-- the city ring dynamically manufactured by the Watch Factory -->
+<!--
+  <hand	    name='worldtime ring' special='specialWorldtime' envSlot='firstRingSlot' x='0' y='0' modes='front' kind='worldtimeRingKind' action='topRingSlot = topRingSlot > firstRingSlot ? topRingSlot - 1 : firstRingSlot + 23'
+	    angle='sectorAngle(firstRingSlot, topRingSlot)' update='updateAtEnvChangeOnly' src='worldtimeRingBackground.png' animSpeed='aSpeed' alpha='alph' dragAnimationType='dragAnimationAlways' />
+-->
+  <hand	    name='worldtime ring' special='specialWorldtime' envSlot='firstRingSlot' x='0' y='0' modes='front' dragAnimationType='dragAnimationHack1'
+	    angle='sectorAngle(firstRingSlot, topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' update='updateAtEnvChangeOnly' src='worldtimeRingBackground.png' animSpeed='aSpeed' alpha='alph' />
+<!--
+  <TWheel   name='ring mover'    x='0' y='0' modes='front' kind='worldtimeRingKind' radius='faceR' orientation='twelve' update='updateAtEnvChangeOnly' action='topRingSlot = topRingSlot > firstRingSlot ? topRingSlot - 1 : firstRingSlot + 23, storePersistentValue(0,topRingSlot)' angle='0' fontSize='moverWidth' fontName='Arial' bgColor='clear' strokeColor='clear' text='0,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1' animSpeed='aSpeed' dragType='dragHack1' />
+-->
+
+<!-- city time reference dots -->
+
+  <Qhand    name='dst H'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  0) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 1'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  1) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 2'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  2) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 3'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  3) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 4'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  4) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 5'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  5) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 6'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  6) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 7'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  7) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 8'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  8) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H 9'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot +  9) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H10'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 10) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H11'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 11) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H12'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 12) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H13'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 13) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H14'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 14) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H15'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 15) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H16'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 16) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H17'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 17) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H18'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 18) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H19'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 19) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H20'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 20) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H21'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 21) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H22'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot1Rad+dotHeight' length2='dot1Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 22) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+  <Qhand    name='dst H23'     x='0' y='0' z='3' thick='1.5' modes='front' type='tri' dragAnimationType='dragAnimationHack1' length='dot2Rad+dotHeight' length2='dot2Rad' width='dotWidth' tail='dotHeight' update='updateAtNextDSTChange' angle='tzOffsetAngleN(firstRingSlot + 23) + sectorAngle(firstRingSlot + UTCSectorOffset(), topRingSlot) - cityIndicatorOffset(topRingSlot, firstRingSlot)' fillColor='DSTColor' oFillColor='DSTColor' strokeColor='clear' animSpeed='aSpeed'/>
+
+<!-- Transparent indicator to show specialness of top city -->
+  <QWedge name='cityIndicator'   x='0' y='0' modes='front' outerRadius='cityRad2' innerRadius='cityRad1 - 17' angleSpan='pi/6' update='updateAtNextDSTChange' dragAnimationType='dragAnimationHack1' angle='-cityIndicatorOffset(topRingSlot, firstRingSlot)' animSpeed='iSpeed' strokeColor='black' borderWidth='0.25' fillColor='0x68efefff' opaque='1' />
+<!--
+  <QWedge name='cityIndicator1'  x='0' y='0' modes='front' outerRadius='cityRad2' innerRadius='cityRad1 - 17' angleSpan='5.5*pi/6' update='updateAtNextDSTChange' dragAnimationType='dragAnimationHack1' angle=' 13*pi/24-cityIndicatorOffset(topRingSlot, firstRingSlot)' animSpeed='iSpeed' strokeColor='clear' borderWidth='0.25' fillColor='0x37ffffff' opaque='1' />
+  <QWedge name='cityIndicator2'  x='0' y='0' modes='front' outerRadius='cityRad2' innerRadius='cityRad1 - 17' angleSpan='5.5*pi/6' update='updateAtNextDSTChange' dragAnimationType='dragAnimationHack1' angle='-13*pi/24-cityIndicatorOffset(topRingSlot, firstRingSlot)' animSpeed='iSpeed' strokeColor='clear' borderWidth='0.25' fillColor='0x37ffffff' opaque='1' />
+  <QWedge name='cityIndicatorbd' x='0' y='0' modes='front' outerRadius='cityRad2' innerRadius='cityRad1 - 16' angleSpan='pi/6'     update='updateAtNextDSTChange' dragAnimationType='dragAnimationHack1' angle='-cityIndicatorOffset(topRingSlot, firstRingSlot)'	    animSpeed='iSpeed' strokeColor='black' borderWidth='0.25' fillColor='clear'      opaque='1' />
+-->
+
+<!-- 24-hour time wheel -->
+  <TWheel	name='dial 24 s'    x='0' y='0' modes='front' kind='reverseHour24Kind' radius='hourWheelOR-2' ticks='4' tickWidth='1' orientation='twelve' update='1' angle='sectorAngle(firstRingSlot, topRingSlot)+dotOffset-hour24ValueAngle()+tzOffsetAngle()+utSlotOffsetAngle-cityIndicatorOffset(topRingSlot, firstRingSlot)' fontSize='hour24FS' fontName='Arial' bgColor='black' bgColor2='white' strokeColor='white' halfAndHalf='1' text='0,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1' animSpeed='aSpeed' dragType='dragNormal' dragAnimationType='dragAnimationHack2' />
+
+<!-- regular 12-hour hands for the top city -->
+  <Qhand	name='hr'	    x='0' y='0' z='4' modes='front' kind='hour12Kind' type='quad'  length=' hrLen' width='6'	  oCenter='4' oWidth='10' oLength=' hrLen*.5'  lineWidth='1.5'	    update='  1'   angle='hour12ValueAngleN(topRingSlot)' strokeColor='handStrokeColor' fillColor='clear' animSpeed='2' dragType='dragNormal' dragAnimationType='dragAnimationHack2' />
+  <Qhand	name='min'	    x='0' y='0' z='3' modes='front' kind='minuteKind' type='quad'  length='minLen' width='4'      oCenter='4' oWidth=' 8' oLength='minLen*.45' lineWidth='1.5'	    update='1'   angle='minuteValueAngleN(topRingSlot)' strokeColor='handStrokeColor' fillColor='clear' animSpeed='2' dragType='dragNormal' dragAnimationType='dragAnimationHack2' />
+  <Qhand	name='sec'	    x='0' y='0' z='3' modes='front' kind='secondKind' type='tri'   length='secLen' width='secWid' oCenter='1.5' oLineWidth='.50' tail='secLen/3+2.5' oRadius='2.25' update='secUpdate' angle='secondValueAngleN(topRingSlot)' strokeColor='secColor'	 fillColor='secColor' oStrokeColor='secColor' oFillColor='secColor' animSpeed='2' dragType='dragNormal' dragAnimationType='dragAnimationHack2' />
+
+<!-- and a 24-hour UT hand -->
+  <Qhand	name='UT hand'	    x='0' y='0'	z='3' modes='front' update='1' angle='sectorAngle(UTRingSlot, topRingSlot)+dotOffset-cityIndicatorOffset(topRingSlot, firstRingSlot)' type='tri' length='hourWheelOR-1' length2='hourWheelIR-1' tail='0' width='4' strokeColor='utHand' fillColor='utHand' dragAnimationType='dragAnimationHack1' />
+
+<!-- top-slot time indicator -->
+  <QWedge name='24hr indic wedge'   x='0' y='0' modes='front' outerRadius='hourWheelOR-2' innerRadius='hourWheelIR-1' angleSpan='pi/24' update='updateAtNextDSTChange' dragAnimationType='dragAnimationHack1' angle='city24HrDialOffset(topRingSlot, firstRingSlot)' animSpeed='iSpeed' strokeColor='black' borderWidth='0.07' fillColor='0x68e0e0ff' opaque='1' />
+  <Qhand        name='24hr indic line'   x='0' y='0' z='0' thick='0.5' modes='front' type='rect' width='.5' lineWidth='.5' length='hourWheelOR-2' length2='hourWheelIR+9' strokeColor='0xffc0c0c0' angle='city24HrDialOffset(topRingSlot, firstRingSlot)' update='updateAtNextDSTChange' dragAnimationType='dragAnimationHack1' animSpeed='iSpeed' />
+
+<!-- == Night ==   -->
+
+  <window	name='f/r n'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  <static    name='night' modes='night' >
+    <Image	name='band N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/brown/night/straight/wide/band.png' />
+    <Image	name='case N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/rose/night/wide/case.png' />
+    <Image	name='face N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/rose/faceNight.png' />
+    <Image	name='decoration n' x='0' y='0' modes='night'	src='continentsN.png'  alpha='.6*alph'/>
+    <QDial	name='hr  ticn'     x='0' y='0'	modes='night' radius='hour12IR-2' markWidth='1.25' marks='tickOut' nMarks='12' mSize=' 6' strokeColor='nfgclr' bgColor='clear' />
+    <QDial	name='min ticn'     x='0' y='0'	modes='night' radius='hour12IR-2' markWidth='1.0 ' marks='tickOut' nMarks='60' mSize=' 4' strokeColor='nfgclr' bgColor='clear' />
+<!--
+    <Image	name='lumiberry'    x='logoX' y='logoY' modes='night'	src='../partsBin/berry-lum.png' alpha='.67' />
+    <QDial	name='12 numsn'     x='0' y='0'	modes='night' radius='hour12IR+1' orientation='upright' fontSize='hour12FS' fontName='Times New Roman' bgColor='clear' strokeColor='nfgclr' text='12' />
+-->
+  </static>
+
+  <Qhand	name='hrn'	    x='0' y='0' z='4' modes='night' kind='hour12Kind' type='quad'  length=' hrLen' width='6'	  oCenter='4' oWidth='10' oLength=' hrLen*.5'  lineWidth='1.5'	    update='  1'   angle='hour12ValueAngleN(topRingSlot)' strokeColor='nfgclr' fillColor='clear'  oStrokeColor='nfgclr' dragType='dragHack1' dragAnimationType='dragAnimationNever' />
+  <Qhand	name='minn'	    x='0' y='0' z='3' modes='night' kind='minuteKind' type='quad'  length='minLen' width='4'      oCenter='4' oWidth=' 8' oLength='minLen*.45' lineWidth='1.5'	    update='1'   angle='minuteValueAngleN(topRingSlot)' strokeColor='nfgclr' fillColor='clear'  oStrokeColor='nfgclr' dragType='dragHack1' dragAnimationType='dragAnimationNever' />
+  <Qhand	name='secn'	    x='0' y='0' z='3' modes='night' kind='secondKind' type='tri'   length='secLen' width='secWid' oCenter='1.5' oLineWidth='.50' tail='secLen/3+2.5' oRadius='2.25' update='secUpdate' angle='secondValueAngleN(topRingSlot)' strokeColor='black' fillColor='black' oStrokeColor='black' oFillColor='black' dragType='dragHack1' dragAnimationType='dragAnimationNever' />
+
+
+<!-- == Back ==     a multi-subdial watch showing 4 timezones -->
+
+<init expr='ampmFS=8, wheelFS=11, labelFS=12, ringW=3' />
+<!-- positions -->
+<init expr='lsx=-58.5, lsy=0, lsR=58' />
+<init expr='sR=32, sRa=53.88, ang=1.17809725, labR=sR+ringW+labelFS+7.5, llabR=lsR+ringW+labelFS+7.5' />
+<init expr='s1x=32.19, s1y=77.716, s1xx=32, s1yy=78' />
+<init expr='s2x=84.12, s2y= 0,     s2xx=84, s2yy= 0' />
+<init expr='s3x=32.19, s3y=-77.72, s3xx=32, s3yy=-78' />
+<init expr='moonx=-45, moony=105, moonr=14' />
+
+<init expr='th=0*2*pi/360, lr=sqrt(lsx*lsx+lsy*lsy), sr=sqrt(s1x*s1x+s1y*s1y), lth=atan(lsy/lsx)+th, s1th=atan(s1y/s1x)+th,  s2th=atan(s2y/s2x)+th,  s3th=atan(s3y/s3x)+th,
+	      lsx=-lr*cos(lth), s1x= sr*cos(s1th), s2x= sr*cos(s2th), s3x= sr*cos(s3th),
+	      lsy=-lr*sin(lth), s1y= sr*sin(s1th), s2y= sr*sin(s2th), s3y= sr*sin(s3th) '/>
+<init expr='labelBal=0*labelFS/2, lsy=lsy+labelBal, s1y=s1y+labelBal, s2y=s2y+labelBal, s3y=s3y+labelBal'/>
+
+<init expr='wdayWindowXl=lsx-12, wdayWindowYl=lsy-25, wdayWindowWidth=25, dayWindowWidth=18, windowHeight=wheelFS-1, ampmWindowHeight=ampmFS-1, wdayWheelRadius=40, dayWheelRadius=25' />
+<init expr='dayWindowX=lsx+14, dayWindowY=lsy-25' />
+<init expr='wdayWindowXs1=s1xx+.5, wdayWindowYs1=s1yy-13' />
+<init expr='wdayWindowXs2=s2xx+.5, wdayWindowYs2=s2yy-13' />
+<init expr='wdayWindowXs3=s3xx+.5, wdayWindowYs3=s3yy-13' />
+<init expr='ampmWindowXl=lsx+.5, ampmWindowYl=lsy+32, ampmWindowWidth=16' />
+<init expr='ampmWindowXs1=s1xx, ampmWindowYs1=s1yy+21' />
+<init expr='ampmWindowXs2=s2xx, ampmWindowYs2=s2yy+21' />
+<init expr='ampmWindowXs3=s3xx, ampmWindowYs3=s3yy+21' />
+<init expr='ldnIR=lsR+4, ldnOR=ldnIR+ringW, dnIR=sR+4, dnOR=dnIR+ringW' />
+<!-- lengths -->
+<init expr='hrWid=3.5, minWid=2.25, secWid=.75, shrWid=hrWid-1, sminWid=minWid' />
+<init expr='lsmLen=lsR-2, lshLen=lsmLen*.67, lssLen=lsR' />
+<init expr='smLen=sR-2, shLen=smLen*.67' />
+<init expr='lsunLen=ldnOR+12, lsunLen2=ldnIR-2'/>
+<init expr='ssunLen= dnOR+12, ssunLen2= dnIR-2'/>
+<!-- colors -->
+<init expr='lsbgClr=clear, sbgClr=0x30000000, sbgClr=clear, bgclr=0xffdcd1c1' />
+<init expr='sunColor=0xfff2e407, sunStrokeColor=0xff120400, circleColor=0xc0000000, wheelFg=black, wheelBg=0xffe9d5d0, windowBorderClr=0x40000000, decoAlpha=.75' />
+
+<init expr='lsR=lsR+1, sR=sR+1' />
+
+<!-- below the face items -->
+<!-- Keep parts with the same envSlot together for greatly improved performance -->
+  <QRect	name='day bakb'	    envSlot='1' x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1' modes='back' w=' dayWindowWidth' h='windowHeight' bgColor='wheelBg' panes='2' />
+  <SWheel	name='day'	    envSlot='1' x=' dayWindowX-dayWheelRadius+9' y='dayWindowY+1' dragAnimationType='dragAnimationAlways' modes='back'  radius='dayWheelRadius'  orientation='three' update='1 * days()' angle='fmod((dayNumberN(1)+1),          10)*2*pi/10' fontSize='wheelFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' bgColor='clear' />
+  <SWheel    refName='day'	    envSlot='1' x=' dayWindowX-dayWheelRadius+1'  y='dayWindowY+1' dragAnimationType='dragAnimationAlways' modes='back'  radius='dayWheelRadius'  orientation='three' update='1 * days()' angle='fmod(floor((dayNumberN(1)+1)/10),10)*2*pi/10' fontSize='wheelFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' bgColor='clear' />
+  <QRect	name='lwday bak'    envSlot='1' x='wdayWindowXl-wdayWindowWidth/2  '      y='wdayWindowYl-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Swheel	name='wdays'	    envSlot='1' x='wdayWindowXl+wdayWheelRadius-wheelFS'  y='wdayWindowYl+1'    dragAnimationType='dragAnimationAlways' modes='back'  radius='wdayWheelRadius' orientation='nine' update='1 * days()' angle='weekdayNumberN(1)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='lampm bak'    envSlot='1' x='ampmWindowXl-ampmWindowWidth/2' y='ampmWindowYl-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Qhand        name='lam'	    envSlot='1' x='ampmWindowXl' y='1' modes='back' tail='0' type='spoke' offsetRadius='ampmWindowYl-12' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(1) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='lpm'	    envSlot='1' x='ampmWindowXl' y='1' modes='back' tail='0' type='spoke' offsetRadius='ampmWindowYl-12' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(1) >= 12 ? 0 : pi/2' strokeColor='white' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect	name='s1wday bak'   envSlot='2' x='wdayWindowXs1-wdayWindowWidth/2  '     y='wdayWindowYs1-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Swheel       name='swdays'	    envSlot='2' x='wdayWindowXs1-wdayWheelRadius+wheelFS' y='wdayWindowYs1+1'   dragAnimationType='dragAnimationAlways' modes='back'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(2)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='s1ampm bak'   envSlot='2' x='ampmWindowXs1-ampmWindowWidth/2' y='ampmWindowYs1-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Qhand        name='s1am'	    envSlot='2' x='ampmWindowXs1' y='ampmWindowYs1-31' modes='back' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(2) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='s1pm'	    envSlot='2' x='ampmWindowXs1' y='ampmWindowYs1-31' modes='back' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(2) >= 12 ? 0 : pi/2' strokeColor='white' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect	name='s2wday bak'   envSlot='3' x='wdayWindowXs2-wdayWindowWidth/2  '     y='wdayWindowYs2-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Swheel    refName='swdays'	    envSlot='3' x='wdayWindowXs2-wdayWheelRadius+wheelFS' y='wdayWindowYs2+1'   dragAnimationType='dragAnimationAlways' modes='back'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(3)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='s2ampm bak'   envSlot='3' x='ampmWindowXs2-ampmWindowWidth/2' y='ampmWindowYs2-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Qhand        name='s2am'	    envSlot='3' x='ampmWindowXs2' y='ampmWindowYs2-31' modes='back' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(3) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='s2pm'	    envSlot='3' x='ampmWindowXs2' y='ampmWindowYs2-31' modes='back' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(3) >= 12 ? 0 : pi/2' strokeColor='white' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect	name='s3wday bak'   envSlot='4' x='wdayWindowXs3-wdayWindowWidth/2  '     y='wdayWindowYs3-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Swheel    refName='swdays'	    envSlot='4' x='wdayWindowXs3-wdayWheelRadius+wheelFS' y='wdayWindowYs3+1'   dragAnimationType='dragAnimationAlways' modes='back'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(4)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='s3ampm bak'   envSlot='4' x='ampmWindowXs3-ampmWindowWidth/2' y='ampmWindowYs3-15' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='back' />
+  <Qhand        name='s3am'	    envSlot='4' x='ampmWindowXs3' y='ampmWindowYs3-30' modes='back' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(4) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='s3pm'	    envSlot='4' x='ampmWindowXs3' y='ampmWindowYs3-30' modes='back' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(4) >= 12 ? 0 : pi/2' strokeColor='white' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+
+  <button	name='adv dayl1'    x=' dayWindowX-  dayWindowWidth/2+1' y=' dayWindowY-   windowHeight/2+1.5' modes='back' w=' dayWindowWidth' h='windowHeight' action='advanceDayN(1)' />
+  <button	name='adv dayl2'    x='wdayWindowXl  -wdayWindowWidth/2' y='wdayWindowYl-  windowHeight/2+1.5' modes='back' w='wdayWindowWidth' h='windowHeight' action='advanceDayN(1)' />
+  <button	name='adv days1'    x='wdayWindowXs1 -wdayWindowWidth/2' y='wdayWindowYs1- windowHeight/2+1.5' modes='back' w='wdayWindowWidth' h='windowHeight' action='advanceDayN(2)' />
+  <button	name='adv days2'    x='wdayWindowXs2 -wdayWindowWidth/2' y='wdayWindowYs2- windowHeight/2+1.5' modes='back' w='wdayWindowWidth' h='windowHeight' action='advanceDayN(3)' />
+  <button	name='adv days3'    x='wdayWindowXs3 -wdayWindowWidth/2' y='wdayWindowYs3- windowHeight/2+1.5' modes='back' w='wdayWindowWidth' h='windowHeight' action='advanceDayN(4)' />
+
+  <hand         name='Moon'	    x='moonx'  y='moony'  modes='back' src='../partsBin/moonES28.png' update='updateAtEnvChangeOnly' angle='latitude()>0 ? 0 : pi' />
+  <terminator   name='term'         x='moonx'  y='moony'  modes='back'  radius='moonr' leavesPerQuadrant='8' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xff171717' leafAnchorRadius='0' update='60' updateOffset='0' phaseAngle='moonAgeAngle()' rotation='latitude()>0 ? 0 : pi'/>
+
+  <window	name='day win'	    x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1'   modes='back' w=' dayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='lwday win'    x='wdayWindowXl -wdayWindowWidth/2' y='wdayWindowYl- windowHeight/2+1' modes='back' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s1wday win'   x='wdayWindowXs1-wdayWindowWidth/2' y='wdayWindowYs1-windowHeight/2+1' modes='back' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s2wday win'   x='wdayWindowXs2-wdayWindowWidth/2' y='wdayWindowYs2-windowHeight/2+1' modes='back' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s3wday win'   x='wdayWindowXs3-wdayWindowWidth/2' y='wdayWindowYs3-windowHeight/2+1' modes='back' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='lam/pm win'   x='ampmWindowXl-ampmWindowWidth/2'  y='ampmWindowYl-14.5'  modes='back' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s1am/pm win'  x='ampmWindowXs1-ampmWindowWidth/2' y='ampmWindowYs1-14.5' modes='back' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s2am/pm win'  x='ampmWindowXs2-ampmWindowWidth/2' y='ampmWindowYs2-14.5' modes='back' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s3am/pm win'  x='ampmWindowXs3-ampmWindowWidth/2' y='ampmWindowYs3-13.5' modes='back' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='term cover'   x='moonx'	y='moony'  w='moonr*2' h='moonr*2' type='porthole'  border='1' strokeColor='0x7f202020' />
+
+<!-- the face -->
+  <window	name='f/r b'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  <static   name='back'	modes='back' >
+    <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/brown/front/straight/wide/band.png' />
+    <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/brown/front/back.png'/>
+    <Image	name='face b'	    x='0' y='	0'	modes='back'	src='../partsBin/HD/rose/face.png' />
+    <Image	name='decorationb'  x='0' y='0' modes='back'	src='holeyLatLongGrid.png' alpha='.2' />
+    <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/rose/front/wide/case.png' />
+    <Image	name='berry'	    x='moonx' y='-moony' modes='back'	src='../partsBin/berry.png'/>
+    <QDial	name='face2b'	    x='0' y='0'	modes='back' radius='faceR' bgColor='clear' strokeColor='black' marks='outer'  markWidth='.5' />
+    <Image	name='s3 deco'	    x='s3x' y='s3y'	modes='back'	src='../partsBin/HD/rose/dial104.png' alpha='decoAlpha' />
+    <QDial	name='sub 3 tx r'   x='s3x' y='s3y'	modes='back' radius='labR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+    <Image	name='ls deco'	    x='lsx' y='lsy'	modes='back'	src='../partsBin/HD/rose/dial158.png' alpha='decoAlpha' />
+    <QDial	name='local tx r'   x='lsx' y='lsy'	modes='back' radius='llabR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+    <Image	name='s2 deco'	    x='s2x' y='s2y'	modes='back'	src='../partsBin/HD/rose/dial104.png' alpha='decoAlpha' />
+    <QDial	name='sub 2 tx r'   x='s2x' y='s2y'	modes='back' radius='labR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+    <Image	name='s1 deco'	    x='s1x' y='s1y'	modes='back'	src='../partsBin/HD/rose/dial104.png' alpha='decoAlpha' />
+    <QDial	name='sub 1 tx r'   x='s1x' y='s1y'	modes='back' radius='labR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+
+    <QDial	name='local sub  '  x='lsx' y='lsy'	modes='back' radius='lsR' bgColor='lsbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='local sub  4' x='lsx' y='lsy'	modes='back' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='2.7' nMarks='4' mSize='10' />
+    <QDial	name='local sub 12' x='lsx' y='lsy'	modes='back' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.5' nMarks='12' mSize='8.5' />
+    <QDial	name='local sub 60' x='lsx' y='lsy'	modes='back' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.7' nMarks='60' mSize='3' />
+    <QDial	name='local sub xx' x='lsx' y='lsy'	modes='back' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.3' nMarks='120' mSize='2' />
+<!--
+    <QDial	name='local sub na' x='lsx' y='lsy'	modes='back' radius='lsR' orientation='upright' demiTweak='1.5' fontSize='14' fontName='Arial' bgColor='clear' strokeColor='black' text='12,,,3,,,6,,,9,,' />
+    <QDial	name='local sub nb' x='lsx' y='lsy'	modes='back' radius='lsR-1' orientation='upright' fontSize='10' fontName='Arial' bgColor='clear' strokeColor='black' text=',1,2,,4,5,,7,8,,10,11' />
+-->
+    <QDial	name='ldnback	  ' x='lsx' y='lsy'     modes='back' radius='(ldnOR+ldnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+    <QDial	name='sub 1'        x='s1x' y='s1y'	modes='back' radius='sR' bgColor='sbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='sub 1  4'	    x='s1x' y='s1y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.8' nMarks='4'  mSize='6.6' />
+    <QDial	name='sub 1 12'	    x='s1x' y='s1y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1'  nMarks='12' mSize='5' />
+    <QDial	name='sub 1 60'	    x='s1x' y='s1y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.4'  nMarks='60' mSize='2' />
+<!--
+    <QDial	name='sub 1 nm'	    x='s1x' y='s1y'	modes='back' radius='sR' orientation='upright' demiTweak='1.5' fontSize='12' fontName='Arial' bgColor='clear' strokeColor='black' text='12,,,3,,,6,,,9,,' />
+-->
+    <QDial	name='s1dnback	  ' x='s1x' y='s1y'     modes='back' radius='(dnOR+dnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+    <QDial	name='sub 2'        x='s2x' y='s2y'	modes='back' radius='sR' bgColor='sbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='sub 2  4'	    x='s2x' y='s2y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.8' nMarks='4' mSize='6.6' />
+    <QDial	name='sub 2 12'	    x='s2x' y='s2y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1' nMarks='12' mSize='5' />
+    <QDial	name='sub 2 60'	    x='s2x' y='s2y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.4' nMarks='60' mSize='2' />
+<!--
+    <QDial	name='sub 2 nm'	    x='s2x' y='s2y'	modes='back' radius='sR' orientation='upright' demiTweak='1.5' fontSize='12' fontName='Arial' bgColor='clear' strokeColor='black' text='12,,,3,,,6,,,9,,' />
+-->
+    <QDial	name='s2dnback	  ' x='s2x' y='s2y'     modes='back' radius='(dnOR+dnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+    <QDial	name='sub 3'        x='s3x' y='s3y'	modes='back' radius='sR' bgColor='sbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='sub 3  4'	    x='s3x' y='s3y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.8' nMarks='4' mSize='6.6' />
+    <QDial	name='sub 3 12'	    x='s3x' y='s3y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1' nMarks='12' mSize='5' />
+    <QDial	name='sub 3 60'	    x='s3x' y='s3y'	modes='back' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.4' nMarks='60' mSize='2' />
+<!--
+    <QDial	name='sub 3 nm'	    x='s3x' y='s3y'	modes='back' radius='sR' orientation='upright' demiTweak='1.5' fontSize='12' fontName='Arial' bgColor='clear' strokeColor='black' text='12,,,3,,,6,,,9,,' />
+-->
+    <QDial	name='s3dnback	  ' x='s3x' y='s3y'     modes='back' radius='(dnOR+dnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+  </static>
+
+    <hand	special='specialSubdial' specialParam='3' envSlot='subdial3Slot'    name='s3 deco clear'	    x='s3x' y='s3y'	modes='back'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+    <hand	special='specialSubdial' specialParam='0' envSlot='subdial0Slot'    name='ls deco clear'	    x='lsx' y='lsy'	modes='back'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial158.png' alpha='0' />
+    <hand	special='specialSubdial' specialParam='2' envSlot='subdial2Slot'    name='s2 deco clear'	    x='s2x' y='s2y'	modes='back'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+    <hand	special='specialSubdial' specialParam='1' envSlot='subdial1Slot'    name='s1 deco clear'	    x='s1x' y='s1y'	modes='back'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+
+<!-- rings, suns, and other hands.  Keep all parts for the same env slot together for much better performance -->
+<init expr='hourHack=2*pi/12' />
+  <QdayNightRing envSlot='1' name='lring'	    x='lsx' y='lsy' modes='back' outerRadius='ldnOR' innerRadius='ldnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='1' name='lsub sun'    x='lsx' y='lsy'  z='5' modes='back' tail='0' type='sun' length='lsunLen' length2='lsunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(1)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='1' name='lhr b'	    x='lsx' y='lsy' z='2' modes='back'  kind='hour12Kind'  type='tri'  length='lshLen'  width='hrWid' tail='lshLen/4' update='  1' angle='hour12ValueAngleN(1)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='1' name='lminb'	    x='lsx' y='lsy' z='2' modes='back'  kind='minuteKind'  type='tri'  length='lsmLen' width='minWid' tail='lsmLen/4' update='1' angle='minuteValueAngleN(1)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='1' name='lsecb'	    x='lsx' y='lsy' z='2' modes='back'  kind='secondKind'  type='tri'  length='lssLen' width='secWid' tail='lssLen/4' update='secUpdate' angle='secondValueAngleN(1)' strokeColor='secColor' fillColor='secColor'/>
+
+  <QdayNightRing envSlot='2' name='s1ring'	    x='s1x' y='s1y' modes='back' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='2' name='sub1 sun'    x='s1x' y='s1y'  z='5' modes='back' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(2)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='2' name='lhr b1'	    x='s1x' y='s1y' z='2' modes='back'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(2)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='2' name='lminb1'	    x='s1x' y='s1y' z='2' modes='back'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 1'  angle='minuteValueAngleN(2)' strokeColor='fgColor' fillColor='fgColor'/>
+
+  <QdayNightRing envSlot='3' name='s2ring'	    x='s2x' y='s2y' modes='back' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='3' name='sub2 sun'    x='s2x' y='s2y'  z='5' modes='back' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(3)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='3' name='lhr b2'	    x='s2x' y='s2y' z='2' modes='back'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(3)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='3' name='lminb2'	    x='s2x' y='s2y' z='2' modes='back'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 1'  angle='minuteValueAngleN(3)' strokeColor='fgColor' fillColor='fgColor'/>
+
+  <QdayNightRing envSlot='4' name='s3ring'	    x='s3x' y='s3y' modes='back' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='4' name='sub3 sun'    x='s3x' y='s3y'  z='5' modes='back' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(4)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='4' name='lhr b3'	    x='s3x' y='s3y' z='2' modes='back'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(4)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='4' name='lminb3'	    x='s3x' y='s3y' z='2' modes='back'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 1'  angle='minuteValueAngleN(4)' strokeColor='fgColor' fillColor='fgColor'/>
+
+</watch>
+
+<!-- COMPLICATIONS
+
+[BOTH]
+World time
+24-hour time
+Weekday
+Day/night
+
+[Front]
+[WIKI Daylight_saving_time DST]
+[WIKI GMT GMT]
+[WIKI UTC UTC]
+
+[Back]
+[WIKI Moon_phase Moon phase]
+Rise/set (Sun)
+
+-->

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Gaia I.xml  (was Auckland.xml and Terra II)
+  Emerald Chronometer
+
+  Copied from Terra.xml 2017 May 19
+ 
+  Created by Bill Arnett on 11 Dec 2009
+  Copyright Emerald Sequoia LLC 2009. All rights reserved.
+-->
+
+<watch name='Gaia I' numEnvironments='5' maxSeparateLoc='4' beatsPerSecond='8' faceWidth='278' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='64' backHeight='128' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=278, backerWidth=faceWidth' />
+
+<!-- env slot specifications -->
+  <!-- The first four env slots, with locations, are allocated to the subdials -->
+  <init expr='subdial0Slot=1, subdial1Slot=2, subdial2Slot=3, subdial3Slot=4' />
+
+<!-- sizes, lengths, positions -->
+  <init	expr='hour12FS=16, hour12smallFS=10, hour24FS=14, cityFS=10, DSTFS=12, DSTZ=3, DSTThick=0.5, DST2Z=2, DST2Thick=0.25' />
+  <init	expr='faceR=138' />
+  <init	expr='cityRad2=faceR,     dot2Rad=cityRad2-cityFS-2.5, channel2Rad=dot2Rad*2, channelWidth=.25, dotHeight=3, dotWidth=4, moverWidth=24' />
+  <init	expr='cityRad1=dot2Rad-1, dot1Rad=cityRad1-cityFS-2.5, channel1Rad=dot1Rad*2' />
+  <init	expr='hourWheelOR=dot1Rad-4, hourWheelIR=hourWheelOR-hour12FS-2' />
+  <init expr='ringOR=hourWheelOR, ringW=5, ringIR=hourWheelIR, dnNum=48' />
+  <init expr='hour12IR=ringIR-2' />
+  <init expr='dotZ=3, dotThick=1.5' />
+  <init	expr='secLen=hour12IR, minLen=hour12IR-2, hrLen=minLen*.67, hrWid=1.5, minWid=1, secWid=.75, ly=40, hrArrow=hrLen/6, hrArrowWid=hrWid+2, minArrow=minLen/6, minArrowWid=minWid+2, secArrow=secLen/6, secArrowWid=secWid+2, handTailRadius=4' />
+  <init expr='dotBorder=0.1, dotR=2' />
+  <init expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+<!-- colors -->
+  <init	expr='fgColor=black, handFillColor=black, handStrokeColor=black, handoFillColor=handFillColor, arrowColor=0xff000040, secColor=0xff800000, ndialColor=0xff008080, numBgClr=0x40808080, cityColor=clear, utHand=0xa060b060, nfgclr=0xff00ffe4, nfgclr2=0xff00a080' />
+  <init expr='ndialColor1=0xff808080, ndialColor2=0x8000c0c0, ndialColor3=0x80c060c0, ndialColor4=0x80c0c000' />
+  <init expr='nhandColor1=0xffffffff, nhandColor2=0xffa0ffff, nhandColor3=0xffffa0ff, nhandColor4=0xffffffa0, nMoonBorderColor=0xfff68700' />
+  <init	expr='ringBack=black, leafBorder=lightGray, leafFill=white, moonLeafFill=0xff808080, nleafFill=0xff007064, nMoonLeafFill=0xff004034' />
+  <init	expr='dot1Color=black, dot2Color=black, channel1Color=black, channel2Color=black' />
+  <init	expr='utstroke=0xff402040, utfill=0xff80b080, DSTColor=black, DST2Color=white' />
+  <init expr='windowBorder=1, shadowOff=-.5, shadowOpc=.25, shadowSig=1.5' />
+  <init expr='sameColor=black, lessColor=0xff600000, moreColor=0xff005050' />
+  <init expr='moonclrn=0xffc08711, moonclrnmask=0x90c08711, moondialbgn=0x40c08711' />
+ 
+  <init expr='aSpeed=.75, aSpeed2=4, iSpeed=aSpeed/2, alph=1, secUpdate=.125'/>
+  <init expr='dotOffset=-pi/24, cityOffset=-pi/24, dateHandSpan=.58, offRad1=11, offRad2=15' />
+  <init	expr='wheelfs=11, wheelspace=10' />
+  <init	expr='logoX=0, logoY=-36.5' />
+  <init	expr='monX=-wheelspace*2.5, dayX=wheelspace, dayY=-55, monY=dayY, wkdX=-wheelspace*3+4, wkdY=50, bgclr=0xffe9dacf' />
+
+<!-- == Front ==     a multi-subdial watch showing 4 timezones -->
+
+<init expr='ampmFS=8, wheelFS=11, labelFS=12, ringW=3' />
+<!-- positions -->
+<init expr='lsx=-58.5, lsy=0, lsR=58' />
+<init expr='sR=32, sRa=53.88, ang=1.17809725, labR=sR+ringW+labelFS+7.5, llabR=lsR+ringW+labelFS+7.5' />
+<init expr='s1x=32.19, s1y=77.716, s1xx=32, s1yy=78' />
+<init expr='s2x=84.12, s2y= 0,     s2xx=84, s2yy= 0' />
+<init expr='s3x=32.19, s3y=-77.72, s3xx=32, s3yy=-78' />
+<init expr='moonx=-45, moony=105, moonr=14' />
+
+<init expr='th=0*2*pi/360, lr=sqrt(lsx*lsx+lsy*lsy), sr=sqrt(s1x*s1x+s1y*s1y), lth=atan(lsy/lsx)+th, s1th=atan(s1y/s1x)+th,  s2th=atan(s2y/s2x)+th,  s3th=atan(s3y/s3x)+th,
+	      lsx=-lr*cos(lth), s1x= sr*cos(s1th), s2x= sr*cos(s2th), s3x= sr*cos(s3th),
+	      lsy=-lr*sin(lth), s1y= sr*sin(s1th), s2y= sr*sin(s2th), s3y= sr*sin(s3th) '/>
+<init expr='labelBal=0*labelFS/2, lsy=lsy+labelBal, s1y=s1y+labelBal, s2y=s2y+labelBal, s3y=s3y+labelBal'/>
+
+<init expr='wdayWindowXl=lsx-12, wdayWindowYl=lsy-25, wdayWindowWidth=25, dayWindowWidth=18, windowHeight=wheelFS-1, ampmWindowHeight=ampmFS-1, wdayWheelRadius=40, dayWheelRadius=25' />
+<init expr='dayWindowX=lsx+14, dayWindowY=lsy-25' />
+<init expr='wdayWindowXs1=s1xx+.5, wdayWindowYs1=s1yy-13' />
+<init expr='wdayWindowXs2=s2xx+.5, wdayWindowYs2=s2yy-13' />
+<init expr='wdayWindowXs3=s3xx+.5, wdayWindowYs3=s3yy-13' />
+<init expr='ampmWindowXl=lsx+.5, ampmWindowYl=lsy+32, ampmWindowWidth=16' />
+<init expr='ampmWindowXs1=s1xx, ampmWindowYs1=s1yy+21' />
+<init expr='ampmWindowXs2=s2xx, ampmWindowYs2=s2yy+21' />
+<init expr='ampmWindowXs3=s3xx, ampmWindowYs3=s3yy+21' />
+<init expr='ldnIR=lsR+4, ldnOR=ldnIR+ringW, dnIR=sR+4, dnOR=dnIR+ringW' />
+<!-- lengths -->
+<init expr='hrWid=3.5, minWid=2.25, secWid=.75, shrWid=hrWid-1, sminWid=minWid' />
+<init expr='lsmLen=lsR-2, lshLen=lsmLen*.67, lssLen=lsR' />
+<init expr='smLen=sR-2, shLen=smLen*.67' />
+<init expr='lsunLen=ldnOR+12, lsunLen2=ldnIR-2'/>
+<init expr='ssunLen= dnOR+12, ssunLen2= dnIR-2'/>
+<!-- colors -->
+<init expr='lsbgClr=clear, sbgClr=0x30000000, sbgClr=clear, nsbgClr=0xc0000000, bgclr=0xffdcd1c1' />
+<init expr='sunColor=0xfff2e407, sunStrokeColor=0xff120400, circleColor=0xc0000000, wheelFg=black, wheelBg=0xffe9d5d0, windowBorderClr=0x40000000, decoAlpha=.75' />
+<init expr='sunColorn=0xff797203, sunStrokeColorn=0xff090200' />
+
+<init expr='lsR=lsR+1, sR=sR+1' />
+
+<!-- below the face items -->
+<!-- Keep parts with the same envSlot together for greatly improved performance -->
+  <QRect	name='day bakb'	    envSlot='1' x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1' modes='front' w=' dayWindowWidth' h='windowHeight' bgColor='wheelBg' panes='2' />
+  <SWheel	name='day'	    envSlot='1' x=' dayWindowX-dayWheelRadius+9' y='dayWindowY+1' dragAnimationType='dragAnimationAlways' modes='front'  radius='dayWheelRadius'  orientation='three' update='1 * days()' angle='fmod((dayNumberN(1)+1),          10)*2*pi/10' fontSize='wheelFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' bgColor='clear' />
+  <SWheel    refName='day'	    envSlot='1' x=' dayWindowX-dayWheelRadius+1'  y='dayWindowY+1' dragAnimationType='dragAnimationAlways' modes='front'  radius='dayWheelRadius'  orientation='three' update='1 * days()' angle='fmod(floor((dayNumberN(1)+1)/10),10)*2*pi/10' fontSize='wheelFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' bgColor='clear' />
+  <QRect	name='lwday bak'    envSlot='1' x='wdayWindowXl-wdayWindowWidth/2  '      y='wdayWindowYl-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Swheel	name='wdays'	    envSlot='1' x='wdayWindowXl+wdayWheelRadius-wheelFS'  y='wdayWindowYl+1'    dragAnimationType='dragAnimationAlways' modes='front'  radius='wdayWheelRadius' orientation='nine' update='1 * days()' angle='weekdayNumberN(1)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='lampm bak'    envSlot='1' x='ampmWindowXl-ampmWindowWidth/2' y='ampmWindowYl-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Qhand        name='lam'	    envSlot='1' x='ampmWindowXl' y='1' modes='front' tail='0' type='spoke' offsetRadius='ampmWindowYl-12' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(1) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='lpm'	    envSlot='1' x='ampmWindowXl' y='1' modes='front' tail='0' type='spoke' offsetRadius='ampmWindowYl-12' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(1) >= 12 ? 0 : pi/2' strokeColor='white' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect	name='s1wday bak'   envSlot='2' x='wdayWindowXs1-wdayWindowWidth/2  '     y='wdayWindowYs1-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Swheel       name='swdays'	    envSlot='2' x='wdayWindowXs1-wdayWheelRadius+wheelFS' y='wdayWindowYs1+1'   dragAnimationType='dragAnimationAlways' modes='front'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(2)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='s1ampm bak'   envSlot='2' x='ampmWindowXs1-ampmWindowWidth/2' y='ampmWindowYs1-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Qhand        name='s1am'	    envSlot='2' x='ampmWindowXs1' y='ampmWindowYs1-31' modes='front' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(2) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='s1pm'	    envSlot='2' x='ampmWindowXs1' y='ampmWindowYs1-31' modes='front' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(2) >= 12 ? 0 : pi/2' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect	name='s2wday bak'   envSlot='3' x='wdayWindowXs2-wdayWindowWidth/2  '     y='wdayWindowYs2-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Swheel    refName='swdays'	    envSlot='3' x='wdayWindowXs2-wdayWheelRadius+wheelFS' y='wdayWindowYs2+1'   dragAnimationType='dragAnimationAlways' modes='front'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(3)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='s2ampm bak'   envSlot='3' x='ampmWindowXs2-ampmWindowWidth/2' y='ampmWindowYs2-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Qhand        name='s2am'	    envSlot='3' x='ampmWindowXs2' y='ampmWindowYs2-31' modes='front' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(3) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='s2pm'	    envSlot='3' x='ampmWindowXs2' y='ampmWindowYs2-31' modes='front' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(3) >= 12 ? 0 : pi/2' strokeColor='white' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect	name='s3wday bak'   envSlot='4' x='wdayWindowXs3-wdayWindowWidth/2  '     y='wdayWindowYs3-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Swheel    refName='swdays'	    envSlot='4' x='wdayWindowXs3-wdayWheelRadius+wheelFS' y='wdayWindowYs3+1'   dragAnimationType='dragAnimationAlways' modes='front'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(4)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='wheelFg' bgColor='clear' />
+  <QRect	name='s3ampm bak'   envSlot='4' x='ampmWindowXs3-ampmWindowWidth/2' y='ampmWindowYs3-15' w='ampmWindowWidth+2' h='windowHeight' bgColor='wheelBg' modes='front' />
+  <Qhand        name='s3am'	    envSlot='4' x='ampmWindowXs3' y='ampmWindowYs3-30' modes='front' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(4) >= 12 ? -pi/2 : 0' strokeColor='black' fillColor='black' oFillColor='wheelBg' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand        name='s3pm'	    envSlot='4' x='ampmWindowXs3' y='ampmWindowYs3-30' modes='front' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(4) >= 12 ? 0 : pi/2' strokeColor='white' fillColor='black' oFillColor='wheelBg' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <hand         name='Moon'	    x='moonx'  y='moony'  modes='front' src='../partsBin/moonES28.png' update='updateAtEnvChangeOnly' angle='latitude()>=0 ? 0 : pi' />
+  <terminator   name='term'         x='moonx'  y='moony'  modes='front'  radius='moonr' leavesPerQuadrant='8' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xff171717' leafAnchorRadius='0' update='60' updateOffset='0' phaseAngle='moonAgeAngle()' rotation='latitude()>=0 ? 0 : pi'/>
+
+  <window	name='day win'	    x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1'   modes='front' w=' dayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='lwday win'    x='wdayWindowXl -wdayWindowWidth/2' y='wdayWindowYl- windowHeight/2+1' modes='front' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s1wday win'   x='wdayWindowXs1-wdayWindowWidth/2' y='wdayWindowYs1-windowHeight/2+1' modes='front' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s2wday win'   x='wdayWindowXs2-wdayWindowWidth/2' y='wdayWindowYs2-windowHeight/2+1' modes='front' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s3wday win'   x='wdayWindowXs3-wdayWindowWidth/2' y='wdayWindowYs3-windowHeight/2+1' modes='front' w='wdayWindowWidth' h='windowHeight' border='windowBorder' strokeColor='windowBorderClr' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='lam/pm win'   x='ampmWindowXl-ampmWindowWidth/2'  y='ampmWindowYl-14.5'  modes='front' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s1am/pm win'  x='ampmWindowXs1-ampmWindowWidth/2' y='ampmWindowYs1-14.5' modes='front' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s2am/pm win'  x='ampmWindowXs2-ampmWindowWidth/2' y='ampmWindowYs2-14.5' modes='front' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='s3am/pm win'  x='ampmWindowXs3-ampmWindowWidth/2' y='ampmWindowYs3-13.5' modes='front' w='ampmWindowWidth' h='ampmWindowHeight' border='windowBorder' strokeColor='windowBorderClr'  shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+  <window	name='term cover'   x='moonx'	y='moony'  w='moonr*2' h='moonr*2' type='porthole'  border='1' strokeColor='0x7f202020' />
+
+<!-- the face -->
+  <static   name='front'	modes='front' >
+    <QRect      name='maskRect'     x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='face b'	    x='0' y='	0'	modes='front'	src='../partsBin/HD/rose/face.png' />
+    <Image	name='decorationb'  x='0' y='0' modes='front'	src='holeyLatLongGrid.png' alpha='.2' />
+    <Image	name='berry'	    x='moonx' y='-moony' modes='front'	src='../partsBin/berry.png'/>
+    <Image	name='s3 deco'	    x='s3x' y='s3y'	modes='front'	src='../partsBin/HD/rose/dial104.png' alpha='decoAlpha' />
+    <QDial	name='sub 3 tx r'   x='s3x' y='s3y'	modes='front' radius='labR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+    <Image	name='ls deco'	    x='lsx' y='lsy'	modes='front'	src='../partsBin/HD/rose/dial158.png' alpha='decoAlpha' />
+    <QDial	name='local tx r'   x='lsx' y='lsy'	modes='front' radius='llabR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+    <Image	name='s2 deco'	    x='s2x' y='s2y'	modes='front'	src='../partsBin/HD/rose/dial104.png' alpha='decoAlpha' />
+    <QDial	name='sub 2 tx r'   x='s2x' y='s2y'	modes='front' radius='labR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+    <Image	name='s1 deco'	    x='s1x' y='s1y'	modes='front'	src='../partsBin/HD/rose/dial104.png' alpha='decoAlpha' />
+    <QDial	name='sub 1 tx r'   x='s1x' y='s1y'	modes='front' radius='labR-2' bgColor='clear'  strokeColor='circleColor' marks='outer'  markWidth='.5' />
+
+    <QDial	name='local sub  '  x='lsx' y='lsy'	modes='front' radius='lsR' bgColor='lsbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='local sub  4' x='lsx' y='lsy'	modes='front' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='2.7' nMarks='4' mSize='10' />
+    <QDial	name='local sub 12' x='lsx' y='lsy'	modes='front' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.5' nMarks='12' mSize='8.5' />
+    <QDial	name='local sub 60' x='lsx' y='lsy'	modes='front' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.7' nMarks='60' mSize='3' />
+    <QDial	name='local sub xx' x='lsx' y='lsy'	modes='front' radius='lsR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.3' nMarks='120' mSize='2' />
+    <QDial	name='ldnfront	  ' x='lsx' y='lsy'     modes='front' radius='(ldnOR+ldnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+    <QDial	name='sub 1'        x='s1x' y='s1y'	modes='front' radius='sR' bgColor='sbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='sub 1  4'	    x='s1x' y='s1y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.8' nMarks='4'  mSize='6.6' />
+    <QDial	name='sub 1 12'	    x='s1x' y='s1y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1'  nMarks='12' mSize='5' />
+    <QDial	name='sub 1 60'	    x='s1x' y='s1y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.4'  nMarks='60' mSize='2' />
+    <QDial	name='s1dnfront	  ' x='s1x' y='s1y'     modes='front' radius='(dnOR+dnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+    <QDial	name='sub 2'        x='s2x' y='s2y'	modes='front' radius='sR' bgColor='sbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='sub 2  4'	    x='s2x' y='s2y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.8' nMarks='4' mSize='6.6' />
+    <QDial	name='sub 2 12'	    x='s2x' y='s2y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1' nMarks='12' mSize='5' />
+    <QDial	name='sub 2 60'	    x='s2x' y='s2y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.4' nMarks='60' mSize='2' />
+    <QDial	name='s2dnfront	  ' x='s2x' y='s2y'     modes='front' radius='(dnOR+dnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+    <QDial	name='sub 3'        x='s3x' y='s3y'	modes='front' radius='sR' bgColor='sbgClr' strokeColor='black' marks='outer'  markWidth='.5' />
+    <QDial	name='sub 3  4'	    x='s3x' y='s3y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1.8' nMarks='4' mSize='6.6' />
+    <QDial	name='sub 3 12'	    x='s3x' y='s3y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='1' nMarks='12' mSize='5' />
+    <QDial	name='sub 3 60'	    x='s3x' y='s3y'	modes='front' radius='sR' bgColor='clear'   strokeColor='black' marks='tickOut'  markWidth='.4' nMarks='60' mSize='2' />
+    <QDial	name='s3dnfront'    x='s3x' y='s3y'     modes='front' radius='(dnOR+dnIR)/2' markWidth='ringW+2' marks='outer' strokeColor='ringBack' bgColor='clear' />
+
+  </static>
+
+    <hand	special='specialSubdial' specialParam='3' envSlot='subdial3Slot'    name='s3 deco clear'	    x='s3x' y='s3y'	modes='front'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+    <hand	special='specialSubdial' specialParam='0' envSlot='subdial0Slot'    name='ls deco clear'	    x='lsx' y='lsy'	modes='front'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial158.png' alpha='0' />
+    <hand	special='specialSubdial' specialParam='2' envSlot='subdial2Slot'    name='s2 deco clear'	    x='s2x' y='s2y'	modes='front'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+    <hand	special='specialSubdial' specialParam='1' envSlot='subdial1Slot'    name='s1 deco clear'	    x='s1x' y='s1y'	modes='front'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+
+<!-- rings, suns, and other hands.  Keep all parts for the same env slot together for much better performance -->
+<init expr='hourHack=2*pi/12' />
+  <QdayNightRing envSlot='1' name='lring'	    x='lsx' y='lsy' modes='front' outerRadius='ldnOR' innerRadius='ldnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='1' name='lsub sun'    x='lsx' y='lsy'  z='5' modes='front' tail='0' type='sun' length='lsunLen' length2='lsunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(1)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='1' name='lhr b'	    x='lsx' y='lsy' z='2' modes='front'  kind='hour12Kind'  type='tri'  length='lshLen'  width='hrWid' tail='lshLen/4' update='  1' angle='hour12ValueAngleN(1)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='1' name='lminb'	    x='lsx' y='lsy' z='2' modes='front'  kind='minuteKind'  type='tri'  length='lsmLen' width='minWid' tail='lsmLen/4' update='1' angle='minuteValueAngleN(1)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='1' name='lsecb'	    x='lsx' y='lsy' z='2' modes='front'  kind='secondKind|back'  type='tri'  length='lssLen' width='secWid' tail='lssLen/4' update='secUpdate' angle='secondValueAngleN(1)' strokeColor='secColor' fillColor='secColor'/>
+
+  <QdayNightRing envSlot='2' name='s1ring'	    x='s1x' y='s1y' modes='front' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='2' name='sub1 sun'    x='s1x' y='s1y'  z='5' modes='front' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(2)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='2' name='lhr b1'	    x='s1x' y='s1y' z='2' modes='front'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(2)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='2' name='lminb1'	    x='s1x' y='s1y' z='2' modes='front'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 1'  angle='minuteValueAngleN(2)' strokeColor='fgColor' fillColor='fgColor'/>
+
+  <QdayNightRing envSlot='3' name='s2ring'	    x='s2x' y='s2y' modes='front' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='3' name='sub2 sun'    x='s2x' y='s2y'  z='5' modes='front' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(3)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='3' name='lhr b2'	    x='s2x' y='s2y' z='2' modes='front'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(3)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='3' name='lminb2'	    x='s2x' y='s2y' z='2' modes='front'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 1'  angle='minuteValueAngleN(3)' strokeColor='fgColor' fillColor='fgColor'/>
+
+  <QdayNightRing envSlot='4' name='s3ring'	    x='s3x' y='s3y' modes='front' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='4' name='sub3 sun'    x='s3x' y='s3y'  z='5' modes='front' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(4)+pi' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	 envSlot='4' name='lhr b3'	    x='s3x' y='s3y' z='2' modes='front'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(4)' strokeColor='fgColor' fillColor='fgColor'/>
+  <Qhand	 envSlot='4' name='lminb3'	    x='s3x' y='s3y' z='2' modes='front'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 1'  angle='minuteValueAngleN(4)' strokeColor='fgColor' fillColor='fgColor'/>
+
+<!-- == Night ==   -->
+  
+<!-- below the face stuff for night -->
+<!-- Keep parts with the same envSlot together for greatly improved performance -->
+  <QRect  name='n day bakb'	    envSlot='1' x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1' modes='night' w=' dayWindowWidth' h='windowHeight' bgColor='black' />
+  <SWheel name='n day d'    envSlot='1' x=' dayWindowX-dayWheelRadius+9' y='dayWindowY+1' dragAnimationType='dragAnimationAlways' modes='night'  radius='dayWheelRadius'  orientation='three' update='1 * days()' angle='fmod((dayNumberN(1)+1),          10)*2*pi/10' fontSize='wheelFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='ndialColor1' bgColor='clear' />
+  <SWheel name='n day t'    envSlot='1' x=' dayWindowX-dayWheelRadius+1'  y='dayWindowY+1' dragAnimationType='dragAnimationAlways' modes='night'  radius='dayWheelRadius'  orientation='three' update='1 * days()' angle='fmod(floor((dayNumberN(1)+1)/10),10)*2*pi/10' fontSize='wheelFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='ndialColor1' bgColor='clear' />
+  <QRect name='n lwday bak'    envSlot='1' x='wdayWindowXl-wdayWindowWidth/2  '      y='wdayWindowYl-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='black' modes='night' />
+  <Swheel name='n wdays'	    envSlot='1' x='wdayWindowXl+wdayWheelRadius-wheelFS'  y='wdayWindowYl+1'    dragAnimationType='dragAnimationAlways' modes='night'  radius='wdayWheelRadius' orientation='nine' update='1 * days()' angle='weekdayNumberN(1)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='ndialColor1' bgColor='clear' />
+  <QRect name='n lampm bak'    envSlot='1' x='ampmWindowXl-ampmWindowWidth/2' y='ampmWindowYl-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='black' modes='night' />
+  <Qhand name='n lam'	    envSlot='1' x='ampmWindowXl' y='1' modes='night' tail='0' type='spoke' offsetRadius='ampmWindowYl-12' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(1) >= 12 ? -pi/2 : 0' strokeColor='ndialColor1' fillColor='ndialColor1' oFillColor='black' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand name='n lpm'	    envSlot='1' x='ampmWindowXl' y='1' modes='night' tail='0' type='spoke' offsetRadius='ampmWindowYl-12' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(1) >= 12 ? 0 : pi/2' strokeColor='ndialColor2' fillColor='ndialColor1' oFillColor='black' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect name='n s1wday bak'   envSlot='2' x='wdayWindowXs1-wdayWindowWidth/2  '     y='wdayWindowYs1-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='black' modes='night' />
+  <Swheel name='n swdays1'	    envSlot='2' x='wdayWindowXs1-wdayWheelRadius+wheelFS' y='wdayWindowYs1+1'   dragAnimationType='dragAnimationAlways' modes='night'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(2)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='ndialColor2' bgColor='clear' />
+  <QRect name='n s1ampm bak'   envSlot='2' x='ampmWindowXs1-ampmWindowWidth/2' y='ampmWindowYs1-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='black' modes='night' />
+  <Qhand name='n s1am'	    envSlot='2' x='ampmWindowXs1' y='ampmWindowYs1-31' modes='night' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(2) >= 12 ? -pi/2 : 0' strokeColor='ndialColor2' fillColor='ndialColor2' oFillColor='black' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand name='n s1pm'	    envSlot='2' x='ampmWindowXs1' y='ampmWindowYs1-31' modes='night' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(2) >= 12 ? 0 : pi/2' strokeColor='ndialColor2' fillColor='ndialColor2' oFillColor='black' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect name='n s2wday bak'   envSlot='3' x='wdayWindowXs2-wdayWindowWidth/2  '     y='wdayWindowYs2-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='black' modes='night' />
+  <Swheel name='n swdays2'	    envSlot='3' x='wdayWindowXs2-wdayWheelRadius+wheelFS' y='wdayWindowYs2+1'   dragAnimationType='dragAnimationAlways' modes='night'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(3)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='ndialColor3' bgColor='clear' />
+  <QRect name='n s2ampm bak'   envSlot='3' x='ampmWindowXs2-ampmWindowWidth/2' y='ampmWindowYs2-16' w='ampmWindowWidth+2' h='windowHeight' bgColor='black' modes='night' />
+  <Qhand name='n s2am'	    envSlot='3' x='ampmWindowXs2' y='ampmWindowYs2-31' modes='night' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(3) >= 12 ? -pi/2 : 0' strokeColor='ndialColor3' fillColor='ndialColor3' oFillColor='black' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand name='n s2pm'	    envSlot='3' x='ampmWindowXs2' y='ampmWindowYs2-31' modes='night' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(3) >= 12 ? 0 : pi/2' strokeColor='ndialColor3' fillColor='ndialColor3' oFillColor='black' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <QRect name='n s3wday bak'   envSlot='4' x='wdayWindowXs3-wdayWindowWidth/2  '     y='wdayWindowYs3-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' bgColor='black' modes='night' />
+  <Swheel name='n swdays3'	    envSlot='4' x='wdayWindowXs3-wdayWheelRadius+wheelFS' y='wdayWindowYs3+1'   dragAnimationType='dragAnimationAlways' modes='night'  radius='wdayWheelRadius' orientation='three' update='1 * days()' angle='weekdayNumberN(4)*2*pi/7' fontSize='wheelFS' fontName='Arial' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat' strokeColor='ndialColor4' bgColor='clear' />
+  <QRect name='n s3ampm bak'   envSlot='4' x='ampmWindowXs3-ampmWindowWidth/2' y='ampmWindowYs3-15' w='ampmWindowWidth+2' h='windowHeight' bgColor='black' modes='night' />
+  <Qhand name='n s3am'	    envSlot='4' x='ampmWindowXs3' y='ampmWindowYs3-30' modes='night' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(4) >= 12 ? -pi/2 : 0' strokeColor='ndialColor4' fillColor='ndialColor4' oFillColor='black' text='AM' fontSize='ampmFS' fontName='Arial'/>
+  <Qhand name='n s3pm'	    envSlot='4' x='ampmWindowXs3' y='ampmWindowYs3-30' modes='night' tail='0' type='spoke' offsetRadius='20' dragAnimationType='dragAnimationAlways' update='3600' angle='0' offsetAngle='hour24NumberN(4) >= 12 ? 0 : pi/2' strokeColor='ndialColor4' fillColor='ndialColor4' oFillColor='black' text='PM' fontSize='ampmFS' fontName='Arial'/>
+
+  <hand         name='n Moon'	    x='moonx'  y='moony'  modes='night' src='../partsBin/moonES28.png' update='updateAtEnvChangeOnly' angle='latitude()>=0 ? 0 : pi' />
+  <hand         name='nightcast'    x='moonx'  y='moony'  modes='night' src='../partsBin/moonNightcastAW80.png'  update='0' angle='0' />
+  <terminator   name='termn'        x='moonx'  y='moony'  modes='night'  radius='moonr' leavesPerQuadrant='8' incremental='0' leafBorderColor='black'      leafFillColor='black'      leafAnchorRadius='0' update='60' updateOffset='0' phaseAngle='moonAgeAngle()' rotation='latitude()>=0 ? 0 : pi'/>
+
+  <window	name='n day win'      x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1'   w=' dayWindowWidth' h='windowHeight' border='0' />
+  <window	name='n lwday win'    x='wdayWindowXl -wdayWindowWidth/2' y='wdayWindowYl- windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' border='0' />
+  <window	name='n s1wday win'   x='wdayWindowXs1-wdayWindowWidth/2' y='wdayWindowYs1-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' border='0' />
+  <window	name='n s2wday win'   x='wdayWindowXs2-wdayWindowWidth/2' y='wdayWindowYs2-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' border='0' />
+  <window	name='n s3wday win'   x='wdayWindowXs3-wdayWindowWidth/2' y='wdayWindowYs3-windowHeight/2+1' w='wdayWindowWidth' h='windowHeight' border='0' />
+  <window	name='n lam/pm win'   x='ampmWindowXl-ampmWindowWidth/2'  y='ampmWindowYl-14.5'  w='ampmWindowWidth' h='ampmWindowHeight' border='0' />
+  <window	name='n s1am/pm win'  x='ampmWindowXs1-ampmWindowWidth/2' y='ampmWindowYs1-14.5' w='ampmWindowWidth' h='ampmWindowHeight' border='0' />
+  <window	name='n s2am/pm win'  x='ampmWindowXs2-ampmWindowWidth/2' y='ampmWindowYs2-14.5' w='ampmWindowWidth' h='ampmWindowHeight' border='0' />
+  <window	name='n s3am/pm win'  x='ampmWindowXs3-ampmWindowWidth/2' y='ampmWindowYs3-13.5' w='ampmWindowWidth' h='ampmWindowHeight' border='0' />
+
+  <window	name='term cover'   x='moonx'	y='moony'  w='moonr*2' h='moonr*2' type='porthole'  border='0.5' strokeColor='moonclrn' />
+  <static    name='night' modes='night' >
+      <QRect    name='maskRectn'    x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+      <Image	name='faceN grid'   x='0' y='   0'	modes='night'	src='holeyLatLongGridN.png' alpha='0.25' />
+    <Image	name='lumiberry'    x='moonx' y='-moony' modes='night'	src='../partsBin/berry-lum.png' />
+
+      <QDial	name='nsub 3 outer2' x='s3x' y='s3y'	modes='night' radius='dnOR+14' bgColor='nsbgClr' strokeColor='ndialColor4' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 3 outer'  x='s3x' y='s3y'	modes='night' radius='dnOR' bgColor='nsbgClr' strokeColor='ndialColor4' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 3'        x='s3x' y='s3y'	modes='night' radius='sR' bgColor='nsbgClr' strokeColor='ndialColor4' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 3  4'     x='s3x' y='s3y'	modes='night' radius='sR' bgColor='clear'   strokeColor='ndialColor4' marks='tickOut'  markWidth='1.8' nMarks='4' mSize='6.6' />
+      <QDial	name='nsub 3 12'     x='s3x' y='s3y'	modes='night' radius='sR' bgColor='clear'   strokeColor='ndialColor4' marks='tickOut'  markWidth='1' nMarks='12' mSize='5' />
+      
+      <QDial	name='nsub 2 outer2' x='s2x' y='s2y'	modes='night' radius='dnOR+14' bgColor='nsbgClr' strokeColor='ndialColor3' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 2 outer'  x='s2x' y='s2y'	modes='night' radius='dnOR' bgColor='nsbgClr' strokeColor='ndialColor3' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 2'        x='s2x' y='s2y'	modes='night' radius='sR' bgColor='nsbgClr' strokeColor='ndialColor3' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 2  4'     x='s2x' y='s2y'	modes='night' radius='sR' bgColor='clear'   strokeColor='ndialColor3' marks='tickOut'  markWidth='1.8' nMarks='4' mSize='6.6' />
+      <QDial	name='nsub 2 12'     x='s2x' y='s2y'	modes='night' radius='sR' bgColor='clear'   strokeColor='ndialColor3' marks='tickOut'  markWidth='1' nMarks='12' mSize='5' />
+
+      <QDial	name='nlocal outer2' x='lsx' y='lsy'	modes='night' radius='ldnOR+14' bgColor='nsbgClr' strokeColor='ndialColor1' marks='outer'  markWidth='.5' />
+      <QDial	name='nlocal outer'  x='lsx' y='lsy'	modes='night' radius='ldnOR' bgColor='nsbgClr' strokeColor='ndialColor1' marks='outer'  markWidth='.5' />
+      <QDial	name='nlocal sub  '  x='lsx' y='lsy'	modes='night' radius='lsR' bgColor='nsbgClr' strokeColor='ndialColor1' marks='outer'  markWidth='.5' />
+      <QDial	name='nlocal sub  4' x='lsx' y='lsy'	modes='night' radius='lsR' bgColor='clear'   strokeColor='ndialColor1' marks='tickOut'  markWidth='2.7' nMarks='4' mSize='10' />
+      <QDial	name='nlocal sub 12' x='lsx' y='lsy'	modes='night' radius='lsR' bgColor='clear'   strokeColor='ndialColor1' marks='tickOut'  markWidth='1.5' nMarks='12' mSize='8.5' />
+      
+      <QDial	name='nsub 1 outer2' x='s1x' y='s1y'	modes='night' radius='dnOR+14' bgColor='nsbgClr' strokeColor='ndialColor2' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 1 outer'  x='s1x' y='s1y'	modes='night' radius='dnOR' bgColor='nsbgClr' strokeColor='ndialColor2' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 1'        x='s1x' y='s1y'	modes='night' radius='sR' bgColor='nsbgClr' strokeColor='ndialColor2' marks='outer'  markWidth='.5' />
+      <QDial	name='nsub 1  4'     x='s1x' y='s1y'	modes='night' radius='sR' bgColor='clear'   strokeColor='ndialColor2' marks='tickOut'  markWidth='1.8' nMarks='4'  mSize='6.6' />
+      <QDial	name='nsub 1 12'     x='s1x' y='s1y'	modes='night' radius='sR' bgColor='clear'   strokeColor='ndialColor2' marks='tickOut'  markWidth='1'  nMarks='12' mSize='5' />
+      <!-- <QDial	name='nsub 1 60'     x='s1x' y='s1y'	modes='night' radius='sR' bgColor='clear'   strokeColor='ndialColor2' marks='tickOut'  markWidth='.4'  nMarks='60' mSize='2' /> -->
+  </static>
+
+<!-- city names -->
+  <hand	special='specialSubdial' specialParam='3' envSlot='subdial3Slot'    name='s3 deco clearn'	    x='s3x' y='s3y'	modes='night'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+  <hand	special='specialSubdial' specialParam='0' envSlot='subdial0Slot'    name='ls deco clearn'	    x='lsx' y='lsy'	modes='night'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial158.png' alpha='0' />
+  <hand	special='specialSubdial' specialParam='2' envSlot='subdial2Slot'    name='s2 deco clearn'	    x='s2x' y='s2y'	modes='night'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+  <hand	special='specialSubdial' specialParam='1' envSlot='subdial1Slot'    name='s1 deco clearn'	    x='s1x' y='s1y'	modes='night'	angle='0' update='updateAtEnvChangeOnly' src='../partsBin/HD/rose/dial104.png' alpha='0' />
+
+  <QdayNightRing envSlot='1' name='lringn'    x='lsx' y='lsy' modes='night' outerRadius='ldnOR' innerRadius='ldnIR' update='3600' strokeColor='0xff353535'  fillColor='0xff404040' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='1' name='lsub sunn' x='lsx' y='lsy'  z='5' modes='night' tail='0' type='sun' length='lsunLen' length2='lsunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(1)+pi' strokeColor='sunStrokeColorn' fillColor='sunColorn' />
+  <Qhand	 envSlot='1' name='lhr bn'    x='lsx' y='lsy' z='2' modes='night|back'  kind='hour12Kind'  type='tri'  length='lshLen'  width='hrWid' tail='lshLen/4' update='  10' angle='hour12ValueAngleN(1)' strokeColor='nhandColor1' fillColor='nhandColor1'/>
+  <Qhand	 envSlot='1' name='lminbn'    x='lsx' y='lsy' z='2' modes='night|back'  kind='minuteKind'  type='tri'  length='lsmLen' width='minWid' tail='lsmLen/4' update='10' angle='minuteValueAngleN(1)' strokeColor='nhandColor1' fillColor='nhandColor1'/>
+  
+  <QdayNightRing envSlot='2' name='s1ringn'   x='s1x' y='s1y' modes='night' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='0xff003535'  fillColor='0xff004040' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='2' name='sub1 sunn' x='s1x' y='s1y'  z='5' modes='night' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(2)+pi' strokeColor='sunStrokeColorn' fillColor='sunColorn' />
+  <Qhand	 envSlot='2' name='lhr b1n'   x='s1x' y='s1y' z='2' modes='night'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(2)' strokeColor='nhandColor2' fillColor='nhandColor2'/>
+  <Qhand	 envSlot='2' name='lminb1n'   x='s1x' y='s1y' z='2' modes='night'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 10'  angle='minuteValueAngleN(2)' strokeColor='nhandColor2' fillColor='nhandColor2'/>
+  
+  <QdayNightRing envSlot='3' name='s2ringn'    x='s2x' y='s2y' modes='night' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='0xff351535'  fillColor='0xff402040' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='3' name='sub2 sunn' x='s2x' y='s2y'  z='5' modes='night' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(3)+pi' strokeColor='sunStrokeColorn' fillColor='sunColorn' />
+  <Qhand	 envSlot='3' name='lhr b2n'   x='s2x' y='s2y' z='2' modes='night'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(3)' strokeColor='nhandColor3' fillColor='nhandColor3'/>
+  <Qhand	 envSlot='3' name='lminb2n'   x='s2x' y='s2y' z='2' modes='night'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 10'  angle='minuteValueAngleN(3)' strokeColor='nhandColor3' fillColor='nhandColor3'/>
+  
+  <QdayNightRing envSlot='4' name='s3ringn'   x='s3x' y='s3y' modes='night' outerRadius=' dnOR' innerRadius=' dnIR' update='3600' strokeColor='0xff353500'  fillColor='0xff404000' input='0' numWedges='24' planetNumber='planetSun' masterOffset='pi' />
+  <Qhand         envSlot='4' name='sub3 sunn' x='s3x' y='s3y'  z='5' modes='night' tail='0' type='sun' length='ssunLen' length2='ssunLen2' lineWidth='.25' nRays='7' kind='hour24Kind' update='60' angle='hour24ValueAngleN(4)+pi' strokeColor='sunStrokeColorn' fillColor='sunColorn' />
+  <Qhand	 envSlot='4' name='lhr b3n'   x='s3x' y='s3y' z='2' modes='night'  kind='hour12Kind'  type='tri'  length='shLen'  width='shrWid' tail='shLen/4' update='60'  angle='hour12ValueAngleN(4)' strokeColor='nhandColor4' fillColor='nhandColor4'/>
+  <Qhand	 envSlot='4' name='lminb3n'   x='s3x' y='s3y' z='2' modes='night'  kind='minuteKind'  type='tri'  length='smLen' width='sminWid' tail='smLen/4' update=' 10'  angle='minuteValueAngleN(4)' strokeColor='nhandColor4' fillColor='nhandColor4'/>
+  
+</watch>

@@ -1,0 +1,8 @@
+I added a section to ECGLWatch.m earlier today to hardcode the time to a particular point, for screen captures (much as you did for EO).  The #define is EC_SCREEN_CAPTURE and with luck the code should be self-evident.
+
+For the 512x512 image I added a bluescreen background, so that it's easy to use the magic wand selector tool to get rid of the background and paste the result onto the high-res file in Photoshop.  Do
+
+   cd Watches/Builtin/Background
+   cp bluex@2x.png background@2x.png
+
+and run CwH.

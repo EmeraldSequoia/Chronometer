@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Istanbul.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett on 1/17/2008
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Istanbul' beatsPerSecond='10'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+  <init expr='demoing=0, alarmTypeTarget()' />
+<!-- colors -->
+  <init expr='mainOuterColor=0xffc7c7c7, mainInnerColor=0xffa0a0a0, textColor=black, subTextColor=0xe0000000, subBg=0xa0909090' />
+  <init expr='mainHourColor=black, mainMinColor=mainHourColor, mainSecColor=black, mainHourFill=white, mainMinFill=mainHourFill, subStrokeColor=black, subHourColor=0xff90a0ff, subMinColor=subHourColor, subSecColor=red' />
+  <init expr='nfgColor=0xff00c0ac, darknfgColor=0xff00c0ac, nightHourColor=nfgColor, nightMinColor=nightHourColor, nightHourFill=darknfgColor, nightMinFill=nightHourFill' />
+  <init expr='alStrokeColor=black, alFillColor=0xff505050' />
+  <init expr='arrowColor=0xff202077, secArrowColor=red, nStrokeColor=0xff101010' />
+<!-- sizes and positions -->
+  <init expr='mainRad=136, innerRad=mainRad-10, alarmRad=60, intervalRad=38, stateRad=12' />
+  <init expr=' angle=-pi*5/6,	 ar=innerRad-alarmRad,	     ax=ar*cos(angle),	  ay=ar*sin(angle)' />
+  <init expr='						     ix=-ax-5,		  iy=ay' />
+  <init expr='sangle=pi/2,	asr=innerRad*1/3,	    asx=asr*cos(sangle), asy=asr*sin(sangle)' />
+  <init expr='						    asx=0,		 asy=innerRad/2-3.0+(stateRad+2)' />
+  <init expr='						     logox=-1.5,		  logoy=innerRad/2-3.5-(stateRad+2)' />
+  <init expr='						  ampmx=ax,	       ampmy=ay+alarmRad-19' />
+  <init expr='xCal=0, yCal=0' />
+  <init expr='calendarFontSize=8, calendarRadius=45' />
+<!-- hand lengths -->
+  <init expr='mf=.97, hf=mf*.75' />
+  <init expr=' ol=mainRad*.25,  ml=mainRad-9-ol,  hw=2,    mw=1.5,  af=3.5, sw=1.0' />
+  <init expr='nol=mainRad*.25, nml=mainRad-9-ol, nhw=1.5, nmw=1.0, naf=4' />
+  <init expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+<!--buttons -->
+  <button       name='alarm ampm butn'	repeatStrategy='ECPartDoesNotRepeat' x='ampmx-5' y='ampmy-14' modes='all' w='10' h='10' enabled='alarmStemOutOnly' action='toggleAlarmAMPM()'/>
+
+  <button	name='stem'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/rose/front/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='alarmManualSet() ? (tick(), alarmStemIn()) : (tock(), alarmStemOut())' motion='alarmManualSet() ? 1 : 0' opacity='1' />
+  <button	name='stemn'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	     src='../partsBin/HD/rose/night/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='alarmManualSet() ? (tick(), alarmStemIn()) : (tock(), alarmStemOut())' motion='alarmManualSet() ? 1 : 0' opacity='1' />
+  <button	name='adv hr  but'	  x='-bx' y=' by' modes='front | back'	src='../partsBin/HD/rose/front/button10.png'  xMotion='-mx' yMotion=' my' enabled='alarmStemOutOnly'		action='advanceAlarmHour()'   motion='thisButtonPressed() || !alarmManualSet() ? 0 : 1' />
+  <button	name='adv hr  butn'	  x='-bx' y=' by' modes='night'	src='../partsBin/HD/rose/night/button10.png' xMotion='-mx' yMotion=' mx' enabled='alarmStemOutOnly'		action='advanceAlarmHour()'   motion='thisButtonPressed() || !alarmManualSet() ? 0 : 1' />
+  <button	name='adv min but'	  x='-bx' y='-by' modes='front | back'	src='../partsBin/HD/rose/front/button08.png'   xMotion='-mx' yMotion='-my' enabled='alarmStemOutOnly'		action='advanceAlarmMinute()' motion='thisButtonPressed() || !alarmManualSet() ? 0 : 1' />
+  <button	name='adv min butn'	  x='-bx' y='-by' modes='night'	src='../partsBin/HD/rose/night/button08.png'  xMotion='-mx' yMotion='-my' enabled='alarmStemOutOnly'		action='advanceAlarmMinute()' motion='thisButtonPressed() || !alarmManualSet() ? 0 : 1' />
+  <button	name='alarm enable'	  x=' bx' y='-by' modes='front | back' src='../partsBin/HD/rose/front/smbutton04.png'  xMotion=' mx' yMotion='-my' enabled='always' repeatStrategy='ECPartDoesNotRepeat'	action='alarmEnabled() ? disableAlarm() : enableAlarm()' motion='!thisButtonPressed()' />
+  <button	name='alarm enablen'	  x=' bx' y='-by' modes='night'	src='../partsBin/HD/rose/night/smbutton04.png' xMotion=' mx' yMotion='-my' enabled='always' repeatStrategy='ECPartDoesNotRepeat'	action='alarmEnabled() ? disableAlarm() : enableAlarm()' motion='!thisButtonPressed()' />
+  <button	name='alarm enable 2'	  x=' asx-stateRad' y='asy-stateRad' modes='front|night'	 w='stateRad*2'	h='stateRad*2'   enabled='alarmStemOutOnly' repeatStrategy='ECPartDoesNotRepeat'	action='alarmEnabled() ? disableAlarm() : enableAlarm()' />
+
+<!--below-the-face items -->
+  <QRect	name='alarmst bak'  x='asx-stateRad-6' y='asy-stateRad-6' w='stateRad*2+12' h='stateRad*2+12' bgColor='0xffe9d5d0' />
+  <SWheel	name='alarm state'  x='asx-34' y='asy' modes='front' radius='48' orientation='three' update='.5' angle='(alarmRinging() ? (fmod(rings(),3)*2+1)*pi/3 : alarmEnabled() ? pi*5/3 : 0)' animSpeed='3' fontSize='20' fontName='Arial' text=',♬ ,,♫ ,,♪ ' bgColor='0xffe9d5d0' />
+  <hand		name='ampm '	    x='ampmx-13' y='ampmy-10'  dragAnimationType='dragAnimationAlways' animSpeed='2.5' modes='front' src='../partsBin/ampm2.png' update='1 * hours()' angle='alarmHour24Number() >= 12 ? 0 : pi/2' />
+
+  <window	name='alarmst win'  x='asx' y='asy' type='porthole' w='stateRad*2+1' h='stateRad*2+1' border='.25' strokeColor='black' />
+  <window	name='am/pm win l' x='ampmx-5'  y='ampmy-9' type='porthole' w='10' h='10' border='0.25' strokeColor='black' />
+  <window	name='am/pm win r' x='ampmx+5'  y='ampmy-9' type='porthole' w='10' h='10' border='0.25' strokeColor='black' />
+  <window	name='am/pm win m' x='ampmx-6'  y='ampmy-14' w='12' h='10' border='0.5' strokeColor='black' />
+  <window	name='am/pm win c' x='ampmx-7'  y='ampmy-13.5' w='14' h=' 9' border='0' />
+<!-- front side -->
+  <static name='front' modes='front' n='17'>
+    <Image	name='band'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/brown/front/curved/narrow/band.png' />
+    <Image	name='case'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/rose/front/narrow/case.png' />
+    <Image	name='face f'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/rose/face.png' />
+    <Image	name='logo'	    x='logox' y='logoy'	modes='front'	src='../partsBin/logos/black.png' />
+
+    <!-- main dial -->
+    <QDial	name='outer'	    x='0'  y='0'	modes='front' radius='mainRad+2'	markWidth='1.0' marks='outer'				bgColor='clear' />
+    <QDial	name='tick12'	    x='0'  y='0'	modes='front' radius='mainRad+2'	markWidth='3.0' marks='tickOut' nMarks=' 12' mSize='10' bgColor='clear' />
+    <QDial	name='tick60'	    x='0'  y='0'	modes='front' radius='mainRad+2'	markWidth='0.7' marks='tickOut' nMarks=' 60' mSize=' 7' bgColor='clear' />
+    <QDial	name='tick300'	    x='0'  y='0'	modes='front' radius='mainRad+2'	markWidth='0.5' marks='tickOut' nMarks='300' mSize=' 4' bgColor='clear' />
+    <QDial	name='inner'	    x='0'  y='0'	modes='front' radius='innerRad+2'	markWidth='1.0' marks='outer'				bgColor='clear' />
+    <QDial	name='axle'	    x='0'  y='0'	modes='front' radius='5'	markWidth='1.0' marks='outer'				bgColor='clear' />
+    <QDial	name='axle2'	    x='0'  y='0'	modes='front' radius='3'	markWidth='.75' marks='outer'				bgColor='black' />
+    <QDial	name='hours'	    x='0'  y='0'	modes='front' radius='mainRad+4' orientation='upright' fontSize='22' fontName='Times New Roman' bgColor='clear' strokeColor='textColor' text='12,1,2,3,4,5,6,,,9,10,11' />
+
+    <!-- alarm dial -->
+    <Image	name='aface'	    x='ax'  y='ay'	modes='front'	src='../partsBin/HD/rose/dial118.png' />
+    <QDial	name='alarm0'	    x='ax'  y='ay'	modes='front'	radius='alarmRad'  bgColor='clear' marks='outer' markWidth='1' />
+    <QDial	name='alarm2'	    x='ax'  y='ay'	modes='front'	radius='alarmRad' markWidth='1.0' marks='tickOut' nMarks=' 12' mSize='5' bgColor='clear' />
+    <QDial	name='alarm3'	    x='ax'  y='ay'	modes='front'	radius='alarmRad' markWidth='0.7' marks='tickOut' nMarks=' 60' mSize='3' bgColor='clear' />
+    <QDial	name='alarm4'	    x='ax'  y='ay'	modes='front'	radius='alarmRad-5'  bgColor='clear' marks='outer' markWidth='.5' />
+    <QDial	name='alarm1'	    x='ax'  y='ay'	modes='front'	radius='alarmRad+1' orientation='upright'   fontSize='13' fontName='Times New Roman' bgColor='clear' strokeColor='textColor' text='12,1,2,3,4,5,6,7,8,9,10,11' />
+    <Qtext	name='alarm label'  x='ax'  y='ay-alarmRad/3'	fontSize='13'	fontName='Arial' modes='front' text='Alarm' strokeColor='subTextColor'/>
+    <QDial	name='acenter'	    x='ax'  y='ay'	modes='front' radius='5' markWidth='1.0' marks='outer'	bgColor='clear' />
+
+    <!-- interval dial -->
+    <Image	name='iface'	    x='ix'  y='iy'	modes='front'	src='../partsBin/HD/rose/dial076.png' />
+    <QDial	name='int0'	    x='ix'  y='iy'	modes='front'	radius='intervalRad'  bgColor='clear' marks='outer' markWidth='1' />
+    <QDial	name='int1'	    x='ix'  y='iy'	modes='front'	radius='intervalRad-1' markWidth='0.7' marks='tickOut' nMarks='24' mSize='3' orientation='upright' bgColor='clear' fontSize='9' fontName='Times New Roman' strokeColor='textColor' text='24,2,4,6,8,10,12,14,16,18,20,22' />
+    <QDial	name='int2'	    x='ix'  y='iy'	modes='front'	radius='intervalRad-4'  bgColor='clear' marks='outer' markWidth='.4' />
+    <Qtext	name='int label'    x='ix'  y='iy-intervalRad/3'	fontSize='9'	fontName='Arial' modes='front' text='Remain' strokeColor='subTextColor'/>
+    <QDial	name='icenter'	    x='ix'  y='iy'	modes='front' radius='3' markWidth='1.0' marks='outer'	bgColor='clear' />
+  </static>
+
+<!-- night side -->
+  <QRect	name='alarmst bakn'  x='asx-stateRad-1' y='asy-stateRad-1' w='stateRad*2+2' h='stateRad*2+2' bgColor='black' modes='night' />
+  <SWheel	name='alarm statn'  x='asx-34' y='asy' modes='night' radius='48' orientation='three' update='.5' angle='alarmEnabled() ? alarmRinging() ? (fmod(rings(),3)*2+1)*pi/3 : pi*5/3 : 0' animSpeed='3' fontSize='20' fontName='Arial' text=',♬ ,,♫ ,,♪ ' bgColor='black' strokeColor='nfgColor' />
+  <window	name='alarmst winn' x='asx'    y='asy' type='porthole' w='stateRad*2+1' h='stateRad*2+1' border='.25' strokeColor='nfgColor' />
+  <static name='night' modes='night' >
+    <Image	name='band N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/brown/night/curved/narrow/band.png' />
+    <QDial	name='night bg'	    x='0'  y='0'	modes='night'	radius='r' bgColor='black' />
+    <Image	name='case N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/rose/night/narrow/case.png' />
+    <QDial	name='tick12 n'	    x='0'  y='0'	modes='night'   radius='mainRad+2'	markWidth='3.0' marks='tickOut' nMarks=' 12' mSize='10' strokeColor='nfgColor' bgColor='clear' />
+    <QDial	name='axle n'	    x='0'  y='0'	modes='night'	radius='3' bgColor= 'nfgColor' />
+  </static>
+
+<!-- back side -->
+<!-- calendar -->
+  <static   name='back'	modes='back' >
+    <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/brown/front/curved/narrow/band.png' />
+    <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/brown/front/back.png'/>
+    <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/rose/front/narrow/case.png' />
+    <Image	name='coverb'	    x='0' y='   0'	modes='back'	src='back.png' />
+  </static>
+
+<!-- front alarm and interval hands -->
+  <Qhand	name='alarm hr'	    x='ax' y='ay' z='1.7' thick='2.2' modes='front'	kind='targetHour12Kind'  type='tri'  length='(alarmRad-6)*.67'	width='6' tail=' 8'	update='60'	angle='alarmHour12ValueAngle()'  lineWidth='1'  strokeColor='alStrokeColor' fillColor='alFillColor' />
+  <Qhand	name='alarm min'    x='ax' y='ay' z='1.7' thick='2.2' modes='front'	kind='targetMinuteKind'  type='tri'  length='alarmRad-6'	width='5' tail='10'	update=' 1'	angle='alarmMinuteNumberAngle()' lineWidth='1'  strokeColor='alStrokeColor'  fillColor='alFillColor' />
+  <!-- Note: don't try to make interval hands on the target-alarm watch have kinds: that will make it into the two-mode target+interval watch we're not quite ready for -->
+  <Qhand	name='int hr'	    x='ix' y='iy' z='1.7' thick='2' modes='front'	                        type='tri'  length='(intervalRad-5)*.67' width='4.5' tail='2'	update=' 1'	angle='intervalHour24ValueAngle()' lineWidth='.75'  strokeColor='subStrokeColor' fillColor='subHourColor'/>
+  <Qhand	name='int min'	    x='ix' y='iy' z='1.7' thick='2' modes='front'	                        type='tri'  length='intervalRad-5'	width='3' tail='4'	update='.2'	angle='intervalMinuteValueAngle()' lineWidth='.75'  strokeColor='subStrokeColor'  fillColor='subMinColor'/>
+<!--  <Qhand	name='int sec'	    x='ix' y='iy'	modes='front'	kind='secondKind'  type='tri'  length='intervalRad-1'	    width='1' tail='1'	update=' 1'	angle='intervalSecondValueAngle()' strokeColor='subSecColor'  fillColor='subSecColor'/> -->
+
+<!-- front main time hands -->
+  <Qhand	name='hr'	    x='0' y='0'	z='5'	modes='front'	kind='hour12Kind'   update='1'	angle='hour12ValueAngle()' type='rect'
+						 length='ml*hf'		 width='hw'	  tail='0'	  lineWidth='0.4'  strokeColor='mainHourColor'	 fillColor='mainHourColor'
+						oLength='ol*hf'		oWidth='hw*af' oTail='ol*hf/3' oLineWidth='1.0' oStrokeColor='mainHourColor'	oFillColor='arrowColor' />
+  <Qhand	name='min'	    x='0' y='0'	z='5'	modes='front'	kind='minuteKind'   update='.2'	angle='minuteValueAngle()' type='rect'
+						 length='ml*mf'		 width='mw'	  tail='0'	  lineWidth='0.4'  strokeColor='mainMinColor'	 fillColor='mainMinColor'
+						oLength='ol*mf'		oWidth='mw*af' oTail='ol*mf/3' oLineWidth='1.0' oStrokeColor='mainMinColor'	oFillColor='arrowColor' />
+  <Qhand	name='sec'	    x='0' y='0'	z='3.5' thick='1.7'	modes='front'	kind='secondKind'   update='.1'	angle='secondValueAngle()' type='tri'
+						 length='mainRad-32'	 width='sw'	  tail='20'	   lineWidth='0.4'    strokeColor='mainSecColor'	 fillColor='mainSecColor'
+						oLength='30'	        oWidth='sw*2'    oTail='4'        oLineWidth='0.4'   oStrokeColor='mainSecColor'	oFillColor='secArrowColor'/>
+
+						
+<!-- night hands -->
+  <Qhand	name='hr n'	    x='0' y='0'		modes='night'	kind='hour12Kind'   update='1'	angle='hour12ValueAngle()' type='rect'
+						 length='nml*hf'		 width='nhw'	  tail='0'	  lineWidth='0.4'  strokeColor='nightHourColor'	 fillColor='nightHourFill'
+						oLength='nol*hf'		oWidth='nhw*naf' oTail='ol*hf/3' oLineWidth='1.0' oStrokeColor='nightHourColor'	oFillColor='nightHourFill' />
+  <Qhand	name='min n'	    x='0' y='0'		modes='night'	kind='minuteKind'   update='.2'	angle='minuteValueAngle()' type='rect'
+						 length='nml*mf'		 width='nmw'	  tail='0'	  lineWidth='0.4'  strokeColor='nightMinColor'	 fillColor='nightMinFill'
+						oLength='nol*mf'		oWidth='nhw*naf' oTail='ol*mf/3' oLineWidth='1.0' oStrokeColor='nightMinColor'	oFillColor='nightMinFill' />
+  <Qhand	name='sec n'	    x='0' y='0'		modes='night'			    update='.1'	angle='secondValueAngle()' type='tri'
+						 length='mainRad-32'	 width='sw'	  tail='20'	   lineWidth='0.4'    strokeColor='black'	 fillColor='black'
+						oLength='30'	        oWidth='sw*2'    oTail='4'        oLineWidth='0.4'   oStrokeColor='black'	oFillColor='black'/>
+
+<!--
+  <button name='DEBUG stem'  x='-20' y='-216' modes='all' src='../Background/plainbutton.png'  enabled='always' repeatStrategy='ECPartDoesNotRepeat' action='manualSet() ? stemIn() : stemOut()'/> 
+  <button name='DEBUG reset' x=' 20' y='-216' modes='all' src='../Background/plainbutton.png'  enabled='always' repeatStrategy='ECPartDoesNotRepeat' action='reset()'/>
+  <static name='DEBUG static' modes='all' >
+    <Qtext  name='DEBUG S  '   x='-20' y='-216' modes='all' fontSize='18' fontName='Arial' text='S' strokeColor='white' />
+    <Qtext  name='DEBUG R    ' x=' 20' y='-216' modes='all' fontSize='18' fontName='Arial' text='R' strokeColor='white' />
+  </static>
+-->
+</watch>
+
+
+<!-- COMPLICATIONS
+
+[BOTH]
+Alarm
+
+-->

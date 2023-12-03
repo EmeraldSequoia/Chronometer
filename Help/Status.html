@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+ <meta name="viewport" content="width=device-width" />
+ <script type="text/javascript" language="javascript">
+     function setElemValue( elementName, elementValue ) {
+        var locElem = document.getElementById(elementName);
+        locElem.innerHTML = elementValue;
+     }
+ </script>
+ <style type="text/css">
+.data {
+    display: inline;
+   font-family: Courier;
+}
+.dataHead {
+   font-family: Courier-Bold;
+   font-size: 18;
+}
+.button {
+   font-family: Courier-Bold;
+   font-size: 16;
+   text-decoration: none;
+   color:black;
+}
+ </style
+</head>
+<body style="background-color:#ccc">
+
+
+<a class='button' href="Status.html">
+<div align=center id='formattedDate'> - </div>
+<div align=center id='formattedTime'> - </div>
+</a>
+<p>
+<table align=center border width=100% cellspacing=0 cellpadding=1>
+<tr>
+ <td align=center colspan=3><div class='button'><div id='timeStatus'> - </div></div></td>
+</tr>
+<tr>
+ <td width=67 rowspan=2>NSDate</td>
+ <td colspan=2><div class='data' id='timestampIphone'> - </div></td>
+</tr>
+<tr>
+ <td><div class='data' id='timeZone'> - </div></td>
+ <td align=center width=67><div class='data' id='countryCode'> - </div></td>
+</tr>
+<tr>
+ <td>NTP</td>
+ <td colspan=2><div class='data' id='timestampNtp'> - </div></td>
+</tr>
+<tr>
+ <td>Skew</td>
+ <td colspan=2 style="vertical-align:top;"><div class='data' style='font-weight:bold' id='skew'> - </div><span class="data"> seconds</span></td>
+</tr>
+<tr>
+ <td>Bounds</td>
+ <td colspan=2><div class='data' id='skewLB'> - </div><b> : </b><div class='data' id='skewUB'> - </div></td>
+</tr>
+</table>
+<p>
+
+<table align=center border=1  width=100% cellspacing=0 cellpadding=2>
+<tr>
+ <td align=center colspan=3><div class='button'><div id='locationStatus'> - </div></div></td>
+</tr>
+<tr>
+ <td>Last fix</td>
+ <td colspan=2><div class='data' id='lastFix'> - </div></td>
+</tr>
+<tr>
+ <td>Next fix</td>
+ <td colspan=2><div class='data' id='nextFix'> - </div></td>
+</tr>
+<tr>
+ <td rowspan=2>Latitude</td>
+ <td><div class='data' id='latitudeStr'> - </div></td>
+ <td rowspan=4 align=center>&plusmn;<p>
+               <div class='data' id='horizontalErrUS'> - </div><p>
+               <div class='data' id='horizontalErrMeter'> - </div></td>
+<tr>
+ <td><div class='data' id='latitudeDg'> - </div>&deg;</td>
+</tr>
+<tr>
+ <td rowspan=2>Longitude</td>
+ <td><div class='data' id='longitudeStr'> - </div></td>
+</tr>
+<tr>
+ <td><div class='data' id='longitudeDg'> - </div>&deg;</td>
+</tr>
+<!--
+<tr>
+ <td width=67>Altitude</td>
+ <td><div class='data' id='altitudeFt'> - </div> ft<br>
+     <div class='data' id='altitudeMeter'> - </div> m</td>
+ <td>&plusmn;<div class='data' id='verticalErrFt'> - </div> ft<br>
+     &plusmn;<div class='data' id='verticalErrMeter'> - </div> m</td>
+</tr>
+-->
+</table>
+
+<p>
+<hr>
+<div style="font-size:8pt; text-align:center">
+   <div
+      <div style="float:right"><p><a href="Help Contents.html" target="_top">Help Contents</a></div>
+      <div style="float:left"><p><div id='logFileLink'> - </div></div>
+      <iframe src="versionGen.html" scrolling="auto" width=100% height=30 frameborder=0>
+	<a href="versionGen.html">Version</a>
+      </iframe>
+      <a href="Credits.html">Copyright Information</a>
+   </div>
+</div>
+</body></html>

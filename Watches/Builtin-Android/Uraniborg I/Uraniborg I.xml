@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Uraniborg I.xml
+  Emerald Chronometer
+
+  Copied from Uraniborg.xml 2017 May 24
+ 
+  Created 2010 May 9 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2010. All rights reserved.
+-->
+
+<watch name='Uraniborg I' beatsPerSecond='4' faceWidth='280' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='64' backHeight='256' nightWidth='512' nightHeight='512'/>
+
+  <init	expr='nfgclrm=0xff008072, cr=135, gm=30, go=50, s3=1.732, gw=.2, gc1=black, gc2=0xff101040, r0=135+go, hrLen=80, minLen=110' />
+  <init expr='sidHandColor=0xff107070, sidFillColor=sidHandColor, sidoFillColor=clear, solColor=0xff404000, solfColor=0xfff0f000, utColor=0xff000080, solColor=utColor, solfColor=solColor' />
+  <init expr='sidHrHandColor=sidHandColor, sidHrFillColor=sidHrHandColor, sidHroFillColor=clear, sidSecColor=sidHandColor, sidBackColor=white' />
+  <init expr='sunColor=0xfff2e407, sunStrokeColor=0xff120400, utHand=0xff5ca85c' />
+  <init expr='leafBorder=lightGray, leafFill=white, dnBackColor=black, moonHandColorn=0xff8080ff' />
+  <init expr='sidfs=20, sidfsn=14, outR=130, shR=112, smR=120, dotR=shR-sidfs-3, dnR=shR-sidfs-8, dnWidth=5, dnNum=24' />
+  <init expr='sidArrowWidth=2' />
+  <init	expr='r=143, ri=r-5, rb=r-3, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+  <static   name='front' modes='front' n='3'>
+    <QRect      name='facer'        x='-rb' y='-rb'     modes='front'  w='rb*2' h='rb*2' bgColor='black'/>
+    <Image	name='face'	    x='0'   y=' 0'	modes='front'	src='../partsBin/HD/white/face.png' />
+    <Image	name='zodiac'	    x='0'   y=' 0'	modes='front'  	src='zodiacNames.png' />
+    <Image	name='berry shadow' x='0.7' y='53.7'	modes='front'	src='../partsBin/berry-shadow.png'/>
+    <Image	name='berry'	    x='0'   y='55'	modes='front'	src='../partsBin/berry.png'/>
+    <QDial	name='sid hrs'      x=' 0' y='  0'	modes='front' radius='shR    '  orientation='demi' demiTweak='0.5' fontSize='floor(sidfs)' fontName='Arial-BoldMT' bgColor='clear' strokeColor='black' text='0,,2,,4,,6,,8,,10,,12,,14,,16,,18,,20,,22,' />
+    <QDial	name='sid hrsSmall' x=' 0' y='  0'	modes='front' radius='shR-4'  orientation='demi' demiTweak='0' fontSize='floor(sidfs*0.6)' fontName='Arial'        bgColor='clear' strokeColor='black' text=',1,,3,,5,,7,,9,,11,,13,,15,,17,,19,,21,,23' />
+    <QDial	name='shr tic'	    x=' 0' y='  0'	modes='front' radius='dotR'  markWidth='1.5' marks='dot' nMarks=' 24' mSize='4' bgColor='clear' />
+    <QDial	name='shr tic2'	    x=' 0' y='  0'	modes='front' radius='dotR'  markWidth='0.7' marks='dot' nMarks=' 24*4' mSize='2' bgColor='clear' />
+    <QDial	name='min nums'     x=' 0' y='  0'	modes='front' radius='smR' orientation='demi' demiTweak='2' fontSize='10' fontName='Arial' bgColor='clear' strokeColor='black' text='60,05,10,15,20,25,30,35,40,45,50,55' />
+    <QDial	name='min tic'	    x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='1.5' marks='tickOut' nMarks=' 12' mSize='4' bgColor='clear' />
+    <QDial	name='min tic2'	    x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='0.7' marks='tickOut' nMarks=' 60' mSize='4' bgColor='clear' />
+    <QDial	name='submin tic'   x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='0.5' marks='tickOut' nMarks='240' mSize='2' bgColor='clear' />
+    <QDial	name='dnback	  ' x=' 0' y='  0'	modes='front' radius='dnR-1' markWidth='dnWidth-1' marks='outer' strokeColor='dnBackColor' bgColor='clear' />
+    <Qtext	name='lst label'    x=' 0' y='  0'	modes='front' radius='dnR-10' fontName='Arial' fontSize='10' strokeColor='black' startAngle='pi' text='Local  Sidereal  Time' orientation='demi' />
+  </static>
+ 
+<!-- sun & moon day/night rings + moonrise/set hands -->
+  <QdayNightRing name='moontime'  x='0' y='0' modes='front' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='0xff202020' fillColor='0xff808080' input='0' numWedges='dnNum'
+		 planetNumber='planetMoon' masterOffset='fmod(lstValue()/3600,24)*2*pi/24 - hour24ValueAngle()'/>
+  <QdayNightRing name='daytime'   x='0' y='0' modes='front' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetSun'  masterOffset='fmod(lstValue()/3600,24)*2*pi/24 - hour24ValueAngle()'/>
+  <Qhand	name='moonrise'   x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='front' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonrise24HourIndicatorAngle()-hour24ValueAngle()+fmod(lstValue()/3600,24)*2*pi/24' update='60' />
+  <Qhand	name='moonset'    x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='front' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonset24HourIndicatorAngle()-hour24ValueAngle()+fmod(lstValue()/3600,24)*2*pi/24' update='60' />
+
+<!-- sun & moon position icons -->
+  <hand         name='moon posn'    x='0'   y='0'  z='5' thick='1' modes='front' src='moon25.png' xAnchor= '8' yAnchor='8' update='60' angle='sunRA()-moonRA()' offsetRadius='outR'  offsetAngle='moonRA()' kind='moonRAKind' grabPrio='0' />
+  <Qhand        name='sun posn1'    x='0'   y='0'  z='4' thick='1' modes='front' tail='0' type='sun2' length='outR+17' length2='outR-12' lineWidth='.25' nRays='8' kind='sunRAKind' update='86400' angle='sunRA()' strokeColor='sunStrokeColor' fillColor='sunColor' grabPrio='0' />
+
+<!-- sidereal time hands -->
+<!--  <hand		name='umi'	    x='0'   y='0'	 modes='front' src='UMi.png' angle='-fmod(lstValue()/3600,24)*2*pi/24' update='1' /> -->
+  <Qhand	name='sidHour'	    x='0'   y='0'  z='6' modes='front' kind='hour24Kind' type='rect' length='dotR'  width='sidArrowWidth+2' tail='(dotR)/4'  update=' 1'  angle='fmod(lstValue()/3600,24)*2*pi/24' strokeColor='sidHrHandColor' fillColor='sidFillColor' oRadius='6.5' oLineWidth='sidArrowWidth+1' oStrokeColor='sidHrHandColor' oFillColor='sidHroFillColor' grabPrio='1' />
+  <Qhand	name='sidMin'	    x='0'   y='0'  z='6' modes='front' kind='minuteKind' type='rect' length='smR' width='sidArrowWidth' tail='smR/4' update='.2'  angle='fmod(lstValue()/60,60)*2*pi/60' strokeColor='sidHandColor' fillColor='sidFillColor'
+									 	  oRadius='4.5' oLineWidth='sidArrowWidth' oStrokeColor='sidHandColor'  oFillColor='sidoFillColor' oCenter='2.5' grabPrio='1' />
+  <Qhand	name='sidSec'	    x=' 0'  y=' 0' z='7' modes='front'			 type='rect' length='smR+3' width='1'		   tail='(smR+3)/4' update='.2'  angle='fmod((goodAccuracy() ? lstValue() : lstValue()/60),60)*2*pi/60' strokeColor='sidSecColor' fillColor='sidSecColor'
+									 	  oRadius='4.5' oLineWidth='1'		   oStrokeColor='sidSecColor'   oFillColor='clear'	   oCenter='1' grabPrio='1' />
+  <static    name='night' modes='night' >
+    <QRect      name='facen'        x='-rb' y='-rb'     modes='night'  w='rb*2' h='rb*2' bgColor='black'/>
+    <Image	name='zodiacn'	    x='0'   y=' 0'	modes='night'  	src='zodiacNamesn.png' />
+    <QDial	name='sid hrsn'	    x=' 0' y='  0'	modes='night' radius='shR    '  orientation='demi' demiTweak='0.5' fontSize='floor(sidfs*0.6)' fontName='Arial' bgColor='clear' strokeColor='nfgclr' text='0,,,3,,,6,,,9,,,12,,,15,,,18,,,21,,' />
+    <QDial	name='shr ticn'	    x=' 0' y='  0'	modes='night' radius='dotR'  markWidth='1.5' marks='dot' nMarks=' 24' mSize='4' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='shr tic2n'    x=' 0' y='  0'	modes='night' radius='dotR'  markWidth='0.7' marks='dot' nMarks=' 24*4' mSize='2' bgColor='clear' strokeColor='nfgclr' />
+    <Qtext	name='lst labeln'    x=' 0' y='  0'	modes='night' radius='dnR-10' fontName='Arial' fontSize='10' strokeColor='nfgclr' startAngle='pi' text='Local  Sidereal  Time' orientation='demi' />
+  </static>
+  <!-- night sun & moon day/night rings + moonrise/set hands -->
+  <QdayNightRing name='moontimen'  x='0' y='0' modes='night' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='10' strokeColor='nfgclrm' fillColor='nfgclrm' input='0' numWedges='dnNum'
+  planetNumber='planetMoon' masterOffset='fmod(lstValue()/3600,24)*2*pi/24 - hour24ValueAngle()'/>
+  <QdayNightRing name='daytimen'   x='0' y='0' modes='night' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='10' strokeColor='nfgclr'  fillColor='nfgclr' input='0' numWedges='dnNum'
+  planetNumber='planetSun'  masterOffset='fmod(lstValue()/3600,24)*2*pi/24 - hour24ValueAngle()'/>
+  <Qhand	name='moonrisen'   x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='night' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='moonHandColorn' angle='moonrise24HourIndicatorAngle()-hour24ValueAngle()+fmod(lstValue()/3600,24)*2*pi/24' update='60' />
+  <Qhand	name='moonsetn'    x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='night' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='moonHandColorn' angle='moonset24HourIndicatorAngle()-hour24ValueAngle()+fmod(lstValue()/3600,24)*2*pi/24' update='60' />
+
+  <Qhand	name='sidHourn'	    x='0'   y='0'  z='6' modes='night|back' kind='hour24Kind' type='rect' length='dotR'  width='sidArrowWidth' tail='(dotR)/4'  update=' 10'  angle='fmod(lstValue()/3600,24)*2*pi/24' strokeColor='nfgclr' fillColor='nfgclr' oRadius='6.5' oLineWidth='sidArrowWidth' oStrokeColor='nfgclr' oFillColor='clear'   oCenter='2.5' />
+  <Qhand	name='sidMinn'	    x='0'   y='0'  z='6' modes='night' kind='minuteKind' type='rect' length='smR' width='sidArrowWidth' tail='smR/4' update='10'  angle='fmod(lstValue()/60,60)*2*pi/60' strokeColor='nfgclr' fillColor='nfgclr'
+  oRadius='4.5' oLineWidth='sidArrowWidth' oStrokeColor='nfgclr'  oFillColor='nfgclr' oCenter='2.5' grabPrio='1' />
+
+ </watch>

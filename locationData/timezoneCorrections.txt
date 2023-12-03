@@ -1,0 +1,41 @@
+Bokeelia,US,FL,071,America/New_York
+Cape Canaveral,US,FL,009,America/New_York
+Cortez,US,FL,081,America/New_York
+Edgewater,US,FL,127,America/New_York
+Fruit Cove,US,FL,109,America/New_York
+Gandy,US,FL,103,America/New_York
+Indian River Shores,US,FL,061,America/New_York
+Manasota Key,US,FL,015,America/New_York
+Marco,US,FL,021,America/New_York
+Osprey,US,FL,115,America/New_York
+Sanibel,US,FL,071,America/New_York
+South Beach,US,FL,061,America/New_York
+South Pasadena,US,FL,103,America/New_York
+Stock Island,US,FL,087,America/New_York
+Stuart,US,FL,085,America/New_York
+Tequesta,US,FL,099,America/New_York
+Villano Beach,US,FL,109,America/New_York
+Montgomery,US,GA,051,America/New_York
+Saint Simons,US,GA,127,America/New_York
+Long Beach,US,NC,019,America/New_York
+Masonboro,US,NC,129,America/New_York
+Oak Island,US,NC,019,America/New_York
+Sea Breeze,US,NC,129,America/New_York
+Sunset Beach,US,NC,019,America/New_York
+Beaufort,US,SC,013,America/New_York
+Buenos Aires,AR,07,,America/Argentina/Buenos_Aires
+Coffs Harbour,AU,02,,Australia/Sydney
+Conceicao da Barra,BR,08,,America/Sao_Paulo
+Fort Walton Beach,US,FL,091,America/New_York
+Laguna Beach,US,FL,005,America/New_York
+Laguna Vista,US,TX,061,America/Chicago
+Colonia Leopoldina,BR,02,,America/Maceio
+Mary Esther,US,FL,091,America/New_York
+Meulaboh,ID,01,,Asia/Jakarta
+Nhamunda,BR,04,,America/Manaus
+Parker,US,FL,005,America/New_York
+Porto Franco,BR,13,,America/Fortaleza
+Sawtell,AU,02,,Australia/Sydney
+Sena Madureira,BR,01,,America/Rio_Branco
+South Padre Island,US,TX,061,America/Chicago
+Viedma,AR,16,,America/Argentina/Salta

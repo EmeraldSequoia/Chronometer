@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  London.xml
+  Emerald Chronometer
+
+  Created 7/3/2008 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='London' beatsPerSecond='0'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+
+  <init		expr='nfgclr=0xff00c0ac' />
+  <init		expr='demoing=0' />
+
+  <button	name='stem'	    x='142'	y='0'  expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front | back'	src='../partsBin/stemGray.png' enabled='always'	       action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())'  xMotion='10'  motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='stemn'	    x='142'	y='0'  expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'		src='../partsBin/stem3.png' enabled='always'	       action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())'  xMotion='10'  motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='Reset'	    x='147'	y='67' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front | night'	src='../partsBin/resetv.png'   enabled='wrongTimeOnly' action='reset()'  xMotion='13' yMotion='0' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+  <button	name='Reset b'	    x='147'	y='67' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'		src='../partsBin/resetvb.png'  enabled='wrongTimeOnly' action='reset()'  xMotion='13' yMotion='0' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+
+  <static name='front' modes='front'>
+    <Image	name='face'	    x='0' y='   0'	modes='front'	src='bbfaceplus.png'/>
+    <Image	name='band'	    x='0' y='   0'	modes='front'	src='band.png'/>
+  </static>
+  <static name='night' modes='night'>
+    <Image	name='face n'	    x='0' y='   0'	modes='night'	src='bbfaceplusnight.png'/>
+    <Image	name='band n'	    x='0' y='   0'	modes='night'	src='band-night.png'/>
+  </static>
+  <static name='back' modes='back'>
+    <Image	name='faceb'	    x='0' y='   0'	modes='back'	src='bbfaceplusback.png'/>
+    <Image	name='bandb'	    x='0' y='   0'	modes='back'	src='band.png'/>
+  </static>
+  <hand         name='hour'	    x=' 0'  y='0' z='5'	modes='front|back'	xAnchor='15' yAnchor='31' src='bbhour.png'	update='1'	angle='hour12ValueAngle()' opaque='1' kind='hour12Kind' />
+  <hand		name='minute'	    x=' 0'  y='0' z='5'	modes='front|back'	xAnchor='11' yAnchor='29' src='bbminute.png'	update=' 1'		angle='minuteValueAngle()' opaque='1' kind='minuteKind' />
+  <hand         name='hour n'	    x=' 0'  y='0'	modes='night'	xAnchor='15' yAnchor='31' src='bbhour.png'	update='1'	angle='hour12ValueAngle()' opaque='1' kind='hour12Kind' />
+  <hand		name='minute n'	    x=' 0'  y='0'	modes='night'	xAnchor='11' yAnchor='29' src='bbminute.png'	update=' 1'		angle='minuteValueAngle()' opaque='1' kind='minuteKind' />
+
+</watch>
+
+<!-- COMPLICATIONS
+
+-->

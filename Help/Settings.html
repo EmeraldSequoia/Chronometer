@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+ <title>Emerald Chronometer Options</title>
+ <meta name="viewport" content="width=device-width" />
+ <link rel="apple-touch-icon" href="../images/eblogo57-1.png">
+ <link rel="shortcut icon" href="../images/GlyphBerry.png" type="image/png">
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <link rel="stylesheet" href="product.css"/>
+</head>
+<body>
+
+<div display='inline' class='device'>
+<div style="float:right"><p><a href="Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink1' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<div align=center><img src="settings-1.png" alt="icon"></div>
+<p>
+</div>
+<div display='inline' class='website'>
+<div class='floatL'>
+ <a href="../index.php">Home</a>&nbsp;&nbsp;
+ <a href="index.html">Chronometer</a>
+</div>
+<div class='floatR'>
+ <a href="../buy.html">Where to Buy</a>
+</div>
+<br>
+<hr size=1>
+
+<h1>Emerald Chronometer Options</h1>
+
+</div>
+
+
+EMERALD_PRODUCT's settings and options are accessed via the "gear" button in the lower
+right corner of the screen.
+<div class='Chronometer'>
+<p>
+There are global app options relating to time synchronization, geographic position, and screen auto-lock.  Following those are settings specific to a single watch.
+Currently only <a href="Terra/Terra.html#Settings">Terra</a> and <a href="Babylon/Babylon.html">Babylon</a>
+have any watch-specific settings: Babylon has a setting for which weekday begins the week; Terra's settings are extensive and are documented on its <a href="Terra/Terra.html#Settings">Help page</a>.
+</div>
+<p>
+
+<a name="time"></a>
+<h3>Time</h3>
+EMERALD_PRODUCT does not depend entirely on the iPhone's internal time, 
+which is frequently off by several seconds
+and can change abruptly as it contacts different cell phone towers.
+This can be avoided, if you have Internet access, by using this option:
+<center><img src="ntp.png" alt="ntp setting" vspace=4></center>
+This tells EMERALD_PRODUCT to synchronize its time using the Network Time Protocol (NTP).
+The NTP time is stable and usually differs from the international standard atomic clocks
+ by less than a few hundred milliseconds.
+The indicator light will blink during the sync process (it can take some time if the network is flakey).
+For a technical description of
+what EMERALD_PRODUCT does during synchronization, click <a href="TimeSync.html">here</a>.
+"Use NTP" is ON by default.
+<p>
+When all else fails, you can set the date and time and time zone manually with the Settings App:
+Settings -> General -> Date & Time.
+<p>
+
+EMERALD_PRODUCT uses the Gregorian calendar for future dates and for past dates back to 1582,
+ and the Julian calendar from 1 BCE to 1582 CE.
+  Prior to 1 BCE EMERALD_PRODUCT uses a proleptic Julian calendar, with leap years
+ on 1BCE, 5BCE, etc, back every four years.
+  Until very recently calendar representations around the world have varied widely, 
+so using EMERALD_PRODUCT for actual historical dates requires an advanced knowledge
+ of <a href="http://en.m.wikipedia.org/wiki/Chronology">Chronology<img src="extlink.png"></a>
+(far beyond the scope of this note).
+
+<p>
+Click <a href="AstroAccuracy.html">here</a> for a description of the accuracy of EMERALD_PRODUCT's astronomical calculations.
+
+<a name="loc"></a>
+<h3>Geographic Position</h3>
+You set the geographic location and timezone with these two options:
+<center><img src="position.png" alt="position entry" vspace=4></center>
+The right hand side labels indicate the current settings;
+the text is blue if the item is set automatically, purple if set manually.
+Tapping them brings up the screens described below.
+<p>
+Most astronomical calculations depend on your position on the Earth's surface.
+So EMERALD_PRODUCT has a number of ways to for you to specify a position; they are accessed via the locations options screen:
+<center><img src="locationScreen.png" alt="location screen" vspace=4></center>
+And the time displays depend on the timezone 
+which you can specify via EMERALD_PRODUCT's timezone setting screen:
+<center><img src="tzScreen.png" alt="timezone screen" vspace=4></center>
+<p>
+By far the most important aspect of each of these are the switches at the top.
+If they're both set to "ON" then your position and timezone will be determined automatically and in most cases that will be sufficient and you can stop reading now.
+They are both ON by default.
+See <a href="#autolocation">below</a> for a description of how these automatic determinations are made.
+When the switches are ON the rest of the screen is a read-only display.
+Since location and timezone are closely related the bottom section of the location screen
+shows the  timezone  that is currently in effect; it is always read-only.
+
+<h4>Manual location setting</h4>
+If you turn the "Use Device Location" switch OFF the screen changes to the manual setting form:
+<center><img src="manualLoc.png" alt="manual location screen" vspace=4></center><br>
+Here you can set your location by entering a city name, by choosing a  city from your Contacts list, by entering latitude and longitude values, by scrolling the map, or by picking a previously used location:
+<ul>
+<li>Tap the search box near the top of the screen to enter the name of a city.
+EMERALD_PRODUCT has a built-in list of more than 80,000 cities that it will search for your entry.
+Each time you type a character a new list of matches is  displayed.
+Tap the "Search" button at the bottom of the keyboard to see the whole list.
+When you pick a city from that display, EMERALD_PRODUCT will use its latitude and longitude from the internal database.
+The Internet is not required to use a city in the database; the map will not update without an Internet connection, but
+EMERALD_PRODUCT will use the data for the city.
+<P>
+<li>
+If you know the latitude and longitude of your location you can simply enter those values in the two text fields.  
+The values are in decimal degrees; use negative numbers for west longitudes and south latitudes.  The Internet is of course not required
+to enter the latitude and longitude directly; the map will not update without an Internet connection, but EMERALD_PRODUCT will use
+the given coordinates.
+<P>
+<li>
+The small map is read-only but if you tap it a full screen map will appear.
+Scroll and zoom the big map using the usual iPhone map controls (flick to scroll, pinch to zoom, double tap to zoom in, double tap with two fingers to zoom out).
+Tap the Set button in  the upper right corner of the screen to move the purple pin to the center of the crosshairs and use that location.
+Switch between map and satellite views with the three buttons at the top center.
+Return to the locations screen by tapping the Location button in the upper left.
+<P>
+<li>
+Finally, you can always go back to a previously used location.  Just tap the Recents button and pick from the ensuing list.
+New entries are automatically added to the list each time you exit the location setting screen.
+You can remove or reorder entries in the list by tapping the Edit button.
+</ul>
+
+<a name="timezone"></a>
+<h4>Manual Timezone setting</h4>
+First note that if you have set your location manually as described above, there is usually no need to set
+the timezone manually; it will automatically pick up the timezone of the chosen location in most cases.
+<p>
+If you turn the "Set Automatically" switch OFF  the timezone setting screen  changes to its manual entry form:
+<center><img src="manualTZ.png" alt="manual timezone setting" vspace=4></center>
+This is a two-level view of the world's 400+ timezones.  18 of the most commonly used zones are listed under the first entry;
+otherwise first pick a continent then pick a city from the ensuing list.
+A few non-standard but often seen timezones are listed in the last entry ("Other").
+The currently chosen timezone will appear to the right of its continent name;
+timezones with the same UTC offset as the currently chosen one will be shown in blue.
+<p>
+If you pick a timezone that doesn't seem to match your current location a warning box will appear.  
+The same warning will appear if you choose a seemingly inappropriate location while the timezone is set manually.
+This is just a warning, EMERALD_PRODUCT will honor your choice.
+  But be sure you know what you're doing if you see it.
+Some of EMERALD_PRODUCT's displays will be incorrect (or look very odd) if your location and timezone 
+do not match
+(eg, if you're in New York City but you set your longitude to "74" instead of "-74").
+If you change either one manually make sure the other one is consistent. 
+If you allow both to be set automatically then everything is usually OK.
+<p>
+
+<a name="autolock"></a>
+<h3>Auto-lock</h3>
+Turning on one of these options overrides the iPhone's normal Auto-Lock setting (in Settings->General)
+so that EMERALD_PRODUCT's display will remain active indefinitely.  There are two settings, one
+which controls what happens when the phone is plugged into a power source, and a second which controls
+what happens when the phone is running on battery power:
+<br>
+<center><img src="autolock.png" alt="auto-lock setting" vspace=4></center>
+Warning: If the second option is enabled, this will drain the battery in
+just a few hours.<p>This option applies only when EMERALD_PRODUCT is running; it has no effect on other apps.
+<p>
+
+<a name="autolocation"></a>
+<h3>Auto location</h3>
+EMERALD_PRODUCT uses the iPhone's "Location Services" to get the geographic location
+it needs in order to calculate the times of astronomical events like
+sunrise and sunset.
+Location Services uses a variety of methods to determine location depending on the available hardware
+including GPS, cell phone tower triangulation  the a database of WiFi hotspots.
+<p>
+EMERALD_PRODUCT will
+start up assuming the same timezone and location settings as it had the  last time it was run.
+It may then
+take up to a minute or so to get an accurate location fix.
+The location status indicator will blink during this process.
+If EMERALD_PRODUCT
+is running when the fix is determined then the affected
+watch hands will move to the correct positions.
+<p>
+To use Location Services, you must enable it in the General section of the  Settings app 
+AND
+set "Use Device Location" to "ON" in the locations screen.
+<p>
+In order to save battery energy, EMERALD_PRODUCT asks for its location only at startup and at 30-minute intervals.
+If you are in a fast-moving vehicle and want the utmost accuracy in the astronomical displays,
+you can force another location update by entering the location setting screen again.
+You can see it move in real time with the big map.
+<p>
+The algorithm used to determine the timezone when the "Set Automatically" switch is ON is based on the setting of the
+"Use Device Location" switch.  If it is also ON then EMERALD_PRODUCT just uses the timezone from iPhone OS.
+This is in turn based on the settings in Settings->General->Date & Time;
+when set to "Set Automatically" the timezone is received from the cell phone network
+(which is not always right).
+If EMERALD_PRODUCT is in manual location mode, the auto-timezone is taken from our internal database.
+<p>
+
+<a name="ipodtouch"></a>
+<h3>Devices without GPS</h3>
+Some iOS devices do not have GPS or cell phone triangulation or cell phone time synchronization.
+But they do have WiFi.
+If you take such a device to a "well-known" WiFi hot spot, and start up EMERALD_PRODUCT there with "Use Device Location" ON,
+then it will remember that location and use it until you uninstall the application or start it up in
+another well-known location.  
+Devices running versions of iPhoneOS prior to 3.2 use the "SkyHook" database of well-known locations;
+you may be able to find one using
+<a href=" http://www.skyhookwireless.com/howitworks/coverage.php">SkyHook's locator<img src="extlink.png"></a>.
+You can even (if you're willing to wait for them to update their database)
+<a href=" http://www.skyhookwireless.com/howitworks/submit_ap.php">enter your own WiFi access point<img src="extlink.png"></a>.
+Devices running iOS 3.2 or later use Apple's database.
+
+<div display='inline' class='website'>
+<br clear=all>
+<br>
+<hr size=1>
+<h3>The Watches</h3>
+<a href="Alexandria/Alexandria.html"><img src="Alexandria/Alexandria-icon-f.png" width=50 border=0  align=center vspece=4></a>
+<a href="Atlantis/Atlantis.html"><img src="Atlantis/Atlantis-icon-f.png"   width=50 border=0 align=center vspece=4></a>
+<a href="Chandra/Chandra.html"><img src="Chandra/Chandra-icon-f.png"    width=50 border=0 align=center vspece=4></a>
+<a href="Haleakala/Haleakala.html"><img src="Haleakala/Haleakala-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="Mauna Kea/Mauna Kea.html"><img src="Mauna Kea/Mauna Kea-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="McAlester/McAlester.html"><img src="McAlester/McAlester-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="Paris/Paris.html"><img src="Paris/Paris-icon-f.png"      width=50 border=0 align=center vspece=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Geneva/Geneva.html"><img src="Geneva/Geneva-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Istanbul/Istanbul.html"><img src="Istanbul/Istanbul-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Olympia/Olympia.html"><img src="Olympia/Olympia-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Thebes/Thebes.html"><img src="Thebes/Thebes-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Firenze/Firenze.html"><img src="Firenze/Firenze-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Miami/Miami.html"><img src="Miami/Miami-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Vienna/Vienna.html"><img src="Vienna/Vienna-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<hr size=4>
+Copyright&nbsp;&copy;&nbsp;2009, <a href="index.html"><span class='emerald'>Emerald Sequoia LLC</span></a>; last&nbsp;updated:&nbsp;2009&nbsp;November&nbsp;25
+</div>
+<div display='inline' class='device'>
+<hr>
+<div style="font-size:8pt; text-align:center">
+<div style="float:right"><p><a href="Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink2' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<iframe src="versionGen.html" scrolling="auto" width=100% height=30 frameborder=0>
+<a href="versionGen.html">Version</a>
+</iframe>
+<a href="Credits.html">Copyright Information</a>
+</div>
+</div>
+</body></html>

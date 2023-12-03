@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Uraniborg.xml
+  Emerald Chronometer
+
+  Created 2010 May 9 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2010. All rights reserved.
+-->
+
+<!--
+ <init		expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+ 
+ <button	name='stem'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+ <button	name='stemn'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	     src='../partsBin/HD/white/night/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+ <button	name='Reset'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset02.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+ <button	name='Reset b'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'       src='../partsBin/HD/reset02b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+ <button	name='F/R'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+ <button	name='F/Rn'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='../partsBin/HD/white/night/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+ <button	name='adv day but'  x='-bx' y=' by' modes='front|back' src='../partsBin/HD/white/front/button10.png' action='advanceSeconds(86400)' xMotion='-mx' yMotion=' my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+ <button	name='adv hr  but'  x='-bx' y='-by' modes='front|back' src='../partsBin/HD/white/front/button08.png' action='advanceHour()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+ <button	name='adv day butn' x='-bx' y=' by' modes='night'      src='../partsBin/HD/white/night/button10.png' action='advanceSeconds(86400)' xMotion='-mx' yMotion=' my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+ <button	name='adv hr  butn' x='-bx' y='-by' modes='night'      src='../partsBin/HD/white/night/button08.png' action='advanceHour()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+ 
+ <Image	name='band'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+ <Image	name='case'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/white/front/narrow/case.png' />
+ <window	name='f/r'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+ 
+ <Image	name='band N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/black/night/straight/narrow/band.png' />
+ <Image	name='case N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/white/night/narrow/case.png' />
+ <window	name='f/r n'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+ 
+ <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+ <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/back.png'/>
+ <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/white/front/narrow/case.png' />
+ <window	name='f/r b'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+ 
+ -->
+
+<watch name='Uraniborg' beatsPerSecond='4'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+
+  <init	expr='nfgclr=0xff00c0ac, cr=135, gm=30, go=50, s3=1.732, gw=.2, gc1=black, gc2=0xff101040, r0=135+go, hrLen=80, minLen=110' />
+  <init expr='sidHandColor=0xff107070, sidFillColor=sidHandColor, sidoFillColor=clear, solColor=0xff404000, solfColor=0xfff0f000, utColor=0xff000080, solColor=utColor, solfColor=solColor' />
+  <init expr='sidHrHandColor=sidHandColor, sidHrFillColor=sidHrHandColor, sidHroFillColor=clear, sidSecColor=sidHandColor, sidBackColor=white' />
+  <init expr='sunColor=0xfff2e407, sunStrokeColor=0xff120400, utHand=0xff5ca85c' />
+  <init expr='leafBorder=lightGray, leafFill=white, dnBackColor=black' />
+  <init expr='sidfs=20, outR=130, shR=112, smR=120, dotR=shR-sidfs-3, dnR=shR-sidfs-8, dnWidth=5, dnNum=24' />
+  <init expr='sidArrowWidth=2' />
+  <init	expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+  <button	name='stem'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='stemn'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	     src='../partsBin/HD/white/night/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='Reset'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset02.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+  <button	name='Reset b'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'       src='../partsBin/HD/reset02b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+
+  <static   name='front' modes='front' n='3'>
+    <Image	name='band'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <Image	name='case'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/white/front/narrow/case.png' />
+    <Image	name='face'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/white/face.png' />
+    <Image	name='zodiac'	    x='0'   y=' 0'	modes='front'  	src='zodiacNames.png' />
+<!--    <Image	name='stars'	    x='0'   y=' 0'	modes='front'  	src='northernStars.png' /> -->
+    <Image	name='berry shadow' x='0.7' y='53.7'	modes='front'	src='../partsBin/berry-shadow.png'/>
+    <Image	name='berry'	    x='0'   y='55'	modes='front'	src='../partsBin/berry.png'/>
+    <QDial	name='sid hrs'      x=' 0' y='  0'	modes='front' radius='shR    '  orientation='demi' demiTweak='0.5' fontSize='floor(sidfs)' fontName='Arial-BoldMT' bgColor='clear' strokeColor='black' text='0,,2,,4,,6,,8,,10,,12,,14,,16,,18,,20,,22,' />
+    <QDial	name='sid hrsSmall' x=' 0' y='  0'	modes='front' radius='shR-4'  orientation='demi' demiTweak='0' fontSize='floor(sidfs*0.6)' fontName='Arial'        bgColor='clear' strokeColor='black' text=',1,,3,,5,,7,,9,,11,,13,,15,,17,,19,,21,,23' />
+    <QDial	name='shr tic'	    x=' 0' y='  0'	modes='front' radius='dotR'  markWidth='1.5' marks='dot' nMarks=' 24' mSize='4' bgColor='clear' />
+    <QDial	name='shr tic2'	    x=' 0' y='  0'	modes='front' radius='dotR'  markWidth='0.7' marks='dot' nMarks=' 24*4' mSize='2' bgColor='clear' />
+    <QDial	name='min nums'     x=' 0' y='  0'	modes='front' radius='smR' orientation='demi' demiTweak='2' fontSize='10' fontName='Arial' bgColor='clear' strokeColor='black' text='60,05,10,15,20,25,30,35,40,45,50,55' />
+    <QDial	name='min tic'	    x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='1.5' marks='tickOut' nMarks=' 12' mSize='4' bgColor='clear' />
+    <QDial	name='min tic2'	    x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='0.7' marks='tickOut' nMarks=' 60' mSize='4' bgColor='clear' />
+    <QDial	name='submin tic'   x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='0.5' marks='tickOut' nMarks='240' mSize='2' bgColor='clear' />
+    <QDial	name='dnback	  ' x=' 0' y='  0'	modes='front' radius='dnR-1' markWidth='dnWidth-1' marks='outer' strokeColor='dnBackColor' bgColor='clear' />
+    <Qtext	name='lst label'    x=' 0' y='  0'	modes='front' radius='dnR-10' fontName='Arial' fontSize='10' strokeColor='black' startAngle='pi' text='Local  Sidereal  Time' orientation='demi' />
+  </static>
+ 
+<!-- sun & moon day/night rings + moonrise/set hands -->
+  <QdayNightRing name='moontime'  x='0' y='0' modes='front' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='0xff202020' fillColor='0xff808080' input='0' numWedges='dnNum'
+		 planetNumber='planetMoon' masterOffset='fmod(lstValue()/3600,24)*2*pi/24 - hour24ValueAngle()'/>
+  <QdayNightRing name='daytime'   x='0' y='0' modes='front' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetSun'  masterOffset='fmod(lstValue()/3600,24)*2*pi/24 - hour24ValueAngle()'/>
+  <Qhand	name='moonrise'   x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='front' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonrise24HourIndicatorAngle()-hour24ValueAngle()+fmod(lstValue()/3600,24)*2*pi/24' update='60' />
+  <Qhand	name='moonset'    x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='front' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonset24HourIndicatorAngle()-hour24ValueAngle()+fmod(lstValue()/3600,24)*2*pi/24' update='60' />
+
+<!-- sun & moon position icons -->
+  <hand         name='moon posn'    x='0'   y='0'  z='5' thick='1' modes='front' src='../Mauna Kea/moon25.png' xAnchor= '8' yAnchor='8' update='60' angle='sunRA()-moonRA()' offsetRadius='outR'  offsetAngle='moonRA()' kind='moonRAKind' grabPrio='0' />
+  <Qhand        name='sun posn1'    x='0'   y='0'  z='4' thick='1' modes='front' tail='0' type='sun2' length='outR+17' length2='outR-12' lineWidth='.25' nRays='8' kind='sunRAKind' update='86400' angle='sunRA()' strokeColor='sunStrokeColor' fillColor='sunColor' grabPrio='0' />
+
+<!-- sidereal time hands -->
+<!--  <hand		name='umi'	    x='0'   y='0'	 modes='front' src='UMi.png' angle='-fmod(lstValue()/3600,24)*2*pi/24' update='1' /> -->
+  <Qhand	name='sidHour'	    x='0'   y='0'  z='6' modes='front' kind='hour24Kind' type='rect' length='dotR'  width='sidArrowWidth+2' tail='(dotR)/4'  update=' 1'  angle='fmod(lstValue()/3600,24)*2*pi/24' strokeColor='sidHrHandColor' fillColor='sidFillColor'
+										  oRadius='6.5' oLineWidth='sidArrowWidth+1' oStrokeColor='sidHrHandColor' oFillColor='sidHroFillColor' grabPrio='1' />
+  <Qhand	name='sidMin'	    x='0'   y='0'  z='6' modes='front' kind='minuteKind' type='rect' length='smR' width='sidArrowWidth' tail='smR/4' update='.2'  angle='fmod(lstValue()/60,60)*2*pi/60' strokeColor='sidHandColor' fillColor='sidFillColor'
+									 	  oRadius='4.5' oLineWidth='sidArrowWidth' oStrokeColor='sidHandColor'  oFillColor='sidoFillColor' oCenter='2.5' grabPrio='1' />
+  <Qhand	name='sidSec'	    x=' 0'  y=' 0' z='7' modes='front'			 type='rect' length='smR+3' width='1'		   tail='(smR+3)/4' update='.2'  angle='fmod((goodAccuracy() ? lstValue() : lstValue()/60),60)*2*pi/60' strokeColor='sidSecColor' fillColor='sidSecColor'
+									 	  oRadius='4.5' oLineWidth='1'		   oStrokeColor='sidSecColor'   oFillColor='clear'	   oCenter='1' grabPrio='1' />
+  <static    name='night' modes='night' >
+    <Image	name='band N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/black/night/straight/narrow/band.png' />
+    <Image	name='case N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/white/night/narrow/case.png' />
+    <QDial	name='black'	    x='0' y='   0'      modes='night'   radius='r-3' bgColor='black' strokeColor='black'  />
+    <Image	name='lumiberry'    x='0' y='  55'	modes='night'	src='../partsBin/berry-lum.png' />
+    <QDial	name='sid hrsn'	    x=' 0' y='  0'	modes='night' radius='shR    '  orientation='demi' demiTweak='0.5' fontSize='sidfs' fontName='Arial-BoldMT' bgColor='clear' strokeColor='nfgclr' text='0,,2,,4,,6,,8,,10,,12,,14,,16,,18,,20,,22,' />
+    <QDial	name='shr ticn'	    x=' 0' y='  0'	modes='night' radius='dotR'  markWidth='1.5' marks='dot' nMarks=' 24' mSize='4' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='shr tic2n'    x=' 0' y='  0'	modes='night' radius='dotR'  markWidth='0.7' marks='dot' nMarks=' 24*4' mSize='2' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='min tinc'	    x=' 0' y='  0'	modes='night' radius='smR+4'  markWidth='1.5' marks='tickOut' nMarks=' 12' mSize='4' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='min tic2n'    x=' 0' y='  0'	modes='night' radius='smR+4'  markWidth='0.7' marks='tickOut' nMarks=' 60' mSize='4' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='submin ticn'  x=' 0' y='  0'	modes='night' radius='smR+4'  markWidth='0.5' marks='tickOut' nMarks='240' mSize='2' bgColor='clear' strokeColor='nfgclr' />
+  </static>
+
+  <Qhand	name='sidHourn'	    x='0'   y='0'  z='6' modes='night' kind='hour24Kind' type='rect' length='dotR'  width='sidArrowWidth+0.25' tail='(dotR)/4'  update=' 1'  angle='fmod(lstValue()/3600,24)*2*pi/24' strokeColor='nfgclr' fillColor='nfgclr'
+										  oRadius='4.5' oLineWidth='sidArrowWidth+1' oStrokeColor='nfgclr' oFillColor='clear' grabPrio='1' />
+  <Qhand	name='sidMinn'	    x='0'   y='0'  z='6' modes='night' kind='minuteKind' type='rect' length='smR' width='sidArrowWidth' tail='smR/4' update='.2'  angle='fmod(lstValue()/60,60)*2*pi/60' strokeColor='nfgclr' fillColor='nfgclr'
+									 	  oRadius='4.5' oLineWidth='sidArrowWidth' oStrokeColor='nfgclr'  oFillColor='clear' oCenter='2.5' grabPrio='1' />
+  <Qhand	name='sidSecn'	    x=' 0'  y=' 0' z='7' modes='night'			 type='rect' length='smR+3' width='1'		   tail='(smR+3)/4' update='.2'  angle='fmod((goodAccuracy() ? lstValue() : lstValue()/60),60)*2*pi/60' strokeColor='nfgclr' fillColor='nfgclr'
+									 	  oRadius='4.5' oLineWidth='1'		   oStrokeColor='nfgclr'   oFillColor='clear'	   oCenter='1' grabPrio='1' />
+									 	  
+  <static   name='back'	modes='back' >
+    <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/back.png'/>
+    <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/white/front/narrow/case.png' />
+    <Image	name='face b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/white/face.png' />
+    <QDial	name='  hrs'	    x=' 0' y='  0'	modes='back' radius='shR    '  orientation='demi' demiTweak='0.5' fontSize='sidfs' fontName='Arial-BoldMT' bgColor='clear' strokeColor='black' text='0,,2,,4,,6,,8,,10,,12,,14,,16,,18,,20,,22,' />
+    <QDial	name='  hrsSmall'   x=' 0' y='  0'	modes='back' radius='shR-4'  orientation='demi' demiTweak='0' fontSize='floor(sidfs*0.6)' fontName='Arial'        bgColor='clear' strokeColor='black' text=',1,,3,,5,,7,,9,,11,,13,,15,,17,,19,,21,,23' />
+    <QDial	name='h  tic'	    x=' 0' y='  0'	modes='back' radius='dotR'  markWidth='1.5' marks='dot' nMarks=' 24' mSize='4' bgColor='clear' />
+    <QDial	name='h  tic2'	    x=' 0' y='  0'	modes='back' radius='dotR'  markWidth='0.7' marks='dot' nMarks=' 24*4' mSize='2' bgColor='clear' />
+    <QDial	name='m  nums'	    x=' 0' y='  0'	modes='back' radius='smR' orientation='demi' demiTweak='2' fontSize='10' fontName='Arial' bgColor='clear' strokeColor='black' text='60,05,10,15,20,25,30,35,40,45,50,55' />
+    <QDial	name='m tic'	    x=' 0' y='  0'	modes='back' radius='smR+4'  markWidth='1.5' marks='tickOut' nMarks=' 12' mSize='4' bgColor='clear' />
+    <QDial	name='m tic2'	    x=' 0' y='  0'	modes='back' radius='smR+4'  markWidth='0.7' marks='tickOut' nMarks=' 60' mSize='4' bgColor='clear' />
+    <QDial	name='subm tic'	    x=' 0' y='  0'	modes='back' radius='smR+4'  markWidth='0.5' marks='tickOut' nMarks='240' mSize='2' bgColor='clear' />
+    <QDial	name='dnbackb	  ' x=' 0' y='  0'	modes='back' radius='dnR-1' markWidth='dnWidth-1' marks='outer' strokeColor='dnBackColor' bgColor='clear' />
+    <Qtext	name='back label'   x=' 0' y='  0'	modes='back' radius='dnR-10' fontName='Arial' fontSize='10' strokeColor='black' startAngle='pi' text='Civil  Time' orientation='demi' />
+    <Image	name='logo'	    x=' 0' y=' 30.5'	modes='back' src='../partsBin/logos/black.png' />
+  </static>
+<!-- sun & moon day/night rings + moonrise/set hands -->
+  <QdayNightRing name='moontimeb'    x='0' y='0' modes='back' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='0xff202020' fillColor='0xff808080' input='0' numWedges='dnNum'
+		 planetNumber='planetMoon' />
+  <QdayNightRing name='daytimeb'    x='0' y='0' modes='back' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetSun'  />
+  <Qhand	name='moonrise b'   x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='back' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonrise24HourIndicatorAngle()' update='60' />
+  <Qhand	name='moonset b'    x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='back' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonset24HourIndicatorAngle()' update='60' />
+
+<!-- civil time hands -->
+  <Qhand	name='UT handb'	    x='0' y='0'	z='3' thick='1.5' modes='back'  kind='hour24Kind'  update='1' angle='hour24ValueAngle()-tzOffsetAngle()   ' type='rect' length='dotR+3'  width='2' length2='dnR+1' tail='0' oWidth='-6' lineWidth='.1' strokeColor='utHand' fillColor='utHand' oStrokeColor='utHand' oFillColor='utHand' />
+  <Qhand	name='hrb'	    x='0' y='0'	z='4' thick='1' modes='back' kind='hour24Kind'  type='tri'  length='dotR+2'  width='6'   tail='dotR/4'  update='  1' angle='hour24ValueAngle()' strokeColor='black' fillColor='black'/>
+  <Qhand	name='minb'	    x='0' y='0'	z='4' thick='1' modes='back' kind='minuteKind'  type='tri'  length='smR+2' width='4'  tail='smR/4' update='.25' angle='minuteValueAngle()' strokeColor='black' fillColor='black'/>
+  <Qhand	name='seb'	    x='0' y='0'	z='4' thick='1' modes='back' kind='secondKind'  type='tri'  length='smR+5' width='2'  tail='(smR+5)/4' update='.25' angle='secondValueAngle()' strokeColor='red' fillColor='red'/>
+
+</watch>
+
+<!-- COMPLICATIONS
+[FRONT]
+Constellations<br>(zodiac)
+[WIKI Sidereal_time Sidereal time]
+
+-->

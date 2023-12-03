@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Olympia.xml
+  Emerald Chronometer
+
+  Created by Steve Pucci on 1/1/2009
+  Copyright Emerald Sequoia LLC 2009. All rights reserved.
+-->
+
+<watch name='Olympia' beatsPerSecond='0'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+
+<!-- Misc parameters -->
+  <init expr='swPrecision=0.1, hairline=0.25, swTail=.2, mainRad=130, caseRad=mainRad+27' />
+  <init expr='r=150, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), r2=r+7, bx2=r*cos(th*pi/180), by2=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+<!-- Dial colors -->
+  <init expr='mainBgClr=0xff00002B, secDialBg=0xff000000, swMinsDialBg=secDialBg, swHrsDialBg=secDialBg, nightBgClr=black' />
+  <init expr='mainSecTicClr=0xffeeeeee, clockSecTicClr=0xffd0d0d0, clockSecNumClr=white, swMinsTicClr=clockSecTicClr, swMinsNumClr=clockSecNumClr, swHrsTicClr=clockSecTicClr, swHrsNumClr=clockSecNumClr' />
+  <init expr='windowBorderClr=0xff303030, tachyClr=0xff000030' />
+  <init expr='backLabelClr=clockSecTicClr' />
+
+<!-- Wheel colors -->
+  <init expr='wheelBg=black, wheelFg=0xffc0c0c0'/>
+
+<!-- Hand colors -->
+  <init expr='timeHandClr=0xffa8a8a8, timeHandBorderClr=0xff808080, timeHandSecondsClr=timeHandClr, swHandFillClr=0xffB87333, swHandStrokeClr=swHandFillClr, swLapFillClr=0xff90a0ff, swLapStrokeClr=swLapFillClr, nfgclr=0xff00c0ac' />
+  <init expr='backSecsClr=red, backRatMinsClr=swLapFillClr, backRatHrsClr=swLapFillClr, backMainMinsClr=swHandFillClr, backMainHrsClr=swHandFillClr' />
+
+<!-- Guilloche parameters -->
+  <init expr='clipRadius=136, guillocheClr=0xff505068, ng=75, gw=0.15' />
+
+<!-- Widget locations -->
+  <init expr='timeSecsX=-72, timeSecsY=0,  timeSecsRad=35' />
+  <init expr='timeBackX=0, timeBackY=-76,  timeBackRad=29' />
+  <init expr='swSubsecondX= 68, swSubsecondY=40, swSubsecondRad=17' />
+  <init expr='swMinsX=0, swMinsY=timeSecsX, swMinsRad=42' />
+  <init expr='swHrsX=0, swHrsY=-swMinsY, swHrsRad=swMinsRad' />
+  <init expr='windowHeight=15, wdayWindowX=47,  wdayWindowY=4,         wdayWindowWidth=38, wdayWheelRadius=58' />
+  <init expr='                  dayWindowX=82,  dayWindowY=wdayWindowY,  dayWindowWidth=24,  dayWheelRadius=40' />
+  <init expr='                  dayCWindowX=swHrsX+20,  dayCWindowY=swHrsY-18,  dayCWindowWidth=10, dayCWindowHeight=20, dayCWheelRadius=25' />
+  <init expr='logoX=61, logoY=-15.5, backLogoX=-0.5, backLogoY=82.5' />
+  <init expr='backRatX=61, backRatY=0, backRatRad=52' />
+  <init expr='backStopX=-backRatX, backStopY=backRatY, backStopRad=backRatRad' />
+  
+
+  <!-- Stopwatch buttons -->
+  <button	name='sw start/stop'  immediate='1' repeatStrategy='ECPartDoesNotRepeat' x=' bx2' y=' by2' modes='front|back' src='../partsBin/HD/white/front/smbutton02.png' action='stopwatchStartStop(swPrecision)'   enabled='always' xMotion=' mx' yMotion=' my' animSpeed='1.8' motion='!thisButtonPressed()' />
+  <button	name='sw reset'                     repeatStrategy='ECPartDoesNotRepeat' x=' bx2' y='-by2' modes='front|back' src='../partsBin/HD/white/front/smbutton04.png' action='stopwatchReset()'		   enabled='always' xMotion=' mx' yMotion='-mx' animSpeed='1.8' motion='!thisButtonPressed()' />
+  <button       name='sw ratt'        immediate='1' repeatStrategy='ECPartDoesNotRepeat' x='-bx2' y=' by2' modes='front|back' src='../partsBin/HD/white/front/smbutton10.png' action='stopwatchRattrapante(swPrecision)' enabled='always' xMotion='-mx' yMotion=' mx' animSpeed='1.8' motion='stopwatchRattrapanteValid() ? !thisButtonPressed() : 0' />
+  <button	name='sw start/stopn' immediate='1' repeatStrategy='ECPartDoesNotRepeat' x=' bx2' y=' by2-3' modes='night'      src='../partsBin/HD/white/night/smbutton02.png' action='stopwatchStartStop(swPrecision)'   enabled='always' xMotion=' mx' yMotion=' mx' animSpeed='1.8' motion='!thisButtonPressed()' />
+  <button	name='sw resetn'                    repeatStrategy='ECPartDoesNotRepeat' x=' bx2' y='-by2' modes='night'      src='../partsBin/HD/white/night/smbutton04.png' action='stopwatchReset()'		   enabled='always' xMotion=' mx' yMotion='-mx' animSpeed='1.8' motion='!thisButtonPressed()' />
+  <button       name='sw rattn'       immediate='1' repeatStrategy='ECPartDoesNotRepeat' x='-bx2' y=' by2' modes='night'      src='../partsBin/HD/white/night/smbutton10.png' action='stopwatchRattrapante(swPrecision)' enabled='always' xMotion='-mx' yMotion=' mx' animSpeed='1.8' motion='stopwatchRattrapanteValid() ? !thisButtonPressed() : 0' />
+
+  <!-- Day wheels -->
+  <QRect	name='day bak'	    x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1.5' w=' dayWindowWidth' h='windowHeight' bgColor='wheelBg' panes='2' />
+  <SWheel	name='day'	    x=' dayWindowX-dayWheelRadius+12' y='dayWindowY+1.7' dragAnimationType='dragAnimationAlways' modes='front'  radius='dayWheelRadius'  orientation='three'
+		update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'     strokeColor='wheelFg' bgColor='wheelBg' />
+  <SWheel	refName='day'	    x=' dayWindowX-dayWheelRadius-1'  y='dayWindowY+1.7' dragAnimationType='dragAnimationAlways' modes='front'  radius='dayWheelRadius'  orientation='three'
+		update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'     strokeColor='wheelFg' bgColor='wheelBg' />
+  <QRect	name='wday bak'	    x='wdayWindowX-wdayWindowWidth/2  ' y='wdayWindowY-windowHeight/2+1.5' w='wdayWindowWidth' h='windowHeight' bgColor='wheelBg' />
+  <Swheel	name='wdays'	    x='wdayWindowX-wdayWheelRadius+19' y='wdayWindowY+1.7'   dragAnimationType='dragAnimationAlways' modes='front'  radius='wdayWheelRadius' orientation='three'
+		update='1 * days()' angle='weekdayNumber()                    *2*pi/7' fontSize='16' fontName='Arial'				     text='SUN,MON,TUE,WED,THU,FRI,SAT' strokeColor='wheelFg' bgColor='wheelBg' />
+<!--
+  <QRect	name='dayC bak'	    x=' dayCWindowX-dayCWindowWidth+1' y='dayCWindowY-dayCWindowHeight/2+1.5' w='dayCWindowWidth' h='dayCWindowHeight' bgColor='wheelBg' panes='2' />
+  <SWheel	refName='day'	    x=' dayCWindowX-dayCWheelRadius-1'    y='dayCWindowY+2' dragAnimationType='dragAnimationAlways' modes='front'  radius='dayCWheelRadius'  orientation='three'
+                update='60' angle='fmod((stopwatchDayValue()),          10)*2*pi/10' fontSize='11' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'     strokeColor='wheelFg' bgColor='wheelBg' />
+-->
+
+  <window	name='wday win'	    x='wdayWindowX-wdayWindowWidth/2  ' y='wdayWindowY-windowHeight/2+1.5' w='wdayWindowWidth' h='windowHeight' border='2' strokeColor='windowBorderClr' modes='front' shadowOpacity='0.7' shadowSigma='2.5' shadowOffset='1.5' />
+  <window	name='day win'	    x=' dayWindowX- dayWindowWidth/2+1' y=' dayWindowY-windowHeight/2+1.5' w=' dayWindowWidth' h='windowHeight' border='2' strokeColor='windowBorderClr' modes='front' shadowOpacity='0.7' shadowSigma='2.5' shadowOffset='1.5' />
+<!--
+    <window	name='daycnt win'   x=' dayCWindowX- dayCWindowWidth+1' y=' dayCWindowY-dayCWindowHeight/2+1.5' w='dayCWindowWidth' h='dayCWindowHeight' border='2' strokeColor='windowBorderClr' modes='front' shadowOpacity='0.7' shadowSigma='2.5' shadowOffset='1.5' />
+-->
+  <!-- Front side -->
+  <static name='front' modes='front'>
+    <Image	name='fixedbut02'   x=' bx' y='  by+.5'	modes='front'	src='../partsBin/HD/white/front/button02.png' />
+    <Image	name='fixedbut04'   x=' bx' y=' -by-3'	modes='front'	src='../partsBin/HD/white/front/button04.png' />
+    <Image	name='fixedbut10'   x='-bx+1' y='  by+4'	modes='front'	src='../partsBin/HD/white/front/button10.png' />
+    <Image	name='band'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <QDial	name='caseExt'	    x='0'   y='0'	modes='front'  radius='r-11' marks='tickOut' nMarks='500' markWidth='3' mSize='8' bgColor='clear' strokeColor='0xfff8f8f8' />
+    <Image	name='case'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/white/front/narrow/case.png' />
+
+    <!-- Main dial background, tics and numbers -->
+    <QDial	name='face'			  x='0' y='0' modes='front' radius='mainRad' bgColor='mainBgClr' />
+    <QDial      name='tachymeter marks'		  x='0' y='0' modes='front' radius='caseRad-1' bgColor='clear' strokeColor='tachyClr' orientation='tachy'  demiTweak='0' fontSize='12' fontName='Arial' text='600,400,300,250,200,170,130,150,120,110,100,90,85,80,75,70,65,60' />
+    <QDial      name='main seconds dial tics 300' x='0' y='0' modes='front' radius='mainRad-1' bgColor='clear' strokeColor='mainSecTicClr' marks='tickOut' nMarks=' 60/0.2'         markWidth='0.8' mSize='4' />
+    <QDial      name='main seconds dial tics 60'  x='0' y='0' modes='front' radius='mainRad-1' bgColor='clear' strokeColor='mainSecTicClr' marks='tickOut' nMarks=' 60' 	      markWidth='1.0' mSize='7' />
+    <QDial      name='main seconds dial tics 12'  x='0' y='0' modes='front' radius='mainRad-1' bgColor='clear' strokeColor='mainSecTicClr' marks='tickOut' nMarks=' 12' 	      markWidth='2.0' mSize='10' />
+    <QDial	name='main seconds nums'	  x='0' y='0' modes='front' radius='mainRad-12' orientation='demi'  demiTweak='0'  fontSize='11' fontName='Arial' strokeColor='mainSecTicClr' bgColor='clear' text=',5,10,,20,25,,35,40,,50,55'/>
+
+    <!-- Main dial guilloche -->
+<!--
+    <QDial	name='guillocheL0'  x=' 0' y=' 5' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='75' markWidth='.5' />
+    <QDial	name='guillocheL1'  x=' 5' y=' 0' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='75' markWidth='.5' />
+    <QDial	name='guillocheL2'  x=' 0' y='-5' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='75' markWidth='.5' />
+    <QDial	name='guillocheL3'  x='-5' y=' 0' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='75' markWidth='.5' />
+-->
+<!--
+    <Qdial	name='guillocheL0'  x=' 0' y=' 9' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='ng' markWidth='gw' />
+    <QDial	name='guillocheL1'  x=' 9' y=' 0' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='ng' markWidth='gw' />
+    <QDial	name='guillocheL2'  x=' 0' y='-9' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='ng' markWidth='gw' />
+    <QDial	name='guillocheL3'  x='-9' y=' 0' modes='front' radius='140' clipRadius='clipRadius' bgColor='clear' strokeColor='guillocheClr' marks='arc'  nMarks='ng' markWidth='gw' />
+-->
+
+    <!-- Logo -->
+    <Image	name='eslogo'	    x='logoX'  y='logoY'   modes='front'	    src='../partsBin/logos/white.png'/>
+
+    <!-- Clock time seconds subdial -->
+    <!--     background -->
+    <QDial	name='clock seconds dial'      x='timeSecsX' y='timeSecsY'   modes='front' radius='timeSecsRad' bgColor='secDialBg' />
+    <!--     tics and numbers -->
+    <QDial      name='clock seconds dial tic ' x='timeSecsX' y='timeSecsY'   modes='front' radius='timeSecsRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='12' markWidth='0.8 ' mSize='4' />
+    <QDial      name='clock seconds dial tics' x='timeSecsX' y='timeSecsY'   modes='front' radius='timeSecsRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='60' markWidth='0.33' mSize='3' />
+    <QDial	name='clock seconds dial nums' x='timeSecsX' y='timeSecsY-1' modes='front' radius='timeSecsRad - 2' orientation='upright'  fontSize='10' fontName='Arial' strokeColor='clockSecNumClr' bgColor='clear' text='60,10,20,30,40,50'/>
+
+    <!-- Stopwatch subsecond subdial -->
+    <!--     background -->
+    <QDial	name='sw subsecond dial'       x='swSubsecondX' y='swSubsecondY'   modes='front' radius='swSubsecondRad' bgColor='secDialBg' />
+    <!--     tics and numbers -->
+    <QDial      name='sw subsecond dial tics'  x='swSubsecondX' y='swSubsecondY'   modes='front' radius='swSubsecondRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='10' markWidth='0.8' mSize='3.5' />
+    <QDial	name='sw subsecond dial nums'  x='swSubsecondX' y='swSubsecondY-1' modes='front' radius='swSubsecondRad - 2' orientation='upright'  fontSize='10' fontName='Arial' strokeColor='clockSecTicClr' bgColor='clear' text='0,,2,,4,,6,,8,'/>
+
+    <!-- Stopwatch minutes subdial -->
+    <!--     background -->
+    <QDial	name='sw minutes dial'      x='swMinsX' y='swMinsY' modes='front' radius='swMinsRad' bgColor='swMinsDialBg' />
+    <!--     tics and numbers -->
+    <QDial      name='sw minutes dial tics 30' x='swMinsX' y='swMinsY' modes='front' radius='swMinsRad' bgColor='clear' strokeColor='swMinsTicClr' marks='outer|tickOut' nMarks='30' markWidth='0.8' mSize='3' />
+    <QDial      name='sw minutes dial tics 6'  x='swMinsX' y='swMinsY' modes='front' radius='swMinsRad' bgColor='clear' strokeColor='swMinsTicClr' marks='tickOut' nMarks='6'  markWidth='0.8' mSize='6' />
+    <QDial      name='sw minutes dial nums'    x='swMinsX' y='swMinsY-1' modes='front' radius='swMinsRad - 5' bgColor='clear' strokeColor='swMinsNumClr' orientation='upright'  fontSize='11' fontName='Arial' text='30,10,20'/>
+
+    <!-- Stopwatch hours subdial -->
+    <!--     background -->
+    <QDial	name='sw hours dial'      x='swHrsX' y='swHrsY' modes='front' radius='swHrsRad' bgColor='swHrsDialBg' />
+    <!--     tics and numbers -->
+    <QDial      name='sw hours dial tics 24' x='swHrsX' y='swHrsY' modes='front' radius='swHrsRad' bgColor='clear' strokeColor='swHrsTicClr' marks='outer|tickOut' nMarks='24' markWidth='0.8' mSize='3' />
+    <QDial      name='sw hours dial tics 12' x='swHrsX' y='swHrsY' modes='front' radius='swHrsRad' bgColor='clear' strokeColor='swHrsTicClr' marks='tickOut' nMarks='12' markWidth='0.8' mSize='6' />
+    <QDial      name='sw hours dial nums'    x='swHrsX' y='swHrsY' modes='front' radius='swHrsRad - 2' bgColor='clear' strokeColor='swHrsNumClr' orientation='upright'  fontSize='11' fontName='Arial' text='12,3,6,9' />
+
+  </static>
+
+  <!-- Back side -->
+  <init expr='mainRadB=mainRad+8' />
+
+  <static name='back' modes='back'>
+    <Image	name='fixedbut02 b' x=' bx' y='  by+3'	modes='back'	src='../partsBin/HD/white/front/button02.png' />
+    <Image	name='fixedbut08 b' x='-bx' y=' -by-3.5'	modes='back'	src='../partsBin/HD/white/front/button08.png' />
+    <Image	name='fixedbut10 b' x='-bx' y='  by+1'	modes='back'	src='../partsBin/HD/white/front/button10.png' />
+    <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/back.png'/>
+    <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/white/front/narrow/case.png' />
+<!--
+    <Image	name='imprint'	    x=' 0'  y='0'   modes='back'    src='imprintOlympia.png' alpha='.7' />
+    <QDial	name='text'	    x='0'   y='0'   modes='back' radius='caseRad-1' orientation='radial' fontSize='9' fontName='Arial'  bgColor='clear'
+								    text='n,o,m,e,t,e,r,,O,l,y,m,p,i,a,,,,,,,,,,,,,,,,M,a,n,u,f,a,c,t,u,r,e,d,,i,n,,C,a,l,i,f,o,r,n,i,a,,b,y,,E,m,e,r,a,l,d,,S,e,q,u,o,i,a,,L,L,C,,,,,,,,,,,,,,,,E,m,e,r,a,l,d,,C,h,r,o' />
+-->
+
+    <!-- Main dial background -->
+    <QDial	name='faceb'	    x='0'	  y='   0'	modes='back'	radius='mainRadB' bgColor='mainBgClr' />
+    <Image	name='logob'	    x='backLogoX' y='backLogoY'	modes='back'	src='../partsBin/logos/white.png'/>
+
+    <!-- Main dial ticks -->
+    <QDial      name='back 300'	      x='0' y='0' modes='back' radius='mainRadB-1' bgColor='clear' strokeColor='mainSecTicClr' marks='tickOut' nMarks=' 60/0.2'        markWidth='0.8' mSize='4' />
+    <QDial      name='back mins 60'   x='0' y='0' modes='back' radius='mainRadB-1' bgColor='clear' strokeColor='mainSecTicClr' marks='tickOut' nMarks=' 60' 	      markWidth='1.0' mSize='8' />
+    <QDial      name='back hours 12'  x='0' y='0' modes='back' radius='mainRadB-1' bgColor='clear' strokeColor='mainSecTicClr' marks='tickOut' nMarks=' 12' 	      markWidth='2.0' mSize='11' />
+
+    <!-- Rattrapante subdial -->
+    <!--     background -->
+    <QDial	name='back rat subdial'      x='backRatX' y='backRatY'   modes='back' radius='backRatRad' bgColor='secDialBg' />
+    <!--     tics and numbers -->
+    <QDial      name='back rat subdial tic b' x='backRatX' y='backRatY'   modes='back' radius='backRatRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='12' markWidth='0.8 ' mSize='6' />
+    <QDial      name='back rat subdial ticsb' x='backRatX' y='backRatY'   modes='back' radius='backRatRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='60' markWidth='0.6'  mSize='4' />
+    <QDial	name='back rat subdial numsb' x='backRatX' y='backRatY' modes='back' radius='backRatRad' orientation='upright'  fontSize='11' fontName='Arial' strokeColor='clockSecNumClr' bgColor='clear' text='60,5,10,15,20,25,30,35,40,45,50,55'/>
+    <!--     label -->
+    <Qtext	name='back rat label'    x='backRatX' y='backRatY+backRatRad+10'	fontSize='11'	fontName='Verdana' modes='back' text='Split' strokeColor='backLabelClr'/>
+
+
+    <!-- Stopwatch (main) subdial -->
+    <!--     background -->
+    <QDial	name='back stop subdial'       x='backStopX' y='backStopY'   modes='back' radius='backStopRad' bgColor='secDialBg' />
+    <!--     tics and numbers -->
+    <QDial      name='back stop subdial tic b' x='backStopX' y='backStopY'   modes='back' radius='backStopRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='12' markWidth='0.8 ' mSize='6' />
+    <QDial      name='back stop subdial ticsb' x='backStopX' y='backStopY'   modes='back' radius='backStopRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='60' markWidth='0.6'  mSize='4' />
+    <QDial	name='back stop subdial numsb' x='backStopX' y='backStopY' modes='back' radius='backStopRad' orientation='upright'  fontSize='11' fontName='Arial' strokeColor='clockSecNumClr' bgColor='clear' text='60,5,10,15,20,25,30,35,40,45,50,55'/>
+    <!--     label -->
+    <Qtext	name='back stop label'    x='backStopX' y='backStopY+backStopRad+10'	fontSize='11'	fontName='Verdana' modes='back' text='Stop' strokeColor='backLabelClr' />
+
+    <!-- Clock time subdial -->
+    <!--     background -->
+    <QDial	name='clock seconds b'      x='timeBackX' y='timeBackY'   modes='back' radius='timeBackRad' bgColor='secDialBg'  />
+    <!--     tics and numbers -->
+    <QDial      name='clock seconds b tic ' x='timeBackX' y='timeBackY'   modes='back' radius='timeBackRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='12' markWidth='0.8 ' mSize='4' />
+    <QDial      name='clock seconds b tics' x='timeBackX' y='timeBackY'   modes='back' radius='timeBackRad' bgColor='clear' strokeColor='clockSecTicClr' marks='outer|tickOut' nMarks='60' markWidth='0.33' mSize='3' />
+    <QDial	name='clock seconds b nums' x='timeBackX' y='timeBackY' modes='back' radius='timeBackRad - 3' orientation='upright'  fontSize='10' fontName='Arial' strokeColor='clockSecNumClr' bgColor='clear' text='12,2,4,6,8,10'/>
+
+  </static>
+
+  <!-- Night side -->
+  <static name='night' modes='night'>
+    <Image	name='band N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/black/night/straight/narrow/band.png' />
+    <Image	name='fixedbut02 n' x=' bx' y='  by+.5'	modes='night'	src='../partsBin/HD/white/night/button02.png' />
+    <Image	name='fixedbut04 n' x=' bx' y=' -by-3'	modes='night'	src='../partsBin/HD/white/night/button04.png' />
+    <Image	name='fixedbut10 n' x='-bx+1' y='  by+4'	modes='night'	src='../partsBin/HD/white/night/button10.png' />
+    <QDial	name='caseExt N'    x='0'   y='0'	modes='night'  radius='r-10' marks='tickOut' nMarks='500' markWidth='3' mSize='10' bgColor='clear' strokeColor='0xff909090' />
+    <Image	name='case N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/white/night/narrow/case.png' />
+    <QDial      name='tachymeter marksn'	    x='0' y='0' modes='night' radius='caseRad-1' bgColor='clear' strokeColor='tachyClr' orientation='tachy' fontSize='12' fontName='Arial' text='600,400,300,250,200,170,130,150,120,110,100,90,85,80,75,70,65,60' />
+
+    <!-- Main dial background -->
+    <QDial	name='facen'			    x='0' y='0' modes='night' radius='mainRad'   bgColor='nightBgClr' />
+    <QDial      name='main seconds dial tics 12n'   x='0' y='0' modes='night' radius='mainRad-1' bgColor='clear' strokeColor='nfgclr' marks='tickOut' nMarks=' 12' 	      markWidth='1.0' mSize='10' />
+    <QDial      name='main seconds dial tics 60n'   x='0' y='0' modes='night' radius='mainRad-1' bgColor='clear' strokeColor='nfgclr' marks='tickOut' nMarks=' 60' 	      markWidth='0.5' mSize='5' />
+
+  </static>
+
+  <!-- Rattrapante hands, shadowing and underneath corresponding stopwatch hands -->
+  <Qhand	name='sw lap subsecond'	              x=' swSubsecondX'  y='swSubsecondY'   modes='front'	            length='swSubsecondRad - 5' width='3'  tail='(swSubsecondRad - 5)*swTail' update='swPrecision'
+		updateTimer='stopwatchTimer' animSpeed='15' angle='floor(stopwatchLapSecondValue()/swPrecision)*swPrecision*2*pi' strokeColor='swLapStrokeClr' fillColor='swLapFillClr'/>
+  <Qhand	name='sw lap minute'                  x='swMinsX'  y='swMinsY'   modes='front'	    length='swMinsRad-5' width='5'  tail='(swMinsRad-5)*swTail'   update='swPrecision'
+		updateTimer='stopwatchTimer' angle='stopwatchLapMinuteValue()*pi/15' animSpeed='3.0' strokeColor='swLapStrokeClr' fillColor='swLapFillClr'/>
+  <Qhand	name='sw lap hour'                    x='swHrsX'   y='swHrsY'    modes='front'	    length='swHrsRad-5'  width='5'  tail='(swHrsRad-5)*swTail'   update='1'
+		updateTimer='stopwatchTimer' angle='stopwatchLapHour24Value()*pi/6' animSpeed='3.0' strokeColor='swLapStrokeClr' fillColor='swLapFillClr'/>
+  <Qhand	name='sw lap Days'                    x='swHrsX'   y='swHrsY'    modes='front'	    length='swHrsRad-10'  width='1'  tail='(swHrsRad-5)*swTail'   update='1'
+                updateTimer='stopwatchTimer' angle='stopwatchLapDayValue()*pi/6' animSpeed='3.0' strokeColor='swLapStrokeClr' fillColor='swLapFillClr'/>
+
+  <!-- Rattrapante hands for the back (left subdial) -->
+  <Qhand	name='back sw lap second'                  x='backRatX'  y='backRatY'   modes='back'	    length='backRatRad - 5' width='1'  tail='(backRatRad-5)*swTail'	update='swPrecision'
+		updateTimer='stopwatchTimer' angle='floor(stopwatchLapSecondValue() / swPrecision)*swPrecision*pi/30' animSpeed='3.0' strokeColor='backSecsClr'  fillColor='backSecsClr'/>
+  <Qhand	name='back sw lap minute'                  x='backRatX'  y='backRatY'   modes='back'	    length='backRatRad - 5' width='3'  tail='(backRatRad-5)*swTail'   update='swPrecision'
+		updateTimer='stopwatchTimer' angle='stopwatchLapMinuteValue()*pi/30' animSpeed='3.0' strokeColor='backRatMinsClr' fillColor='backRatMinsClr'/>
+  <Qhand	name='back sw lap hour'                    x='backRatX'  y='backRatY'   modes='back'	    length='backRatRad * 0.5'  width='4'  tail='(backRatRad*0.5)*swTail'   update='1'
+		updateTimer='stopwatchTimer' angle='stopwatchLapHour24Value()*pi/6' animSpeed='3.0' strokeColor='backRatHrsClr' fillColor='backRatHrsClr'/>
+
+  <!-- Stopwatch hands -->
+  <Qhand	name='sw subsecond'	              x=' swSubsecondX'  y='swSubsecondY'   modes='front'	            length='swSubsecondRad - 5' width='3'  tail='(swSubsecondRad - 5)*swTail' update='swPrecision'
+		updateTimer='stopwatchTimer' animSpeed='15' angle='floor(stopwatchSecondValue()/swPrecision)*swPrecision*2*pi' strokeColor='swHandStrokeClr' fillColor='swHandFillClr'/>
+  <Qhand	name='sw minute'                      x='swMinsX'  y='swMinsY'   modes='front'	    length='swMinsRad-5' width='5'  tail='(swMinsRad-5)*swTail'   update='swPrecision'
+		updateTimer='stopwatchTimer' angle='stopwatchMinuteValue()*pi/15' animSpeed='3.0' strokeColor='swHandStrokeClr' fillColor='swHandFillClr'/>
+  <Qhand	name='sw hour'                        x='swHrsX'   y='swHrsY'   modes='front'	    length='swHrsRad-5'  width='5'  tail='(swHrsRad-5)*swTail'   update='1'
+                updateTimer='stopwatchTimer' angle='stopwatchHour24Value()*pi/6' animSpeed='3.0' strokeColor='swHandStrokeClr' fillColor='swHandFillClr'/>
+  <Qhand	name='sw days'                        x='swHrsX'   y='swHrsY'   modes='front'	    length='swHrsRad-10'  width='1'  tail='(swHrsRad-5)*swTail'   update='1'
+                updateTimer='stopwatchTimer' angle='stopwatchDayValue()*pi/6' animSpeed='3.0' strokeColor='swHandStrokeClr' fillColor='swHandFillClr'/>
+
+  <!-- Night stopwatch hands -->
+  <Qhand	name='sw lap second n'                  x=' 0'  y='0'   modes='night'	    length='100' length2='81' width='1.5'  tail='2'   update='swPrecision'
+		updateTimer='stopwatchTimer' angle='floor(stopwatchLapSecondValue()    / swPrecision)*swPrecision*pi/30' animSpeed='3.0' strokeColor='nfgclr' fillColor='nfgclr'/>
+  <Qhand	name='sw second cover n'                x=' 0'  y='0'   modes='night'	    length='100' length2='81' width='3'  tail='2'   update='swPrecision'
+		updateTimer='stopwatchTimer' angle='floor(   stopwatchSecondValue()    / swPrecision)*swPrecision*pi/30' animSpeed='3.0' strokeColor='nightBgClr' fillColor='nightBgClr'/>
+  <Qhand	name='sw second n'                      x=' 0'  y='0'   modes='night'	    length='121' length2='102' width='1.5'  tail='2'   update='swPrecision'
+		updateTimer='stopwatchTimer' angle='floor(stopwatchSecondValue()    / swPrecision)*swPrecision*pi/30' animSpeed='3.0' strokeColor='nfgclr' fillColor='nfgclr'/>
+
+  <!-- Stopwatch hands for the back (right subdial) -->
+  <Qhand	name='back sw second'                  x='backStopX'  y='backStopY'   modes='back'	    length='backStopRad - 5' width='1'  tail='(backStopRad-5)*swTail'	update='swPrecision'
+		updateTimer='stopwatchTimer' angle='floor(stopwatchSecondValue() / swPrecision)*swPrecision*pi/30' animSpeed='3.0' strokeColor='backSecsClr'  fillColor='backSecsClr'/>
+  <Qhand	name='back sw minute'                  x='backStopX'  y='backStopY'   modes='back'	    length='backStopRad - 5' width='3'  tail='(backStopRad-5)*swTail'   update='swPrecision'
+		updateTimer='stopwatchTimer' angle='stopwatchMinuteValue()*pi/30' animSpeed='3.0' strokeColor='backMainMinsClr' fillColor='backMainMinsClr'/>
+  <Qhand	name='back sw hour'                    x='backStopX'  y='backStopY'   modes='back'	    length='backStopRad * 0.5'  width='4'  tail='(backStopRad*0.5)*swTail'   update='1'
+		updateTimer='stopwatchTimer' angle='stopwatchHour24Value()*pi/6' animSpeed='3.0' strokeColor='backMainHrsClr' fillColor='backMainHrsClr'/>
+
+  <!-- Time hands -->
+  <Qhand	name='12hour'	    kind='hour12Kind' x=' 0'  y='0' z='4'	    modes='front'   length=' 76'	     width='8'  tail='15' update='1'		angle='hour12ValueAngle()' strokeColor='timeHandBorderClr' fillColor='timeHandClr'/>
+  <Qhand	name='minute'	    kind='minuteKind' x=' 0'  y='0' z='4'	    modes='front'   length='102'	     width='7'  tail='18' update='swPrecision'		angle='minuteValueAngle()' strokeColor='timeHandBorderClr' fillColor='timeHandClr'/>
+  <Qhand	name='second'	    kind='secondKind' x='timeSecsX'  y='timeSecsY'  modes='front'   length='timeSecsRad - 5' width='3'  tail=' 8' update='swPrecision'	angle='secondValueAngle()' strokeColor='timeHandBorderClr' fillColor='timeHandClr'/>
+
+  <!-- Time hands for the back -->
+  <Qhand	name='12hourb'	    kind='hour12Kind' x='timeBackX'  y='timeBackY'  modes='back'    length='timeBackRad*.50' width='3.0' tail='4'    update='1'	  angle='hour12ValueAngle()' strokeColor='timeHandBorderClr' fillColor='timeHandClr'/>
+  <Qhand	name='minuteb'	    kind='minuteKind' x='timeBackX'  y='timeBackY'  modes='back'    length='timeBackRad*.80' width='2.5' tail='4'    update='swPrecision'		  angle='minuteValueAngle()' strokeColor='timeHandBorderClr' fillColor='timeHandClr'/>
+  <Qhand	name='secondb'	    kind='secondKind' x='timeBackX'  y='timeBackY'  modes='back'    length='timeBackRad - 5' width='1'   tail='6'    update='swPrecision' angle='secondValueAngle()' strokeColor='backSecsClr'	     fillColor='backSecsClr'/>
+
+  <!-- Main dial hands on top (so they don't run into the subdial axles) -->
+  <Qhand	name='sw lap second'                  x=' 0'  y='0'   modes='front'	    length='mainRad' width='2'  tail='134*swTail'	update='swPrecision'
+		updateTimer='stopwatchTimer' angle='floor(stopwatchLapSecondValue() / swPrecision)*swPrecision*pi/30' animSpeed='3.0' strokeColor='swLapStrokeClr'  fillColor='swLapFillClr'  oRadius='7' oLineWidth='1' oStrokeColor='swLapStrokeClr' oFillColor='clear' />
+  <Qhand	name='sw second'                      x=' 0'  y='0'   modes='front'	    length='mainRad' width='2'  tail='134*swTail'   update='swPrecision' oCenter='1.5'
+		updateTimer='stopwatchTimer' angle='floor(stopwatchSecondValue()    / swPrecision)*swPrecision*pi/30' animSpeed='3.0' strokeColor='swHandStrokeClr' fillColor='swHandFillClr' oRadius='7' oLineWidth='1' oStrokeColor='swHandStrokeClr' oFillColor='clear' />
+
+  <!-- Night time hands - on top so black cover on sw seconds doesn't cover main hands -->
+
+  <Qhand	name='12hourn'	    kind='hour12Kind' x=' 0'  y='0'   modes='night'	    length=' 76' width='8'  tail='15'    update='1'	angle='hour12ValueAngle()' strokeColor='nfgclr' fillColor='nfgclr'/>
+  <Qhand	name='minuten'	    kind='minuteKind' x=' 0'  y='0'   modes='night'	    length='102' width='7'  tail='18'    update='swPrecision'	angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='nfgclr'/>
+
+  <!-- Normal watch buttons for testing purposes only -->
+<!--
+  <button	name='stem'	    x='142'  y='0'  repeatStrategy='ECPartDoesNotRepeat' modes='all' opacity='1' src='../partsBin/stemGray.png' xMotion='10' enabled='always' action='manualSet() ? stemIn() : stemOut()' motion='manualSet() ? 1 : 0' />
+  <button	name='Reset'	    x='-121'  y='-67' repeatStrategy='ECPartDoesNotRepeat' modes='all' src='../partsBin/reset3.png' action='reset()'  xMotion='13' yMotion='9' enabled='wrongTimeOnly' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+  <button	name='F/R'	    x='-4'   y='-139' repeatStrategy='ECPartDoesNotRepeat' modes='front | back'  src='../partsBin/slider2s.png' action='inReverse() ? goForward() : goBackward()' xMotion='8' yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+-->
+
+</watch>
+
+
+<!-- COMPLICATIONS
+
+[BOTH]
+[WIKI Chronograph Chronograph]
+Flyback
+[WIKI Double_chronograph Rattrapante]
+Stopwatch
+
+[FRONT]
+<a href="http://www.hautehorlogerie.org/en/encyclopaedia/glossary/foudroyante-jumping-seconds-hand-flying-seconds.html">Foudroyante<img src="extlink.png"></a>
+[WIKI Tachymeter Tachymeter]
+Weekday
+
+-->

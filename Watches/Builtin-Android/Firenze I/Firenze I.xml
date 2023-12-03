@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Firenze I.xml
+  Emerald Chronometer
+
+  (was Sol; was Strasbourg)
+  
+  Copied from Firenze.xml 2017 May 20
+
+  Created by Bill Arnett 4/5/09
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Firenze I' beatsPerSecond='0' faceWidth='285' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='32' backHeight='128' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=285, backerWidth=faceWidth' />
+
+<!-- lengths -->
+  <init	    expr='mercuryR=24, venusR=46, earthR=68, marsR=90, jupiterR=112, saturnR=134' />
+  <init	    expr='hrLen=marsR-5, hrArrow=hrLen-32, minLen=jupiterR, minArrow=minLen-35, secLen=saturnR, hrTail=9, minTail=7, arrowClr=clear, arrowWidth=.75, arrowWidth1=1, secArrow=19' />
+  <init	    expr='planetfs=18, wheelfs=11, wheelspace=10' />
+  <init	    expr='yearX=-wheelspace*1.5, yearY=-(marsR+jupiterR)/2, monX=-wheelspace*2.5, dayX=wheelspace, dayY=-yearY-3, monY=dayY' />
+  <init	    expr='datefs=14, dateY=30, yoff2=datefs/2-1' />
+  <init	    expr='outR=143, inR=175/2, azR=142, altR=110, selRadius=130, logoY=-96.5, selIconY=77' />
+  <init	    expr='off=0, satR=outR-32, jupR=satR-off, marR=jupR-off, sunR=marR-off, venR=sunR-off, merR=venR-off, monR=merR-off' />
+  <init	    expr='datefs=14, dateY=30, yoff2=datefs/2-1' />
+  <init	    expr='roseLW=.1' />
+  <init	    expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+<!-- colors -->
+  <init	    expr='lum=0xc000ffe4, planetColor=white, planetoColor=0xa0ffffff, bgclr=black, fgclr=0xc0ffffff, ticColor=white, dateBackColor=black, bfgclr=0xffe0e0e0' />
+  <init	    expr='timHrHand=0xfff0f0f0, otimHrHand=0xff808080, otimHrHandb=0xffc0c0c0, otimMinHandb=otimHrHandb, timHrHandb=black, timMinHand=timHrHand, otimMinHand=otimHrHand, timMinHandb=timHrHandb, timSecHand=0xff800000, arrowClr=clear' />
+  <init	    expr='dialColor=0xff202020, dialbackColor=lightGray, azFrontColor=0xffe0e0e0, sunColor=0xfff2e407, sunStrokeColor=0xff120400, armColor=white, hubColor=0xff808080' />
+  <init	    expr='colorA1=0x80303030, colorA2=0x80404040, colorB1=colorA1, colorB2=colorA2, colorC1=colorA2, colorC2=colorA1, roseStrokeColor=0xff000000' />
+
+<!-- infrastructure ================================================== -->
+
+<!-- front date wheels -->
+  <QRect    name='day bak'	    x='dayX-wheelspace/2+2' y='dayY-wheelspace/2' modes='front' w='wheelspace*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   name='digits'	    x='dayX-16'		    y='dayY+1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' > </SWheel>
+  <SWheel   refName='digits'	    x='dayX-wheelspace-16'  y='dayY+1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <QRect    name='mon bak'	    x='monX-wheelspace/2+2' y='monY-wheelspace/2' modes='front' w='wheelspace*3' h='wheelfs' bgColor='bgclr' />
+  <Swheel   name='Qmonths'	    x='monX-17'		    y='monY+1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='42' orientation='three' update='1 * days()' angle='monthNumber()	              *2*pi/12' fontSize='wheelfs' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='year bak'	x='yearX-wheelspace/2-1' y='yearY-wheelspace/2' modes='front' w='wheelspace*4' h='wheelfs' bgColor='bgclr' panes='4' />
+  <SWheel   refName='digits'	x='yearX             '   y='yearY+1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),             10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   refName='digits'	x='yearX-wheelspace  '   y='yearY+1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),   10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='bgclr'  />
+  <SWheel   refName='digits'	x='yearX-wheelspace*2'   y='yearY+1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   refName='digits'	x='yearX-wheelspace*3'   y='yearY+1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='bgclr' />
+  <Qhand    name='bce cover'    x='yearX-wheelspace/2-1-wheelfs/2' y='yearY-wheelspace/2+(wheelfs)/2' modes='front' length='wheelspace*4+wheelfs/2' width='wheelfs' tail='0' type='rect' update='1 * days()' angle='eraNumber() == 1 ? 0 : pi/2' strokeColor='0x60ff0000' fillColor='0x60ff0000' />
+
+  <QRect    name='wheel patch' x='-r' y='r-20' modes='front|night' w='r*2' h='20' bgColor='black' />
+  
+<!-- Front ================================================== -->
+
+  <window   name='year winb'	x='yearX-wheelspace/2-1' y='yearY-wheelspace/2+1' w='wheelspace*4-2' h='wheelfs - 1' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.3' shadowSigma='1.5' shadowOffset='1' />
+  <window   name='day winb'	x='dayX-wheelspace/2+2'  y='dayY-wheelspace/2+1' w='wheelspace*2' h='wheelfs - 1' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.3' shadowSigma='1.5' shadowOffset='1' />
+  <window   name='mon winb'	x='monX-wheelspace/2+2'  y='monY-wheelspace/2+1' w='wheelspace*3' h='wheelfs - 1' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.3' shadowSigma='1.5' shadowOffset='1' />
+  
+  <static   name='front'	modes='front' >
+    <QRect  name='maskRect'     x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='face'     x='0' y='   0'	modes='front'	src='face.png' />
+<!-- orbits -->
+    <QDial  name='Mercuryob'	x='0' y=' 0'	modes='front'  radius='mercuryR' marks='outer' markWidth='.30' strokeColor='planetoColor' bgColor='clear' />
+    <QDial  name='Venusob'	x='0' y=' 0'	modes='front'  radius='venusR'   marks='outer' markWidth='.30' strokeColor='planetoColor' bgColor='clear' />
+    <QDial  name='Earthob'	x='0' y=' 0'	modes='front'  radius='earthR'   marks='outer' markWidth='.30' strokeColor='planetoColor' bgColor='clear' />
+    <QDial  name='Marsob'	x='0' y=' 0'	modes='front'  radius='marsR'    marks='outer' markWidth='.30' strokeColor='planetoColor' bgColor='clear' />
+    <QDial  name='Jupiterob'	x='0' y=' 0'	modes='front'  radius='jupiterR' marks='outer' markWidth='.30' strokeColor='planetoColor' bgColor='clear' />
+  </static>
+
+<!-- Night ================================================== -->
+
+  <QRect    name='n day bak'	    x='dayX-wheelspace/2+2' y='dayY-wheelspace/2' modes='night' w='wheelspace*2' h='wheelfs' bgColor='black' />
+  <SWheel   name='n digits'	    x='dayX-16'		    y='dayY+1'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='clear' > </SWheel>
+  <SWheel   refName='n digits'	    x='dayX-wheelspace-16'  y='dayY+1'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='clear' />
+
+  <window   name='day winn'	x='dayX-wheelspace/2+2'  y='dayY-wheelspace/2+1' w='wheelspace*2' h='wheelfs - 1' border='0' />
+
+  <static   name='night' modes='night' >
+    <QRect  name='maskRectN'    x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image  name='face N'       x='0' y='   0'	modes='night'	src='faceNight.png' />
+<!-- orbits -->
+    <QDial  name='Mercuryon'	x='0' y=' 0'	modes='night'  radius='mercuryR' marks='outer' markWidth='.30' strokeColor='nfgclr' bgColor='clear' />
+    <QDial  name='Venuson'	x='0' y=' 0'	modes='night'  radius='venusR'   marks='outer' markWidth='.30' strokeColor='nfgclr' bgColor='clear' />
+    <QDial  name='Earthon'	x='0' y=' 0'	modes='night'  radius='earthR'   marks='outer' markWidth='.30' strokeColor='nfgclr' bgColor='clear' />
+    <QDial  name='Marson'	x='0' y=' 0'	modes='night'  radius='marsR'    marks='outer' markWidth='.30' strokeColor='nfgclr' bgColor='clear' />
+    <QDial  name='Jupiteron'	x='0' y=' 0'	modes='night'  radius='jupiterR' marks='outer' markWidth='.30' strokeColor='nfgclr' bgColor='clear' />
+  </static>
+
+
+<!-- hands ================================================== -->
+
+<!-- planet hands -->
+  <hand	    name='Mercury'	x='0' y=' 0'	modes='front'   src='../partsBin/planets/mercuryTransparent.png' xAnchor='22' yAnchor='10' offsetRadius='mercuryR-10' angle='0'	offsetAngle='-HLongitudeOfPlanet(planetMercury)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='mercuryYearKind' />
+  <hand	    name='Venus'	x='0' y=' 0'	modes='front'   src='../partsBin/planets/venusTransparent.png'   xAnchor='22' yAnchor='10' offsetRadius='venusR-11'   angle='0'	offsetAngle='-HLongitudeOfPlanet(planetVenus)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='venusYearKind' />
+  <hand	    name='Mars'		x='0' y=' 0'	modes='front'   src='../partsBin/planets/marsTransparent.png'    xAnchor='22' yAnchor='10' offsetRadius='marsR-11'    angle='0'	offsetAngle='-HLongitudeOfPlanet(planetMars)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='marsYearKind' />
+  <hand	    name='Jupiter'	x='0' y=' 0'	modes='front'   src='../partsBin/planets/jupiterTransparent.png' xAnchor='22' yAnchor='10' offsetRadius='jupiterR-11' angle='0'	offsetAngle='-HLongitudeOfPlanet(planetJupiter)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='jupiterYearKind' />
+  <hand	    name='Saturn'	x='0' y=' 0'	modes='front'   src='../partsBin/planets/saturnTransparent.png'  xAnchor='22' yAnchor='10' offsetRadius='saturnR-10'  angle='0'    offsetAngle='-HLongitudeOfPlanet(planetSaturn)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='saturnYearKind' />
+  <hand	    name='Earth'	x='0' y=' 0'	modes='front'   src='../partsBin/planets/earthTransparent.png'   xAnchor='22' yAnchor='10' offsetRadius='earthR-11'   angle='0'	offsetAngle='-HLongitudeOfPlanet(planetEarth)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='earthYearKind'   />
+  <hand	    name='Luna'		x='0' y=' 0'	modes='front'   src='../partsBin/planets/moonTransparent.png'    xAnchor='22' yAnchor='23' offsetRadius='earthR-11'   angle='-moonAgeAngle()'	offsetAngle='-HLongitudeOfPlanet(planetEarth)' update='60' dragAnimationType='dragAnimationNever'  />
+
+  <hand	    name='Mercuryn'	x='0' y=' 0'	modes='night'   src='../partsBin/planets/mercuryN2.png'	xAnchor='22' yAnchor='10' offsetRadius='mercuryR-10' angle='0'	offsetAngle='-HLongitudeOfPlanet(planetMercury)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='mercuryYearKind' />
+  <hand	    name='Venusn'	x='0' y=' 0'	modes='night'   src='../partsBin/planets/venusN2.png'	xAnchor='22' yAnchor='10' offsetRadius='venusR-11'   angle='0'	offsetAngle='-HLongitudeOfPlanet(planetVenus)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='venusYearKind' />
+  <hand	    name='Marsn'	x='0' y=' 0'	modes='night'   src='../partsBin/planets/marsN2.png'	xAnchor='22' yAnchor='10' offsetRadius='marsR-11'    angle='0'	offsetAngle='-HLongitudeOfPlanet(planetMars)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='marsYearKind' />
+  <hand	    name='Jupitern'	x='0' y=' 0'	modes='night'   src='../partsBin/planets/jupiterN2.png'	xAnchor='22' yAnchor='10' offsetRadius='jupiterR-11' angle='0'	offsetAngle='-HLongitudeOfPlanet(planetJupiter)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='jupiterYearKind' />
+  <hand	    name='Saturnn'	x='0' y=' 0'	modes='night'   src='../partsBin/planets/saturnN2.png'	xAnchor='22' yAnchor='10' offsetRadius='saturnR-10'  angle='0'	offsetAngle='-HLongitudeOfPlanet(planetSaturn)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='saturnYearKind' />
+  <hand	    name='Earthn'	x='0' y=' 0'	modes='night'   src='../partsBin/planets/earthN2.png'	xAnchor='22' yAnchor='10' offsetRadius='earthR-11'   angle='0'	offsetAngle='-HLongitudeOfPlanet(planetEarth)' update='1 * days()' dragAnimationType='dragAnimationNever' kind='earthYearKind'   />
+  <hand	    name='Lunan'	x='0' y=' 0'	modes='night'   src='../partsBin/planets/moonN.png'	xAnchor='22' yAnchor='23' offsetRadius='earthR-11'   angle='-moonAgeAngle()'	offsetAngle='-HLongitudeOfPlanet(planetEarth)' update='60' dragAnimationType='dragAnimationNever'  />
+
+<!-- time hands -->
+  <Qhand    name='hr'		x='0' y=' 0'	modes='front|night|back'  kind='hour12Kind'  type='rect' length='hrLen-hrArrow'   width='arrowWidth' tail=' 3' update='10' angle='hour12ValueAngle()' strokeColor='white'	   fillColor='clear'	  oLength='hrArrow'  oWidth='10' oTail='hrTail'  oLineWidth='arrowWidth*2'   oStrokeColor='white'      oFillColor='clear' lineWidth='.5' />
+  <Qhand    name='min'		x='0' y=' 0'	modes='front|night|back'  kind='minuteKind'  type='rect' length='minLen-minArrow' width='arrowWidth' tail=' 3' update='10' angle='minuteValueAngle()' strokeColor='white'	   fillColor='clear'	  oLength='minArrow' oWidth=' 8' oTail='minTail' oLineWidth='arrowWidth*2'   oStrokeColor='white'      oFillColor='clear' lineWidth='.5' />
+
+</watch>

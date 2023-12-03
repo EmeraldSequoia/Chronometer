@@ -1,0 +1,21 @@
+The problem we were trying to fix with EC 3.9.3 (in addition to the registration for local notifications which AFAIK works fine) was:
+ - When a time-base change comes in, we need to recalculate alarms (particularly interval timers) and potentially replace the existing LocalNotification with a new one
+ - Sometimes when a time-base change comes in, the LocalNotification is actually going off.
+
+The problem with EC 3.9.3 is that sometimes we are failing to remove a LN that we *should* remove.
+
+If we delay removing the old LN, and we add a new one, now we have two, and they may both go off.
+
+What if we delay adding the new one if and when we delay removing the old one?
+
+I'm thinking of some sort of guaranteed transaction where removes and adds always happen together, so we can guarantee we have the right number.
+
+There is a complexity here:
+
+LNs are removed (and added) in two places:
+
+1) in notifyTimeAdjustment, which is a response to a time base change.  It always removes (if active) and replaces *unless* we have skewed past the target.
+
+2) in recalculateAlarm, which is called in many places, some of which are user triggered and some are from notifyTimeAdjustment.
+
+First step is to remove the first case, and ensure that recalculateAlarm always clears any existing alarm.

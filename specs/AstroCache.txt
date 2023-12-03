@@ -1,0 +1,24 @@
+A cache pool is a collection of caches used by a single thread
+
+There is an astronomy cache pool for each thread (two of them)
+
+When an operation begins (part updating for a watch, for example), we get the cache pool for the current thread and use it.
+
+Nesting can occur exactly once.  The outer setup is expected to pass fromActionButton=true, and the inner one (triggered typically by a repaint from the button op) fromActionButton=false
+
+Nesting can occur for a different watch, e.g., with the 2D switcher or with the go-to-alarm-watch button
+
+Each watch remembers whether setup has been done on it, by remembering astroCachePool in its ECAstronomy object
+
+Ops find the cache to use via the the ECAstronomy object's astroCachePool, rather than incurring the overhead of thread-local-storage access to the per-thread pool.
+  - This works because we claim that a given watch will not have both the foreground and the background threads invoking ops at the same time for the same watch.
+    - because in order for the foreground to be invoking a watch op, that watch must be loaded, and, having been loaded, the bg loader will never re-evaluate the
+      parts' ops.
+    - but there was a bug in late Nov 2009 where this claim appeared to be invalid.  I believe the failure mechanism is as follows:
+      - bg loader begins loading archive for current watch
+      - bg button is pressed, invoking -[ECGLPart act] on bg button.  That method redirects to using the currentWatch's astro cache.
+         - In a debug build we would assert() here, since the astroCachePool is non-nil and we are invoking with fromActionButton:true
+	   but in release mode we simply return
+      - bg button op finishes (there was very little to do), and sets currentWatch's astro mgr's astroCachePool to nil
+      - bg loader gets to an op that requires astroCachePool and crashes
+    - and the above bug was fixed in -[ECGLPart act] by waiting for the watch to be loaded before doing anything with the button, including setting up the cache

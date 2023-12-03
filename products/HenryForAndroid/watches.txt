@@ -1,0 +1,30 @@
+# These watches are the only ones that will be installed
+Background
+Alexandria I
+Alexandria I-south
+Atlantis I
+Babylon I
+Babylon I-monday
+Babylon I-saturday
+Chandra I
+Selene I
+Firenze I
+Padua I
+Geneva I
+Basel I
+Haleakala I
+Hana I
+Mauna Kea I
+Mauna Loa I
+McAlester I
+Miami I
+Venezia I
+Milano I
+Paris I
+Paris I-black
+Terra I
+Gaia I
+Vienna I
+Vienna I-midnight
+
+Demo Control

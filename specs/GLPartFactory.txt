@@ -1,0 +1,48 @@
+We need a way to generate a GL part "on the fly", that is, with
+information known only at runtime.  Currently all watch parts are
+drawn with CwH, assembled into a texture atlas, and written out, at
+"compile" (really build) time.  Nothing that is done at runtime
+currently changes the appearance of any given part.
+
+But the new worldtime watch wants to have parts that are created
+dynamically, to list the city names (and possibly to decide whether to
+cut a notch for a city dot's DST motion).
+
+What I'm thinking is that we create a part of the correct size,
+probably with the fixed background in it, as part of Henry.  This part
+will then indicate the area of the atlas that needs to be written.
+At runtime, we will then use the coordinates in the atlas that
+contains the background of the part to indicate where we are to draw
+the dynamic information, and draw into that atlas image.  We will then
+write out the dynamic image in a cache area (inside the Documents
+directory, a writable directory in the app's runtime sandbox).
+
+A part will have a new "special" attribute, with values like
+   ECPartNotSpecial,
+   ECPartSpecialWorldtimeRing,
+   ECPartSpecialSubdialRing1,
+   ECPartSpecialSubdialRing2,
+   etc.
+
+There will be a new method to "recreate" any such special parts,
+perhaps by having each such part register itself as a special part.
+When a special part has no associated cached texture image, or when
+the user settings have changed, we will call back all registered parts
+and tell them to recreate their atlases.
+
+This requires some cooperation with the atlases themselves.  An atlas
+must keep track of whether it is a special atlas or not, so that the
+properly modified one can be used instead of the raw background one.
+If it goes to use its special version and the special version is not
+present, then it calls back to any and all special parts within it to
+recreate.
+
+The actual mechanism for creating the dynamic atlas is that during the
+atlas loading process, just after the image has been created from the
+png, and we have drawn into the bitmap context that will be used by
+OpenGL, we pass that same context to each special part and tell it to
+draw itself into the atlas.  The part knows which part of the atlas
+belongs to it, and does the appropriate thing just in its little
+section.  When this has been done for all parts, the context is closed
+and shipped off to OpenGL, after caching a png of the file where it can
+be used for subsequent sessions if the settings have not changed.

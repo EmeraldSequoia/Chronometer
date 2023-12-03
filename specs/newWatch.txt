@@ -1,0 +1,16 @@
+To make a new watch (X)
+  create X/X.xml
+  X.xml: <watch name= 'X'> ...
+  ChronometerAppDelegate.m : fix defaultProperties & watchNameSortOrder
+  ECGLAtlasLayout.m : add hint
+
+  add X to background watch
+  update Version/ReleaseNotes.html
+  update Watches/approved.txt
+  update products/*/watches.txt 
+
+  Help:
+    create X-icon-[bfn].png
+    add Help/X.html
+
+  update website

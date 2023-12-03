@@ -1,0 +1,113 @@
+There is a single thread which handles background loading.
+Communication between the main thread and the bg-load thread is done
+via the Cocoa mechanism that allows you call a selector in another
+thread.  This includes both specifying what to do (main=>bg) and telling
+the main thread to redraw when something is done (bg=>main).
+
+The logistics of communication between the two threads is handled by
+the ECGLWatchLoader class, but it has very little semantic knowledge
+of the application.  It sets up an NSThread object with a run loop.
+Its only entry point after initialization is the static method "checkForWork",
+which simply arranges for checkForWorkInThread to be called in the bg
+thread.
+
+checkForWorkInThread then calls the main bg-load workhorse routine,
+ChronometerAppDelegate's doOneBackgroundLoad.  To avoid doing a lot of
+work that is obsoleted by what's happening in the main thread, that
+method (as its name implies) does only one unit of work; typically one
+face of one watch.  But to avoid unnecessary context switching, it
+looks ahead to see if there is more work to do; if there is, then it
+returns true and checkForWorkInThread will call it again.
+
+doOneBackgroundLoad relies on an array of watch-mode pairs, containing
+every possible pair, sorted by "importance", which is a subjective estimate
+of which combination is more likely to be viewed first by the user.  The order
+at this writing is:
+  1) current side of current watch
+  2) current side of immediately adjacent watches (left and right)
+  3) other sides of current watch
+  4) current sides of other watches, closest to furthest
+  5) other sides of other watches, closest to furthest
+When it gets to 24MB in this order it stops.  It unloads any loaded
+watches starting at the end first.  In practice this means if you let
+it finish bg loading, you can immediately get to all of the watches
+just swiping, or the other sides of the current watch and one or two
+to the left and right.  The logic for this routine was tricky to write,
+but is fairly easily understood:  In order to leave the watches in the
+proper state when there is not enough room to load all of a watch mode's
+textures, the method first asks for the size required by all of the textures.
+If that size is too high, it then falls into the code which frees up the
+textures at the end of the list, without actually modifying the watch to be
+loaded.  That ensures that the routine does not leave a watch mode in an
+inconsistent state.
+
+Each watch has ECNumDrawMode modes (3 at this writing, front, back,
+and night).  Each watch has a series of texture atlases for each mode,
+although none of the current watches generates more than one atlas per
+mode.  The process of loading and unloading consists of the following:
+
+  1) A watch's archive file <watchName>/archive.dat is read.  This is
+known as "loading the archive".  This is not done at init time to save
+time; all of the watches are initialized at startup, which takes a
+very small fraction of a second, instead of the many seconds it would
+take to read all of the archive files.  So this is the first step in a
+background load.  This entails reading the archive file, creating all
+of the parts, creating the display lists, setting up the "texture
+coordinates" for each part, and an initial pass to create vertex
+coordinates for each part. This phase also creates the
+ECGLTextureAtlas objects for each atlas in the watch, but does not
+initialize the atlas other than to find its full pathname in the file
+system.
+
+  2) A watch's side is "loaded".  This really means that all of the
+texture atlases used by that watch's side are loaded.  "Loaded" has a
+specific meaning here, which is that everything that can be done in the
+background is done to the atlas.  Specifically, the image file is
+read, a raw-data bitmap is created of the proper size, the image is
+drawn into the bitmap, and the CG data structures used to create the
+raw data are released, leaving only the raw data array.
+
+  3) A watch's side is "attached".  Again this really means that all
+of the texture atlases used by that watch's side are attached.
+"Attached" means that the OpenGL environment is bound to the raw data
+array created during the previous "load" phase, and the raw data array
+is freed.  Since OpenGL calls may only be done in the main thread,
+this phase must be done in the main thread.  It is done at the last
+minute immediately before drawing the display lists for a watch side.
+This means that any given time there may be many watch sides which are
+loaded but not attached, because the attachment is deferred until the
+watch side is actually drawn.
+
+  4) When a watch at the end of the list is unloaded, there are two
+possibilities:
+    a) The watch has been loaded but not attached.  In this case the
+    texture can be unloaded simply by freeing the raw data array containing
+    the drawn image bitmap.
+    b) The watch has been loaded and also attached.  In that case, the
+    watch must be unattached first.  Since this can only be done in the
+    main thread (because it again interacts with the OpenGL system),
+    each corresponding texture is "marked for unattach", and a message is
+    sent back to the main thread to unattach all textures so marked.
+
+Thus a texture has 4 states
+ - unloaded
+ - loaded
+ - attached
+ - marked for unattach
+
+There are opportunities for race conditions as different subsystems
+attempt to modify these states.  But we are aided by the fact that
+unloading and loading always happen in the bg thread, and attachment
+and unattachment always happen in the main thread.  So the only real
+concern is to make sure that the main thread doesn't attempt to do
+anything to the texture until it is loaded (which is arranged by
+setting the "loaded" state at the last possible moment when loading), and
+to ensure that the bg thread doesn't try to reload a watch that is marked for
+unattach (which is arranged by setting the markForUnattach flag before marking
+the texture unloaded).
+
+There is also a dependency on the sorted array of watch faces, which is read
+by the bg thread to decide what to do next and written by the main thread when
+a new watch is selected.  A simple NSLock is used to control access to this
+array.
+

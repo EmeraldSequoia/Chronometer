@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Chandra I.xml
+  Emerald Chronometer
+
+  Copied from ChandraII.xml 2017 May 19
+ 
+  Created by Bill Arnett on 5/20/2008
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Chandra I' beatsPerSecond='0' faceWidth='268' statusBarLoc='bottom'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='128' backHeight='256' nightWidth='1024' nightHeight='512'/>
+  <init expr='faceWidth=268, backerWidth=faceWidth' />
+
+  <init expr='hairline=0.25, demoing=0, handFillColor=white, handStrokeColor=white, fgclr=black, bgclr=white, gwclr=0xffffffff, gbclr=black, nbg3clr=0x90002018' />
+  <init expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+  <!-- <init expr='moonclrn=0xffffb61d' /> -->
+  <init expr='moonclrn=0x90c08711' />
+
+<!-- front side: the realistic Emerald Sequoia terminator display -->
+  <hand         name='moon'	    x=' 0'  y='0'  modes='front'  src='../partsBin/moonES.png'    update='1 * minutes()'	angle='moonRelativeAngle()' />
+  <hand         name='moon-n'	    x=' 0'  y='0'  modes='night'  src='../partsBin/moonESnight.png'  update='1 * minutes()'	angle='moonRelativeAngle()' />
+  <static name='moonn' modes='night'>
+      <QDial	name='nightcast'    x='0'  y='0'  modes='night' radius='92' bgColor='moonclrn' />
+  </static>
+  <terminator   name='term'         x=' 0'  y='0'  modes='front' radius='92' leavesPerQuadrant='10' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xff080808' leafAnchorRadius='0' update='1 * seconds()' updateOffset='0' rotation='moonRelativePositionAngle()' phaseAngle='moonAgeAngle()'/>
+  <terminator   name='termn'        x=' 0'  y='0'  modes='night' radius='92' leavesPerQuadrant='10' incremental='0' leafBorderColor='0xff101010' leafFillColor='0xff080808' leafAnchorRadius='0' update='1 * minutes()' updateOffset='0' rotation='moonRelativePositionAngle()' phaseAngle='moonAgeAngle()'/>
+
+<init expr='ampmX=-4, ampmY=-115' />
+<init expr='dayX =-123, dayY =-6, dayR=120, dayWX=dayR+(dayX+12), dayWX2=dayWX-11' />
+<init expr='monX=97, monY=-5.5' />
+<init expr='logoX=0, logoY=107.5, logoYb=36.5' />
+  <QRect	name='mon back'	    x='monX'  y='monY' w='31' h='12.5' bgColor='black' />
+  <Swheel	name='Qmonths'	    x=' 0'   y='0'  dragAnimationType='dragAnimationAlways' modes='front'  radius='126'   orientation='three'  update='1 * days()' angle='monthNumberAngle()' fontSize='12' fontName='Arial'	 text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='0xffe8e8e8' bgColor='black' />
+  <QRect	name='ampm bak'	    x='ampmX-4'  y='ampmY-5'   w='17' h='12' bgColor='black' panes='1' />
+  <SWheel	name='am/pm'	    x='ampmX-8' y='ampmY' dragAnimationType='dragAnimationAlways' animSpeed='2.0' modes='front'  radius='20' orientation='three' update='1 * hours()' angle='hour24Number()>=12?pi/2:0' fontSize='10' fontName='Arial' text='AM,PM,,' strokeColor='white' bgColor='black' />
+  <QRect	name='day bak'	    x='dayX'  y='dayY'   w='22' h='14' bgColor='black' panes='-2' />
+  <SWheel	name='day1s'	    x='dayWX'   y='dayY+6' dragAnimationType='dragAnimationAlways' animSpeed='0.4' modes='front'  radius='dayR' angle1='8*pi/20' angle2='17*pi/20' orientation='nine' update='1 * days()' angle='fmod((dayNumber()+1),          10)*9*pi/200+8*pi/20' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='0xffe8e8e8' bgColor='black' />
+  <SWheel    refName='day1s'	    x='dayWX2'  y='dayY+6' dragAnimationType='dragAnimationAlways' animSpeed='0.4' modes='front'  radius='dayR' angle1='8*pi/20' angle2='17*pi/20' orientation='nine' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*9*pi/200+8*pi/20' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='0xffe8e8e8' bgColor='black' />
+
+  <window	name='term cover'   x=' 0'   y='0'    w='184' h='184' type='porthole'  border='1' strokeColor='0x7f202020' />
+  <window	name='day win'	    x='dayX'  y='dayY'   w='22' h='14' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.6' shadowSigma='2.0' shadowOffset='1.5'  />
+  <window	name='mon win'	    x='monX'  y='monY' w='31' h='12.5' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.6' shadowSigma='2.0' shadowOffset='1.5'  />
+  <window	name='am/pm win'    x='ampmX-4' y='ampmY-5'   w='17' h='12' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.6' shadowSigma='2.0' shadowOffset='1.5'  />
+  <static name='front2' modes='front'>
+    <QRect      name='maskRect' x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='logo'     x='logoX' y='logoY'  modes='front' src='../partsBin/logos/white.png'/>
+  </static>
+
+<!-- debug only
+  <button	name='adv mon'	    x='monX'  y='monY' w='31' h='12' modes='front' enabled='always' action='advanceMonth()' />
+  <button	name='adv day'	    x='dayX'  y='dayY' w='21' h='14' modes='front' enabled='always' action='advanceDay()' />
+ -->
+
+  <QRect	name='n day bak'	    x='dayX'  y='dayY'   w='22' h='14' bgColor='black' modes='night'/>
+  <SWheel	name='n day1s'	    x='dayWX'   y='dayY+6' dragAnimationType='dragAnimationAlways' animSpeed='0.4' modes='night'  radius='dayR' angle1='8*pi/20' angle2='17*pi/20' orientation='nine' update='1 * days()' angle='fmod((dayNumber()+1),          10)*9*pi/200+8*pi/20' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='black' />
+  <SWheel    refName='n day1s'	    x='dayWX2'  y='dayY+6' dragAnimationType='dragAnimationAlways' animSpeed='0.4' modes='night'  radius='dayR' angle1='8*pi/20' angle2='17*pi/20' orientation='nine' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*9*pi/200+8*pi/20' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='black' />
+
+  <window	name='term covern'  x=' 0'  y='0'  w='184' h='184' type='porthole'  border='1' strokeColor='0x7f202020' />
+  <window	name='day winn'	    x='dayX'  y='dayY'   w='22' h='14' border='0' />
+  <static name='night2' modes='night'>
+      <QRect    name='maskRectn'    x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='lumiberry'     x='logoX' y='logoY'	modes='night'	src='../partsBin/berry-lum.png' />
+  </static>
+  
+  <init expr='handStrokeColor=white, hrLen=60, hrArrow=43, minLen=80, minArrow=68, hrTail=9, minTail=7, arrowClr=clear, arrowWidth=1.75' />
+  <init expr='dialOuterRad=133, dialWidth=6, dialInnerRad=dialOuterRad-dialWidth, phaseLen=dialOuterRad-dialWidth/2, phaseWidth=1.5, phaseArrow=phaseLen/2, phaseArrowWidth=phaseWidth' />
+
+  <Qhand	name='hr'	    x='0' y='0' z='4' modes='front|back' kind='hour12Kind' type='quad'  length=' hrLen' width='6'		   oWidth='9' oLength=' hrLen*.5'  lineWidth='1.5'	    update=' 1'   angle='hour12ValueAngle()' strokeColor='handStrokeColor' fillColor='clear' oStrokeColor='handStrokeColor' />
+  <Qhand	name='min'	    x='0' y='0' z='3' modes='front|back' kind='minuteKind' type='quad'  length='minLen' width='4' oCenter='1.5' oWidth='7' oLength='minLen*.45' lineWidth='1.5'	    update=' 1'   angle='minuteValueAngle()' strokeColor='handStrokeColor' fillColor='clear' oStrokeColor='handStrokeColor' />
+  <Qhand	name='hrn'	    x='0' y='0' z='0' modes='night' kind='hour12Kind' type='quad'  length=' hrLen' width='6'		   oWidth='9' oLength=' hrLen*.5'  lineWidth='1.5'	    update='10'   angle='hour12ValueAngle()' strokeColor='white' fillColor='clear' oStrokeColor='white' />
+  <Qhand	name='minn'	    x='0' y='0' z='0' modes='night' kind='minuteKind' type='quad'  length='minLen' width='4' oCenter='1.5' oWidth='7' oLength='minLen*.45' lineWidth='1.5'	    update='10'   angle='minuteValueAngle()' strokeColor='white' fillColor='clear' oStrokeColor='white' />
+
+  <hand         name='alt'	    x='0'   y='0'   modes='front|night'  xAnchor= '2' yAnchor=' -95' src='redStar.png'	update='1' angle='-pi/2 + moonAltitude()' />
+  <hand         name='az'	    x='0'   y='0'   modes='front|night'  xAnchor= '2' yAnchor='-129' src='blueStar.png'	update='1' angle='moonAzimuth()' />
+
+</watch>

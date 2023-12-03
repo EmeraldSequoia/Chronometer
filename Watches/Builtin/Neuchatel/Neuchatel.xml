@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Neuchatel.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett  2009 Jan 21
+  Copyright Emerald Sequoia LLC 2010. All rights reserved.
+-->
+
+<watch name='Neuchatel' beatsPerSecond='20'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+
+  <init		expr='faceR=140' />
+  <init		expr='outerOR=faceR-4, outerW=7, outerIR=outerOR-outerW' />
+  <init		expr='numOR=outerIR-27, numW=21, numIR=numOR-numW, numFS=numW+5, numTR=numOR+13' />
+  <init		expr='ESFS=8.5, ESR=numTR-numFS-ESFS-5' />
+  <init		expr='wheelfs=numW, wheelspace=11, dayX=-wheelspace, dayY=-(numOR+numIR)/2-4, shadowOff=1.5, shadowOpc=.25, shadowSig=1.5' />
+  <init		expr='hrLen=numIR, minLen=outerIR, secLen=minLen' />
+  <init		expr='nfgclr=0xff00c0ac, breBlue=0xff001c3f, faceBgColor=0xffe9e9e9, ringColor=0xffd0d1d5, numColor=black, skewColor=red' />
+  <init		expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+    <button	name='stem'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+    <button	name='stemn'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	     src='../partsBin/HD/white/night/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+    <button	name='Reset'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset02.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+    <button	name='Reset b'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'       src='../partsBin/HD/reset02b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+
+<!-- == Front == -->
+  <button	name='adv day'	    x='dayX'		    y='dayY-wheelspace/2'    modes='front' w='wheelspace*2' h='wheelfs' action='advanceDay()' />
+  <QRect	name='day bak'	    x='dayX'		    y='dayY-wheelspace/2'    modes='front' w='wheelspace*2' h='wheelfs' bgColor='ringColor' panes='2' />
+  <SWheel	name='digits'	    x='dayX-22'		    y='dayY+4'  dragAnimationType='dragAnimationAlways' modes='front' radius='45' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='wheelfs' fontName='Times New Roman' text='0,1,2,3,4,5,6,7,8,9' strokeColor='black' bgColor='ringColor' > </SWheel>
+  <SWheel    refName='digits'	    x='dayX-wheelspace-22'  y='dayY+4'  dragAnimationType='dragAnimationAlways' modes='front' radius='45' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='wheelfs' fontName='Times New Roman' text='0,1,2,3,4,5,6,7,8,9' strokeColor='black' bgColor='ringColor' />
+  <window	name='day winb'	    x='dayX'		    y='dayY-wheelspace/2+1'  modes='front' w='wheelspace*2' h='wheelfs - 3' border='1' strokeColor='darkGray' shadowOpacity='shadowOpc' shadowSigma='shadowSig' shadowOffset='shadowOff' />
+
+  <static   name='front' modes='front' n='3'>
+    <Image	name='band'	    x='0' y='0'	modes='front'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <Image	name='case'	    x='0' y='0'	modes='front'	src='../partsBin/HD/white/front/narrow/case.png' />
+    <QDial	name='face backg'   x='0' y='0'	modes='front' radius='faceR'					   bgColor='faceBgColor' marks='outer' markWidth='.25' />
+    <QDial	name='outer tics'   x='0' y='0'	modes='front' radius='faceR'		   strokeColor='ringColor' bgColor='clear' marks='tickOut' markWidth='.5' mSize='faceR-outerOR' nMarks='180' />
+    <QDial	name='outer ring'   x='0' y='0'	modes='front' radius='(outerOR+outerIR)/2' strokeColor='ringColor' bgColor='clear' marks='outer' markWidth='outerW' />
+    <QDial	name='dots 60'	    x='0' y='0' modes='front' radius='(outerOR+outerIR)/2' strokeColor='black'	   bgColor='clear' marks='dot' nMarks='60' mSize='2' />
+    <QDial	name='dots 12'	    x='0' y='0' modes='front' radius='(outerOR+outerIR)/2-1' strokeColor='black'   bgColor='clear' marks='dot' nMarks='12' mSize='3' />
+    <QDial	name='numb backg '  x='0' y='0'	modes='front' radius='(numOR+numIR)/2'     strokeColor='ringColor' bgColor='clear' marks='outer' markWidth='numW' />
+    <QDial	name='guillocheL0'  x='0' y='0' modes='front' radius='numOR'		   strokeColor='white'	   bgColor='clear' marks='arc'  nMarks='80' markWidth='1/10' />
+    <QDial	name='face innerbg' x='0' y='0'	modes='front' radius='numIR-1'					   bgColor='faceBgColor' />
+    <Image	name='roman nums'   x='0' y='0'	modes='front' src='numbers4.png' alpha='1' />
+<!--    <QDial	name='roman nums '  x='0' y='0'	modes='front' radius='numTR' fontName='Times New Roman' fontSize='numFS' orientation='radial' text='XII, I, II, III, IV, V, , VII, VIII, IX, X, XI' strokeColor='numColor' bgColor='clear' />
+    <Qtext	name='es'	    x='0' y='0' modes='front' radius='ESR'   fontName='Times New Roman' fontSize='floor(ESFS)'	startAngle='0' text='EMERALD SEQUOIA' />  -->
+    <Image	name='logo curved'  x='0' y='0'	modes='front'   src='../partsBin/logos/curved.png' />
+<!--     <Image	name='berry'	    x='0' y='-(outerIR+numOR)/2'	modes='front'   src='../partsBin/berry.png' />  -->
+<!--    <Qtext	name='not swiss'    x='0' y='0' modes='front' radius='(faceR+outerOR)/2+3' fontName='Times New Roman' fontSize='floor(ESFS/2)' strokeColor='black' startAngle='pi' text='Designed in California' orientation='demi' /> -->
+    <Image	name='not swiss'    x='0' y='0'	modes='front'   src='notSwiss.png' alpha='0.75' />
+  </static>
+
+<!--
+  <Qhand	name='xmin'	    x='0' y='0'  z='3'	modes='front'	kind='minuteKind'  type='tri'	   length='minLen-5' width='3' tail='0' update='  1' angle='minuteValueAngle()-skewAngle()/60' strokeColor='skewColor' fillColor='skewColor' />
+  <Qhand	name='xsec'	    x='0' y='0'  z='3'	modes='front'	kind='secondKind'  type='tri'      length='secLen-5' width='.5' tail='0' update='.25' angle='secondValueAngle()-skewAngle()' strokeColor='skewColor' fillColor='skewColor' />
+-->
+  <Qhand	name='hr'	    x='0' y='0'  z='3'	modes='front'	kind='hour12Kind'  type='breguet'  length='hrLen'  width='16' update=' 1' angle='hour12ValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand	name='min'	    x='0' y='0'  z='3'	modes='front'	kind='minuteKind'  type='breguet'  length='minLen' width='13' update='.25' angle='minuteValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand	name='sec'	    x='0' y='0'  z='3'	modes='front'	kind='secondKind'  type='tri'      length='secLen' width='1'  tail='28' oRadius='3.5' update='.05' oCenter='1' angle='secondValueAngle()' strokeColor='breBlue' fillColor='breBlue' oFillColor='breBlue' />
+
+<!-- == Night == -->
+
+  <static    name='night' modes='night' >
+    <Image	name='band N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/black/night/straight/narrow/band.png' />
+    <Image	name='case N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/white/night/narrow/case.png' />
+    <QDial	name='black'	    x='0' y='0' modes='night'   radius='faceR' bgColor='black' strokeColor='black'  />
+    <Image	name='lumiberry'    x='0' y='numIR-10' modes='night'	src='../partsBin/berry-lum.png' alpha='0.33' />
+  </static>
+
+  <Qhand	name='hrn'	    x='0' y='0'  z='2'	modes='night'	kind='hour12Kind'  type='breguet'  length='hrLen'  width='16' update=' 1' angle='hour12ValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand	name='minn'	    x='0' y='0'  z='2'	modes='night'	kind='minuteKind'  type='breguet'  length='minLen' width='13' update='.25' angle='minuteValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand	name='secn'	    x='0' y='0'  z='2'	modes='night'	kind='secondKind'  type='tri'      length='secLen' width='1'  tail='28' oRadius='3.5' update='.05' angle='secondValueAngle()' strokeColor='breBlue' fillColor='breBlue' oFillColor='breBlue' />
+
+<!-- == Back == -->
+
+<init expr='prR=35, prL=prR*.65, prY=82, prClr=black, prLow=0xffa00000' />
+
+  <static   name='back'	modes='back' >
+    <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/back.png'/>
+    <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/white/front/narrow/case.png' />
+    <Image	name='backcover'    x='0' y='  0' modes='back'	src='back.png' />
+    <QDial	name='pwr outer'    x='0' y='prY' modes='back'  radius='prR+1' bgColor='clear' strokeColor='prClr' marks='outer  ' markWidth='1'			  angle1=' 7*pi/12' angle2='17*pi/12' />
+    <QDial	name='red zone'     x='0' y='prY' modes='back'  radius='prR+1' bgColor='clear' strokeColor='prLow' marks='tickOut' markWidth='2' nMarks=' 96' mSize='2.0' angle1='15*pi/12' angle2='17*pi/12' />
+    <QDial	name='pwr tic'      x='0' y='prY' modes='back'  radius='prR+1' bgColor='clear' strokeColor='prClr' marks='tickOut' markWidth='2' nMarks=' 24' mSize='2.0' angle1=' 7*pi/12' angle2='17*pi/12' />
+    <QDial	name='pwr inner'    x='0' y='prY' modes='back'  radius='prR-1' bgColor='clear' strokeColor='prClr' marks='outer'   markWidth='1'			  angle1=' 7*pi/12' angle2='17*pi/12' />
+    <QDial	name='pwr nums '    x='0' y='prY' modes='back'  radius='prR' fontName='Times New Roman' fontSize='9' orientation='upright' text=',,,,,,,1,,,,,½,,,,,0,,,,,,' strokeColor='prClr' bgColor='clear' />
+  </static>
+
+  <Qhand    name='pwr h'	    x='0' y='prY' modes='back' type='tri' length='prL'  width='2' tail='0' update='60' oCenter='2' dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='17*pi/12 - (batteryLevel() >=  0 ? batteryLevel()*10*pi/12 : 0)' strokeColor='prClr'  fillColor='prClr' />
+
+</watch>
+
+<!-- COMPLICATIONS
+
+[BACK]
+Power Reserve
+
+-->

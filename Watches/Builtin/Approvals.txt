@@ -1,0 +1,37 @@
+Alexandria	yes
+Atlantis	yes
+Chandra		yes
+Firenze		yes
+Geneva		yes
+Haleakala	yes
+Istanbul	yes
+Mauna Kea	yes
+McAlester	yes
+Miami		yes
+Olympia		yes
+Paris		yes
+Terra		yes
+Thebes		yes
+Vienna		yes
+
+Babylon		yes
+
+Haleakala-Android	yes
+
+AtlantisIV	yes
+ChandraII	yes
+Hernandez	yes
+Kyoto		yes
+London		yes
+Milano		yes
+Neuchatel	yes
+Tombstone	yes
+Uraniborg	yes
+
+Wimm-1		no
+
+GenevaHD	no
+
+Cairo		no
+OldGreenwich	no
+OldTerra	no

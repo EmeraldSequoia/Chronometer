@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Chandra.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett on 5/20/2008
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Chandra' beatsPerSecond='0'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='512' backHeight='512' nightWidth='1024' nightHeight='512'/>
+  <init expr='hairline=0.25, demoing=0, handFillColor=white, handStrokeColor=0xffa0a0a0, nfgclr=0xff00c0ac, fgclr=black, bgclr=white, gwclr=0xffffffff, gbclr=black' />
+  <init	expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+    <button	name='stem'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+    <button	name='stemn'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	     src='../partsBin/HD/white/night/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+    <button	name='Reset'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset02.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+    <button	name='Reset b'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'       src='../partsBin/HD/reset02b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+  <button	name='adv phas but'  x='-bx' y=' by' modes='front|back' src='../partsBin/HD/white/front/button10.png' action='advanceToNextMoonPhase()' xMotion='-5' yMotion=' 4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv 15m but'   x='-bx' y='-by' modes='front|back' src='../partsBin/HD/white/front/button08.png' action='advanceToQuarterHour()'   xMotion='-5' yMotion='-4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv phas butn' x='-bx' y=' by' modes='night' src='../partsBin/HD/white/night/button10.png' action='advanceToNextMoonPhase()' xMotion='-5' yMotion=' 4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv 15m butn'  x='-bx' y='-by' modes='night' src='../partsBin/HD/white/night/button08.png' action='advanceToQuarterHour()'   xMotion='-5' yMotion='-4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+
+<!-- front side: the realistic Emerald Sequoia terminator display -->
+  <hand         name='moon'	    x=' 0'  y='0'  modes='front'  src='../partsBin/moonES.png'    update='1'	angle='moonRelativeAngle()' />
+  <hand         name='moon-n'	    x=' 0'  y='0'  modes='night'  src='../partsBin/moonESnight.png'  update='1'	angle='moonRelativeAngle()' />
+  <terminator   name='term'         x=' 0'  y='0'  modes='front' radius='92' leavesPerQuadrant='10' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xff080808' leafAnchorRadius='0' update='1 * seconds()' updateOffset='0' rotation='moonRelativePositionAngle()' phaseAngle='moonAgeAngle()'/>
+  <terminator   name='termn'        x=' 0'  y='0'  modes='night' radius='92' leavesPerQuadrant='10' incremental='0' leafBorderColor='0xff101010' leafFillColor='0xff080808' leafAnchorRadius='0' update='1 * seconds()' updateOffset='0' rotation='moonRelativePositionAngle()' phaseAngle='moonAgeAngle()'/>
+
+<init expr='ampmX=-4, ampmY=-115' />
+<init expr='dayX =-123, dayY =-6, dayR=120, dayWX=dayR+(dayX+12), dayWX2=dayWX-11' />
+<init expr='monX=97, monY=-5.5' />
+<init expr='logoX=0, logoY=107.5, logoYb=36.5' />
+<init expr='handStrokeColor=white, hrLen=60, minLen=80' />
+  <QRect	name='mon back'	    x='monX'  y='monY' w='31' h='12.5' bgColor='black' />
+  <Swheel	name='Qmonths'	    x=' 0'   y='1'  dragAnimationType='dragAnimationAlways' modes='front'  radius='126'   orientation='three'  update='1 * days()' angle='monthNumberAngle()' fontSize='12' fontName='Arial'	 text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='0xffe8e8e8' bgColor='black' />
+  <QRect	name='ampm bak'	    x='ampmX-4'  y='ampmY-5'   w='17' h='12' bgColor='black' panes='1' />
+  <SWheel	name='am/pm'	    x='ampmX-8' y='ampmY+1' dragAnimationType='dragAnimationAlways' animSpeed='2.0' modes='front'  radius='20' orientation='three' update='1 * hours()' angle='hour24Number()>=12?pi/2:0' fontSize='10' fontName='Arial' text='AM,PM,,' strokeColor='white' bgColor='black' />
+  <QRect	name='day bak'	    x='dayX'  y='dayY'   w='22' h='14' bgColor='black' panes='-2' />
+  <SWheel	name='day1s'	    x='dayWX'   y='dayY+7' dragAnimationType='dragAnimationAlways' animSpeed='0.4' modes='front'  radius='dayR' angle1='8*pi/20' angle2='17*pi/20' orientation='nine' update='1 * days()' angle='fmod((dayNumber()+1),          10)*9*pi/200+8*pi/20' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='0xffe8e8e8' bgColor='black' />
+  <SWheel    refName='day1s'	    x='dayWX2'  y='dayY+7' dragAnimationType='dragAnimationAlways' animSpeed='0.4' modes='front'  radius='dayR' angle1='8*pi/20' angle2='17*pi/20' orientation='nine' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*9*pi/200+8*pi/20' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='0xffe8e8e8' bgColor='black' />
+  <window	name='term cover'   x=' 0'   y='0'    w='184' h='184' type='porthole'  border='1' strokeColor='0x7f202020' />
+  <window	name='mon win'	    x='monX'  y='monY' w='31' h='12.5' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.6' shadowSigma='2.0' shadowOffset='1.5'  />
+  <window	name='day win'	    x='dayX'  y='dayY'   w='22' h='14' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.6' shadowSigma='2.0' shadowOffset='1.5'  />
+  <window	name='am/pm win'    x='ampmX-4' y='ampmY-5'   w='17' h='12' border='1' strokeColor='darkGray' modes='front' shadowOpacity='0.6' shadowSigma='2.0' shadowOffset='1.5'  />
+
+    <button	name='F/R'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+    <button	name='F/Rn'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='../partsBin/HD/white/night/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+
+  <static name='front2' modes='front'>
+    <Image	name='face'	    x='0'   y='0'   modes='front'  src='face.png' />
+    <Image	name='logo'	    x='logoX' y='logoY'  modes='front' src='../partsBin/logos/white.png'/>
+    <Image	name='band'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/black/front/curved/wide/band.png' />
+    <Image	name='case'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/white/front/wide/case.png' />
+    <window	name='f/r'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  </static>
+
+  <button	name='adv mon'	    x='monX'  y='monY' w='31' h='12' modes='front'	action='advanceMonth()' />
+  <button	name='adv day'	    x='dayX'   y='dayY' w='21' h='14' modes='front'	action='advanceDay()' />
+
+  <window	name='term covern'  x=' 0'  y='0'  w='184' h='184' type='porthole'  border='1' strokeColor='0x7f202020' />
+  <static name='night2' modes='night'>
+      <Image	name='facen'	    x='0'   y='0'   modes='night'  src='stars.png' />
+      <Image	name='bandn'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/black/night/curved/wide/band.png' />
+      <Image	name='casen'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/white/night/wide/case.png' />
+      <window	name='f/rn'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  </static>
+  
+  <Qhand	name='hr'	    x='0' y='0' z='4' modes='front' kind='hour12Kind' type='quad'  length=' hrLen' width='6'		   oWidth='9' oLength=' hrLen*.5'  lineWidth='1.5'	    update=' 1'   angle='hour12ValueAngle()' strokeColor='handStrokeColor' fillColor='clear' oStrokeColor='handStrokeColor' />
+  <Qhand	name='min'	    x='0' y='0' z='3' modes='front' kind='minuteKind' type='quad'  length='minLen' width='4' oCenter='1.5' oWidth='7' oLength='minLen*.45' lineWidth='1.5'	    update=' 1'   angle='minuteValueAngle()' strokeColor='handStrokeColor' fillColor='clear' oStrokeColor='handStrokeColor' />
+
+  <Qhand	name='hrn'	    x='0' y='0' z='0' modes='night' kind='hour12Kind' type='quad'  length=' hrLen' width='6'		   oWidth='9' oLength=' hrLen*.5'  lineWidth='1.5'	    update=' 1'   angle='hour12ValueAngle()' strokeColor='nfgclr' fillColor='clear' oStrokeColor='nfgclr' />
+  <Qhand	name='minn'	    x='0' y='0' z='0' modes='night' kind='minuteKind' type='quad'  length='minLen' width='4' oCenter='1.5' oWidth='7' oLength='minLen*.45' lineWidth='1.5'	    update=' 1'   angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='clear' oStrokeColor='nfgclr' />
+
+  <hand         name='alt'	    x='0'   y='0'   modes='front|night'  xAnchor= '2' yAnchor=' -95' src='redStar.png'	update='1' angle='-pi/2 + moonAltitude()' />
+  <hand         name='az'	    x='0'   y='0'   modes='front|night'  xAnchor= '2' yAnchor='-129' src='blueStar.png'	update='1' angle='moonAzimuth()' />
+
+<!-- back side: shows the phases and lunar ecliptic longitude -->
+  <init expr='dialOuterRad=137, dialWidth=6, dialInnerRad=dialOuterRad-dialWidth, phaseLen=dialOuterRad-dialWidth/2, phaseWidth=1.5, phaseArrow=phaseLen/2, phaseArrowWidth=phaseWidth' />
+  <init expr='latX=79, latY=79, latLen=42, latArrow=latLen/2, latWidth=2, disX=-latX, disY=latY, disLen=latLen, disArrow=disLen/2, disWidth=latWidth, holeD=28' />
+  <init expr='angleSpan=20*pi/24, latAngle1=20*pi/24, latAngle2=latAngle1+angleSpan, disAngle1=8*pi/24, disAngle2=disAngle1+angleSpan, moonApogee=405000/149598000, moonPerigee=355000/149600000' />
+  <init expr='bgExtraAngle=7*pi/48, lbgAngle1=latAngle1-bgExtraAngle, lbgAngle2=latAngle2+bgExtraAngle, dbgAngle1=disAngle1-bgExtraAngle, dbgAngle2=disAngle2+bgExtraAngle' />
+  <init expr='backfgColor=black, backbgColor=white, dialbgColor=0xffc0c0c0, holeBorderColor=0xff202020, phaseColor=black' />
+  <init expr='dateFS=14, yearX=-20, yearY=19, monX=-31, monY=-32, dayX=5, dayY=monY' />
+  <init expr='dateFS=14, yearX=-50, yearY=-44, monX=-6, monY=yearY, dayX=30, dayY=monY' />
+
+  <Image	name='phasen'       x='  0'  y=' 88'  modes='back'	    src='phaseN.png'/>
+  <Image	name='phase1'       x=' 88'  y='  0'  modes='back'	    src='phase1.png'/>
+  <Image	name='phase3'       x='-88'  y='  0'  modes='back'	    src='phase3.png'/>
+  <SWheel	name='digits'	    x=' -28'	y=' 88'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='three' update='1 * days()' angle='fmod(1+closestNewMoonDayNumber(),10)*2*pi/10'		fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gwclr' bgColor='clear' />
+  <SWheel    refName='digits'	    x=' -41'	y=' 88'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='three' update='1 * days()' angle='floor((1+closestNewMoonDayNumber())/10)*2*pi/10'		fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gwclr' bgColor='clear' />
+  <SWheel       name='bdigits'	    x='  61'	y='  0'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='three' update='1 * days()' angle='fmod(1+closestFirstQuarterDayNumber(),10)*2*pi/10'	fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gbclr' bgColor='clear' />
+  <SWheel    refName='digits'	    x='  48'	y='  0'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='three' update='1 * days()' angle='floor((1+closestFirstQuarterDayNumber())/10)*2*pi/10'	fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gwclr' bgColor='clear' />
+  <SWheel    refName='digits'	    x=' -48'	y='  0'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='nine'  update='1 * days()' angle='fmod(1+closestThirdQuarterDayNumber(),10)*2*pi/10'	fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gwclr' bgColor='clear' />
+  <SWheel    refName='bdigits'	    x=' -60'	y='  0'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='nine'  update='1 * days()' angle='floor((1+closestThirdQuarterDayNumber())/10)*2*pi/10'	fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gbclr' bgColor='clear' />
+
+  <QRect	name='year bak'	    x='yearX'	y='yearY' w='40' h='dateFS' modes='back' panes='4' />
+  <SWheel       name='sdigits'	    x='yearX+7'	y='yearY+dateFS/2' dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),              10)*2*pi/10'	fontSize='dateFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel    refName='sdigits'	    x='yearX-3'	y='yearY+dateFS/2' dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),    10)*2*pi/10'	fontSize='dateFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel    refName='sdigits'	    x='yearX-13' y='yearY+dateFS/2' dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10'	fontSize='dateFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel    refName='sdigits'      x='yearX-23' y='yearY+dateFS/2' dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/5'	fontSize='dateFS' fontName='Arial' text='0,1,2,3,4'	      strokeColor='fgclr' bgColor='clear' />
+  <Qhand	name='bce cover'    x='yearX-8' y='yearY+dateFS/2' modes='back' length='48' width='14' tail='0' type='rect' update='1 * days()' angle='eraNumber() == 1 ? 0 : pi/2' strokeColor='0x60ff0000' fillColor='0x60ff0000' />
+
+  <QRect	name='mon bak b'    x='monX'	y='monY' w='32' h='dateFS' modes='back'/>
+  <Swheel	name='Qmonths b'    x='monX-26'	y='monY+dateFS/2' dragAnimationType='dragAnimationAlways' modes='back'  radius='58' orientation='three'  update='1 * days()' angle='monthNumber()		             *2*pi/12'	fontSize='dateFS' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='fgclr' bgColor='clear' />
+
+  <QRect	name='day bak b'    x='dayX'	y='dayY' w='20' h='dateFS' modes='back'  panes='2' />
+  <SWheel    refName='sdigits'	    x='dayX+32'	y='dayY+dateFS/2' dragAnimationType='dragAnimationAlways' modes='back'  radius='31' orientation='nine'  update='1 * days()' angle='fmod(floor((dayNumber()+1)/10), 10)*2*pi/10'	fontSize='dateFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel    refName='sdigits'	    x='dayX+38'	y='dayY+dateFS/2' dragAnimationType='dragAnimationAlways' modes='back'  radius='27' orientation='nine'  update='1 * days()' angle='fmod(dayNumber()+1,             10)*2*pi/10'	fontSize='dateFS' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+
+  <Image	name='phasef'       x=' .5'  y='-88'  modes='back'	    src='phaseF.png'/>
+  <SWheel    refName='bdigits'	    x=' -28'	y='-88'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='three' update='1 * days()' angle='fmod(1+closestFullMoonDayNumber(),10)*2*pi/10'		fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gbclr' bgColor='clear' />
+  <SWheel    refName='bdigits'	    x=' -40'	y='-88'  dragAnimationType='dragAnimationAlways' modes='back'  radius='40' orientation='three' update='1 * days()' angle='floor((1+closestFullMoonDayNumber())/10)*2*pi/10'	fontSize='18' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='gbclr' bgColor='clear' />
+
+  <button	name='adv cen'	    x='yearX' y='yearY' w='20' h='12' modes='back' action='advanceYears(100)' />
+  <button	name='adv yr'	    x='yearX+20' y='yearY' w='20' h='12' modes='back' action='advanceYear()' />
+  <button	name='adv mon b'    x='monX'  y='monY'  w='26' h='12' modes='back' action='advanceMonth()' />
+  <button	name='adv day b'    x='dayX'  y='dayY'  w='17' h='12' modes='back' action='advanceDay()' />
+  <button       name='adv new'      x='-17'  y=' 70' w='34' h='34' modes='back' action='advanceToClosestNewMoon()' />
+  <button       name='adv 1st'      x=' 70'  y='-17' w='34' h='34' modes='back' action='advanceToClosestFirstQuarter()' />
+  <button       name='adv full'     x='-17'  y='-107' w='34' h='34' modes='back' action='advanceToClosestFullMoon()' />
+  <button       name='adv 3rd'      x='-104' y='-17' w='34' h='34' modes='back' action='advanceToClosestThirdQuarter()' />
+
+  <window	name='new  hole'    x='   0 '	y='  88' w='holeD' h='holeD' type='porthole' border='2' strokeColor='holeBorderColor' modes='back' />
+  <window	name='1stq hole'    x='   88'	y='   0' w='holeD' h='holeD' type='porthole' border='2' strokeColor='holeBorderColor' modes='back' />
+  <window	name='full hole'    x='   0 '	y=' -88' w='holeD' h='holeD' type='porthole' border='2' strokeColor='holeBorderColor' modes='back' />
+  <window	name='3rdq hole'    x='  -88'	y='   0' w='holeD' h='holeD' type='porthole' border='2' strokeColor='holeBorderColor' modes='back' />
+  <window	name='year win'	    x='yearX'	y='yearY' w='40' h='dateFS' border='2' strokeColor='holeBorderColor' modes='back' shadowOpacity='0.4' shadowSigma='1.5' shadowOffset='0' />
+  <window	name='mon win b'    x='monX'	y='monY'  w='32' h='dateFS' border='2' strokeColor='holeBorderColor' modes='back' shadowOpacity='0.4' shadowSigma='1.5' shadowOffset='0' />
+  <window	name='day win b'    x='dayX'	y='dayY'  w='20' h='dateFS' border='2' strokeColor='holeBorderColor' modes='back' shadowOpacity='0.4' shadowSigma='1.5' shadowOffset='0' />
+  <window	name='f/r'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+
+  <static name='back' modes='back'>
+    <QDial	name='face b'	    x='0'   y='0'   modes='back'  radius='r' bgColor='black' />
+    <Image	name='farside'	    x=' 0'  y='0'  modes='back'	    src='moon-farside.png'/>
+    <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/curved/wide/band.png' />
+    <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/back.png'/>
+    <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/white/front/wide/case.png' />
+    <Image	name='logob'	    x='logoX' y='logoYb'  modes='back' src='../partsBin/logos/black.png'/>
+    <QDial	name='outer ring'   x='0'   y='0'  modes='back'	radius='dialOuterRad'  markWidth='1'   marks='outer'					     bgColor='clear' strokeColor='backfgColor' />
+    <QDial	name='phase bg'	    x='0'   y='0'  modes='back'	radius='dialOuterRad-dialWidth/2'  marks='outer' markWidth='dialWidth'			     bgColor='clear' strokeColor='0xff707070' />
+    <QDial	name='phase dial0'  x='0'   y='0'  modes='back'	radius='dialOuterRad'  markWidth='2.5' marks='tickOut' nMarks='360/90' mSize='dialWidth*3'   bgColor='clear' strokeColor='backfgColor' />
+    <QDial	name='phase dial5'  x='0'   y='0'  modes='back'	radius='dialOuterRad'  markWidth='2.5' marks='tickOut' nMarks='360/30' mSize='dialWidth '    bgColor='clear' strokeColor='backfgColor' />
+    <QDial	name='phase dial1'  x='0'   y='0'  modes='back'	radius='dialOuterRad'  markWidth='1.5' marks='tickOut' nMarks='360/10' mSize='dialWidth'     bgColor='clear' strokeColor='backfgColor' />
+    <QDial	name='phase dial2'  x='0'   y='0'  modes='back'	radius='dialOuterRad'  markWidth='1'   marks='tickOut' nMarks='360/5'  mSize='dialWidth*2/3' bgColor='clear' strokeColor='backfgColor' />
+    <QDial	name='phase dial3'  x='0'   y='0'  modes='back'	radius='dialOuterRad'  markWidth='.5'  marks='tickOut' nMarks='360/1'  mSize='dialWidth/2'   bgColor='clear' strokeColor='backfgColor' />
+    <QDial	name='phase dial4'  x='0'   y='0'  modes='back'	radius='dialInnerRad'  markWidth='1'   marks='outer'					     bgColor='clear' strokeColor='backfgColor' />
+    <QDial	name='axle2'	    x='0'   y='0'  modes='back' radius='4'	markWidth='.75' marks='outer'				bgColor='black' />
+</static>
+
+  <Qhand	name='phaseAngle'   x=' 0'   y='0'    z='2' modes='back' length='phaseLen-phaseArrow' width='phaseWidth' type='rect' grabPrio='-1' kind='moonDayKind' tail='phaseLen/3' oLineWidth='.1' oFillColor='phaseColor' oRadius='phaseWidth*3' oLength='phaseArrow'  oWidth='phaseArrowWidth' oTail='phaseArrowWidth*-0.66' update='60' angle='moonAgeAngle()'							oStrokeColor='phaseColor'        strokeColor='phaseColor' fillColor='phaseColor' />
+
+</watch>
+
+
+<!-- COMPLICATIONS
+
+[BOTH]
+[WIKI Moon_phase Moon phase]
+
+[FRONT]
+Altitude (Moon)
+Azimuth (Moon)
+Moon compass
+Moon orientation
+
+[BACK]
+Year
+Moon ecliptic longitude
+Era
+
+-->

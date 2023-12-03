@@ -1,0 +1,18 @@
+As of December 2017, the right way to build the atlases (aka archives) is:
+
+- You will need a nonstandard Perl module.  Fortunately this is easy to install:
+
+cpan
+cpan> install File::Copy::Recursive
+
+You need to run a command server:
+- In a terminal window cd'd to the top level of the sandbox, invoke scripts/commandServer.pl and leave it running while Henry runs below
+
+- Shut down any apps running in any simulators
+
+- scripts/clearArchives.pl (deletes *ALL* (Henry) archive directories in all simulator apps)
+
+- run ChronometerWithHenry in the simulator, iPhone 5s, iOS 11.4
+- run ChronometerWithHenryHD in the simulator, iPhone 5s, iOS 11.4  (note: NOT iPad)
+
+- scripts/extractArchives.pl to extract the archives from the simulator app directory.

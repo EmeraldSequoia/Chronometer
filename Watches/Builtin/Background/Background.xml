@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Background.xml
+  Emerald Chronometer
+
+  Created by Steve Pucci
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<!-- This is not a watch at all, of course.  The names of the parts in this "watch" are special in that they are known to
+     the ObjC code.  This is specified in xml primarily so that the mechanism to create an atlas out of a bunch of parts
+     can be used directly, and as a side benefit to make it somewhat easier to change the positioning of the buttons.  But
+     there is obviously a very limited set of customization that can be done here. -->
+<watch name='Background'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+  <init expr='loadingX=0, loadingY=50'/>
+
+<!-- status indicators -->
+<init expr='timx=-148, timy=190, locx=-timx, locy=timy, stDiam=20, indicR=(235-timy)/2' />
+<init expr='asx=-148, asy=timy-17, stateRad=12, normAngleA=pi/2, offAngleA=-pi/2' />
+<init expr='gridAngle=15*pi/180, normAngle=pi, offAngle=pi/2' />
+
+  <Image name='bg'		x='0'       y='0'     modes='all' src='background.png' alpha='1' norotate='1'  />
+<!--
+  <QRect name='Grab hack'  x='-160' y='-240' w='320' h='480' bgColor='black' />
+  <SWheel name='alarm state'	x='asx-64'  y='asy'   modes='all' radius='80' orientation='three' update='.5' angle='(alarmCount() == 0) || inGridOrOptionMode() ? 0 : alarmCount() == 1 ? 5*2*pi/6 : alarmCount() == 2 ? 3*2*pi/6 : 2*pi/6' animSpeed='0' fontSize='80' fontName='Arial' text=',♬ ,,♫ ,,♪ ' strokeColor='0xffc0c000' bgColor='0xff242520' />
+-->
+
+  <hand     name='alarm0'	x='asx'  y='asy+indicR'   modes='all' src='alarmstate0.png' offsetRadius='indicR'  offsetAngle='(inGridOrOptionMode() ? offAngleA : normAngleA)' xAnchor= '5' yAnchor='5' update='.5' angle='0' animSpeed='0' cornerRelative='1' />
+  <hand     name='alarm1'	x='asx'  y='asy+indicR'   modes='all' src='alarmstate1.png' offsetRadius='indicR'  offsetAngle='(inGridOrOptionMode() ? offAngleA : alarmCount()==1 ? normAngleA : offAngleA)' xAnchor= '5' yAnchor='5' update='.5' angle='0' animSpeed='0' cornerRelative='1' />
+  <hand     name='alarm2'	x='asx'  y='asy+indicR'   modes='all' src='alarmstate2.png' offsetRadius='indicR'  offsetAngle='(inGridOrOptionMode() ? offAngleA : alarmCount()> 1 ? normAngleA : offAngleA)' xAnchor= '5' yAnchor='5' update='.5' angle='0' animSpeed='0' cornerRelative='1' />
+    
+  <hand     name='magentaLight'	x='timx'  y='timy+indicR'   modes='all' src='magentaLight.png' offsetRadius='indicR'  offsetAngle=' -( timeIndicatorColor()==magenta ? appMode()==special ? gridAngle : normAngle : offAngle)' xAnchor= '5' yAnchor='5' update='updateForTimeSyncIndicator' angle='0' animSpeed='0' cornerRelative='1' />
+  <hand     name='greenLight'	x='timx'  y='timy+indicR'   modes='all' src='greenLight.png'   offsetRadius='indicR'  offsetAngle=' -( timeIndicatorColor()==green   ? appMode()==special ? gridAngle : normAngle : offAngle)' xAnchor= '5' yAnchor='5' update='updateForTimeSyncIndicator' angle='0' animSpeed='0' cornerRelative='1' />
+  <hand     name='yellowLight'	x='timx'  y='timy+indicR'   modes='all' src='yellowLight.png'  offsetRadius='indicR'  offsetAngle=' -( timeIndicatorColor()==yellow  ? appMode()==special ? gridAngle : normAngle : offAngle)' xAnchor= '5' yAnchor='5' update='updateForTimeSyncIndicator' angle='0' animSpeed='0' cornerRelative='1' />
+  <hand     name='blackLight'	x='timx'  y='timy+indicR'   modes='all' src='blackLight.png'   offsetRadius='indicR'  offsetAngle=' -( timeIndicatorColor()==black   ? appMode()==special ? gridAngle : normAngle : offAngle)' xAnchor= '5' yAnchor='5' update='updateForTimeSyncIndicator' angle='0' animSpeed='0' cornerRelative='1' />
+  <hand  refName='greenLight'	x='locx'  y='locy+indicR'   modes='all' src='greenLight.png'   offsetRadius='indicR'  offsetAngle='locationIndicatorColor()==green   ? appMode()==special ? gridAngle : normAngle : offAngle ' xAnchor= '5' yAnchor='5' update='updateForLocSyncIndicator'  angle='0' animSpeed='0' cornerRelative='1' />
+  <hand  refName='yellowLight'	x='locx'  y='locy+indicR'   modes='all' src='yellowLight.png'  offsetRadius='indicR'  offsetAngle='locationIndicatorColor()==yellow  ? appMode()==special ? gridAngle : normAngle : offAngle ' xAnchor= '5' yAnchor='5' update='updateForLocSyncIndicator'  angle='0' animSpeed='0' cornerRelative='1' />
+  <hand  refName='magentaLight'	x='locx'  y='locy+indicR'   modes='all' src='magentaLight.png' offsetRadius='indicR'  offsetAngle='locationIndicatorColor()==magenta ? appMode()==special ? gridAngle : normAngle : offAngle ' xAnchor= '5' yAnchor='5' update='updateForLocSyncIndicator'  angle='0' animSpeed='0' cornerRelative='1' />
+  <hand     name='redRing'	x='timx+3'  y='timy+indicR+1.5'   modes='all' src='redRing.png'      offsetRadius='indicR'  offsetAngle=' -(abs(skew())>86400 ? appMode()==special ? gridAngle : normAngle : offAngle)'                  xAnchor= '5' yAnchor='5' update='updateForTimeSyncIndicator' angle='0' animSpeed='0' cornerRelative='1' />
+
+  <button name='timeData'	repeatStrategy='ECPartDoesNotRepeat' x='timx-stDiam' y='timy-stDiam' modes='all' w='stDiam*2' h='stDiam*2' enabled='always' action='dataFlip(0)' cornerRelative='1'/>
+  <button name='locData'	repeatStrategy='ECPartDoesNotRepeat' x='locx-stDiam' y='locy-stDiam' modes='all' w='stDiam*2' h='stDiam*2' enabled='always' action='dataFlip(1)' cornerRelative='1'/>
+  <button name='gotoAlarmer'	repeatStrategy='ECPartDoesNotRepeat' x='asx+indicR'  y='asy'         modes='all' w='21' h='21' enabled='always' action='switchToNextActiveAlarmWatch()' cornerRelative='1' />
+
+  <Image  name='dim'           x='0'   y='0'  modes='night' src='dim.png' norotate='1' />
+
+  <Image  name='red banner'    x='0'   y='0'  modes='spare' src='redBanner.png' />
+
+<!--
+// cornerRelative:
+//  x = -133 => 27
+//  x = -140 => 20
+//  x = -108 => 52
+//  y = -189 => 51
+//  y = -221 => 19
+//  y = -214 => 26
+-->
+
+<!-- for the multi-watch product (EC): -->
+  <button name='back'	       x='-140' y='-221' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='aback.png'	action='backFlip()'	xMotion='-55' yMotion='-55' motion='singleWatchProduct() || appMode()==night || appMode()==special' animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='night'	       x='-108' y='-214' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='anight.png'	action='nightFlip()'	xMotion=' 55' yMotion='-55' motion='singleWatchProduct() || appMode()!=front'	  animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='day'	       x='-108' y='-214' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='nday.png'	action='dayFlip()'	xMotion=' 55' yMotion='-55' motion='singleWatchProduct() || appMode()==special || appMode()==world'	  animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='grid'	       x='-133' y='-189' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='agrid.png'	action='grid()'		xMotion='-55' yMotion=' 55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='grid-n  '      x='-133' y='-189' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='ngrid.png'	action='grid()'		xMotion='-55' yMotion=' 55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='info'	       x=' 140' y='-221' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='ainfo.png'	action='info()'		xMotion=' 55' yMotion='-55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='info-n'	       x=' 140' y='-221' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='ninfo.png'	action='info()'		xMotion=' 55' yMotion='-55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='option'	       x=' 108' y='-214' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='aoption.png'	action='option()'	xMotion='-55' yMotion='-55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='option-n'      x=' 108' y='-214' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='noption.png'	action='option()'	xMotion='-55' yMotion='-55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='list'	       x=' 133' y='-189' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='alist.png'	action='watchSelector()' xMotion='55' yMotion=' 55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+  <button name='list-n'	       x=' 133' y='-189' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='nlist.png'	action='watchSelector()' xMotion='55' yMotion=' 55' motion='singleWatchProduct() || appMode()==special'   animSpeed='2' enabled='always' cornerRelative='1' />
+
+<!-- for the single watch product (EG): -->
+  <button name='back p1'       x='-139' y='-216' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='iBack.png'  action='backFlip()'	enabled='always' xMotion='0' yMotion='-100' motion='!singleWatchProduct()' animSpeed='0' cornerRelative='1' />
+  <button name='night p1'      x=' -93' y='-216' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front'	  src='iNight.png' action='nightFlip()'	enabled='always' xMotion='0' yMotion='-100' motion='!singleWatchProduct()' animSpeed='0' cornerRelative='1' />
+  <button name='day p1'	       x=' -93' y='-216' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='iDay.png'   action='dayFlip()'	enabled='always' xMotion='0' yMotion='-100' motion='!singleWatchProduct()' animSpeed='0' cornerRelative='1' />
+  <button name='info p1'       x=' 139' y='-216' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='info.png'   action='info()'		enabled='always' xMotion='0' yMotion='-100' motion='!singleWatchProduct()' animSpeed='0' cornerRelative='1' />
+  <button name='info-n p1'     x=' 139' y='-216' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='info-n.png' action='info()'		enabled='always' xMotion='0' yMotion='-100' motion='!singleWatchProduct()' animSpeed='0' cornerRelative='1' />
+  <button name='option p1'     x='  93' y='-216' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front | back' src='option.png' action='option()'        enabled='always' xMotion='0' yMotion='-100' motion='!singleWatchProduct()' animSpeed='0' cornerRelative='1' />
+  <button name='option-n p1'   x='  93' y='-216' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='option-n.png' action='option()'       enabled='always' xMotion='0' yMotion='-100' motion='!singleWatchProduct()' animSpeed='0' cornerRelative='1' />
+
+<!-- The following spare parts are for storage in the background front archive for use by parts which have not loaded yet -->
+<static name='loading'		modes='spare'>  <Qtext  name='loadingText'      x='loadingX'	y='loadingY' fontSize='20'	strokeColor='white' fontName='Arial' modes='spare' text='  Loading ...'/>  </static>
+<static name='watch'		modes='spare'>  <Qtext  name='WatchText'        x='loadingX'	y='loadingY' fontSize='30'	strokeColor='white' fontName='Arial' modes='spare' text='Watch'/>  </static>
+
+<!-- released -->
+<static	name='Alexandria b'	modes='spare'>	<Image	name='AlexandriaTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Alexandria/Alexandria-icon-b.png' />	</static>
+<static	name='Alexandria n'	modes='spare'>	<Image	name='AlexandriaTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Alexandria/Alexandria-icon-n.png' />	</static>
+<static	name='Alexandria'	modes='spare'>	<Image	name='AlexandriaText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Alexandria/Alexandria-icon-fs.png' />	</static>
+<static	name='Atlantis b'	modes='spare'>	<Image	name='AtlantisTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Atlantis/Atlantis-icon-b.png' /> </static>
+<static	name='Atlantis n'	modes='spare'>	<Image	name='AtlantisTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Atlantis/Atlantis-icon-n.png' /> </static>
+<static	name='Atlantis'		modes='spare'>	<Image	name='AtlantisText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Atlantis/Atlantis-icon-fs.png' /> </static>
+<static	name='Babylon'		modes='spare'>	<Image	name='BabylonText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Babylon/Babylon-icon-fs.png' />	</static>
+<static	name='Chandra b'	modes='spare'>	<Image	name='ChandraTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Chandra/Chandra-icon-b.png' />	</static>
+<static	name='Chandra n'	modes='spare'>	<Image	name='ChandraTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Chandra/Chandra-icon-n.png' />	</static>
+<static	name='Chandra'		modes='spare'>	<Image	name='ChandraText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Chandra/Chandra-icon-fs.png' />	</static>
+<static	name='Geneva b'	        modes='spare'>	<Image	name='GenevaTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Geneva/Geneva-icon-b.png' />	</static>
+<static	name='Geneva n'		modes='spare'>	<Image	name='GenevaTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Geneva/Geneva-icon-n.png' />	</static>
+<static	name='Geneva'		modes='spare'>	<Image	name='GenevaText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Geneva/Geneva-icon-fs.png' />	</static>
+<static	name='Haleakala b'	modes='spare'>	<Image	name='HaleakalaTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Haleakala/Haleakala-icon-b.png' /> </static>
+<static	name='Haleakala n'	modes='spare'>	<Image	name='HaleakalaTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Haleakala/Haleakala-icon-n.png' /> </static>
+<static	name='Haleakala'	modes='spare'>	<Image	name='HaleakalaText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Haleakala/Haleakala-icon-fs.png' /> </static>
+<static	name='Istanbul n'	modes='spare'>	<Image	name='IstanbulTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Istanbul/Istanbul-icon-n.png' /> </static>
+<static	name='Istanbul'		modes='spare'>	<Image	name='IstanbulText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Istanbul/Istanbul-icon-fs.png' /> </static>
+<static	name='Mauna Kea b'	modes='spare'>	<Image	name='MaunaKeaTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Mauna Kea/Mauna Kea-icon-b.png' /> </static>
+<static	name='Mauna Kea n'	modes='spare'>	<Image	name='MaunaKeaTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Mauna Kea/Mauna Kea-icon-n.png' /> </static>
+<static	name='Mauna Kea'	modes='spare'>	<Image	name='MaunaKeaText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Mauna Kea/Mauna Kea-icon-fs.png' /> </static>
+<static	name='McAlester b'	modes='spare'>	<Image	name='McAlesterTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/McAlester/McAlester-icon-b.png' /> </static>
+<static	name='McAlester n'	modes='spare'>	<Image	name='McAlesterTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/McAlester/McAlester-icon-n.png' /> </static>
+<static	name='McAlester'	modes='spare'>	<Image	name='McAlesterText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/McAlester/McAlester-icon-fs.png' /> </static>
+<static	name='Olympia b'	modes='spare'>	<Image	name='OlympiaTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Olympia/Olympia-icon-b.png' />	</static>
+<static	name='Olympia n'	modes='spare'>	<Image	name='OlympiaTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Olympia/Olympia-icon-n.png' />	</static>
+<static	name='Olympia'		modes='spare'>	<Image	name='OlympiaText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Olympia/Olympia-icon-fs.png' />	</static>
+<static	name='Paris n'		modes='spare'>	<Image	name='ParisTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Paris/Paris-icon-n.png' />	</static>
+<static	name='Paris'		modes='spare'>	<Image	name='ParisText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Paris/Paris-icon-fs.png' />	</static>
+<static	name='Thebes n'		modes='spare'>	<Image	name='ThebesTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Thebes/Thebes-icon-n.png' />	</static>
+<static	name='Thebes'		modes='spare'>	<Image	name='ThebesText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Thebes/Thebes-icon-fs.png' />	</static>
+<static	name='Firenze b'	modes='spare'>	<Image	name='FirenzeTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Firenze/Firenze-icon-b.png' />	</static>
+<static	name='Firenze n'	modes='spare'>	<Image	name='FirenzeTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Firenze/Firenze-icon-n.png' />	</static>
+<static	name='Firenze'		modes='spare'>	<Image	name='FirenzeText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Firenze/Firenze-icon-fs.png' />	</static>
+<static	name='Vienna b'		modes='spare'>	<Image	name='ViennaTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Vienna/Vienna-icon-b.png' /> </static>
+<static	name='Vienna n'		modes='spare'>	<Image	name='ViennaTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Vienna/Vienna-icon-n.png' /> </static>
+<static	name='Vienna'		modes='spare'>	<Image	name='ViennaText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Vienna/Vienna-icon-fs.png' /> </static>
+<static	name='Miami b'		modes='spare'>	<Image	name='MiamiTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Miami/Miami-icon-b.png' /> </static>
+<static	name='Miami n'		modes='spare'>	<Image	name='MiamiTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Miami/Miami-icon-n.png' /> </static>
+<static	name='Miami'		modes='spare'>	<Image	name='MiamiText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Miami/Miami-icon-fs.png' /> </static>
+
+<!-- to be released? -->
+<static	name='Kyoto b'		modes='spare'>	<Image	name='KyotoTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Kyoto/Kyoto-icon-b.png' />	</static>
+<static	name='Kyoto n'		modes='spare'>	<Image	name='KyotoTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Kyoto/Kyoto-icon-n.png' />	</static>
+<static	name='Kyoto'		modes='spare'>	<Image	name='KyotoText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Kyoto/Kyoto-icon-fs.png' />	</static>
+<static	name='Terra b'		modes='spare'>	<Image	name='TerraTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Terra/Terra-icon-b.png' />	</static>
+<static	name='Terra n'		modes='spare'>	<Image	name='TerraTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Terra/Terra-icon-n.png' />	</static>
+<static	name='Terra'		modes='spare'>	<Image	name='TerraText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Terra/Terra-icon-fs.png' />	</static>
+<static	name='Tombstone b'	modes='spare'>	<Image	name='TombstoneTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Tombstone/Tombstone-icon-b.png' /> </static>
+<static	name='Tombstone n'	modes='spare'>	<Image	name='TombstoneTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Tombstone/Tombstone-icon-n.png' /> </static>
+<static	name='Tombstone'	modes='spare'>	<Image	name='TombstoneText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Tombstone/Tombstone-icon-fs.png' /> </static>
+<static	name='Hernandez'	modes='spare'>	<Image	name='HernandezText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Hernandez/Hernandez-icon-fs.png' /> </static>
+<static	name='ChandraII'	modes='spare'>	<Image	name='ChandraIIText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/ChandraII/ChandraII-icon-fs.png' />	</static>
+<static	name='ChandraII b'	modes='spare'>	<Image	name='ChandraIITextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/ChandraII/ChandraII-icon-b.png' />	</static>
+
+<!-- maybe not -->
+<static	name='AtlantisIV b'	modes='spare'>	<Image	name='AtlantisIVTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/AtlantisIV/AtlantisIV-icon-b.png' />	</static>
+<static	name='AtlantisIV n'	modes='spare'>	<Image	name='AtlantisIVTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/AtlantisIV/AtlantisIV-icon-n.png' />	</static>
+<static	name='AtlantisIV'	modes='spare'>	<Image	name='AtlantisIVText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/AtlantisIV/AtlantisIV-icon-fs.png' />	</static>
+<static	name='London n'		modes='spare'>	<Image	name='LondonTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/London/London-icon-n.png' />	</static>
+<static	name='London b'		modes='spare'>	<Image	name='LondonTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/London/London-icon-b.png' />	</static>
+<static	name='London'		modes='spare'>	<Image	name='LondonText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/London/London-icon-fs.png' />	</static>
+<static	name='Milano n'		modes='spare'>	<Image	name='MilanoTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Milano/Milano-icon-n.png' />	</static>
+<static	name='Milano'		modes='spare'>	<Image	name='MilanoText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Milano/Milano-icon-fs.png' />	</static>
+<static	name='Neuchatel'	modes='spare'>	<Image	name='NeuchatelText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Neuchatel/Neuchatel-icon-fs.png' /> </static>
+<static	name='Uraniborg'	modes='spare'>	<Image	name='UraniborgText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Uraniborg/Uraniborg-icon-fs.png' /> </static>
+
+<!-- definitely not
+<static	name='OldGreenwich b'	modes='spare'>	<Image	name='OldGrnwichTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/OldGreenwich/OldGreenwich-icon-b.png' /> </static>
+<static	name='OldGreenwich n'	modes='spare'>	<Image	name='OldGrnwichTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/OldGreenwich/OldGreenwich-icon-n.png' /> </static>
+<static	name='OldGreenwich'	modes='spare'>	<Image	name='OldGrnwichText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/OldGreenwich/OldGreenwich-icon-fs.png' /> </static>
+<static	name='Terra b'		modes='spare'>	<Image	name='TerraTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Terra/Terra-icon-b.png' />	</static>
+<static	name='Terra n'		modes='spare'>	<Image	name='TerraTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Terra/Terra-icon-n.png' />	</static>
+<static	name='Terra'		modes='spare'>	<Image	name='TerraText'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Terra/Terra-icon-fs.png' />	</static>
+-->
+
+<!-- boring, best left out
+<static	name='Cairo b'		modes='spare'>	<Image	name='CairoTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Cairo/Cairo-icon-b.png' />	</static>
+<static	name='Cairo n'		modes='spare'>	<Image	name='CairoTextn'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Cairo/Cairo-icon-n.png' />	</static>
+<static	name='Istanbul b'	modes='spare'>	<Image	name='IstanbulTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Istanbul/Istanbul-icon-b.png' /> </static>
+<static	name='Paris b'		modes='spare'>	<Image	name='ParisTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Paris/Paris-icon-b.png' />	</static>
+<static	name='Thebes b'	modes='spare'>	<Image	name='ThebesTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Thebes/Thebes-icon-b.png' />	</static>
+<static	name='Milano b'	modes='spare'>	<Image	name='MilanoTextb'	x='loadingX'	y='loadingY'	modes='spare'	src='../../Help/Milano/Milano-icon-b.png' />	</static>
+-->
+
+<!-- just place holders -->
+<!--
+<static name='zz1'		modes='spare'>    <Image  name='zz1Text'	x='loadingX' y='loadingY'	modes='spare' src='../../Help/zz1/zz1-icon-fs.png'/>  </static>
+<static name='zz2'		modes='spare'>    <Image  name='zz2Text'	x='loadingX' y='loadingY'	modes='spare' src='../../Help/zz2/zz2-icon-fs.png'/>  </static>
+<static name='zz3'		modes='spare'>    <Image  name='zz3Text'	x='loadingX' y='loadingY'	modes='spare' src='../../Help/zz3/zz3-icon-fs.png'/>  </static>
+<static name='zz4'		modes='spare'>    <Image  name='zz4Text'	x='loadingX' y='loadingY'	modes='spare' src='../../Help/zz4/zz4-icon-fs.png'/>  </static>
+<static name='zz5'		modes='spare'>    <Image  name='zz5Text'	x='loadingX' y='loadingY'	modes='spare' src='../../Help/zz5/zz5-icon-fs.png'/>  </static>
+-->
+
+</watch>

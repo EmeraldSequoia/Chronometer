@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+
+ <title>Emerald Chronometer Accuracy</title>
+ <meta name="viewport" content="width=device-width" />
+ <link rel="apple-touch-icon" href="../images/eblogo57-1.png">
+ <link rel="shortcut icon" href="../images/GlyphBerry.png" type="image/png">
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <link rel="stylesheet" href="product.css"/>
+</head>
+<body>
+
+<div display='inline' class='device'>
+<div style="float:right"><p><a href="Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink1' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<br clear=all>
+<p>
+</div>
+<div display='inline' class='website'>
+<div class='floatL'>
+ <a href="../index.php">Home</a>&nbsp;&nbsp;
+ <a href="index.html">Chronometer</a>
+</div>
+<div class='floatR'>
+ <a href="../buy.html">Where to Buy</a>
+</div>
+<br>
+<hr size=1>
+</div>
+<center><h2>Accuracy of the<br>Astronomical Algorithms</h2></center>
+
+<h3>General rule</h3>
+As a general rule, you can assume that all of the astronomical
+displays within EMERALD_PRODUCT are at least as accurate as the
+precision with which you can read the display, from about 4000 BCE to
+about 2800 CE.
+<span class='Chronometer'>
+For example, the
+azimuth displays on Haleakala can be read approximately to the nearest
+degree, and there is far more accuracy in the data than that.
+</span>
+<p>
+<span class='Chronometer'>
+Similarly, the
+</span>
+<span class='GenevaOnly'>
+For example, the
+</span>
+rise and set dials, which can be read to the nearest
+minute, are at least that accurate.  But note of course that they are only valid
+if the rise or set point on the horizon is at exactly the same level
+as you are; if the Sun is setting behind a hill above you, for example, it will
+set much earlier than the time indicated.
+<p>
+The displays depend heavily on having the correct time and location.
+If you have NTP synchronization and Location Services turned on,
+the correct time zone set in the iPhone's Settings app, and have green
+lights at the top of the display, you can presume that everything you
+are looking at is as accurate as you can read it.  In general, those green lights
+mean you have about a kilometer (half a mile) of accuracy and are within a
+half second of the correct time.
+<h3>Specifics</h3>
+The algorithms employed in EMERALD_PRODUCT
+are very high-precision series calculations originally developed by
+astronomers at the Bureau des Longitudes in Paris in the 1980s and
+1990s.  They are particularly well-suited for the iPhone because the
+data tables they are based on can fit in about 500 kilobytes of memory
+(this includes data for most planets for the same period), and yet
+still produce accuracy of less than 1/100 of a degree for times within
+500 years of the present.  No Internet connection is required for any
+astronomical calculation.
+<p>
+Specifically, the tables employed are from <a href='http://www.amazon.com/exec/obidos/ASIN/0943396336/billarnett'>Lunar Tables and Programs
+from 4000 B.C. to A.D. 8000<img src="extlink.png"></a>, by Michelle Chapront-Touz&eacute; & Jean
+Chapront, copyright 1991, and
+<a href='http://www.amazon.com/exec/obidos/ASIN/0943396085/billarnett'>Planetary Programs and Tables from -4000 to +2800<img src="extlink.png"></a>, by Pierre
+Bretagnon & Jean-Louis Simon, copyright 1986, both published by
+Willmann-Bell, Inc. (the latter includes the Sun motion tables).
+<p>
+The algorithms presented in those books were ported to C for use in the
+iPhone development environment, and local caches were developed to
+avoid recalculation of common quantities.  The time conversions in
+those books have been superceded by more accurate ones, described below.
+<p>
+As a side note, the iPhone is a potent floating-point calculating
+machine; every time you move the Sun or Moon hand on Mauna Kea a
+little bit, over a thousand double-precision sines and cosines are
+calculated, whose arguments are themselves each polynomial expressions
+with several terms, and it all gets done in much less than a tenth of
+a second.  Early in their careers the authors of EMERALD_PRODUCT
+used machines that filled whole rooms with less horsepower than the
+iPhone you're holding in your hand.
+<p>
+The RA display on Geneva displays the RA "of date", meaning the RA
+applied from the equniox current on the given date.  This means that
+the Local Sidereal Time (per its definition) also displays the
+rotation from the equinox, and not from the equinox of J2000.  It also
+means that the Sun, Moon, and lunar nodal points' RA "of date" may be
+read from that dial.  The constellations are displayed in the exact
+orientation found in J2000, but rotated according to the precession to
+match their locations at the displayed time.  The P03 formulae for
+general precession are used.
+<p>
+<div display='inline' class='Chronometer'>
+In contrast, on Mauna Kea, the RA display is fixed in the zodiac
+dial to be the J2000 RA numbers of the constellations, and so on that
+dial may be read the J2000 RA of the Sun and Moon.  The local sidereal
+time may thus be read from the front of MK only in centuries close to
+J2000; at other times, the more accurate LST display on the back of Mauna
+Kea may be used.
+</div>
+<h3>Historical data</h3>
+As mentioned, you can use EMERALD_PRODUCT
+to display astronomical information going back to 4000 B.C.  However,
+it is important to understand that the time scale going back that far
+is subject to considerable uncertainty, due to uncertainties in the
+exact rotational speed of the Earth in the past.
+<p>
+What that means in
+practice is that the astronomical events happened as shown, but the
+time of day may not be the exact time that they happened.  You can
+find a discussion of the various time scales involved, notably
+Ephemeris Time, or Terrestrial Dynamic Time, and Universal Time, in
+many places on the web.
+<p>
+And, of course, the dates of events  depend on which calendar is used.
+EMERALD_PRODUCT uses the Gregorian calendar for future dates and for past dates back to 1582,
+ and the Julian calendar from 1 BCE to 1582 CE.
+  Prior to 1 BCE EMERALD_PRODUCT uses a proleptic Julian calendar, with leap years
+ on 1BCE, 5BCE, etc, back every four years.
+  Until very recently calendar representations around the world have varied widely, 
+so using EMERALD_PRODUCT for historical dates requires an advanced knowledge
+ of <a href="http://en.m.wikipedia.org/wiki/Chronology">Chronology<img src="extlink.png"></a>.
+<p>
+EMERALD_PRODUCT always displays UTC, and uses that as the starting
+point for its calculations, converting to Terrestrial Dynamic Time (TDT)
+ using the polynomial expressions suggested by Fred Espenak
+at <a href='http://eclipse.gsfc.nasa.gov/SEhelp/deltatpoly2004.html'>this
+NASA site<img src="extlink.png"></a> based on the data in Morrison & Stephenson, 2004.
+
+<div display='inline' class='website'>
+<br clear=all>
+<br>
+<hr size=1>
+<h3>The Watches</h3>
+<a href="Alexandria/Alexandria.html"><img src="Alexandria/Alexandria-icon-f.png" width=50 border=0  align=center vspece=4></a>
+<a href="Atlantis/Atlantis.html"><img src="Atlantis/Atlantis-icon-f.png"   width=50 border=0 align=center vspece=4></a>
+<a href="Chandra/Chandra.html"><img src="Chandra/Chandra-icon-f.png"    width=50 border=0 align=center vspece=4></a>
+<a href="Haleakala/Haleakala.html"><img src="Haleakala/Haleakala-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="Mauna Kea/Mauna Kea.html"><img src="Mauna Kea/Mauna Kea-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="McAlester/McAlester.html"><img src="McAlester/McAlester-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="Paris/Paris.html"><img src="Paris/Paris-icon-f.png"      width=50 border=0 align=center vspece=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Geneva/Geneva.html"><img src="Geneva/Geneva-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Istanbul/Istanbul.html"><img src="Istanbul/Istanbul-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Olympia/Olympia.html"><img src="Olympia/Olympia-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Thebes/Thebes.html"><img src="Thebes/Thebes-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Firenze/Firenze.html"><img src="Firenze/Firenze-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Miami/Miami.html"><img src="Miami/Miami-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Vienna/Vienna.html"><img src="Vienna/Vienna-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<hr size=4>
+Copyright&nbsp;&copy;&nbsp;2009, <a href="../index.html"><span class='emerald'>Emerald Sequoia LLC</span></a>; last&nbsp;updated:&nbsp;2009&nbsp;November&nbsp;25
+</div>
+<div display='inline' class='device'>
+<hr>
+<div style="font-size:8pt; text-align:center">
+<div style="float:right"><p><a href="Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink2' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<iframe src="versionGen.html" scrolling="auto" width=100% height=30 frameborder=0>
+<a href="versionGen.html">Version</a>
+</iframe>
+<a href="Credits.html">Copyright Information</a>
+</div>
+</div>
+</body></html>

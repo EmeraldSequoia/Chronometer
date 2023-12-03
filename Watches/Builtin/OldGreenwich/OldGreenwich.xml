@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  OldGreenwich.xml
+  Emerald Chronometer
+
+  (was Greenwich; was Strasbourg & A-III)
+
+  Created by Bill Arnett 4/5/09
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='OldGreenwich' beatsPerSecond='0'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+
+<!-- lengths -->
+  <init	    expr='mercuryR=24, venusR=46, earthR=68, marsR=90, jupiterR=112, saturnR=134' />
+  <init	    expr='planetfs=18, wheelfs=11, wheelspace=10' />
+  <init	    expr='yearX=-wheelspace*1.5, yearY=-(marsR+jupiterR)/2, monX=-wheelspace*2.5, dayX=wheelspace, dayY=-yearY-2, monY=dayY' />
+<!-- colors -->
+  <init	    expr='lum=0xc000ffe4, nfgclr=0xff00c0ac, planetColor=white, planetoColor=0xa0ffffff, bgclr=black, fgclr=0xc0ffffff, ticColor=white' />
+  <init	    expr='timHrHand=black, otimHrHand=black, timMinHand=timHrHand, otimMinHand=otimHrHand, arrowClr=clear' />
+
+<!-- front positions & lengths -->
+  <init	    expr='outR=138, azR=outR-1, altR=110, selRadius=129, blogoY=54, selIconY=77' />
+  <init	    expr='hrLen=83, hrArrow=hrLen-32, minLen=110, minArrow=minLen-35, hrTail=9, minTail=7, arrowClr=clear, arrowWidth=1 ' />
+  <init	    expr='datefs=16, dateY=30, yoff2=datefs/2-1' />
+  <init     expr='subR=55, riseX=-subR*cos(pi/12), setX=-riseX, riseSetY=-subR*sin(pi/12), transX=0, transY=-subR, riseSetRadius=20' />
+<!-- colors -->
+  <init	    expr='bfgclr=black, subdialColor=0xc0d8d8d8' />
+  <init	    expr='dialbackColor=lightGray, selBackColor=0xffd0d0d0, dateBackColor=0xffd0d0d0, textColor=black, azColor=0xff2020c0, altColor=0xff208020, sunColor=0xfff2e407, sunStrokeColor=0xff120400, zodiacColor=0xfff0f0f0' />
+  <init	    expr='riseColor=red, riseFillColor=red' />
+  <init	    expr='setColor=yellow, setFillColor=green' />
+  <init	    expr='azHandColor=0xff5050f0, altHandColor=0xff208020, zodHandColor=yellow' />
+<!-- selector variable -->
+  <init	    expr='body=planetMoon, bodySlot=0' />
+
+<!-- infrastructure ================================================== -->
+
+<!-- case buttons -->
+  <button   name='stem'		x=' 142' y='0'  expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='all'	     src='../partsBin/stem8i.png' enabled='always'	   action='manualSet() ?   stemIn()  :  stemOut()' xMotion='10' motion='manualSet() ? 1 : 0' />
+  <button   name='Reset'	x=' 120' y='66' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night'  src='../partsBin/reset3.png'  enabled='wrongTimeOnly' action='reset()' xMotion='13' yMotion='9' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+  <button   name='Reset b'	x=' 120' y='66' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'         src='../partsBin/reset3b.png' enabled='wrongTimeOnly' action='reset()' xMotion='13' yMotion='9' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+  <button   name='adv day but'  x='-124' y=' 68' modes='all' src='../partsBin/buttonUpper8i.png' action='advanceDays(5)'  xMotion='-5' yMotion=' 4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button   name='adv  hr but'  x='-124' y='-68' modes='all' src='../partsBin/buttonLower8i.png' action='advanceHour()'    xMotion='-5' yMotion='-4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button   name='selector'	x=' 122' y='-68' modes='all' src='../partsBin/buttonUpper8i.png' action='bodySlot=fmod(bodySlot+1,7), body=(body==planetMoon ? planetMercury : body==planetVenus ? planetMars : body==planetSaturn ? planetSun : body+1)' xMotion=' 5' yMotion='-4' motion='!thisButtonPressed()' enabled='always' repeatStrategy='ECPartDoesNotRepeat' />
+
+<!-- window buttons -->
+  <button   name='adv yearb'    x='-55'  y='dateY-yoff2'  modes='front' w='42' h='datefs'  action='advanceYear()' />
+  <button   name='adv monb'	x='-5 '  y='dateY-yoff2'  modes='front' w='35' h='datefs'  action='advanceMonth()' />
+  <button   name='adv dayb'	x='35'   y='dateY-yoff2'  modes='front' w='21' h='datefs'  action='advanceDay()' />
+  <button   name='sel but'	x='-27'	 y='selRadius-13' modes='front' w='54' h='14'  action='bodySlot=fmod(bodySlot+1,7),body=(body==planetMoon ? planetMercury : body==planetVenus ? planetMars : body==planetSaturn ? planetSun : body+1)' repeatStrategy='ECPartDoesNotRepeat' />  <!-- Sun=0, Moon=1, Mercury=2, Venus=3, Earth=4, Mars=5, Jupiter=6, Saturn=7, Uranus=8, Neptune=9, Pluto=10 -->
+  <button   name='seli but'	x='-10'	 y='selIconY-10'  modes='front' w='20' h='20'  action='bodySlot=fmod(bodySlot+1,7),body=(body==planetMoon ? planetMercury : body==planetVenus ? planetMars : body==planetSaturn ? planetSun : body+1)' repeatStrategy='ECPartDoesNotRepeat' />  <!-- Sun=0, Moon=1, Mercury=2, Venus=3, Earth=4, Mars=5, Jupiter=6, Saturn=7, Uranus=8, Neptune=9, Pluto=10 -->
+  <button   name='rise but'	x='riseX-riseSetRadius'  y='riseSetY-riseSetRadius' modes='front' w='riseSetRadius*2' h='riseSetRadius*2' action='advanceToRiseOfPlanetForDay(body)' />
+  <button   name='set but'	x='setX-riseSetRadius'   y='riseSetY-riseSetRadius' modes='front' w='riseSetRadius*2' h='riseSetRadius*2' action='advanceToSetOfPlanetForDay(body)' />
+  <button   name='transit but'	x='transX-riseSetRadius' y='transY-riseSetRadius'   modes='front' w='riseSetRadius*2' h='riseSetRadius*2' action='advanceToTransitOfPlanetForDay(body)' />
+
+<!-- front date wheels -->
+  <QRect    name='day bakb'	x=' 33' y='dateY-yoff2' w='22' h='datefs' modes='front' bgColor='dateBackColor' panes='2' />
+  <SWheel   name='ddigits'	x=' 22' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x=' 11' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+
+  <QRect    name='mon bakb'	x='-8 ' y='dateY-yoff2' w='35' h='datefs' modes='front' bgColor='dateBackColor' />
+  <Swheel   name='Qmonthsb'	x='-30' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='58' orientation='three' update='1 * days()'	angle='monthNumber()	              *2*pi/12' fontSize='datefs' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='bfgclr' bgColor='clear' />
+
+  <QRect    name='year bakb'	x='-54' y='dateY-yoff2' w='40' h='datefs' modes='front'  bgColor='dateBackColor' panes='4' />
+  <SWheel   refName='ddigits'   x='-47' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),             10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x='-57' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),   10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear'  />
+  <SWheel   refName='ddigits'   x='-67' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x='-77' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='bfgclr' bgColor='clear' />
+  <Qhand    name='bce cover'    x='-54-(datefs-1)/2'    y='dateY-yoff2+(datefs-1)/2' modes='front' length='40+(datefs-1)/2' width='datefs-1' tail='0' type='rect' update='1 * days()' angle='eraNumber() == 1 ? 0 : pi/2' strokeColor='0x60ff0000' fillColor='0x60ff0000' />
+
+<!-- front planet selector -->
+  <QRect    name='sel back'	x='-27'	y='selRadius-16' modes='front' w='54' h='14' bgColor='selBackColor' />
+  <Swheel   name='planets'	x=' 0'	y='0'	modes='front'  radius='selRadius' orientation='twelve' update='updateAtEnvChangeOnly' angle='bodySlot*2*pi/7' fontSize='14' fontName='Arial' text='Moon,Mercury,Venus,Mars,Jupiter,Saturn,Sun' bgColor='selBackColor' animSpeed='2' dragAnimationType='dragAnimationNever' />
+  <QRect    name='seli bk'	x='-10' y='selIconY-10' modes='front' w='20' h='20' bgColor='black' />
+  <QHand    name='Sun-s i'	x='0' y='0'	modes='front'   type='sun' length='selIconY+17' length2='selIconY-8' lineWidth='.25' nRays='8' tail='0'       angle='fmod(bodySlot-6, 7)*2*pi/7' update='60'  animSpeed='2' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <hand	    name='Saturn i'	x='0' y='0'	modes='front'   src='../partsBin/planets/saturnb.png'      xAnchor='22' yAnchor='10'  offsetRadius='selIconY'  angle='0' offsetAngle='fmod(bodySlot-5, 7)*2*pi/7' update='60' dragAnimationType='dragAnimationNever' animSpeed='2' />
+  <hand	    name='Jupiter i'	x='0' y='0'	modes='front'   src='../partsBin/planets/jupiter.png'     xAnchor='22' yAnchor='10'  offsetRadius='selIconY'  angle='0' offsetAngle='fmod(bodySlot-4, 7)*2*pi/7' update='60' dragAnimationType='dragAnimationNever' animSpeed='2' />
+  <hand	    name='Mars i'	x='0' y='0'	modes='front'   src='../partsBin/planets/mars.png'        xAnchor='22' yAnchor='10'  offsetRadius='selIconY'  angle='0' offsetAngle='fmod(bodySlot-3, 7)*2*pi/7' update='60' dragAnimationType='dragAnimationNever' animSpeed='2' />
+  <hand	    name='Venus i'	x='0' y='0'	modes='front'   src='../partsBin/planets/venus.png'       xAnchor='22' yAnchor='10'  offsetRadius='selIconY'  angle='0' offsetAngle='fmod(bodySlot-2, 7)*2*pi/7' update='60' dragAnimationType='dragAnimationNever' animSpeed='2' />
+  <hand	    name='Mercury i'	x='0' y='0'	modes='front'   src='../partsBin/planets/mercury.png'	 xAnchor='22' yAnchor='10'  offsetRadius='selIconY'  angle='0' offsetAngle='fmod(bodySlot-1, 7)*2*pi/7' update='60' dragAnimationType='dragAnimationNever' animSpeed='2' />
+  <hand	    name='Moon-s i'	x='0' y='0'	modes='front'   src='../partsBin/planets/bighalfMoon.png' xAnchor='22' yAnchor='10'  offsetRadius='selIconY'  angle='sunAzimuth() - moonAzimuth()-pi/2' offsetAngle='fmod(bodySlot, 7)*2*pi/7' update='60' dragAnimationType='dragAnimationNever' animSpeed='2' />
+
+<!-- front am/pm (must be above selector) -->
+  <QWheel   name='main am/pm'	x='0'	   y='-altR-10'		       animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='15' orientation='twelve' update='60'  angle='hour24Number() >= 12 ? 0 : pi'			        fontSize='13' fontName='Arial' marks='0' text='●,' strokeColor='black' bgColor='dialbackColor' />
+  <QWheel   name='am/pm'	x='riseX'  y='riseSetY+riseSetRadius'  animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='10' orientation='twelve' update='60'  angle='riseOfPlanetForDayHour24Number(body)    >= 12 ? 0 : pi' fontSize='13' fontName='Arial' marks='0' text='●,' strokeColor='black' bgColor='white' />
+  <QWheel   refName='am/pm'	x='transX' y='  transY+riseSetRadius'  animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='10' orientation='twelve' update='60'  angle='transitOfPlanetForDayHour24Number(body) >= 12 ? 0 : pi' fontSize='13' fontName='Arial' marks='0' text='●,' strokeColor='black' bgColor='white' />
+  <QWheel   refName='am/pm'	x='setX'   y='riseSetY+riseSetRadius'  animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='10' orientation='twelve' update='60'  angle='setOfPlanetForDayHour24Number(body)     >= 12 ? 0 : pi' fontSize='13' fontName='Arial' marks='0' text='●,' strokeColor='black' bgColor='white' />
+  <QWheel   name='am/pm val'    x=' riseX' y='riseSetY+riseSetRadius'  animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='10' orientation='twelve' update='60'  angle='riseOfPlanetForDayValid(body) ? pi : 0'		        fontSize='13' fontName='Arial' marks='0' text='●,' strokeColor='0xffff4040'   bgColor='clear' />
+  <QWheel   refName='am/pm val' x='transX' y=  'transY+riseSetRadius'  animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='10' orientation='twelve' update='60'  angle='transitOfPlanetForDayValid(body) ? pi : 0'	        fontSize='13' fontName='Arial' marks='0' text='●,' strokeColor='0xffff4040'   bgColor='clear' />
+  <QWheel   refName='am/pm val' x='  setX' y='riseSetY+riseSetRadius'  animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='10' orientation='twelve' update='60'  angle='setOfPlanetForDayValid(body) ? pi : 0'		        fontSize='13' fontName='Arial' marks='0' text='●,' strokeColor='0xffff4040'   bgColor='clear' />
+
+<!-- Forward/Reverse buttons (must be above year wheels) -->
+  <button   name='F/R'		x='-4'   y='-144' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|back' src='../partsBin/slider2a.png' action='inReverse() ? goForward() : goBackward()' xMotion='8' yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+
+<!-- Front ================================================== -->
+
+  <window   name='bk am/pm'	x=' 0'  y='-altR-4'	 modes='front' w=' 5' h='5' type='porthole' border='0.5' strokeColor='black' />
+  <window   name='year win'	x='-54' y='dateY-yoff2'  modes='front' w='40' h='datefs-1' border='2' strokeColor='darkGray' />
+  <window   name='mon win'	x='-8 ' y='dateY-yoff2'  modes='front' w='35' h='datefs-1' border='2' strokeColor='darkGray' />
+  <window   name='day win'	x=' 33' y='dateY-yoff2'  modes='front' w='22' h='datefs-1' border='2' strokeColor='darkGray' />
+  <window   name='sel win'	x='-25'	y='selRadius-16' modes='front' w='50' h='14' border='2' strokeColor='0x7f202020' />  <!-- selector -->
+  <window   name='sel icon w'   x='0'   y='selIconY'	 modes='front' w='20' h='20' border='1' type='porthole' />
+  <window   name='rise am/pm'   x='riseX-1'  y='riseSetY+riseSetRadius+2' modes='front' w='2' h='2' border='1' />
+  <window   name='trans am/pm'  x='transX-1' y='transY+riseSetRadius+2'   modes='front' w='2' h='2' border='1' />
+  <window   name='set am/pm'    x='setX-1'   y='riseSetY+riseSetRadius+2' modes='front' w='2' h='2' border='1' />
+  <window   name='F/R win'	x='-7'   y='-146' w='15' h='4' border='1' />
+
+  <static   name='front' modes='front' >
+    <Image  name='case '	x='0' y='0' modes='front'	src='../partsBin/case8i.png' alpha='1'/>
+    <Qdial  name='face '	x='0' y='0' modes='front'	radius='outR' bgColor='dialbackColor' />
+<!-- decoration -->
+    <init expr='colorA1=0x40ff0000, colorA2=0x4000ff00, colorB1=0x400000ff, colorB2=0x40ffff00, colorC1=0x40ff00ff, colorC2=0x4000ffff, roseStrokeColor=0x40000000' />
+    <init expr='colorA1=0x80808080, colorA2=clear, colorB1=colorA1, colorB2=colorA2, colorC1=colorA2, colorC2=colorA1, roseStrokeColor=0xff000000' />
+    <init expr='roseR0=outR-7, roseR1=roseR0-15, roseR2=roseR1-15, roseR3=subR+riseSetRadius, roseR4=25, roseR5=15, roseLW=.1' />
+    <QDial  name='rose4'	x='0' y='0' modes='front' radius='subR'   radius2='roseR4'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='16' markWidth='roseLW' />
+    <QDial  name='rose3'	x='0' y='0' modes='front' radius='subR'   radius2='roseR5'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 4' markWidth='roseLW' />
+    <QDial  name='rose2'	x='0' y='0' modes='front' radius='roseR2' radius2='roseR3'  fillColor1='colorC1'    fillColor2='colorC2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='32' markWidth='roseLW' />
+    <QDial  name='rose1'	x='0' y='0' modes='front' radius='roseR1' radius2='roseR3'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='16' markWidth='roseLW' />
+    <QDial  name='rose0'	x='0' y='0' modes='front' radius='roseR0' radius2='subR'    fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 8' markWidth='roseLW' />
+    <Image  name='logo b'	x='-.5' y='blogoY' modes='front' src='../partsBin/eslogo-clear3.png' />
+<!-- azimuth/altitude dials -->
+    <QDial  name='az NEWS b'    x='0' y='0' modes='front'	radius='azR+10' orientation='upright' fontSize='16' fontName='Arial' bgColor='clear' strokeColor='textColor' text=',E,S,W' />
+    <QDial  name='az nums b'    x='0' y='0' modes='front'	radius='azR-5'  orientation='demi'    fontSize='12' fontName='Arial' bgColor='clear' strokeColor='textColor' text=',30,60,,120,150,,210,240,,300,330' marks='center' markWidth='4' />
+    <QDial  name='az tic bk'	x='0' y='0' modes='front'	radius='azR' bgColor='clear' strokeColor='0xfff0f0f0' marks='tickOut' nMarks='360' markWidth='4.0' mSize=' 4' />
+    <QDial  name='az tic 1b'	x='0' y='0' modes='front'	radius='azR' bgColor='clear' strokeColor='azColor' marks='tickOut' nMarks='180' markWidth='.67' mSize=' 3' />
+    <QDial  name='az tic 2b'	x='0' y='0' modes='front'	radius='azR' bgColor='clear' strokeColor='azColor' marks='tickOut' nMarks=' 36' markWidth='2' mSize=' 4' />
+    <QDial  name='alt nums b'   x='0' y='0' modes='front'	radius='altR-5'  orientation='demi'    fontSize='12' fontName='Arial' bgColor='clear' strokeColor='textColor' text='90,,,,,,-90,-60,-30,0,30,60' />
+    <QDial  name='alt tic bk'   x='0' y='0' modes='front'	radius='altR' bgColor='clear' strokeColor='white' marks='tickOut' nMarks='360' markWidth='4.0'  mSize='4' angle1='pi' angle2='2*pi' />
+    <QDial  name='alt tic 1b'   x='0' y='0' modes='front'	radius='altR' bgColor='clear' strokeColor='altColor' marks='tickOut' nMarks='180' markWidth='.67' mSize='3' angle1='pi' angle2='2*pi' />
+    <QDial  name='alt tic 2b'   x='0' y='0' modes='front'	radius='altR' bgColor='clear' strokeColor='altColor' marks='tickOut' nMarks='36' markWidth='1.0'  mSize='4' angle1='pi' angle2='2*pi' />
+    <QDial  name='alt tic 3b'   x='0' y='0' modes='front'	radius='altR' bgColor='clear' strokeColor='altColor' marks='tickOut' nMarks=' 1' markWidth='1.0'  mSize='4' angle1=' 0' angle2='2*pi' />
+<!-- rise/transit/set subdials -->
+    <QDial  name='rise dial'    x='riseX' y='riseSetY'	modes='front'	radius='riseSetRadius' orientation='upright'  fontSize=' 9' fontName='Arial' bgColor='subdialColor' strokeColor='black' marks='outer' markWidth='0.5' text='12,3,6,9'/>
+    <QDial  name='rise tic 1'   x='riseX' y='riseSetY'	modes='front'	radius='riseSetRadius' bgColor='clear' marks='tickOut' nMarks='60' markWidth='.5' mSize='2'/>
+    <QDial  name='rise tic 2'   x='riseX' y='riseSetY'	modes='front'	radius='riseSetRadius' bgColor='clear' marks='tickOut' nMarks='12' markWidth=' 1' mSize='3'/>
+    <QDial  name='trans dial'	x='transX' y='transY'	modes='front'	radius='riseSetRadius' orientation='upright'  fontSize=' 9' fontName='Arial' bgColor='subdialColor' strokeColor='black' marks='outer' markWidth='0.5' text='12,3,6,9'/>
+    <QDial  name='trans tic 1'  x='transX' y='transY'	modes='front'	radius='riseSetRadius' bgColor='clear' marks='tickOut' nMarks='60' markWidth='.5' mSize='2'/>
+    <QDial  name='trans tic 2'  x='transX' y='transY'	modes='front'	radius='riseSetRadius' bgColor='clear' marks='tickOut' nMarks='12' markWidth=' 1' mSize='3'/>
+    <QDial  name='set dial'	x=' setX' y='riseSetY'	modes='front'	radius='riseSetRadius' orientation='upright'  fontSize=' 9' fontName='Arial' bgColor='subdialColor' strokeColor='black' marks='outer' markWidth='0.5' text='12,3,6,9'/>
+    <QDial  name='set tic 1'    x=' setX' y='riseSetY'	modes='front'	radius='riseSetRadius' bgColor='clear' marks='tickOut' nMarks='60' markWidth='.5' mSize='2'/>
+    <QDial  name='set tic 2'    x=' setX' y='riseSetY'	modes='front'	radius='riseSetRadius' bgColor='clear' marks='tickOut' nMarks='12' markWidth=' 1' mSize='3'/>
+    <Qtext  name='rise label'   x='riseX' y='riseSetY-riseSetRadius-5'	fontSize='8' fontName='Verdana' modes='front' text='Rise'/>
+    <Qtext  name='transitlabel'	x='transX' y='transY-riseSetRadius-5'	fontSize='8' fontName='Verdana' modes='front' text='Transit'/>
+    <Qtext  name='set label'	x='setX ' y='riseSetY-riseSetRadius-5'	fontSize='8' fontName='Verdana' modes='front' text='Set'/>
+<!-- RA/zodiac dial -->
+    <QDial  name='zod tic bk'   x='0' y='0' modes='front'	radius='altR-11' bgColor='clear' strokeColor='white' marks='tickOut' nMarks='360' markWidth='4.0'  mSize='4' angle1='pi/4-pi/48' angle2='3*pi/4-pi/48' />
+    <QDial  name='zod dial'	x='0' y='0' modes='front'	radius='altR+12' orientation='rotated'  fontSize='10' fontName='Arial' bgColor='clear' strokeColor='black' text=',,,,,,Psc,Ari,Tau,Gem,Can,Leo,Vir,Lib,Sco,Sgr,Cap,Aqr,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,' />
+  </static>
+
+<!-- Night ================================================== -->
+
+  <static   name='night' modes='night' >
+    <Image  name='casen'	x='0' y='0'	modes='night'	src='../partsBin/case8iNight.png' />
+    <Image  name='logo n'	x='-.5' y='blogoY' modes='night' src='../partsBin/eslogo-greenclear.png' />
+    <Qdial  name='face n'	x='0' y='0'	modes='night'	radius='outR' bgColor='0xff101010' />
+    <init expr='colorA1=0x80303030, colorA2=0x80000000, colorB1=colorA1, colorB2=colorA2, colorC1=colorA2, colorC2=colorA1' />
+    <QDial  name='rose4n'	x='0' y='0' modes='night' radius='subR'   radius2='roseR4'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='16' markWidth='roseLW' />
+    <QDial  name='rose3n'	x='0' y='0' modes='night' radius='subR'   radius2='roseR5'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 4' markWidth='roseLW' />
+    <QDial  name='rose2n'	x='0' y='0' modes='night' radius='roseR2' radius2='roseR3'  fillColor1='colorC1'    fillColor2='colorC2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='32' markWidth='roseLW' />
+    <QDial  name='rose1n'	x='0' y='0' modes='night' radius='roseR1' radius2='roseR3'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='16' markWidth='roseLW' />
+    <QDial  name='rose0n'	x='0' y='0' modes='night' radius='roseR0' radius2='subR'    fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 8' markWidth='roseLW' />
+  </static>
+
+<!-- Back ================================================== -->
+
+  <init  expr='s3=1.732' />
+<init  expr='r=136, r2=r*2/3, r3=r-28, radius=r/3-1, hand100=radius*.5, hand10=radius*.63, hand1=radius*.90,
+	     mercx=-r2*s3/2,  mercy= r2/2,  moonx=0,  moony= r2,  venusx=r2*s3/2,  venusy= r2/2,
+	     marsx=-r2*s3/2, marsy=-r2/2, jupiterx=0, jupitery=-r2, saturnx=r2*s3/2, saturny=-r2/2,
+	     ms=3, nm=48, ms2=5, nm2=24,
+	     of=9, fs=16, of2=20, fs2=26, fs3=8,
+	     acx=-(r3+5)/2, acy=(r3+5)*s3/2, acr=6,
+	     nsx=-(r3), ewx=-nsx, ewy=0, nsy=0,
+	     nsdirx=-100, ewdirx=113, nsdiry=0, ewdiry=-13,
+	     mfx=-(r3)/2, mfy=mfx*s3,
+	     erx=(r3)/2, ery=-erx*s3,
+	     neutBg=0xfff0f0f0, latBg=0xfff0f0e7, longBg=0xffe7f0f0, sunBg=0xfff0f0e7, moonBg=0xffe7e7e7, marsBg=0xfffff7f7,
+	     riseHandS=0xff008000, setHandS=0xff800000, transitHandS=black,
+	     riseHandF=0xff008000, setHandF=0xff800000, transitHandF=black,
+	     riseWidth=3, riseLen=radius*.8, riseTail=3,
+	      setWidth=3,  setLen=radius*.8,  setTail=3,
+	     tranWidth=3, tranLen=radius*.5, tranTail=3,
+	     leafBorder=lightGray, leafFill=white,
+	     dnSize=4, dnR=radius*.6-3, dnR2=dnR-dnSize, dnNum=4,
+	     yrText=black' />
+
+  <window   name='F/R win'	x='-7'  y='-146'	 modes='back' w='15' h='4' border='1' />
+  <static name='back'  modes='back' n='40'>
+    <Image	name='caseb'	    x='0' y='0'	modes='back'	src='../partsBin/case8iBack.png' />
+    <Qdial	name='face b'	    x='0' y='0' modes='back'	radius='outR' bgColor='0x40000000' />
+    <QDial	name='merc d'	    x=' mercx' y=' mercy'   modes='back' radius='radius' orientation='upright'   fontSize='10' fontName='Arial' bgColor='neutBg' strokeColor='yrText' text='0,2,4,6,8,10,12,14,16,18,20,22'  marks='outer|tickOut' nMarks='nm' markWidth='1' mSize='ms'/>
+    <QDial	name='moon d'	    x=' moonx' y=' moony'   modes='back' radius='radius' orientation='upright'   fontSize='10' fontName='Arial' bgColor='moonBg' strokeColor='yrText' text='0,2,4,6,8,10,12,14,16,18,20,22'  marks='outer|tickOut' nMarks='nm' markWidth='1' mSize='ms'/>
+    <QDial	name='venus d'	    x=' venusx' y=' venusy'   modes='back' radius='radius' orientation='upright'   fontSize='10' fontName='Arial' bgColor='neutBg' strokeColor='yrText' text='0,2,4,6,8,10,12,14,16,18,20,22'  marks='outer|tickOut' nMarks='nm' markWidth='1' mSize='ms'/>
+    <QDial	name='mars d'	    x='marsx' y='marsy'   modes='back' radius='radius' orientation='upright'   fontSize='10' fontName='Arial' bgColor='marsBg' strokeColor='yrText' text='0,2,4,6,8,10,12,14,16,18,20,22'  marks='outer|tickOut' nMarks='nm' markWidth='1' mSize='ms'/>
+    <QDial	name='jupiter d'    x='jupiterx' y='jupitery'   modes='back' radius='radius' orientation='upright'   fontSize='10' fontName='Arial' bgColor='neutBg' strokeColor='yrText' text='0,2,4,6,8,10,12,14,16,18,20,22'  marks='outer|tickOut' nMarks='nm' markWidth='1' mSize='ms'/>
+    <QDial	name='saturn d'	    x='saturnx' y='saturny'   modes='back' radius='radius' orientation='upright'   fontSize='10' fontName='Arial' bgColor='neutBg' strokeColor='yrText' text='0,2,4,6,8,10,12,14,16,18,20,22'  marks='outer|tickOut' nMarks='nm' markWidth='1' mSize='ms'/>
+    <QDial	name='sun d'	    x='0'      y='0'	    modes='back' radius='radius' orientation='upright'   fontSize='10' fontName='Arial' bgColor=' sunBg' strokeColor='yrText' text='0,2,4,6,8,10,12,14,16,18,20,22'  marks='outer|tickOut' nMarks='nm' markWidth='1' mSize='ms'/>
+
+    <QDial	name="sun night bg"  x='0' y='0'	modes='back' radius='dnR' markWidth='1' marks='tickOut' nMarks='240' mSize='dnSize' bgColor='clear' />
+    <QDial	name="moon night bg" x='moonx' y='moony'	modes='back' radius='dnR' markWidth='1' marks='tickOut' nMarks='240' mSize='dnSize' bgColor='clear' />
+    <QDial	name="merc night bg" x='mercx' y='mercy'	modes='back' radius='dnR' markWidth='1' marks='tickOut' nMarks='240' mSize='dnSize' bgColor='clear' />
+    <QDial	name="venus night bg" x='venusx' y='venusy'	modes='back' radius='dnR' markWidth='1' marks='tickOut' nMarks='240' mSize='dnSize' bgColor='clear' />
+    <QDial	name="mars night bg" x='marsx' y='marsy'	modes='back' radius='dnR' markWidth='1' marks='tickOut' nMarks='240' mSize='dnSize' bgColor='clear' />
+    <QDial	name="jupiter night bg" x='jupiterx' y='jupitery'	modes='back' radius='dnR' markWidth='1' marks='tickOut' nMarks='240' mSize='dnSize' bgColor='clear' />
+    <QDial	name="saturn night bg" x='saturnx' y='saturny'	modes='back' radius='dnR' markWidth='1' marks='tickOut' nMarks='240' mSize='dnSize' bgColor='clear' />
+
+    <QDial	name='merc d2'	    x=' mercx' y=' mercy'   modes='back' radius='radius' bgColor='clear' strokeColor='yrText' marks='tickOut' nMarks='nm2' markWidth='1.5' mSize='ms2'/>
+    <QDial	name='moon d2'	    x=' moonx' y=' moony'   modes='back' radius='radius' bgColor='clear' strokeColor='yrText' marks='tickOut' nMarks='nm2' markWidth='1.5' mSize='ms2'/>
+    <QDial	name='venus d2'	    x=' venusx' y=' venusy'   modes='back' radius='radius' bgColor='clear' strokeColor='yrText' marks='tickOut' nMarks='nm2' markWidth='1.5' mSize='ms2'/>
+    <QDial	name='mars d2'	    x=' marsx' y='marsy'  modes='back' radius='radius' bgColor='clear' strokeColor='yrText' marks='tickOut' nMarks='nm2' markWidth='1.5' mSize='ms2'/>
+    <QDial	name='jupiter d2'	    x=' jupiterx' y='jupitery'  modes='back' radius='radius' bgColor='clear' strokeColor='yrText' marks='tickOut' nMarks='nm2' markWidth='1.5' mSize='ms2'/>
+    <QDial	name='saturn d2'	    x=' saturnx' y='saturny'  modes='back' radius='radius' bgColor='clear' strokeColor='yrText' marks='tickOut' nMarks='nm2' markWidth='1.5' mSize='ms2'/>
+    <QDial	name='sun d2'	    x=' 0'	y=' 0'	    modes='back' radius='radius' bgColor='clear' strokeColor='yrText' marks='tickOut' nMarks='nm2' markWidth='1.5' mSize='ms2'/>
+
+    <Qtext	name='merc2'	    x='mercx' y=' mercy-of' modes='back' fontSize='fs3' fontName='Arial' text="Mercury"/>
+    <Qtext	name='moon2'	    x='moonx' y=' moony-of' modes='back' fontSize='fs3' fontName='Arial' text="Moon"/>
+    <Qtext	name='venus2'	    x='venusx' y='venusy-of' modes='back' fontSize='fs3' fontName='Arial' text="Venus"/>
+    <Qtext	name='lngd2'	    x='marsx' y='marsy-of' modes='back' fontSize='fs3' fontName='Arial' text="Mars"/>
+    <Qtext	name='lngm2'	    x='jupiterx' y='jupitery-of' modes='back' fontSize='fs3' fontName='Arial' text="Jupiter"/>
+    <Qtext	name='lngs2'	    x='saturnx' y='saturny-of' modes='back' fontSize='fs3' fontName='Arial' text="Saturn"/>
+    <Qtext	name='sunx'	    x=' 0'     y='0-of'      modes='back' fontSize='fs3' fontName='Arial' text="Sun"/>
+
+    <Image      name='moon'         x='moonx' y='moony+of+2'  modes='back' src='../partsBin/planets/bighalfMoon.png' scale='0.7' />
+    <Image      name='merc'         x='mercx' y='mercy+of+2'  modes='back' src='../partsBin/planets/mercury.png' scale='0.7' />
+    <Image      name='venus'       x='venusx' y='venusy+of+2'  modes='back' src='../partsBin/planets/venus.png' scale='0.5' />
+    <Image      name='mars'       x='marsx' y='marsy+of+2'  modes='back' src='../partsBin/planets/mars.png' scale='0.7' />
+    <Image      name='jupiter'       x='jupiterx' y='jupitery+of+2'  modes='back' src='../partsBin/planets/jupiter.png' scale='0.5' />
+    <Image      name='saturn'       x='saturnx' y='saturny+of+2'  modes='back' src='../partsBin/planets/saturn.png' scale='0.5' />
+    <Image      name='sun'       x='0' y='0+of+2'  modes='back' src='../Mauna Kea/bigSun.png' scale='0.5' />
+  </static>
+
+<!-- hands ================================================== -->
+
+<!-- front hands -->
+  <QHand    name='Sun-az b'	x='0' y='0' z='2' modes='front'	type='sun' length='azR'  length2='azR-8-8'  lineWidth='.25' nRays='8' tail='0' angle='sunAzimuth()' update='60' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <QHand    name='Sun-alt b'	x='0' y='0' z='2' modes='front'	type='sun' length='altR' length2='altR-8-8' lineWidth='.25' nRays='8' tail='0' angle='sunAltitude()-pi/2' update='60' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <qHand    name='azb'		x='0' y='0' z='3' thick='1.5' modes='front'	type='tri' length='azR'	 width='3' lineWidth='.5' tail='0'	angle='azimuthOfPlanet(body)'	    update='60' strokeColor='black'  fillColor='azHandColor'  />
+  <qHand    name='altb'		x='0' y='0' z='3' thick='1.5' modes='front'	type='tri' length='altR' width='3' lineWidth='.5' tail='0'	angle='altitudeOfPlanet(body)-pi/2' update='60' strokeColor='black' fillColor='altHandColor' />
+  <qHand    name='zodb'		x='0' y='0' z='3' thick='1.5' modes='front'	type='tri' length='altR-5' width='3' lineWidth='.5' tail='0'	angle='RAOfPlanet(body)/4+pi/4-pi/48' update='60' strokeColor='black' fillColor='zodHandColor' />
+  <Qhand    name='rise hr'	x='riseX'    y='riseSetY' z='1.5' modes='front'	length='riseSetRadius*.75*.85' width='1.2' update='updateAtNextMoonriseOrMidnight' angle='riseOfPlanetForDayValid(body)	 ? riseOfPlanetForDayHour12ValueAngle(body) : 0'/>
+  <Qhand    name='rise min'	x='riseX'    y='riseSetY' z='1.5' modes='front'	length='riseSetRadius    *.85' width='1'	 update='updateAtNextMoonriseOrMidnight' angle='riseOfPlanetForDayValid(body)	 ? riseOfPlanetForDayMinuteValueAngle(body) : 0'/>
+  <Qhand    name='transit hr'	x='transX'   y='transY'	  z='1.5' modes='front'	length='riseSetRadius*.75*.85' width='1.2' update='updateAtNextMoonsetOrMidnight'  angle='transitOfPlanetForDayValid(body) ? transitOfPlanetForDayHour12ValueAngle(body) : 0'/>
+  <Qhand    name='transit min'	x='transX'   y='transY'	  z='1.5' modes='front'	length='riseSetRadius    *.85' width='1'	 update='updateAtNextMoonsetOrMidnight'	 angle='transitOfPlanetForDayValid(body) ? transitOfPlanetForDayMinuteValueAngle(body) : 0'/>
+  <Qhand    name='set hr'	x=' setX'    y='riseSetY' z='1.5' modes='front'	length='riseSetRadius*.75*.85' width='1.2' update='updateAtNextMoonsetOrMidnight'	 angle='setOfPlanetForDayValid(body)	 ? setOfPlanetForDayHour12ValueAngle(body) : 0'/>
+  <Qhand    name='set min'	x=' setX'    y='riseSetY' z='1.5' modes='front'	length='riseSetRadius    *.85' width='1'	 update='updateAtNextMoonsetOrMidnight'	 angle='setOfPlanetForDayValid(body)	 ? setOfPlanetForDayMinuteValueAngle(body) : 0'/>
+
+<!-- time hands -->
+  <Qhand    name='hr'		x='0' y=' 0' z='5' thick='1.5' modes='front'	kind='hour12Kind'  type='rect' length='hrLen-hrArrow'   width='arrowWidth' tail=' 3' update='60' angle='hour12ValueAngle()' strokeColor='timHrHand'  fillColor='timHrHand'  oLength='hrArrow'  oWidth='10' oTail='hrTail'  oLineWidth='arrowWidth' oStrokeColor='timHrHand'  oFillColor='arrowClr' />
+  <Qhand    name='min'		x='0' y=' 0' z='5' thick='1.5' modes='front'	kind='minuteKind'  type='rect' length='minLen-minArrow' width='arrowWidth' tail=' 3' update=' 1' angle='minuteValueAngle()' strokeColor='timMinHand' fillColor='timMinHand' oLength='minArrow' oWidth=' 8' oTail='minTail' oLineWidth='arrowWidth' oStrokeColor='timMinHand'  oFillColor='arrowClr' oCenter='2' />
+  <Qhand    name='hrn'		x='0' y=' 0'	modes='night'	kind='hour12Kind'  type='rect' length='hrLen-hrArrow'   width='arrowWidth/2' tail=' 3' update='60' angle='hour12ValueAngle()' strokeColor='nfgclr'  fillColor='clear'  oLength='hrArrow'  oWidth='10' oTail='hrTail'  oLineWidth='arrowWidth' oStrokeColor='nfgclr'  oFillColor='clear' lineWidth='1' />
+  <Qhand    name='minn'		x='0' y=' 0'	modes='night'	kind='minuteKind'  type='rect' length='minLen-minArrow' width='arrowWidth/2' tail=' 3' update=' 1' angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='clear' oLength='minArrow' oWidth=' 8' oTail='minTail' oLineWidth='arrowWidth' oStrokeColor='nfgclr'  oFillColor='clear' lineWidth='1' />
+
+<!-- back hands -->
+  <QdayNightRing name='sun day'	    x='0' y='0' modes='back' outerRadius='dnR' innerRadius='dnR-5' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetSun' masterOffset='pi' />
+
+  <QdayNightRing name='moon day'    x='moonx' y='moony' modes='back' outerRadius='dnR' innerRadius='dnR-5' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetMoon' masterOffset='pi' />
+
+  <QdayNightRing name='merc day'    x='mercx' y='mercy' modes='back' outerRadius='dnR' innerRadius='dnR-5' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetMercury' masterOffset='pi' />
+
+  <QdayNightRing name='Venus day'    x='venusx' y='venusy' modes='back' outerRadius='dnR' innerRadius='dnR-5' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetVenus' masterOffset='pi' />
+
+  <QdayNightRing name='Mars day'    x='marsx' y='marsy' modes='back' outerRadius='dnR' innerRadius='dnR-5' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetMars' masterOffset='pi' />
+
+  <QdayNightRing name='Jupiter day'    x='jupiterx' y='jupitery' modes='back' outerRadius='dnR' innerRadius='dnR-5' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetJupiter' masterOffset='pi' />
+
+  <QdayNightRing name='Saturn day'    x='saturnx' y='saturny' modes='back' outerRadius='dnR' innerRadius='dnR-5' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetSaturn' masterOffset='pi' />
+
+  <Qhand	name='merc rise'  x=' mercx' y=' mercy'   modes='back' type='tri'  length='riseLen' width='riseWidth' tail='riseTail'	update='updateAtNextMoonriseOrMidnight'	angle='riseOfPlanetForDayValid(planetMercury)    ?    riseOfPlanetForDayHour24ValueAngle(planetMercury) : 0' strokeColor='riseHandS'    fillColor='riseHandF'/>
+  <Qhand	name='merc set'  x=' mercx' y=' mercy'   modes='back' type='tri'  length='setLen' width='setWidth' tail='setTail'	update='updateAtNextMoonsetOrMidnight'	angle='setOfPlanetForDayValid(planetMercury)    ?    setOfPlanetForDayHour24ValueAngle(planetMercury) : 0' strokeColor='setHandS'    fillColor='setHandF'/>
+  <Qhand	name='merc trans'  x=' mercx' y=' mercy'   modes='back' type='tri'  length='tranLen' width='tranWidth' tail='tranTail'	update='updateAtNextMoonriseOrMidnight'	angle='transitOfPlanetForDayValid(planetMercury)    ?    transitOfPlanetForDayHour24ValueAngle(planetMercury) : 0' strokeColor='transitHandS'    fillColor='transitHandF'/>
+
+  <Qhand	name='moon rise'  x=' moonx' y=' moony'   modes='back' type='tri'  length='riseLen' width='riseWidth' tail='riseTail'	update='updateAtNextMoonriseOrMidnight'	angle='riseOfPlanetForDayValid(planetMoon)    ?    riseOfPlanetForDayHour24ValueAngle(planetMoon) : 0' strokeColor='riseHandS'    fillColor='riseHandF'/>
+  <Qhand	name='moon set'  x=' moonx' y=' moony'   modes='back' type='tri'  length='setLen' width='setWidth' tail='setTail'	update='updateAtNextMoonsetOrMidnight'	angle='setOfPlanetForDayValid(planetMoon)    ?    setOfPlanetForDayHour24ValueAngle(planetMoon) : 0' strokeColor='setHandS'    fillColor='setHandF'/>
+  <Qhand	name='moon trans'  x=' moonx' y=' moony'   modes='back' type='tri'  length='tranLen' width='tranWidth' tail='tranTail'	update='updateAtNextMoonriseOrMidnight'	angle='transitOfPlanetForDayValid(planetMoon)    ?    transitOfPlanetForDayHour24ValueAngle(planetMoon) : 0' strokeColor='transitHandS'    fillColor='transitHandF'/>
+
+  <Qhand	name='venus rise'  x=' venusx' y=' venusy'   modes='back' type='tri'  length='riseLen' width='riseWidth' tail='riseTail'	update='updateAtNextMoonriseOrMidnight'	angle='riseOfPlanetForDayValid(planetVenus)    ?    riseOfPlanetForDayHour24ValueAngle(planetVenus) : 0' strokeColor='riseHandS'    fillColor='riseHandF'/>
+  <Qhand	name='venus set'  x=' venusx' y=' venusy'   modes='back' type='tri'  length='setLen' width='setWidth' tail='setTail'	update='updateAtNextMoonsetOrMidnight'	angle='setOfPlanetForDayValid(planetVenus)    ?    setOfPlanetForDayHour24ValueAngle(planetVenus) : 0' strokeColor='setHandS'    fillColor='setHandF'/>
+  <Qhand	name='venus trans'  x=' venusx' y=' venusy'   modes='back' type='tri'  length='tranLen' width='tranWidth' tail='tranTail' update='updateAtNextMoonriseOrMidnight' angle='transitOfPlanetForDayValid(planetVenus)    ?    transitOfPlanetForDayHour24ValueAngle(planetVenus) : 0' strokeColor='transitHandS'    fillColor='transitHandF'/>
+
+  <Qhand	name='mars rise'  x=' marsx' y=' marsy'   modes='back' type='tri'  length='riseLen' width='riseWidth' tail='riseTail'	update='updateAtNextMoonriseOrMidnight'	angle='riseOfPlanetForDayValid(planetMars)    ?    riseOfPlanetForDayHour24ValueAngle(planetMars) : 0' strokeColor='riseHandS'    fillColor='riseHandF'/>
+  <Qhand	name='mars set'  x=' marsx' y=' marsy'   modes='back' type='tri'  length='setLen' width='setWidth' tail='setTail'	update='updateAtNextMoonsetOrMidnight'	angle='setOfPlanetForDayValid(planetMars)    ?    setOfPlanetForDayHour24ValueAngle(planetMars) : 0' strokeColor='setHandS'    fillColor='setHandF'/>
+  <Qhand	name='mars trans'  x=' marsx' y=' marsy'   modes='back' type='tri'  length='tranLen' width='tranWidth' tail='tranTail' update='updateAtNextMoonriseOrMidnight' angle='transitOfPlanetForDayValid(planetMars)    ?    transitOfPlanetForDayHour24ValueAngle(planetMars) : 0' strokeColor='transitHandS'    fillColor='transitHandF'/>
+
+  <Qhand	name='jupiter rise'  x=' jupiterx' y=' jupitery'   modes='back' type='tri'  length='riseLen' width='riseWidth' tail='riseTail'	update='updateAtNextMoonriseOrMidnight'	angle='riseOfPlanetForDayValid(planetJupiter)    ?    riseOfPlanetForDayHour24ValueAngle(planetJupiter) : 0' strokeColor='riseHandS'    fillColor='riseHandF'/>
+  <Qhand	name='jupiter set'  x=' jupiterx' y=' jupitery'   modes='back' type='tri'  length='setLen' width='setWidth' tail='setTail'	update='updateAtNextMoonsetOrMidnight'	angle='setOfPlanetForDayValid(planetJupiter)    ?    setOfPlanetForDayHour24ValueAngle(planetJupiter) : 0' strokeColor='setHandS'    fillColor='setHandF'/>
+  <Qhand	name='jupiter trans'  x=' jupiterx' y=' jupitery'   modes='back' type='tri'  length='tranLen' width='tranWidth' tail='tranTail' update='updateAtNextMoonriseOrMidnight' angle='transitOfPlanetForDayValid(planetJupiter)    ?    transitOfPlanetForDayHour24ValueAngle(planetJupiter) : 0' strokeColor='transitHandS'    fillColor='transitHandF'/>
+
+  <Qhand	name='saturn rise'  x=' saturnx' y=' saturny'   modes='back' type='tri'  length='riseLen' width='riseWidth' tail='riseTail'	update='updateAtNextMoonriseOrMidnight'	angle='riseOfPlanetForDayValid(planetSaturn)    ?    riseOfPlanetForDayHour24ValueAngle(planetSaturn) : 0' strokeColor='riseHandS'    fillColor='riseHandF'/>
+  <Qhand	name='saturn set'  x=' saturnx' y=' saturny'   modes='back' type='tri'  length='setLen' width='setWidth' tail='setTail'	update='updateAtNextMoonsetOrMidnight'	angle='setOfPlanetForDayValid(planetSaturn)    ?    setOfPlanetForDayHour24ValueAngle(planetSaturn) : 0' strokeColor='setHandS'    fillColor='setHandF'/>
+  <Qhand	name='saturn trans'  x=' saturnx' y=' saturny'   modes='back' type='tri'  length='tranLen' width='tranWidth' tail='tranTail' update='updateAtNextMoonriseOrMidnight' angle='transitOfPlanetForDayValid(planetSaturn)    ?    transitOfPlanetForDayHour24ValueAngle(planetSaturn) : 0' strokeColor='transitHandS'    fillColor='transitHandF'/>
+
+  <Qhand	name='sun rise'   x=' 0'    y=' 0'	  modes='back' type='tri'  length='riseLen' width='riseWidth' tail='riseTail'	update='updateAtNextSunriseOrMidnight'	angle='riseOfPlanetForDayValid(planetSun)    ?    riseOfPlanetForDayHour24ValueAngle(planetSun) : 0' strokeColor='riseHandS'    fillColor='riseHandF'/>
+  <Qhand	name='sun set'    x=' 0'    y=' 0'	  modes='back' type='tri'  length='setLen'  width='setWidth'  tail='setTail'	update='updateAtNextSunsetOrMidnight'	angle='setOfPlanetForDayValid(planetSun)     ?     setOfPlanetForDayHour24ValueAngle(planetSun) : 0' strokeColor='setHandS'     fillColor='setHandF'/>
+  <Qhand	name='sun trans'  x=' 0'    y=' 0'	  modes='back' type='tri'  length='tranLen' width='tranWidth' tail='tranTail'   update='updateAtNextSunsetOrMidnight'	angle='transitOfPlanetForDayValid(planetSun) ? transitOfPlanetForDayHour24ValueAngle(planetSun) : 0' strokeColor='transitHandS' fillColor='transitHandF'/>
+ 
+</watch>

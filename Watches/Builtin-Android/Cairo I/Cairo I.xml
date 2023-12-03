@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cairo I.xml
+  Emerald Chronometer
+
+  Copied from Cairo.xml 2017 May 25
+ 
+  Created by Bill Arnett on 4/23/2008 (from Alexandria)
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Cairo I' beatsPerSecond='0' faceWidth='267'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=267, backerWidth=faceWidth' />
+
+  <init		expr='hairline=0.25, haircolor=0xff202020, fgclr=0xffe0e0e0, sbgclr=red, sfgclr=red, lclr=magenta, nMoons=16, demoing=0' />
+
+<!-- infrastructure ================================================== -->
+
+<!-- below the face items -->
+  <hand		name='Earth'	    x=' 0'  y='0'   modes='front|night'	src='earthN.png' update='60' angle='-hour24ValueAngle() + pi - sunRA() + tzOffsetAngle() - EOTAngle()' />
+  <hand		name='Earth-s'	    x=' 0'  y='0'   modes='back'	src='earthS.png' update='60' angle=' hour24ValueAngle() - pi + sunRA() - tzOffsetAngle() + EOTAngle()' />
+  <terminator   name='term'         x=' 0'  y='0'   modes='front|night'	radius='50' leavesPerQuadrant='14' incremental='0' leafBorderColor='0x40080808' leafFillColor='0xe0080808' leafAnchorRadius='0' update='3600' updateOffset='0' phaseAngle='pi/2 - 23*pi/180*sin(vernalEquinoxAngle())'    rotation='-sunRA() - pi/2' />
+  <terminator   name='terms'        x=' 0'  y='0'   modes='back'	radius='50' leavesPerQuadrant='14' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xc0080808' leafAnchorRadius='0' update='3600' updateOffset='0' phaseAngle='pi/2 - 23*pi/180*sin(pi+vernalEquinoxAngle())' rotation=' sunRA() - pi/2' />
+
+<!-- Front ================================================== -->
+
+  <window	name='earthhole'    x='0' y='0'  w='99' h='99' type='porthole'  border='1' strokeColor='clear' />
+  <static name='front' modes='front' n='2'>
+    <QRect      name='maskRectf'    x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='stars'	    x='0' y='0'	    modes='front' src='stars.png' />
+    <Qdial	name='moon slot'    x='0' y='0'	    modes='front' radius=' 75' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+    <Qdial	name='sun slot'     x='0' y='0'	    modes='front' radius='109' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+  </static>
+ 
+<!-- Night ================================================== -->
+
+  <window	name='earthhole'    x='0' y='0'  w='99' h='99' type='porthole'  border='1' strokeColor='clear' />
+  <static   name='night' modes='night' >
+    <QRect      name='maskRectn'    x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='stars n'	    x='0' y='0'	    modes='night' src='starsn.png' />
+  </static>
+
+<!-- Back ================================================== -->
+
+  <window	name='earthhole'    x='0' y='0'  w='99' h='99' type='porthole'  border='1' strokeColor='clear' />
+  <static name='back' modes='back' n='2'>
+    <QRect      name='maskRectb'    x='-backerWidth/2' y='-backerWidth/2'  modes='back'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='stars s'	    x='0' y='0'	    modes='back' src='starss.png' />
+    <Qdial	name='moons slot'   x='0' y='0'	    modes='back' radius=' 75' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+    <Qdial	name='suns slot'    x='0' y='0'	    modes='back' radius='109' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+    <Qdial	name='mask b'	    x='0' y='0'	    modes='back' radius='137' marks='tickOut' markWidth='3' mSize='5' nMarks='360' bgColor='clear' />
+  </static>
+
+<!-- Hands ================================================== -->
+
+<!-- sun/moon hands -->
+  <Qhand        name='sun pos'      x='0'   y='0'   modes='front' type='sun' length='126' length2='100' tail='0' lineWidth='.25' nRays='8' kind='reverseSunRAKind'  update='86400' angle='-sunRA()' strokeColor='yellow' fillColor='yellow' />
+  <hand         name='Moon'	    x=' 0'  y='0'   modes='front' src='halfMoon.png' xAnchor= '9' yAnchor='9' offsetRadius='75'		   kind='reverseMoonRAKind' update='60'    angle='moonAgeAngle()' offsetAngle='-moonRA()' />
+  <hand         name='Moonn'	    x=' 0'  y='0'   modes='night' src='halfblueMoon.png' xAnchor= '9' yAnchor='9' offsetRadius='75'		   kind='reverseMoonRAKind' update='60'    angle='moonAgeAngle()' offsetAngle='-moonRA()' />
+
+  <Qhand        name='sun pos n'    x='0'   y='0'   modes='night' tail='0' type='sun' length='126' length2='100' lineWidth='.25' nRays='8' kind='reverseSunRAKind' update='86400' angle='-sunRA()' strokeColor='nfgclr' fillColor='nfgclr' />
+
+  <Qhand        name='sun pos b'    x='0'   y='0'   modes='back' tail='0' type='sun' length='126' length2='100' lineWidth='.25' nRays='8' kind='sunRAKind' update='86400' angle='sunRA()' strokeColor='yellow' fillColor='yellow' />
+  <hand         name='Moon-s'	    x=' 0'  y='0'   modes='back'	    src='halfMoon.png' xAnchor= '9' yAnchor='9' kind='moonRAKind' update='60' angle='moonAgeAngle()' offsetRadius='75'  offsetAngle='moonRA()' />
+
+<!-- longitude hand -->
+  <Qhand	name='longitude'    x=' 0'  y='0'   modes='front' length=' 50' length2='40' width='1'  tail='0'    update='60'	angle='-hour24ValueAngle() + pi - sunRA() + tzOffsetAngle() - EOTAngle() - longitude()' strokeColor='lclr' fillColor='lclr' />
+  <Qhand	name='longitude-s'  x=' 0'  y='0'   modes='back'  length=' 50' length2='40' width='1'  tail='0'    update='60'	angle=' hour24ValueAngle() - pi + sunRA() - tzOffsetAngle() + EOTAngle() + longitude()' strokeColor='lclr' fillColor='lclr' />
+
+<!-- time hands -->
+<!-- regular: -->
+  <Qhand	name='12hour'	    x=' 0'  y='0'   modes='front|back'	    kind='hour12Kind' length=' 60' width='5'		  update='60'	angle='hour12ValueAngle()' strokeColor='fgclr' fillColor='fgclr' />
+  <Qhand	name='minute'	    x=' 0'  y='0'   modes='front|back'	    kind='minuteKind' length=' 80' width='4'		  update=' 1'	angle='minuteValueAngle()' strokeColor='fgclr' fillColor='fgclr' />
+  <Qhand	name='second'	    x=' 0'  y='0'   modes='front|back'	    kind='secondKind' length=' 81' width='2'  tail='25'   update='.1'	angle='secondValueAngle()' strokeColor='sfgclr' fillColor='sbgclr' oStrokeColor='sbgclr' oCenter='1.85' />
+<!-- 'behind the Earth' look:
+  <Qhand	name='12hour'	    x=' 0'  y='0'   modes='front|back'	    kind='hour12Kind' length=' 70' length2='50' tail='0' width='7'		  update='60'	angle='hour12ValueAngle()' strokeColor='fgclr' fillColor='fgclr' />
+  <Qhand	name='minute'	    x=' 0'  y='0'   modes='front|back'	    kind='minuteKind' length=' 85' length2='50' tail='0' width='5.5'		  update=' 1'	angle='minuteValueAngle()' strokeColor='fgclr' fillColor='fgclr' />
+  <Qhand	name='second'	    x=' 0'  y='0'   modes='front|back'	    kind='secondKind' length=' 88' length2='50' tail='0' width='2'   update='.1'	angle='secondValueAngle()' strokeColor='sfgclr' fillColor='sbgclr' oStrokeColor='sbgclr' oCenter='1.85' />
+  -->
+
+  <Qhand	name='12hourn'	    x=' 0'  y='0'   modes='night'	    kind='hour12Kind' length=' 60' width='5'		  update='60'	angle='hour12ValueAngle()' strokeColor='nfgclr' fillColor='nfgclr' />
+  <Qhand	name='minuten'	    x=' 0'  y='0'   modes='night'	    kind='minuteKind' length=' 80' width='4'		  update='10'	angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='nfgclr' />
+
+<!-- just for debugging
+<button	name='stem'	    x='142' y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='all'  src='../partsBin/stemC.png'   enabled='always'		action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' xMotion='10'		 motion='manualSet() ? 1 : 0' opacity='1' />
+<button	name='adv day but'  x='-142' y=' 70' modes='all' src='../partsBin/buttonUpperS.png'   action='advanceSeconds(86164.09)'	xMotion='-5' yMotion=' 4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+<button	name='adv hr  but'  x='-142' y='-70' modes='all' src='../partsBin/buttonLowerS.png'   action='advanceHour()'		xMotion='-5' yMotion='-4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+<button	name='Reset'	    x=' 142' y=' 70'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='all' src='../partsBin/HD/reset02.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='5' yMotion='0' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+-->
+
+</watch>
+

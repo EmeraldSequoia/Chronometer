@@ -1,0 +1,90 @@
+body {
+     background-color:#ccc;
+}
+.device {
+    display:inline;
+}
+.website {
+    display:none;
+}
+.Chronometer {
+    display:none;
+}
+.GenevaOnly {
+    display:inline;
+}
+.Alexandria {
+    display:none;
+}
+.Atlantis {
+    display:none;
+}
+.AtlantisIV {
+    display:none;
+}
+.Cairo {
+    display:none;
+}
+.Chandra {
+    display:none;
+}
+.Firenze {
+    display:none;
+}
+.Geneva {
+    display:inline;
+}
+.Haleakala {
+    display:none;
+}
+.Istanbul {
+    display:none;
+}
+.London {
+    display:none;
+}
+.MaunaKea {
+    display:none;
+}
+.McAlester {
+    display:none;
+}
+.Miami {
+    display:none;
+}
+.Milano {
+    display:none;
+}
+.OldGreenwich {
+    display:none;
+}
+.Olympia {
+    display:none;
+}
+.Paris {
+    display:none;
+}
+.Terra {
+    display:none;
+}
+.Thebes {
+    display:none;
+}
+.Tombstone {
+    display:none;
+}
+.Vienna {
+    display:none;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Dark theme styles go here */
+    body {
+        background-color:#444;
+        color: white;
+    }
+
+    a {
+      color: #b0b0ff;
+    }
+}

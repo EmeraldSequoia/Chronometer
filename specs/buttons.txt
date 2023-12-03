@@ -1,0 +1,20 @@
+Pusher functions:
+-----------------
+Alexandria	upper		advanceSeconds(86400)
+Alexandria	lower		advanceHour()
+
+Atlantis	upper		advanceYears(100)
+Atlantis	lower		advanceYear()
+
+Atlantis3	upper		advanceYears(100)
+Atlantis3	lower		advanceYear()
+
+Chandra		upper		advanceToNextMoonPhase()
+Chandra		lower		advanceToQuarterHour()
+
+Haleakala	upper		advanceDay()
+Haleakala	lower		advanceHour()
+
+Mauna Kea	upper		advanceDay()
+Mauna Kea	lower		advanceHour()
+

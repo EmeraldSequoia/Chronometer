@@ -1,0 +1,62 @@
+Pinch zoom implementation:  UNIMPLEMENTED
+
+Use model:
+
+You can zoom into a watch.  When you do so, swiping to another watch
+is disabled, so that you don't accidentally switch (and incur a huge
+load penalty for the big atlases) when you just wanted to look at the
+side of the watch.  Presumably you can bring up the switcher.  This
+might for load space optimization automatically zoom the first watch
+back out.  Or at least unload its HD archive (see below).
+
+Implementation:
+
+There is a zoom factor per watch, stored along with the draw center
+coordinate, which was already present to allow swiping.  The zoom
+factor is per-watch to avoid having to load high-definition images of
+the watches on either side.
+
+Watches and parts now deal with multiple display lists and atlases.
+Whereas before a watch would draw all of the display lists for a mode,
+it will now draw all of the display lists for a particular mode/zoom
+combination.  Same for part updating:  Before a watch is drawn, its
+parts will be updated for the mode/zoom combination that is to be drawn.
+And for loading:  A watch can be loaded for a particular zoom without
+being loaded for another zoom, analagous to having the front loaded
+but not the back.
+
+Similarly, a part now will have texture data by mode&zoom, instead of
+just by mode.  All texture coordinates will be loaded when reading the
+archive (because that's the easiest and most efficient place to store
+the numbers).
+
+In general we will use the breakdown by mode as the key to where we
+need to break down by zoom factor, as the requirements are very
+similar.
+
+The texture for a part may now be larger than 1024 in one dimension,
+if the original part is larger than 256 in that dimension (since the
+4x textures are 4x per side larger).  Such a texture will not fit into
+the maximum-size 1024x1024 atlas.  So when CwH writes such a part into
+the atlas, it first breaks it up into multiple parts each no bigger
+than 256 on a side.  For static parts this is relatively easy; for
+dynamic parts the expressions must be modified for each subpart, which
+probably means we need to store the ascii form of the expressions
+instead of the compiled instruction streams, compiling them only when
+we get to archiving the part.
+
+Zooming out uses a similar mechanism; the archive and coordinates for
+the zoom-out view texture are different depending on the view.  This
+raises its own set of issues; the textures definitely need to be
+smaller, because we are viewing multiple watches at once and we can't
+have all of the textures for all of the watches loaded at once.  I'm
+thinking I'll use 0.5x textures for 4 and 9 watches, and 0.25x
+textures for 16 and 25.  It should be easily possible to load 0.5x
+(1/4 the area) archives for 9 watches at once.  It might also be that
+accessing 25 textures during a repaint is problematic, but since I
+don't plan to support any kind of animation in that view, it should be
+ok.  If we wanted to fix this, we could at least put the 0.25x (1/16
+area) atlases into a single archive, but this would force us to pick a
+side for each watch and display that, which IMHO is far less useful
+and fun than showing each watch's current side in the zoomed-out
+view.  We could dynamically generate the atlas, but when?

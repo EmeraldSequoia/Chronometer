@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+
+ <title>Emerald Chronometer Geneva</title>
+ <meta name="viewport" content="width=device-width" />
+ <link rel="apple-touch-icon" href="../../images/eblogo57-1.png">
+ <link rel="shortcut icon" href="../../images/GlyphBerry.png" type="image/png">
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <link rel="stylesheet" href="../product.css"/>
+</head>
+<body>
+
+<div display='inline' class='device'>
+<div style="float:right"><p><a href="../Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink1' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<div id='watchHeaderIcon' style="text-align: center"><img src="Geneva-icon-f.png" height=60></div>
+<p>
+</div>
+<div display='inline' class='website'>
+<div class='floatL'>
+ <a href="../../index.php">Home</a>&nbsp;&nbsp;
+ <a href="../index.html">Chronometer</a>
+</div>
+<div class='floatR'>
+ <a href="../../buy.html">Where to Buy</a>
+</div>
+<br>
+<hr size=1>
+
+<h1>Geneva</h1>
+<center>
+<img src="Geneva-1.png" alt="Emerald Chronometer Geneva" width=640 height=460>
+</center>
+<p>
+</div>
+
+
+<b>Geneva</b> takes its name from <a href="http://en.m.wikipedia.org/wiki/Geneva">the city in Switzerland<img src="../extlink.png"></a>, home to many of the world's finest watchmakers.
+
+It is a complex multi-dial watch with many traditional complications plus a few modern twists.
+<p>
+There are 21 hands
+<!--
+hour, minute, second
+year, century
+day
+24hr, UT
+month, leap
+weekday, season
+sun/moon * rise/set * hr/min (=8)
+moon age
+-->
+ plus 9 additional indicators
+<!--
+main am/pm
+moonrise am/pm/invalid
+moonset am/pm/invalid
+DST
+UT date diff
+moon phase
+number of days in month
+Julian/Gregorian
+season dates
+-->
+ on the front side.  The hours, minutes and seconds are standard (but with no numbers on the dial).
+There is an am/pm dot just above the 12 o'clock position (white for am, black for pm).
+The thin gray-blue hand with the circle on the outermost dial indicates the day of the month.
+<img src="genevaNov29.png" align=left>
+The first twist on the classic look is that the day numbers 29 thru 31 appear only as needed.
+Here, for example, is the appearance for Nov 29, 294 CE.
+<p>
+The white hand with a black tip indicates the last two digits of the year, read against
+<img src="geneva-yrcen.png" align=right>
+ the inner gray dial with 100 divisions (zero is at the 12 o'clock position).
+The thin white hand with a red tip indicates the two digit century, read against the same dial.
+For dates <a href="http://en.m.wikipedia.org/wiki/Bce">BCE<img src="../extlink.png"></a> the scale runs backwards.
+The example to the right shows the year 408 CE.
+(Note: in order to ensure astronomical accuracy, EMERALD_PRODUCT cannot be set to dates
+ outside the range 4000 BCE thru 2800 CE.)
+<br clear=all>
+<p>
+The primary hand of the subdial at 12 o'clock indicates the month.
+The interior region of that dial, which is marked with the seasons,
+rotates so that the boundaries between the seasons are properly aligned to the calendar months.
+This changes according to the "calendar drift" from the <a href="http://en.m.wikipedia.org/wiki/Tropical_year">tropical year<img src="../extlink.png"></a>.  Since the
+Gregorian calendar currently in effect is very closely aligned with the tropical year, it will not change
+<img src="geneva-season.png" align=left>
+significantly going forward in time, but moving backward into the range where the Julian calendar was in
+effect (see below) will show a jump and then a slow drift over time; drag the century hand backwards to see the dial rotate.
+(Note that this has nothing to do with the precession of the equinoxes against the stars, which may be seen on the back of
+this watch).
+<p>
+For more precision, the tiny hand in the seasons subdial changes at the exact time of each equinox and solstice
+(not just the beginnings of the usual days).
+Both are correct for both hemispheres (the example above shows a southern hemisphere case).
+There are four small fixed dots on the month ring which mark the orientation of the seasons for the year 2000 CE.
+<p>
+The primary hand on the subdial at 3 o'clock simply shows the current local time in 24-hour format
+<img src="geneva24.png" align=right>
+while the small gray-green arrow shows the
+<nobr>
+<a href="http://en.m.wikipedia.org/wiki/Coordinated_Universal_Time" target="_top">UT<img src="../extlink.png"></a></nobr>
+hour.
+<span class='Chronometer'>
+As usual for EMERALD_PRODUCT, the
+</span>
+<span class='GenevaOnly'>
+The
+</span>
+local time always follows the local daylight savings time rules
+ (for most jurisdictions; UT never uses DST).
+If daylight savings time is in effect a "D" will appear in the lower left quadrant;
+otherwise, an "S" will appear in the lower right.
+A "+" will appear in the upper right quadrant if the UT date is a day ahead of the local date,
+ and a "-" will appear in the upper left if it is a day behind; otherwise both upper quadrants will be blank.
+<p>
+The primary hand on the subdial at 9 o'clock shows the day of the week.
+<img src="geneva-greg.png" align=right>
+The tiny hand is another of Geneva's twists, a fully general leap year indicator.
+It points to 1, 2 or 3 in common years and 4 in regular leap years.
+But the  <a href="http://en.m.wikipedia.org/wiki/Gregorian_calendar">Gregorian calendar<img src="../extlink.png"></a>
+skips 3 leap years every 400 years so the tiny hand points at 100 or 400 if one of the centurial rules applies.
+This is known as a "secular perpetual calendar" in horology jargon.
+EMERALD_PRODUCT hides the 100 and 400 prior to 5 Oct 1582,
+when the Gregorian calendar was first put into effect, so you can tell
+whether the Julian or Gregorian calendar is being used here for calculations.
+<p>
+The four small subdials indicate the times of the sunrise, sunset, moonrise and moonset events for the current day.
+<img src="geneva-sunset.png" alt="sunset" align=left>
+The moonrise and moonset dials have am/pm dots above.
+If there is no event for the current day the corresponding dial will read 12:00 and the am/pm dot will be red.
+In Set mode, you can tap these dials to change the main time; subsequent presses advance to the next event.
+<p>
+The final twist is the moon phase indicator which shows a realistic terminator,
+rotated to match its actual orientation in the
+<span class='Chronometer'>
+sky, exactly like the one on <a href="../Chandra/Chandra.html">Chandra</a>.
+</span>
+<span class='GenevaOnly'>
+sky.  To achieve the realistic terminator shape (unlike the disc-over-disc shape often
+found on watches and clocks), EMERALD_PRODUCT uses small covers that move throughout the
+lunar month to define the position of the terminator.
+</span>
+Superimposed on this is a retrograde hand showing the age of the current lunation.
+Tapping the moon phase indicator in Set mode will advance to the next quarter phase.
+<br>
+<p>
+<hr width=75%>
+<p>
+<b>On the back</b>,
+there are 16 hands
+<!--
+sid hr, min
+utc hr, min
+solar hr, min
+civil hr, min, sec
+sun position
+moon position
+sideral moonrise/set
+lunar nodes (2)
+eclipse needle
+-->
+plus 12 additional indicators.
+<!--
+zodiac ring
+date ring
+equinox & solstice dates (4)
+century, year
+am/pm
+day/night
+moonlight
+eclipse state window
+-->
+<img src="genevaSid.png" align=left>
+The primary hands show the
+<a href="http://en.m.wikipedia.org/wiki/Sidereal_time">local apparent sidereal time<img src="../extlink.png"></a>.
+The hour is read against the inner white dial of 24 numbers (hours of
+<a href="http://en.m.wikipedia.org/wiki/Right_ascension">right ascension<img src="../extlink.png"></a>, RA),
+ the minutes against the 60 unnumbered tick marks (minutes) on that dial.
+<p>
+The <a href="http://en.wikipedia.org/wiki/Precession_(astronomy)">precession of the equinoxes<img src="../extlink.png"></a>
+means that the position of the equinox moves with respect to the fixed stars.
+But the zero point of right ascension is the vernal equinox.
+<img src="geneva-zod.png" align=right>
+So since Geneva's RA dial is fixed, the
+rings holding the names and astrological symbols of the constellations of the zodiac rotate slowly 
+to compensate for the precession.
+The white lines indicate the points where the ecliptic crosses the constellation boundaries (for the present era).
+The sidereal hour hand thus indicates which constellation is currently highest in the sky.
+(The minute hand has no relation to the constellations.)
+In this example, the sidereal time is 22:51 in Aquarius in the year 2338 CE.
+<p>
+The outer white ring is divided into the months of the year with 
+a hairline at the beginning of each month and
+tick marks for every other day; the black tick marks
+represent even days of the month, and the spaces between represent odd days.
+<img src="geneva-may9.png" align=left>
+It, too, rotates with respect to the RA dial
+ so that the Sun hand indicates the current date.
+(May 9 in this example.)
+But note that the relationship between the date ring and the zodiac
+ring is correct only at the position of the Sun hand, for two reasons:
+Because the Earth's orbit is elliptical (not an exact circle),
+<!-- and because of Kepler's Laws -->
+the Sun moves more slowly against the stars at some times during the year than at others.
+Also, the Sun's motion is in the ecliptic plane
+ which is tilted with respect to the  reference plane of the RA coordinate system
+(the equator).  So the Sun does not
+move at a constant rate around the RA dial during the year, but speeds up and slows
+down at intervals.
+The date ring rotates so that the current date is always under the Sun,
+but that means that other dates are in slightly different spots when the Sun gets there.
+<p>
+There are red hairline indicators over the zodiac ring
+(fixed at 0, 6, 12, and 18) which mark the positions of the equinoxes and solstices,
+and a dot between Aquarius and Pisces on the zodiac ring 
+which marks the RA position of the vernal equinox in the year 2000.
+There are four smaller red hairline indicators over the date ring which
+move slowly to indicate the dates of the equinoxes and solstices.
+They stay close to the fixed indicators but they don't always line up exactly
+because as mentioned above the date ring does not match the
+zodiac ring  except exactly at the Sun's position.
+<p>
+The Sun and Moon hands show their positions with respect to the the RA dial
+and the constellations (and each other).
+The red <font color='0xB0000000'>&Omega;</font>-shaped hands show the positions of the
+<a href="http://en.m.wikipedia.org/wiki/Lunar_node">lunar ascending and descending nodes<img src="../extlink.png"></a>
+(the ascending node indicator has the <font color='0xB0000000'>&Omega;</font> rightside-up at 12 o'clock).  
+<img src="eclipse.png" align=right>
+When the Sun and Moon coincide and are close to one of the nodes it is possible that there may be a solar eclipse;
+when the Sun is close to one node and the Moon is opposite to it a lunar eclipse may occur.
+<p>
+The eclipse dial
+<img src='EclipseNeedle2010Dec21.png' align='right'/>
+at the top center indicates if there is an eclipse happening at the observer's location and time.
+See <a href='PredictingEclipses.html'>Predicting Eclipses with EMERALD_PRODUCT</a>
+for more information about predicting eclipses with the nodal hands and the eclipse dial.
+<p>
+Also, note that when the ascending-node hand coincides with the vernal equinox
+<img src="geneva-extr.png" align=left>
+(at the 12 o'clock position)
+the Moon will reach extremes in several dimensions, including north and south declination,
+northern and southern azimuths of rise/set points on the horizon, and altitudes crossing the meridian.
+See <a href="http://en.m.wikipedia.org/wiki/Lunar_node#Extreme_declinations">here<img src="../extlink.png"></a>
+for more detail.
+<p>
+The subdial at 2 o'clock shows
+ <a href="http://tf.nist.gov/general/enc-s.htm#solartime">apparent solar time<img src="../extlink.png"></a>
+(sundial time) in 12-hour format.
+(Note that the Sun hand and the sidereal hour hand will always coincide when the solar time is 12:00.)
+<p>
+The subdial at 10 o'clock shows UTC in 24-hour format.
+<p>
+The subdial at 6 o'clock shows ordinary clock time with seconds and an AM/PM indicator.
+<p>
+The left  window (beneath the UTC   subdial) shows the first two digits of the year number (centuries),
+<img src="geneva-44bc.png" align=right>
+the right window (beneath the Solar subdial) shows the last  two digits.
+The windows turn red for years BCE.
+<p>
+<img src="geneva-dnr.png" align=left>
+Finally, just inside the RA dial is a ring which shows the <em>sidereal</em> times
+ when the Sun and Moon illuminate the sky for this day.
+The white region is bounded by sunrise and sunset and thus shows the daytime hours (in sidereal time).
+The dark regions represent nighttime with gray when the Moon is up and black for full night.
+There are also two tiny hands that indicate the (sidereal) times of moonrise and moonset.
+In this example, it is about an hour before moonrise (as indicated by the sidereal hour hand), moonset is a bit before 3, and Libra is near the meridian.
+<p>
+In Set mode, dragging the Sun hand changes the date by one year per revolution;
+dragging the Moon hand moves a (lunar) month per revolution; and
+dragging the node hands moves about 18 years per revolution.
+You can also drag the subdial hands and tap the century and year windows.
+<p>
+There are three pushers on the watch.  When viewed from the front, the top left pusher
+advances a day at a time, the lower left one advances an hour, and the bottom right one advances to the next
+new moon, full moon, or quarter.  The pushers flip around on the back side but otherwise maintain their
+function.
+<p>
+Also remember that since both sides of the watch always show the same time in many cases 
+it may be easier to read (or set)
+a particular value by flipping the watch to the other side.  
+For example, it's much easier to read the date on the front but the year on the back.
+<div display='inline' class='website'>
+<br clear=all>
+<br>
+<hr size=1>
+<h3>The Watches</h3>
+<a href="../Alexandria/Alexandria.html"><img src="../Alexandria/Alexandria-icon-f.png" width=50 border=0  align=center vspece=4></a>
+<a href="../Atlantis/Atlantis.html"><img src="../Atlantis/Atlantis-icon-f.png"   width=50 border=0 align=center vspece=4></a>
+<a href="../Chandra/Chandra.html"><img src="../Chandra/Chandra-icon-f.png"    width=50 border=0 align=center vspece=4></a>
+<a href="../Haleakala/Haleakala.html"><img src="../Haleakala/Haleakala-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="../Mauna Kea/Mauna Kea.html"><img src="../Mauna Kea/Mauna Kea-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="../McAlester/McAlester.html"><img src="../McAlester/McAlester-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="../Paris/Paris.html"><img src="../Paris/Paris-icon-f.png"      width=50 border=0 align=center vspece=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="../Geneva/Geneva.html"><img src="../Geneva/Geneva-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="../Istanbul/Istanbul.html"><img src="../Istanbul/Istanbul-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="../Olympia/Olympia.html"><img src="../Olympia/Olympia-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="../Thebes/Thebes.html"><img src="../Thebes/Thebes-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="../Firenze/Firenze.html"><img src="../Firenze/Firenze-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="../Miami/Miami.html"><img src="../Miami/Miami-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="../Vienna/Vienna.html"><img src="../Vienna/Vienna-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<hr size=4>
+Copyright&nbsp;&copy;&nbsp;2009, <a href="../../index.html"><span class='emerald'>Emerald Sequoia LLC</span></a>; last&nbsp;updated:&nbsp;2009&nbsp;November&nbsp;25
+</div>
+<div display='inline' class='device'>
+<p>
+<hr>
+<div style="font-size:8pt; text-align:center">
+<div style="float:right"><p><a href="../Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink2' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<iframe src="../versionGen.html" scrolling="auto" width=100% height=30 frameborder=0>
+<a href="../versionGen.html">Version</a>
+</iframe>
+<a href="../Credits.html">Copyright Information</a>
+</div>
+</body></html>

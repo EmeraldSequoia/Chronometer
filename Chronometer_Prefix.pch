@@ -1,0 +1,22 @@
+//
+//  Chronometer_Prefix.pch
+//  Emerald Chronometer
+//
+//  Created by Bill Arnett on 4/??/2008.
+//  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+//
+
+//
+// Prefix header for all source files of the 'Chronometer' target in the 'Chronometer' project
+//
+
+#ifdef __OBJC__
+#define GLES_SILENCE_DEPRECATION
+    #import <assert.h>
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    #import <StoreKit/StoreKit.h>
+    #import <QuartzCore/QuartzCore.h>
+    #import <CFNetwork/CFNetwork.h>
+    #import <WebKit/Webkit.h>
+#endif

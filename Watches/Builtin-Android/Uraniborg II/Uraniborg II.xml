@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Uraniborg II.xml
+  Emerald Chronometer
+
+  Copied from Uraniborg.xml 2017 May 24
+ 
+  Created 2010 May 9 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2010. All rights reserved.
+-->
+
+<watch name='Uraniborg II' beatsPerSecond='4' faceWidth='250' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='256' backWidth='64' backHeight='256' nightWidth='512' nightHeight='256'/>
+
+  <init	expr='nfgclrm=0xff003028, cr=135, gm=30, go=50, s3=1.732, gw=.2, gc1=black, gc2=0xff101040, r0=135+go, hrLen=80, minLen=110' />
+  <init expr='sidHandColor=0xff107070, sidFillColor=sidHandColor, sidoFillColor=clear, solColor=0xff404000, solfColor=0xfff0f000, utColor=0xff000080, solColor=utColor, solfColor=solColor' />
+  <init expr='sidHrHandColor=sidHandColor, sidHrFillColor=sidHrHandColor, sidHroFillColor=clear, sidSecColor=sidHandColor, sidBackColor=white' />
+  <init expr='sunColor=0xfff2e407, sunStrokeColor=0xff120400, utHand=0xff5ca85c' />
+  <init expr='leafBorder=lightGray, leafFill=white, dnBackColor=black, moonHandColorn=0xff8080ff' />
+  <init expr='sidfs=20, sidfsn=14, outR=130, shR=112, smR=120, dotR=shR-sidfs-3, dnR=shR-sidfs-8, dnWidth=5, dnNum=24' />
+  <init expr='sidArrowWidth=2' />
+  <init	expr='r=143, ri=r-5, rb=125, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+  <static    name='night' modes='night' >
+    <QRect      name='facen'        x='-rb' y='-rb'     modes='night'  w='rb*2' h='rb*2' bgColor='black'/>
+    <QDial	name='  hrsn'	    x=' 0' y='  0'	modes='night' radius='shR    '  orientation='demi' demiTweak='0.5' fontSize='sidfs' fontName='Arial-BoldMT' bgColor='clear' strokeColor='nfgclr' text='0,,2,,4,,6,,8,,10,,12,,14,,16,,18,,20,,22,' />
+    <QDial	name='  hrsSmalln'   x=' 0' y='  0'	modes='night' radius='shR-4'  orientation='demi' demiTweak='0' fontSize='floor(sidfs*0.6)' fontName='Arial'        bgColor='clear' strokeColor='nfgclr' text=',1,,3,,5,,7,,9,,11,,13,,15,,17,,19,,21,,23' />
+    <QDial	name='h  ticn'	    x=' 0' y='  0'	modes='night' radius='dotR'  markWidth='1.5' marks='dot' nMarks=' 24' mSize='4' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='h  tic2n'	    x=' 0' y='  0'	modes='night' radius='dotR'  markWidth='0.7' marks='dot' nMarks=' 24*4' mSize='2' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='m  numsn'	    x=' 0' y='  0'	modes='night' radius='smR' orientation='demi' demiTweak='2' fontSize='10' fontName='Arial' bgColor='clear' strokeColor='nfgclr' text='60,05,10,15,20,25,30,35,40,45,50,55' />
+    <QDial	name='m ticn'	    x=' 0' y='  0'	modes='night' radius='smR+4'  markWidth='1.5' marks='tickOut' nMarks=' 12' mSize='4' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='m tic2n'	    x=' 0' y='  0'	modes='night' radius='smR+4'  markWidth='0.7' marks='tickOut' nMarks=' 60' mSize='4' bgColor='clear' strokeColor='nfgclr' />
+    <QDial	name='subm ticn'	    x=' 0' y='  0'	modes='night' radius='smR+4'  markWidth='0.5' marks='tickOut' nMarks='240' mSize='2' bgColor='clear' strokeColor='nfgclr' />
+  </static>
+  <!-- night sun & moon day/night rings + moonrise/set hands -->
+  <QdayNightRing name='moontimen'    x='0' y='0' modes='night' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='nfgclrm' fillColor='nfgclrm' input='0' numWedges='dnNum'
+  planetNumber='planetMoon' />
+  <QdayNightRing name='daytimen'    x='0' y='0' modes='night' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='nfgclr'  fillColor='nfgclr' input='0' numWedges='dnNum'
+  planetNumber='planetSun'  />
+  <Qhand	name='moonrise n'   x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='night' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='moonHandColorn' angle='moonrise24HourIndicatorAngle()' update='60' />
+  <Qhand	name='moonset n'    x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='night' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='moonHandColorn' angle='moonset24HourIndicatorAngle()' update='60' />
+  
+  <Qhand	name='hrn'	    x='0' y='0'	z='4' thick='1' modes='night|back' kind='hour24Kind'  type='tri'  length='dotR+2'  width='6'   tail='dotR/4'  update='  10' angle='hour24ValueAngle()' strokeColor='nfgclr' fillColor='nfgclr'/>
+  <Qhand	name='minn'	    x='0' y='0'	z='4' thick='1' modes='night|back' kind='minuteKind'  type='tri'  length='smR+2' width='4'  tail='smR/4' update='10' angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='nfgclr'/>
+  <static   name='front'	modes='front' >
+    <QRect      name='facer'        x='-rb' y='-rb'     modes='front'  w='rb*2' h='rb*2' bgColor='black'/>
+    <Image	name='face b'	    x='0' y='   0'	modes='front'	src='face.png' />
+    <QDial	name='  hrs'	    x=' 0' y='  0'	modes='front' radius='shR    '  orientation='demi' demiTweak='0.5' fontSize='sidfs' fontName='Arial-BoldMT' bgColor='clear' strokeColor='black' text='0,,2,,4,,6,,8,,10,,12,,14,,16,,18,,20,,22,' />
+    <QDial	name='  hrsSmall'   x=' 0' y='  0'	modes='front' radius='shR-4'  orientation='demi' demiTweak='0' fontSize='floor(sidfs*0.6)' fontName='Arial'        bgColor='clear' strokeColor='black' text=',1,,3,,5,,7,,9,,11,,13,,15,,17,,19,,21,,23' />
+    <QDial	name='h  tic'	    x=' 0' y='  0'	modes='front' radius='dotR'  markWidth='1.5' marks='dot' nMarks=' 24' mSize='4' bgColor='clear' />
+    <QDial	name='h  tic2'	    x=' 0' y='  0'	modes='front' radius='dotR'  markWidth='0.7' marks='dot' nMarks=' 24*4' mSize='2' bgColor='clear' />
+    <QDial	name='m  nums'	    x=' 0' y='  0'	modes='front' radius='smR' orientation='demi' demiTweak='2' fontSize='10' fontName='Arial' bgColor='clear' strokeColor='black' text='60,05,10,15,20,25,30,35,40,45,50,55' />
+    <QDial	name='m tic'	    x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='1.5' marks='tickOut' nMarks=' 12' mSize='4' bgColor='clear' />
+    <QDial	name='m tic2'	    x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='0.7' marks='tickOut' nMarks=' 60' mSize='4' bgColor='clear' />
+    <QDial	name='subm tic'	    x=' 0' y='  0'	modes='front' radius='smR+4'  markWidth='0.5' marks='tickOut' nMarks='240' mSize='2' bgColor='clear' />
+    <QDial	name='dnbackb	  ' x=' 0' y='  0'	modes='front' radius='dnR-1' markWidth='dnWidth-1' marks='outer' strokeColor='dnBackColor' bgColor='clear' />
+    <Qtext	name='back label'   x=' 0' y='  0'	modes='front' radius='dnR-10' fontName='Arial' fontSize='10' strokeColor='black' startAngle='pi' text='Civil  Time' orientation='demi' />
+    <Image	name='logo'	    x=' 0' y=' 30.5'	modes='front' src='../partsBin/logos/black.png' />
+ </static>
+<!-- sun & moon day/night rings + moonrise/set hands -->
+  <QdayNightRing name='moontimeb'    x='0' y='0' modes='front' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='0xff202020' fillColor='0xff808080' input='0' numWedges='dnNum'
+		 planetNumber='planetMoon' />
+  <QdayNightRing name='daytimeb'    x='0' y='0' modes='front' outerRadius='dnR+1' innerRadius='dnR-dnWidth+2' update='5' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='dnNum'
+		 planetNumber='planetSun'  />
+  <Qhand	name='moonrise b'   x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='front' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonrise24HourIndicatorAngle()' update='60' />
+  <Qhand	name='moonset b'    x=' 0'  y=' 0' z='2' thick='0.5' type='rect' modes='front' width='1' lineWidth='.25' length='dnR' length2='dnR-6' tail='0' strokeColor='blue' angle='moonset24HourIndicatorAngle()' update='60' />
+
+<!-- civil time hands -->
+  <Qhand	name='UT hand'	    x='0' y='0'	z='3' thick='1.5' modes='front'  kind='hour24Kind'  update='1' angle='hour24ValueAngle()-tzOffsetAngle()   ' type='rect' length='dotR+3'  width='2' length2='dnR+1' tail='0' oWidth='-6' lineWidth='.1' strokeColor='utHand' fillColor='utHand' oStrokeColor='utHand' oFillColor='utHand' />
+  <Qhand	name='hr'	    x='0' y='0'	z='4' thick='1' modes='front' kind='hour24Kind'  type='tri'  length='dotR+2'  width='6'   tail='dotR/4'  update='  1' angle='hour24ValueAngle()' strokeColor='black' fillColor='black'/>
+  <Qhand	name='min'	    x='0' y='0'	z='4' thick='1' modes='front' kind='minuteKind'  type='tri'  length='smR+2' width='4'  tail='smR/4' update='.25' angle='minuteValueAngle()' strokeColor='black' fillColor='black'/>
+  <Qhand	name='sec'	    x='0' y='0'	z='4' thick='1' modes='front' kind='secondKind'  type='tri'  length='smR+5' width='2'  tail='(smR+5)/4' update='.25' angle='secondValueAngle()' strokeColor='red' fillColor='red'/>
+
+</watch>

@@ -1,0 +1,7 @@
+4869801	Okoboji	Okoboji		43.38635	-95.14833	P	PPL	US		IA	059			809	433	442	America/Chicago	2006-01-17
+4033014	Chatham Islds	Chatham Islands	Chatham Islands,Chathamoyane,Chathamoyene,Chathamøyane,Chathamøyene,Wharekauri	-44	-176.58333	T	ISLS	NZ						0		186	Pacific/Chatham	2007-12-30
+2110196	Kiribati	Kiribati	Gilbert Archipelago,Gilbert Group,Gilbert Islands,Gilbert-Inseln,Kingsmill Group,Kingsmill Islands	0	174	T	ISLS	KI	KI	00				0		-9999	Pacific/Tarawa	1993-12-22
+5878818	Adak	Adak		51.88	-176.65806	P	PPL	US		AK	016			288	54	42	America/Adak	2010-02-18
+2202064	Nadi	Nadi		-17.8	177.4166667	P	PPL	FJ	FJ	05				42284		2	Pacific/Fiji	2009-07-09
+9999991	Dolphin Island	Dolphin Island		-17.304509	178.226738	P	PPL	FJ	FJ	05				50		2	Pacific/Fiji	2009-07-09
+9999992	Royal Davui Isl.	Royal Davui Isl.		-18.433	178.074559	P	PPL	FJ	FJ	05				50		2	Pacific/Fiji	2009-07-09

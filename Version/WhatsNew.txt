@@ -1,0 +1,15 @@
+- Four new watches:
+-- Geneva, classic multi dial with nine complications
+-- Istanbul, alarm
+-- Olympia, chronograph (stopwatch)
+-- Thebes, countdown timer
+- Emerald Chronometer is now (optionally) synchronized with the standard atomic clocks via NTP
+- Time and location synchronization indicators
+- Switcher screen to more easily change watches
+- Editor screen (availalble from the switcher) to choose which watches to display and their order
+- Mauna Kea's front-side Moon now shows its phase properly oriented vis-a-vis the Sun
+- Mauna Kea now has local solar and sidereal time dials on the back
+- Chandra now has alt/az indicators
+- Help system enchancements including Status and Index pages
+- Various aesthetic improvements
+- New application icon

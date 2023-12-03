@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  McAlester.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='McAlester' landscapeZoomFactor='0.9' beatsPerSecond='6'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='1024' backHeight='512' nightWidth='512' nightHeight='512'/>
+
+  <init expr='stat=0' />
+  <button	name='stem'	    x=' -3'  y=' 149' repeatStrategy='ECPartDoesNotRepeat' modes='front' flipOnBack='0'  enabled='always' src='stem.png'   xMotion='0' yMotion='7' action='manualSet() ? (stat=0, stemIn()) : (stat=1, stemOut())' motion='manualSet() ? 1 : 0' />
+  <button	name='stem n'	    x=' -3'  y=' 149' repeatStrategy='ECPartDoesNotRepeat' modes='night' flipOnBack='0'  enabled='always' src='stem-n.png' xMotion='0' yMotion='7' action='manualSet() ? (stat=0, stemIn()) : (stat=1, stemOut())' motion='manualSet() ? 1 : 0' />
+  <button	name='stem 2'	    x='-25'  y=' 100' repeatStrategy='ECPartDoesNotRepeat' modes='front|night'           enabled='always'      w='50' h='140'                      action='manualSet() ? (stat=0, stemIn()) : (stat=1, stemOut())' motion='manualSet() ? 1 : 0' />
+  <button	name='stem 3'	    x='-25'  y='   0' repeatStrategy='ECPartDoesNotRepeat' modes='front|night'           enabled='stemOutOnly' w='50' h='240'                      action='manualSet() ? (stat=0, stemIn()) : (stat=1, stemOut())' motion='manualSet() ? 1 : 0' />
+  <button	name='open sesame'  x=' -3'  y=' 149' repeatStrategy='ECPartDoesNotRepeat' modes='back'  flipOnBack='0'  enabled='always' src='stem.png'   xMotion='0' yMotion='7' action='(stat==0 ? (stat=1, stemOut()) : (stat==1 ? (stat=2, stemOut()) : (stat=0,  stemIn())))' motion='stat' />
+  <button	name='stem b2'	    x='-25'  y=' 100' repeatStrategy='ECPartDoesNotRepeat' modes='back'                  enabled='always'      w='50' h='140'                      action='(stat==0 ? (stat=1, stemOut()) : (stat==1 ? (stat=2, stemOut()) : (stat=0,  stemIn())))' motion='stat' />
+  <button	name='stem b3'	    x='-25'  y='   0' repeatStrategy='ECPartDoesNotRepeat' modes='back'                  enabled='stemOutOnly' w='50' h='240'                      action='(stat==0 ? (stat=1, stemOut()) : (stat==1 ? (stat=2, stemOut()) : (stat=0,  stemIn())))' motion='stat' />
+  <button	name='reset'	    x='  0'  y='-192' repeatStrategy='ECPartDoesNotRepeat' modes='all' src='resetH.png' enabled='wrongTimeOnly' immediate='1'  flipOnBack='0'     action='reset(), stat=0'  yMotion='-14' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+
+  <static name='front' modes='front'>
+    <Image	name='face'	    x=' 0'  y=' 0'   modes='front'  src='face.png' opaque='0'/>
+    <Image	name='case'	    x=' 0'  y=' 0'   modes='front'  src='case.png' opaque='1'/>
+  </static>
+
+  <static name='night' modes='night'>
+    <Image	name='face-l'	    x=' 0'  y=' 0'   modes='night'  src='face-night.png'/>
+  </static>
+
+  <static name='back' modes='back'>
+    <Image	name='caseb'	    x=' 0'  y=' 0'   modes='back'   src='case.png' opaque='1'/>
+    <Image	name='bck'	    x=' 0'  y=' 0'   modes='back'   src='cover.png' opaque='1'/>
+  </static>
+
+  <hand		name='sec'	    x=' 0'  y='-120' z='3' thick='2' modes='front'  xAnchor= '6' yAnchor='22' src='second.png'	update='1/6'		angle='secondValueAngle()' opaque='1' kind='secondKind' grabPrio='2' />
+  <hand         name='hour'	    x=' 0'  y='-45' z='5'  modes='front'  xAnchor='12 ' yAnchor='12' src='hour.png'	update='1'	angle='hour12ValueAngle()' opaque='1' kind='hour12Kind' grabPrio='2' />
+  <hand		name='minute'	    x=' 0'  y='-45' z='4'  modes='front'  xAnchor='7.5' yAnchor='7' src='minute.png'	update='.25'		angle='minuteValueAngle()' opaque='1' kind='minuteKind' grabPrio='2' />
+
+  <hand         name='hour-l'	    x=' 0'  y='-45'   modes='night'  xAnchor=' 7  ' yAnchor=' 0' src='hour-lum.png'   update='1' angle='hour12ValueAngle()' opaque='1' kind='hour12Kind' grabPrio='2' />
+  <hand		name='minute-l'	    x=' 0'  y='-45'   modes='night'  xAnchor=' 7.5' yAnchor=' 7' src='minute-lum.png' update='.25'	   angle='minuteValueAngle()' opaque='1' kind='minuteKind' grabPrio='2' />
+
+
+  <init expr='asx=-2500, delta=0, asy=-45, normAngleA=pi/2, offAngleA=-pi/2' />
+  <hand     name='inmates'          x='asx'  y='asy'   modes='back' src='back.png' offsetRadius='-asx+delta'  offsetAngle='stat==1 ? normAngleA : offAngleA' xAnchor= '154' yAnchor='154' update='.5' angle='0' animSpeed='0' />
+  <hand     name='guts'             x='asx'  y='asy'   modes='back' src='guts.png' offsetRadius='-asx+delta'  offsetAngle='stat==2 ? normAngleA : offAngleA' xAnchor= '148' yAnchor='148' update='.5' angle='0' animSpeed='0' />
+</watch>
+
+<!--
+  <button	name='Lap / Reset'  x='130' y=' 86' modes='front'	    action='stopwatchLapReset()'/>
+  <button	name='Start / Stop' x='130' y='-60' modes='front'	    action='stopwatchStartStop(0.1)'/>
+  <Image  name='subs dial'    x='-67' y='10'   modes='front'	    src='howard-ssdial.png'/>
+  <hand		name='stop subs'    x='-67' y='10'   modes='front'	    src='howard-dialhand.png'   update=' 0.01'		angle='fmod(stopwatchDisplaySecondValue(), 1) * pi() * 2' scale='0.75' opaque='1'/>
+  <hand		name='stop sec'     x='-67' y='10'   modes='front'	    src='howard-dialhand.png'   update=' 0.01'		angle='stopwatchDisplaySecondValueAngle()'  scale='0.75' opaque='1'/>
+  <tick		name='stopwatchtick'		     modes='stop'	    src='Snap.caf'		    interval='0.10'/>
+
+  <blinker	name='blinkNberry'  x=' 2'  y='-33'  modes='front'	    src='../partsBin/Emerald+Sequoia102.png'	update='1 * minutes()'	duration='5'/>
+
+  <tick		name='tock'			     modes='all'	    src='Snap.caf'		    interval='.25'/>
+  <chime	name='quarter'			     modes='all'	    tune='agfc'			    interval='1 * hours()' offset='15 * minutes()' pause='0.5'/>
+  <chime	name='half hour'		     modes='all'	    tune='fagc fgaf'		    interval='1 * hours()' offset='30 * minutes()' pause='0.5'/>
+  <chime	name='3 quarters'		     modes='all'	    tune='afgc cgaf agfc'	    interval='1 * hours()' offset='45 * minutes()' pause='0.5'/>
+  <chime	name='full hour'		     modes='all'	    tune='fagc fgaf afgc cgaf'	    interval='1 * hours()' offset='0'		   pause='0.5'/>
+-->
+
+<!-- COMPLICATIONS
+
+-->

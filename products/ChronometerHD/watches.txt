@@ -1,0 +1,27 @@
+# These watches are the only ones that will be installed
+Background
+Alexandria
+Atlantis
+Babylon
+Chandra
+Firenze
+Geneva
+Haleakala
+Istanbul
+Mauna Kea
+McAlester
+Miami
+Olympia
+Paris
+Terra
+Thebes
+Vienna
+AtlantisIV
+ChandraII
+Hernandez
+Kyoto
+London
+Milano
+Neuchatel
+Tombstone
+Uraniborg

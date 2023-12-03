@@ -1,0 +1,35 @@
+Shared clock issues:
+
+1.  Currently only ECWatchTime is shared.  Seems like time zone and astro should be shared too, particularly if we change to doing astro caching by ECAstronomy object.  Or perhaps the cache should be in the environment, to allow caching of NSCalendar operations too.  In any case it seems odd that we're sharing clocks but not the environments that go with them.
+
+2.  ECAlarmTime's currentWatchTime is initialized from the environment.  Maybe [watch mainEnv] should switch to env.  But note that when we turn *off* shared clocks, we need to get back to the per-watch one.  Which implies that the link either needs to be redone, or that the thing being pointed to is abstract and can point to either shared or non-shared versions.
+
+3.  So maybe this is all encapsulated inside ECWatchTime, which has a "sharable" bit per-object (set only on env[0]) and a global "sharingOn" bit which says whether to use the shared version.  That says turning on sharing *doesn't* share time zone or astro env.  But that's probably the right behavior anyway.  All we're "sharing" is the underlying time base.  All else remains per-watch.
+
+4.  ECAlarmTime's implementation presumes that the watch time is never stopped and is correct.  Fix in ECAlarmTime.m
+
+5.  Something wrong with Olympia:  Pull the stem on another watch, go to Olympia, hit the reset button, main time moves to the beginning of the year 2001.
+
+6.  Crown out, reset button active, etc:  When in shared mode and we reset parts, we need to reset *all* watches' parts.
+
+7.  Need to maintain [manual set, runningBackward, ???] as branching methods (or as methods that access branching watchTime)
+    -- current thinking: just recalculate as needed
+
+8.  Consider what happens when there are multiple watches each with different locations, but with shared clocks.  Only env[0] is shared, *but*:  The other time zones should operate off of the time base of env[0] anyway (if you change the time on the primary watch, the alternate time zone should follow along).
+
+9.  Not seeing why any watch needs a second full environment.  Each watch has one time base which should apply to all time zones when displaying clock time.  The alarm time, stopwatch time, etc only need to be ecwatchtime objects, and have no need for location, time zone, or calendar.  Even if you wanted different calendars, you almost certainly want to have the underlying time bases of the two calendars synchronized.  Perhaps we should
+  - Pull out ECWatchTimes into explicit pointers (not master array), "mainTime", "stopwatchTime[n]", "lapTime[n]"
+  - Continue to have env array for remaining fields (calendar, timeZone, location)
+  - Astro manager, hmm.  Only reason it needs to be different is because of cache, and cache only depends on watch time.  Probably should move cache into ECWatchTime as static?
+
+10.  Consider turning sharing on per-watch if shared clocks is off but clocks are running on main time, then could cache based on watchtime object.  But probably easier to make cache smart enough to treat two watchTimes equal if they are the same.  OK, that's easy enough, cache based on ourTimeAtZero, only for visible watches, possibly also including runningBackward and warp.
+
+11.  But Wait! Different locations means different astro caches too...
+11a. And the caching of times, days, etc (timeAtMidnight, weekday) depends on the TZ & calendar
+11b. So it seems like the cache ought to be keyed by ourTimeAtZero, some measure of location, and some aspect of the calendar (name?)
+11c. Except that the astro cached, based on location, is by far the largest and depends not at all on either the calendar or the time zone.
+
+12. OK, how about this:  Watch consists of a time (which may be shared) and an array of environments to interpret that time.  When invoking astro code, you need the environment, which points at the watch (not the watch time) to determine the current state.  Caching is done in the following way:
+- There is a global astro cache used for all watches in which the time is either running with ourTimeAtNTPZero == 0 or with shared clocks, and where the location is defaulted.  Accessing the location cache requires knowing whether this is true for the current watch.
+- Each environment maintains its own cache of calendar- and timezone-related data, and an astro cache when the environment is not "standard astro"
+  -- always asking before using its cache or not using its cache; it has no data to represent this state as it would be redundant and difficult to get hooks into

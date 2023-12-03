@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Milano.xml
+  Emerald Chronometer
+
+  Created 7/3/2008 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Milano' beatsPerSecond='5'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='1024'/>
+  <init	    expr='nfgclr=0xff00c0ac, nfgclr2=0x7f00c0ac, monClr=cyan, dateClr=yellow, wkdayClr=green, timClr=0xc0ffffff, timFill=0x80ffffff, secClr=red, fgclr=white, bgclr=black, pwrClr=magenta' />
+  <init	    expr='gClr=monClr, gaClr=dateClr, dialbg=black, dialfg=0xffe0e0e0' />
+  <init	    expr='outR=135, berryR=33' />
+  <init	    expr='timR=144, monR=95, datR=monR, wkdR=68, prR=wkdR' />
+  <init	    expr='hrL=timR*.60, minL=timR*.75, secL=timR*.85, monL=monR-12, datL=datR-12, wkdL=wkdR-12, prL=wkdL' />
+  <init	    expr='datefs=16, yoff2=datefs/2-1, dateX=0, dateY=-50-yoff2' />
+
+<!-- infrastructure ================================================== -->
+
+<!-- case buttons -->
+  <button	name='stem'	    x='144' y='0'	expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='all'	    src='../partsBin/stem12a.png' xMotion='10' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' />
+  <button	name='Reset'	    x='121' y='66'	immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front |night' src='../partsBin/reset5.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='13' yMotion='9' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+  <button	name='Reset b'	    x='121' y='66'	immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'	    src='../partsBin/reset5b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='13' yMotion='9' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+  <button	name='adv mon but'  x='-128' y=' 60' modes='front' src='../partsBin/button12inner10.png' action='advanceMonth()' xMotion='-5' yMotion=' 4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv day but'  x='-130' y='-60' modes='front' src='../partsBin/button12inner8.png'  action='advanceDay()'   xMotion='-5' yMotion='-4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+<!-- really should have an F/R -->
+
+<!-- window buttons -->
+  <button	name='adv cent'     x='dateX-11'  y='dateY-yoff2' w='11' h='datefs'  modes='back' action='advanceYears(100)' />
+  <button	name='adv year'     x='dateX'     y='dateY-yoff2' w='11' h='datefs'  modes='back' action='advanceYear()' />
+
+<!-- year wheels -->
+  <QRect    name='year bak'	x='dateX-20' y='dateY-yoff2' w='40' h='datefs' modes='back'  bgColor='bgclr' panes='4' />
+  <SWheel   name='ddigits'	x='dateX-13' y='dateY'  dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),             10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'	x='dateX-23' y='dateY'  dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),   10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear'  />
+  <SWheel   refName='ddigits'	x='dateX-33' y='dateY'  dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'	x='dateX-43' y='dateY'  dragAnimationType='dragAnimationAlways' modes='back'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='clear' />
+  <Qhand    name='bce cover'    x='dateX-20-(datefs-1)/2'    y='dateY-yoff2+(datefs-1)/2' modes='back' length='40+(datefs-1)/2' width='datefs-1' tail='0' type='rect' update='1 * days()' angle='eraNumber() == 1 ? 0 : pi/2' strokeColor='0x60ff0000' fillColor='0x60ff0000' />
+
+<!-- Front ================================================== -->
+
+ <static name='front'>
+  <QDial  name='face'	    x='0' y=' 0' modes='front' radius='outR' bgColor='dialbg' />
+  <QDial  name='time'	    x='0' y=' 0' modes='front' radius='timR  ' orientation='upright' fontSize='24' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text='12' />
+  <QDial  name='time2'	    x='0' y=' 0' modes='front' radius='timR-6' orientation='upright' fontSize='18' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text=',3,6,9' />
+  <QDial  name='time dots'  x='0' y=' 0' modes='front' radius='timR-6' orientation='radial'  fontSize='18' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text=',.,.,,.,.,,.,.,,.,.' />
+  <Image  name='berry'	    x='0' y='berryR' modes='front' src='../partsBin/berryWhite.png'/>
+  <Image  name='band'	    x='0' y=' 0' modes='front'	src='../partsBin/band-brown3back.png'/>
+  <Image  name='case'	    x='0' y=' 0' modes='front'	src='../partsBin/case12.png' />
+
+  <QDial  name='power resr' x='0' y=' 0' modes='front' radius='prR'  orientation='demi' fontSize='9' fontName='Arial' bgColor='clear' strokeColor='pwrClr' text='½,¾,1,,,,,,,,,,,,,,,,,,,,0,¼' />
+  <QDial  name='retro mnth' x='0' y=' 0' modes='front' radius='monR' orientation='demi' fontSize='10' fontName='Times New Roman' bgColor='clear' strokeColor='monClr' text=',Jul,,Aug,,Sep,,Oct,,Nov,,Dec,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Jan,,Feb,,Mar,,Apr,,May,,Jun' />
+  <QDial  name='retro day ' x='0' y=' 0' modes='front' radius='datR' orientation='demi' fontSize='10' fontName='Times New Roman' bgColor='clear' strokeColor='dateClr' text=',,,,,,,,,,,,,,,,,31,,29,,27,,25,,23,,21,,19,,17,,15,,13,,11,,9,,7,,5,,3,,1,,,,,,,,,,,,,,,,' />
+  <QDial  name='retro wkd ' x='0' y=' 0' modes='front' radius='wkdR' orientation='demi' fontSize='9' fontName='Times New Roman' bgColor='clear' strokeColor='wkdayClr' text=',,,,,,,,,,,S,F,T,W,T,M,S,,,,,,,,,,' />
+ </static>
+ 
+<!-- Night ================================================== -->
+
+ <static name='night' modes='night'>
+  <QDial  name='main n'	    x='0' y=' 0' modes='night' radius='outR' bgColor='black' />
+  <QDial  name='time n'	    x='0' y=' 0' modes='night' radius='timR  ' orientation='upright' fontSize='24' fontName='Times New Roman' bgColor='clear' strokeColor='nfgclr' text='12,1,2,3,4,5,6,7,8,9,10,11' />
+  <Image  name='berryn'	    x='-0.5' y='berryR-0.5' modes='night'	src='../partsBin/berry-lum.png'/>
+  <Image  name='casen'	    x='0' y=' 0' modes='night'	src='../partsBin/case12n.png' />
+  <Image  name='bandn'	    x='0' y=' 0' modes='night'	src='../partsBin/band-brown3backn.png'/>
+ </static>
+
+<!-- Back ================================================== -->
+
+ <window  name='year win'	x='dateX-20' y='dateY-yoff2' w='40' h='datefs-1' border='4' strokeColor='lightGray' />
+
+ <static name='back' modes='back'>
+  <QDial  name='faceb'	    x='0' y='0' modes='back' radius='outR' bgColor='white' />
+  <Image  name='band back'  x='0' y='0'	modes='back'	src='../partsBin/band-brown3back.png' />
+  <Image  name='caseb'	    x='0' y='0'	modes='back'	src='../partsBin/case12back.png' />
+  <Image  name='berryb'	    x='0' y='0'	modes='back'	src='../partsBin/berry.png' />
+ </static>
+ 
+<!-- hands ================================================== -->
+
+<!-- retrograde month/date/day hands -->
+  <Qhand name='mon hn'	    x='0' y='0'	modes='front'		                   type='rect' length='monL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(monthNumber()+1)  *2*pi/26 -    pi/2'  strokeColor='monClr'   fillColor='monClr' />
+  <Qhand name='date hn'	    x='0' y='0'	modes='front'		                   type='rect' length='datL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(31-dayNumber())   *2*pi/64 +    pi/2'  strokeColor='dateClr'  fillColor='dateClr' />
+  <Qhand name='wkday hn'    x='0' y='0'	modes='front'		                   type='rect' length='wkdL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(7-weekdayNumber())*2*pi/28 + 20*pi/28' strokeColor='wkdayClr' fillColor='wkdayClr' />
+
+  <Qhand name='pwr h'	    x='0' y='0'	modes='front'				   type='rect' length='prL'  width='1'  tail=' 0' update='60'       dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='batteryLevel() >=  0 ? batteryLevel()*pi/3-pi/6 : -pi/6' strokeColor='pwrClr'  fillColor='pwrClr' />
+
+  <hand name='hr mask'	    x='0' y='0'	modes='night'	src='mask.png'  update='60'	    angle='hour12ValueAngle()' />
+
+<!-- time hands -->
+  <Qhand name='hr'	    x='0' y='0'	modes='front'		kind='hour12Kind'  type='tri'  length=' hrL' width='7'  tail=' 8' update=' 1'	    angle='hour12ValueAngle()'	strokeColor='timClr'	fillColor='timFill' lineWidth='1' />
+  <Qhand name='min'	    x='0' y='0'	modes='front'		kind='minuteKind'  type='tri'  length='minL' width='5'  tail='10' update='.2'	    angle='minuteValueAngle()'	strokeColor='timClr'	fillColor='timFill' lineWidth='1' />
+  <Qhand name='sec'	    x='0' y='0'	modes='front'		kind='secondKind'  type='tri'  length='secL' width='1'  tail='30' update='.2'    angle='secondValueAngle()'	strokeColor='secClr'	fillColor='secClr' oCenter='1.5' oFillColor='secClr' oStrokeColor='secClr' />
+  <Qhand name='hr-n'	    x='0' y='0'	modes='night'		kind='hour12Kind'  type='tri'  length=' hrL' width='5'  tail='8'  update=' 1'	    angle='hour12ValueAngle()'	strokeColor='nfgclr'	fillColor='nfgclr'/>
+  <Qhand name='min-n'	    x='0' y='0'	modes='night'		kind='minuteKind'  type='tri'  length='minL' width='3'  tail='10' update='.2'	    angle='minuteValueAngle()'	strokeColor='nfgclr'	fillColor='nfgclr'/>
+  <Qhand name='sec-n'	    x='0' y='0'	modes='night'		kind='secondKind'  type='tri'  length='secL' width='1'  tail='30' update='.2'    angle='secondValueAngle()'	strokeColor='nfgclr'	fillColor='nfgclr'/>
+
+</watch>
+
+
+<!--
+  <Qhand name='xecond'	    x='0' y='0'	modes='front'		kind='secondKind'  type='tri'  length='100' width='.5' tail='25' update=' 0.20'	angle='secondValueAngle()-skewAngle()' strokeColor='clear' fillColor='red'/>
+ -->
+<!-- month date wheels for debug
+  <QRect	name='day bak'	    x=' 33' y='-32' w='22' h='13' bgColor='white' panes='2' />
+  <SWheel	name='day'	    x=' 22' y='-26'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='black' bgColor='white' > </SWheel>
+  <SWheel	refName='day'	    x=' 11' y='-26'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='16' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='black' bgColor='white' />
+  <QRect	name='mon bak'	    x='-8 ' y='-32' w='35' h='13' bgColor='white' />
+  <Swheel	name='Qmonths'	    x='-30' y='-26'  dragAnimationType='dragAnimationAlways' modes='front'  radius='58' orientation='three' update='1 * days()'	angle='monthNumber()	              *2*pi/12' fontSize='16' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='black' bgColor='clear' />
+  <window	name='mon win'	    x='-8 ' y='-32' w='35' h='13' border='2' strokeColor='darkGray' />
+  <window	name='day win'	    x=' 33' y='-32' w='22' h='13' border='2' strokeColor='darkGray' />
+  <button	name='adv day'	    x='35'  y='-32' w='21' h='14' modes='front' action='advanceSeconds(86400)' />
+  <button	name='adv mon'	    x='-5 ' y='-32' w='35' h='14' modes='front' action='advanceMonth()' />
+-->
+<!-- hand ornament examples
+  <Qhand	name='1'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+1*pi/12' type='tri'
+	 length='90'		 width='8'  tail=' 5'  lineWidth='2.0'  strokeColor='black'	 fillColor='blue'
+	oLength='20'		oWidth='8' oTail=' 5' oLineWidth='1.0' oStrokeColor='blue'	oFillColor='black' />
+  <Qhand	name='2'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+2*pi/12' type='rect'
+	 length='90'		 width='4'  tail=' 5'  lineWidth='1.0'  strokeColor='black'	 fillColor='green'
+	oLength='20'		oWidth='8' oTail=' 5' oLineWidth='1.0' oStrokeColor='green'	oFillColor='clear' />
+  <Qhand	name='3'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+3*pi/12' type='rect'
+	 length='50'		 width='1'  tail=' 5'  lineWidth='.25'  strokeColor='black'	 fillColor='yellow'
+	oLength='60'		oWidth='8' oTail='25' oLineWidth='.25' oStrokeColor='black'	oFillColor='yellow' />
+  <Qhand	name='4'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+4*pi/12' type='rect'
+	 length='85'		 width='1'  tail=' 5'  lineWidth='.25'  strokeColor='black'	 fillColor='red'
+	oLength='25'		oWidth='8' oTail='50' oLineWidth='.25' oStrokeColor='black'	oFillColor='red' />
+  <Qhand	name='5'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+5*pi/12' type='rect'
+	 length='110'		 width='1'  tail=' 5'  lineWidth='.25'  strokeColor='black'	 fillColor='magenta'
+	oLength='.1'		oWidth='8' oTail='99' oLineWidth='.25' oStrokeColor='black'	oFillColor='magenta' />
+  <Qhand	name='6'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+6*pi/12' type='tri'
+	 length='80'		 width='8'  tail='45'  lineWidth='1.0'  strokeColor='black'	 fillColor='clear'  length2='-20'
+	oLength='30'		oWidth='8' oTail=' 0' oLineWidth='1.0' oStrokeColor='black'	oFillColor='clear' />
+  <Qhand	name='7'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+7*pi/12' type='rect'
+	 length='90'		 width='1'  tail=' 0'  lineWidth='1.0'  strokeColor='black'	 fillColor='clear'  length2='50'
+	oLength='20'		oWidth='12' oTail='-10' oLineWidth='1.0' oStrokeColor='black'	oFillColor='clear' />
+
+   <Qhand	name='8'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+8*pi/12' type='tri'
+	 length='110'		 width='1'  tail='35'  lineWidth='2.0'  strokeColor='black'	 fillColor='blue'
+	oRadius=' 5' oLineWidth='1.0' oStrokeColor='blue'	oFillColor='black' />
+  <Qhand	name='9'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+9*pi/12' type='rect'
+	 length='110'		 width='4'  tail='55'  lineWidth='1.0'  strokeColor='black'	 fillColor='green'
+	oRadius='15'  oLineWidth='1.0' oStrokeColor='green'	oFillColor='yellow' />
+  <Qhand	name='10'	    x='0' y='0'		modes='front'	kind='minuteKind'   update=' 1'	angle='minuteValueAngle()+10*pi/12' type='rect'
+	 length='90'		 width='1'  tail='65'  lineWidth='.25'  strokeColor='black'	 fillColor='yellow'
+	oRadius='12'  oLineWidth='.25' oStrokeColor='black'	oFillColor='clear' oLength='20'		oWidth='8' oTail='0' />
+-->
+
+<!-- COMPLICATIONS
+
+[FRONT]
+Retrograde
+Weekday
+Power Reserve
+
+[BACK]
+Year
+
+-->

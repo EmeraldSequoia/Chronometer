@@ -1,0 +1,201 @@
+Emerald Chronometer test plan for each release:
+
+1.  Startup performance: no regression on Miami or Terra
+
+2.  Frame rate performance: no regression on Miami and Terra
+    - Use PERFORMANCE_TEST ifdef in CAD to test -- bring watch up, quit, then restart and don't touch anything -- test will run automatically after 30 seconds
+
+3.  Verify rise/set times at high latitudes (for easiest identification of bugs) ref:  http://www.usno.navy.mil/USNO/astronomical-applications/data-services/mrst-us
+     - Sun
+     - Moon
+     - One or two planets, on Miami's front
+
+4.  Alarms
+    - Test Thebes
+    - Test Istanbul
+    - Test when locked
+    - Switch away from the alarm watch just before the alarm fires to see that it switches back without incident
+    - See that an alarm fires OK when in Help, Options, Location options, Switcher, Grid
+    - Test in background (should put up local notification)
+    - Test that Istanbul alarm does *not* fire when not enabled (no note), ditto Thebes
+    - Test that Istanbul alarm does *not* put up LocalNotification when not enabled (no note), ditto Thebes
+    - Test after long period of locked (at least one hour)
+    - Test on all devices (OS 3.x-only devices like original iPhone, OS4-but-no-multitasking like 3G, full OS4 like 3GS and following, Retina, iPad)
+    - Test that alarms respect user setting of Ring/Vibrate in both positions of Ring/Silent switch
+    - Turn on TS_TEST in TSTime.m to verify that sync changes have no effect on Thebes alarms (Istanbul's will properly follow changing "ntp" time)
+      - while this switch is on, test Olympia to ensure smooth tracking through the skew swings
+
+5.  Verify disable-auto-lock switch working in each configuration (battery, plugged in)
+
+6.  Verify location and time status pulldowns work and display reasonable results
+    - Try bringing up time panel immediately after startup and noting the numbers change as the results come in
+
+7.  Bring up grid mode
+    - Verify watches are running smoothly
+    - Verify can select each watch from grid mode (no hidden buttons)
+    - Verify can get to editor from grid mode
+    - Verify that the red border appears when the watch is in set mode
+    - Verify grid looks ok with each number of watches from 1 to MAX on iPhone and landscape/portrait on iPad
+    
+8.  Switcher
+    - Verify can switch to watch.  Pick one far away from current on early device to force a load; verify loading
+        message and eventually the watch
+    - Verify can switch to editor
+
+9.  Editor
+    - Verify can enable/disable watch
+    - Verify can reorder watch
+    - Verify leaving editor goes back to where you came from (2d grid or 1d switcher)
+    - Verify that the One/All button works
+    - Verify that grid mode reflects changes made in editor
+
+10. Use NTP setting
+    - Verify that turning it off returns the skew to zero, turns the indicator light off, and makes the time match the builtin time
+    - Verify that it doesn't hang in Airplane mode
+    
+10.1 Watch it run thru midnight in real time
+
+11. Location panel
+    - Before entering location, ensure timezone is in "auto" mode
+    - Verify that auto location shows the right position on the map, and on the big map when zoomed in, and that the chosen time zone matches
+    - Switch to manual, type a city name in a different time zone
+    - Verify on the map and big map that the location matches the city typed, and that the timezone is correct for that city
+    - Exit settings and verify that the time and day/night indicators match the new city, and that Miami looks more or less correct
+    - Tap the map to select a different city in a different time zone
+    - Verify that the name is more or less correct, and that the timezone is correct for that location
+    - Exit settings, verify time and day/night indicators
+    - Enter coordinates in lat/long, same drill.
+    - Pick a person from the address book; verify that the city is reasonable
+    - Verify that items can be added, removed and used from the Recents list
+    - Go back out to timezone panel and change to manual timezones.  Select one not at your location.
+    - Back into location panel, choose a new city, verify timezone doesn't change
+    - Exit to app, verify time didn't change but day/night did
+    - Verify that the arrow in the status bar indicating that LocationServices is active goes away when exiting the panel
+    - Verify that everything but the map works in Airplane mode
+    - Verify appearance ok on iPhone, iPad portrait, iPad landscape.
+       - Test starting up in portrait, then rotating to landscape, and vice versa
+
+12.  Timezone panel
+    - Verify that the timezones appear correct.  Select one and verify in the app
+    - Verify that "new" timezones appear in the latest device OS but are flagged in the older OS.
+
+13.  Night modes
+    - Verify each night mode is properly aligned with day mode
+
+14.  Help
+    - Read every word
+    - Verify release notes look right
+    - Check that each watch loads the right Help page
+    - Verify proper watches are in list for product being tested
+    - Test sending session log
+    - Verify version looks right (on a Release build)
+    - Verify link to Developers' Blog
+    - Verify the first run message looks right
+
+15. Look for out of memory anomalies, particularly on original devices with 128Meg of RAM
+    - Very rapidly swipe thru all the watches many times
+    - Swipe thru all watches flipping to back and night modes as quickly as possible
+
+16. Test running overnight with no alarms set to ensure battery usage does not go down precipitously
+
+A.  Alexandria
+    - Verify world position has local position at top, Sun, Moon in proper position, properly reversed on back (try Punta Arenas)
+    - Verity that the terminator does the right thing as the time advances thru a whole year
+    - Verity that the solstice/equinox and apsides indicators work as documented
+    - Verify that hand dragging and all buttons work as documented (hands, Sun, not Moon)
+
+B.  Atlantis
+    - Wonder why we still have this watch; figure a way to get rid of it :-)
+    - Verify that the ST/DT and BC/AD hands work
+    - Verify that the leap year hand works (esp. in 2000 and 2100)
+    - Verify the back dials change with the location panel
+    - Verify that hand dragging and all buttons work as documented
+
+C.  Chandra
+    - Verify current position on front against sky at your location
+    - Verify surrounding moon phases are accurate as displayed on the back; click on a cycle's worth and compare with USNO dates for phases
+	    http://www.usno.navy.mil/USNO/astronomical-applications/data-services/phases-moon
+    - Verify that hand dragging and all buttons work as documented
+
+D. Firenze
+    - Verify azimuth positions against Miami or USNO and verify rough position of horizon indicator against rise/set (back)
+    - Verify rough position of Earth by seeing where the Sun appears in the constellations (front)
+    - Verify that hand dragging and all buttons work as documented (planets go counter-clockwise as time goes forward)
+
+E. Geneva
+    - Verify all settings at current time
+    - Verify right thing happens in 1582
+    - Pick an eclipse time listed in the Help, set up that time and location, verify the eclipse indicator works
+    - Verify UTC and Solar are reasonable
+    - Verify sidereal is correct with http://tycho.usno.navy.mil/sidereal.html
+    - Check that all is well at the past and future date limits
+    - Verify that hand dragging and all buttons work as documented
+
+F.  Haleakala
+    - Verify rise/set times correct, and pressing on rise/set windows in Set mode does the right thing
+    - Verify AM/PM indicator correct
+    - Verify that hand dragging and all buttons work as documented
+
+G.  Istanbul
+    - Verify ways of setting alarm (each pusher, dragging each hand)
+    - Verify night mode not too bright
+    - Verify that the remaining time dial shows the right value
+    - Verify that hand dragging (alarm time only) and all buttons work as documented (plus, in Set mode, button on the musical note)
+
+H.  Mauna Kea
+    - Verify rise/set.  Verify EOT at a couple times during the year against a reference on the Internet
+    - Verify the right thing happens on the back as you cross a rise/set indicator, and verify the times
+        of the opposite event shown before and after the crossing
+    - Verify that hand dragging and all buttons work as documented
+
+I.  McAlester
+    - Verify double crown pull on back works
+    - Verify that hand dragging and Reset button work as documented
+
+J.  Miami
+    - Verify feel of responsiveness (measured elsewhere more precisely) when dragging time hand on front
+    - Verify that hand dragging and all buttons work as documented
+    - Verify that the planet positions are reasonable
+
+K.  Olympia
+    - Verify responsiveness of start/stop and foudrayante dial (usually can start and stop for exactly one tenth-second)
+    - Verify that all buttons work as documented
+    - Let run a while.  Use rattrapante button, let run a while more.  Verify back matches the front.
+    - Verify that it keeps running after switching away or locking the screen.
+    - Verity that the stopwatch time runs smoothly as NTP is turned on and off.
+
+L.  Paris
+    - Verify the time is correct.
+    - Verify that hand dragging and Reset button work
+
+M.  Terra
+    - Verify current state for sanity, looking at a few cities against the 24-hour dial.
+    - Verify some cities have solid lines and some don't depending on DST
+    - Verify Delhi is in the middle of its dashed line
+    - Verify Adelaide is properly goofy
+    - Use pushers to cycle through cities.  Verify relative smoothness.  Stop at a few cities and verify 12-hour hands
+        match dot against 24-hour dial
+    - Pull crown and press and hold the date dial.  Slow down near DST transitions and note that different cities transition at different times
+    - drag the hour hand around and verify that the colors change at the right times
+    - City picker
+       - Front, using search
+       - Front, using slots
+       - Back:  Pick cities with different DST rules on different N/S hemispheres.  Pick cities that are also on the front.
+    - On back, verify that cities chosen match what the front says about those cities.  Verify that day/night rings are different in N/S hemispheres
+    - Pull crown and move date through DST transitions.  Note that the time stays the same on the subdial containing the date window you picked, but changes for the others
+    - Verify that the dots on the background map are correctly updated
+    - Verify that hand dragging and all buttons work as documented; the front hour hand and the 24-hour ring move in opposite directions
+
+N. Thebes
+    - Verify ending time matches current time as you change the interval
+    - Verify that hand dragging and all buttons work as documented (plus, in Set mode, button on the musical note)
+
+O.  Vienna
+    - Verify sanity
+    - Verify position of UTC
+    - Verify day/night and moon ring
+    - Flip to back, same drill
+    - Verify that hand dragging and all buttons work as documented
+
+Y. Review the analyzer results
+Z. Make a quick pass thru all the ChronoAll watches to see that they still look right and don't crash

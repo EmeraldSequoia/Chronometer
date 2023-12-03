@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Milano.xml
+  Emerald Chronometer
+
+  Copied from Milano.xml 2017 May 23
+ 
+  Created 7/3/2008 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Milano I' beatsPerSecond='5' faceWidth='255' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='16' backHeight='128' nightWidth='512' nightHeight='1024'/>
+  <init expr='faceWidth=255, backerWidth=faceWidth' />
+
+<init	    expr='nfgclr2=0xff00ffe4, monClr=cyan, dateClr=yellow, wkdayClr=green, timClr=0xc0ffffff, timFill=0x80ffffff, secClr=red, fgclr=white, bgclr=black, pwrClr=magenta' />
+<init       expr='monClrn=0x8000ffff, dateClrn=0x80ffff00, wkdayClrn=0x8000ff00,pwrClrn=0x80ff00ff' />
+  <init	    expr='gClr=monClr, gaClr=dateClr, dialfg=0xffe0e0e0' />
+  <init	    expr='berryR=33' />
+  <init	    expr='timR=144, monR=95, datR=monR, wkdR=68, prR=wkdR' />
+  <init	    expr='hrL=timR*.60, minL=timR*.75, secL=timR*.85, monL=monR-12, datL=datR-12, wkdL=wkdR-12, prL=wkdL' />
+  <init	    expr='datefs=16, yoff2=datefs/2-1, dateX=0, dateY=-50-yoff2' />
+
+<!-- Front ================================================== -->
+
+ <static name='front' modes='front'>
+  <QRect  name='maskRect'   x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+  <QDial  name='time'	    x='0' y=' 0' modes='front' radius='timR  ' orientation='upright' fontSize='24' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text='12' />
+  <QDial  name='time2'	    x='0' y=' 0' modes='front' radius='timR-6' orientation='upright' fontSize='18' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text=',3,6,9' />
+  <QDial  name='time dots'  x='0' y=' 0' modes='front' radius='timR-6' orientation='radial'  fontSize='18' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text=',.,.,,.,.,,.,.,,.,.' />
+  <Image  name='berry'	    x='0' y='berryR' modes='front' src='../partsBin/berryWhite.png'/>
+
+  <QDial  name='power resr' x='0' y=' 0' modes='front' radius='prR'  orientation='demi' fontSize='9' fontName='Arial' bgColor='clear' strokeColor='pwrClr' text='½,¾,1,,,,,,,,,,,,,,,,,,,,0,¼' />
+  <QDial  name='retro mnth' x='0' y=' 0' modes='front' radius='monR' orientation='demi' fontSize='10' fontName='Times New Roman' bgColor='clear' strokeColor='monClr' text=',Jul,,Aug,,Sep,,Oct,,Nov,,Dec,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Jan,,Feb,,Mar,,Apr,,May,,Jun' />
+  <QDial  name='retro day ' x='0' y=' 0' modes='front' radius='datR' orientation='demi' fontSize='10' fontName='Times New Roman' bgColor='clear' strokeColor='dateClr' text=',,,,,,,,,,,,,,,,,31,,29,,27,,25,,23,,21,,19,,17,,15,,13,,11,,9,,7,,5,,3,,1,,,,,,,,,,,,,,,,' />
+  <QDial  name='retro wkd ' x='0' y=' 0' modes='front' radius='wkdR' orientation='demi' fontSize='9' fontName='Times New Roman' bgColor='clear' strokeColor='wkdayClr' text=',,,,,,,,,,,S,F,T,W,T,M,S,,,,,,,,,,' />
+ </static>
+ 
+<!-- Night ================================================== -->
+
+<!-- Identical to 'front' except for the absence of Berry White -->
+ <static name='night' modes='night'>
+  <QRect  name='n maskRect'   x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+
+    <!-- Upright text is drawn (by ECQView.m) well inside of the part border (because the part dimension uses the raw radius but the text is drawn inside of that using ECDialRadiusFactor).
+         So we can make the atlas half the size simply by drawing text as labels instead. -->
+    <!-- <QDial  name='n time'	    x='0' y=' 0' modes='night' radius='timR  ' orientation='upright' fontSize='24' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text='12' /> -->
+    <!-- <QDial  name='n time2'	    x='0' y=' 0' modes='night' radius='timR-6' orientation='upright' fontSize='18' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text=',3,6,9' /> -->
+    <Qtext      name='az dial 3 N' x='0'   y='timR-29'  modes='night'  fontSize='24' fontName='Times New Roman' text='12' strokeColor='dialfg'/>
+    <Qtext      name='az dial 3 S' x='0'   y='-timR+28'  modes='night'  fontSize='18' fontName='Times New Roman' text='6' strokeColor='dialfg'/>
+    <Qtext      name='az dial 3 E' x='timR-27'   y='0'  modes='night'  fontSize='18' fontName='Times New Roman' text='3' strokeColor='dialfg'/>
+    <Qtext      name='az dial 3 W' x='-timR+28'   y='0'  modes='night'  fontSize='18' fontName='Times New Roman' text='9' strokeColor='dialfg'/>
+
+
+  <QDial  name='n time dots'  x='0' y=' 0' modes='night' radius='timR-6' orientation='radial'  fontSize='18' fontName='Times New Roman' strokeColor='dialfg' bgColor='clear' text=',.,.,,.,.,,.,.,,.,.' />
+  <Image	name='lumiberry'    x='0' y='berryR'	modes='night'	src='../partsBin/berry-lum.png' />
+
+  <QDial  name='n power resr' x='0' y=' 0' modes='night' radius='prR'  orientation='demi' fontSize='9' fontName='Arial' bgColor='clear' strokeColor='pwrClr' text='½,¾,1,,,,,,,,,,,,,,,,,,,,0,¼' />
+  <QDial  name='n retro mnth' x='0' y=' 0' modes='night' radius='monR' orientation='demi' fontSize='10' fontName='Times New Roman' bgColor='clear' strokeColor='monClr' text=',Jul,,Aug,,Sep,,Oct,,Nov,,Dec,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Jan,,Feb,,Mar,,Apr,,May,,Jun' />
+  <QDial  name='n retro day ' x='0' y=' 0' modes='night' radius='datR' orientation='demi' fontSize='10' fontName='Times New Roman' bgColor='clear' strokeColor='dateClr' text=',,,,,,,,,,,,,,,,,31,,29,,27,,25,,23,,21,,19,,17,,15,,13,,11,,9,,7,,5,,3,,1,,,,,,,,,,,,,,,,' />
+  <QDial  name='n retro wkd ' x='0' y=' 0' modes='night' radius='wkdR' orientation='demi' fontSize='9' fontName='Times New Roman' bgColor='clear' strokeColor='wkdayClr' text=',,,,,,,,,,,S,F,T,W,T,M,S,,,,,,,,,,' />
+ </static>
+ 
+<!-- hands ================================================== -->
+
+<!-- retrograde month/date/day hands -->
+  <Qhand name='mon hn'	    x='0' y='0'	modes='front'		                   type='rect' length='monL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(monthNumber()+1)  *2*pi/26 -    pi/2'  strokeColor='monClr'   fillColor='monClr' />
+  <Qhand name='date hn'	    x='0' y='0'	modes='front'		                   type='rect' length='datL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(31-dayNumber())   *2*pi/64 +    pi/2'  strokeColor='dateClr'  fillColor='dateClr' />
+  <Qhand name='wkday hn'    x='0' y='0'	modes='front'		                   type='rect' length='wkdL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(7-weekdayNumber())*2*pi/28 + 20*pi/28' strokeColor='wkdayClr' fillColor='wkdayClr' />
+  <Qhand name='pwr h'	    x='0' y='0'	modes='front'				   type='rect' length='prL'  width='1'  tail=' 0' update='600'       dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='batteryLevel() >=  0 ? batteryLevel()*pi/3-pi/6 : -pi/6' strokeColor='pwrClr'  fillColor='pwrClr' />
+
+  <Qhand name='n mon hn'	    x='0' y='0'	modes='night'		                   type='rect' length='monL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(monthNumber()+1)  *2*pi/26 -    pi/2'  strokeColor='monClrn'   fillColor='monClrn' />
+  <Qhand name='n date hn'	    x='0' y='0'	modes='night'		                   type='rect' length='datL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(31-dayNumber())   *2*pi/64 +    pi/2'  strokeColor='dateClrn'  fillColor='dateClrn' />
+  <Qhand name='n wkday hn'    x='0' y='0'	modes='night'		                   type='rect' length='wkdL' width='1'  tail=' 0' update='86400'    dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='(7-weekdayNumber())*2*pi/28 + 20*pi/28' strokeColor='wkdayClrn' fillColor='wkdayClrn' />
+  <Qhand name='n pwr h'	    x='0' y='0'	modes='night'				   type='rect' length='prL'  width='1'  tail=' 0' update='600'       dragAnimationType='dragAnimationAlways' animSpeed='5.0' angle='batteryLevel() >=  0 ? batteryLevel()*pi/3-pi/6 : -pi/6' strokeColor='pwrClrn'  fillColor='pwrClrn' />
+
+  <!-- <hand name='hr mask'	    x='0' y='-5'	modes='night'	src='mask.png'  update='60'	    angle='hour12ValueAngle()' /> -->
+
+<!-- time hands -->
+  <Qhand name='hr'	    x='0' y='0'	modes='front'		kind='hour12Kind'  type='tri'  length=' hrL' width='7'  tail=' 8' update=' 1'	    angle='hour12ValueAngle()'	strokeColor='timClr'	fillColor='timFill' lineWidth='1' />
+  <Qhand name='min'	    x='0' y='0'	modes='front'		kind='minuteKind'  type='tri'  length='minL' width='5'  tail='10' update='.2'	    angle='minuteValueAngle()'	strokeColor='timClr'	fillColor='timFill' lineWidth='1' />
+  <Qhand name='sec'	    x='0' y='0'	modes='front'		kind='secondKind'  type='tri'  length='secL' width='1'  tail='30' update='.2'    angle='secondValueAngle()'	strokeColor='secClr'	fillColor='secClr' oCenter='1.5' oFillColor='secClr' oStrokeColor='secClr' />
+  <Qhand name='hr-n'	    x='0' y='0'	modes='night|back'		kind='hour12Kind'  type='tri'  length=' hrL' width='5'  tail='8'  update='10'	    angle='hour12ValueAngle()'	strokeColor='white'	fillColor='white'/>
+  <Qhand name='min-n'	    x='0' y='0'	modes='night|back'		kind='minuteKind'  type='tri'  length='minL' width='3'  tail='10' update='10'	    angle='minuteValueAngle()'	strokeColor='white'	fillColor='white'/>
+  
+</watch>

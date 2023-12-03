@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Alexandria.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett on 6/4/2008
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Alexandria' beatsPerSecond='10'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='1024' backHeight='512' nightWidth='1024' nightHeight='512'/>
+
+  <init		expr='hairline=0.25, haircolor=0xff202020, fgclr=white, sbgclr=red, sfgclr=red, nfgclr=0xff00c0ac, nMoons=16, demoing=0' />
+  <init	expr='r=143, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+  <init expr='sunColor=0xfff2e407, sunStrokeColor=0xff120400, sunLen=128, sunLen2=100' />
+
+  <button	name='stem'	    x='r-4' y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/yellow/front/stem.png'   enabled='always'		action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' xMotion='12'		 motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='stem n'	    x='r-4' y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='../partsBin/HD/yellow/night/stem.png'  enabled='always'		action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' xMotion='10'		 motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='Reset'	    x='bx' y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset02.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+  <button	name='Resetb'	    x='bx' y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'        src='../partsBin/HD/reset02b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+  <button	name='adv day but'  x='-bx' y=' by' modes='front|back' src='../partsBin/HD/yellow/front/button10.png' action='advanceSeconds(86400)' xMotion='-mx' yMotion=' my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv hr  but'  x='-bx' y='-by' modes='front|back' src='../partsBin/HD/yellow/front/button08.png' action='advanceHour()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv day butn' x='-bx' y=' by' modes='night'      src='../partsBin/HD/yellow/night/button10.png' action='advanceSeconds(86400)' xMotion='-mx' yMotion=' my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv hr  butn' x='-bx' y='-by' modes='night'      src='../partsBin/HD/yellow/night/button08.png' action='advanceHour()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+
+  <hand		name='Earth'	    x=' 0'  y='0'   modes='front|night'	    src='earthN.png' update='updateAtEnvChangeOnly'	angle='longitude()' />
+<!-- 90 deg + 23 deg * sin(2pi*days from equinox/365.25) ??? -->
+  <terminator   name='term'         x=' 0'  y='0'   modes='front|night'           radius='50' leavesPerQuadrant='14' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xc0080808' leafAnchorRadius='0' update='1 * seconds()' updateOffset='0' phaseAngle='pi/2 - 23*pi/180*sin(vernalEquinoxAngle())' rotation='pi/2 + hour24ValueAngle() - tzOffsetAngle() + longitude() + EOTAngle()'/>
+  <hand		name='stars'	    x=' 0'  y='0'   modes='front'	    src='stars.png' update='1 * minutes()' animate='0' 	angle='hour24ValueAngle() + pi - tzOffsetAngle() + longitude() + EOTAngle() + sunRA()' input='0' />
+  <hand		name='starsn'	    x=' 0'  y='0'   modes='night'	    src='starsn.png' update='1 * minutes()' animate='0' 	angle='hour24ValueAngle() + pi - tzOffsetAngle() + longitude() + EOTAngle() + sunRA()' input='0' />
+  <button	name='F/R'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/yellow/front/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+  <button	name='F/Rn'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='../partsBin/HD/yellow/night/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+  <static name='front' modes='front' n='2'>
+    <Qdial	name='mask'	    x='0' y='0'	    modes='front' radius='135' marks='tickOut' markWidth='3' mSize='5' nMarks='360' bgColor='clear' />
+    <Image	name='band'	    x='0' y='0'	    modes='front'	    src='../partsBin/HD/brown/front/straight/narrow/band.png' />
+    <Image	name='case'	    x='0' y='0'	    modes='front'	    src='../partsBin/HD/yellow/front/narrow/case.png' alpha='1'/>
+    <Qdial	name='moon slot'    x='0' y='0'	    modes='front'   radius=' 75' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+    <Qdial	name='sun slot'     x='0' y='0'	    modes='front'   radius='109' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+    <window	name='f/r win'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  </static>
+  <hand         name='Moon'	    x=' 0'  y='0'   modes='front'	    src='../Mauna Kea/moon25.png' xAnchor= '9' yAnchor='9' update='60' angle='moonAgeAngle()' offsetRadius='75'  offsetAngle='hour24ValueAngle() - moonAgeAngle() - tzOffsetAngle() + longitude() + EOTAngle() + pi' />
+  <Qhand        name='Sun'	    x=' 0'  y='0' z='5' modes='front' tail='0' type='sun' length='sunLen' length2='sunLen2' lineWidth='.25' nRays='8' kind='hour24Kind' update='60' angle='hour24ValueAngle()+pi+longitude()-tzOffsetAngle()+EOTAngle()' strokeColor='sunStrokeColor' fillColor='sunColor' />
+    
+  <static   name='night' modes='night' >
+    <Image	name='band n'	    x='0' y='0'	    modes='night'	    src='../partsBin/HD/brown/night/straight/narrow/band.png' />
+    <Image	name='case n'	    x='0' y='0'	    modes='night'	    src='../partsBin/HD/yellow/night/narrow/case.png' />
+    <QDial	name='black'	    x='0' y='0'	    modes='night'   radius='138' radius2='130' bgColor='black' strokeColor='black'  />
+    <window	name='f/r win'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  </static>
+  <hand         name='Sunn'	    x=' 0'  y='0'   modes='night'	    src='blueSun.png' xAnchor= '10' yAnchor='-96' kind='hour24Kind' update='60' angle='hour24ValueAngle() + pi - tzOffsetAngle() + longitude() + EOTAngle()' />
+  <hand         name='Moonn'	    x=' 0'  y='0'   modes='night'	    src='halfblueMoon.png' xAnchor= '9' yAnchor='9' update='60' angle='moonAgeAngle()' offsetRadius='75'  offsetAngle='hour24ValueAngle() - moonAgeAngle() - tzOffsetAngle() + longitude() + EOTAngle() + pi' />
+  <Qhand	name='12hourn'	    x=' 0'  y='0'   modes='night'	    kind='hour12Kind' length=' 60' width='5'		  update=' 1'	angle='hour12ValueAngle()' strokeColor='nfgclr' fillColor='nfgclr' />
+  <Qhand	name='minuten'	    x=' 0'  y='0'   modes='night'	    kind='minuteKind' length=' 80' width='4'		  update=' 1'	angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='nfgclr' />
+
+  <hand		name='Earth-s'	    x=' 0'  y='0'   modes='back'	    src='earthS.png' update='updateAtEnvChangeOnly'	angle='-longitude()' />
+  <terminator   name='terms'        x=' 0'  y='0'   modes='back'           radius='50' leavesPerQuadrant='14' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xc0080808' leafAnchorRadius='0' update='1 * seconds()' updateOffset='0' phaseAngle='pi/2 - 23*pi/180*sin(pi+vernalEquinoxAngle())' rotation='pi/2 - (hour24ValueAngle() - tzOffsetAngle() + longitude() + EOTAngle())'/>
+  <hand		name='stars-s'	    x=' 0'  y='0'   modes='back'	    src='starss.png' update='1 * minutes()' animate='0' 	angle='-hour24ValueAngle() + tzOffsetAngle() - sunRA() - pi' input='0' />
+  <static name='back' modes='back' n='2'>
+    <Qdial	name='moons slot'   x='0' y='0'	    modes='back'   radius=' 75' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+    <Qdial	name='suns slot'    x='0' y='0'	    modes='back'   radius='109' marks='outer' markWidth='hairline' bgColor='clear' strokeColor='haircolor' />
+    <Qdial	name='mask b'	    x='0' y='0'	    modes='back' radius='137' marks='tickOut' markWidth='3' mSize='5' nMarks='360' bgColor='clear' />
+    <Image	name='band b'	    x='0' y='0'	    modes='back'	    src='../partsBin/HD/brown/front/straight/narrow/band.png' />
+    <Image	name='band back'    x='0' y='0'     modes='back'	    src='../partsBin/HD/brown/front/back.png'/>
+    <Image	name='case b'	    x='0' y='0'	    modes='back'	    src='../partsBin/HD/yellow/front/narrow/case.png' />
+    <window	name='F/R win b'    x='-8'  y='-r-4' w='16' h='7' border='1' />
+  </static>
+  <hand         name='Moon-s'	    x=' 0'  y='0'   modes='back'	    src='../Mauna Kea/moon25.png' xAnchor= '9' yAnchor='9' update='60' angle='-moonAgeAngle()' offsetRadius='75'  offsetAngle='-(hour24ValueAngle() - moonAgeAngle() - tzOffsetAngle() + longitude() + EOTAngle() + pi)' />
+  <Qhand        name='Sun-s'	    x=' 0'  y='0' z='5' modes='back' tail='0' type='sun' length='sunLen' length2='sunLen2' lineWidth='.25' nRays='8' kind='reverseHour24Kind' update='60' angle='-(hour24ValueAngle()+pi+longitude()-tzOffsetAngle()+EOTAngle())' strokeColor='sunStrokeColor' fillColor='sunColor' />
+
+  <Qhand	name='12hour'	    x=' 0'  y='0'   modes='front|back'	    kind='hour12Kind' length=' 60' width='5'		  update=' 1'	angle='hour12ValueAngle()' strokeColor='fgclr' fillColor='fgclr' />
+  <Qhand	name='minute'	    x=' 0'  y='0'   modes='front|back'	    kind='minuteKind' length=' 80' width='4'		  update='.1'	angle='minuteValueAngle()' strokeColor='fgclr' fillColor='fgclr' />
+  <Qhand	name='second'	    x=' 0'  y='0'   modes='front|back'	    kind='secondKind' length=' 81' width='2'  tail='25'   update='.1'	angle='secondValueAngle()' strokeColor='sfgclr' fillColor='sbgclr' oStrokeColor='sbgclr' oCenter='1.85' />
+  <Qhand	name='second n'	    x=' 0'  y='0'   modes='night'			      length=' 81' width='2'  tail='25'   update='.1'	angle='secondValueAngle()' strokeColor='black'  fillColor='black'  oStrokeColor='black'  oCenter='1.85' />
+</watch>
+
+
+<!-- COMPLICATIONS
+
+[BOTH]
+Day/night
+Longitude
+
+[FRONT]
+Equinox
+Solstice
+
+-->

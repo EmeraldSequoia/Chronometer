@@ -1,0 +1,112 @@
+There are three sources of "error" leading to the displays taking
+unexpected values during the seasons of the year in eras far from the
+present:
+
+1.  In ancient times, we use the proleptic Julian calendar.  This is
+not so much an error as a change in convention: It is no longer
+necessarily the case that March 21 (for example) is near the vernal
+equinox.  In particular, since the Julian calendar has approximately
+an error of one day per century, and since it was approximately
+correct at 1 CE, it will be further and further off as you get further
+and further back in time from 1 BCE.  Just as the "seasonal date" had
+advanced by 10 days ahead of the Julian calendar by the time the
+Gregorian took effect in 1582, the "seasonal date" will be *behind*
+the Julian calendar for times before 100 BCE.  For example, in 2000
+BCE, the vernal equinox is on April 7 (the "seasonal date" is back on
+March 21st, so is about 18 days behind).  This has nothing to do with
+precession; precession says what stars are behind the equinox where it
+occurs; this says what day the equinox happens on, and is only a
+reflection of the fact that the Julian calendar assumes a year is
+365.25 days instead of the more accurate 365.2425 days.
+
+2.  The precession of the equinoxes means that the constellations are
+in different places on the same "seasonal date".  That is, at the
+equinox (March 1st in our example), the constellations will appear
+differently than they do at the equinox (or on March 1st) today.  Put
+another way, if the Sun and Moon and Lunar nodes are displayed with
+of-date coordinates against the J2000 constellation positions, they
+will be in different places than they are today at the equinox.  Since
+2000 BCE is about 4000 years ago, the precession from today will be
+about 4/26 or about 2 months.  The effect of precession as you move
+back in time is to move the apparent positions of the constellations
+backward at the same seasonal date (or, alternatively, the
+Sun/Moon/nodes forward with respect to the J2000 constellations).  So
+the Sun, for example, in 2000 BCE at the equinox (at March 1st in the
+proleptic Julian calendar), will be at the same spot in the
+constellations as it is on May 16th in 2009 CE.
+
+3.  The variable rate of rotation of the Earth introduces a time
+constraint commonly called "Delta T", which is the difference between
+Terrestrial Time TT (formerly Terrestrial Dynamic Time TDT or
+Ephemeris Time ET) and UT1.  UT1 is the time of day, a purely solar
+measurement, and TT is a time base which does not change.
+
+http://eclipse.gsfc.nasa.gov/SEhelp/deltaT.html
+http://eclipse.gsfc.nasa.gov/SEhelp/deltat2004.html
+
+It is impossible to say with any accuracy what DeltaT was prior to the
+time when we have observations of astronomical events, becaue the
+theoretical models are not precise enough to model it.  Morrison &
+Stephenson [Morrison, L. and Stephenson, F. R., "Historical Values of
+the Earth's Clock Error ΔT and the Calculation of Eclipses",
+J. Hist. Astron., Vol. 35 Part 3, August 2004, No. 120, pp 327-336
+(2004)] have such data going back to about 500 BCE, at which time the
+Delta T value is estimated to have been 17190 seconds, about 5 hours.
+Further extrapolation seems unwise, but as the number is going up
+quadratically (because it is the integration of an approximately
+linear change in rate), a reasonable SWAG for the value in 2000 BCE
+can be derived with the formula given by that paper to be -20 + 32 *
+u^2, where u = (year-1820)/100.  So year = -2000 (approx), so u = -38.20,
+deltaT = -20 + 32 * (-38.20^2) =~ 46,000 seconds (about 13 hours).
+
+The effect of deltaT is limited to those calculations which need to
+take into account the rotation of the Earth, notably rise/set/transit
+times, and to the display/reporting of times that all events such as
+eclipses happen on.  The computer-generated eclipse pages on the NASA
+site http://eclipse.gsfc.nasa.gov/SEhistory/SEhistory.html list both
+the TDT time (very precise) and the UT time (necessarily imprecise
+because of the imprecise nature of delta T).  But it seems reasonable
+to presume that even over the range of data that we have going back to
+4000 BCE, the value of DeltaT will not exceed a couple of days, and
+the error therein is probably less than a day.  This obviously has a
+small effect on rise and set times (probably less than our claimed
+one-minute accuracy), but a larger effect on the times of eclipses,
+which could obviously be a whole day off.
+
+Note that rise/set/transit times are *not* off by deltaT, though they
+are off *because of* Delta T.  The time that the sun rises is a UT
+time, based on the current position of the Sun seasonally.  Only the
+latter value depends on deltaT, and moves much slower than Delta T
+itself does.
+
+Overall observations:
+====================
+
+The reported sunrise and sunset times for a given day will vary
+primarily because of 1) [Julian error] and secondarily because of 3)
+[Delta T], and not at all because of 2) [precession].
+
+The position of the Sun in the sky on MK is simply UT so that's by
+definition correct.  If we rotate the zodiac dial by the precession,
+the zodiac dial will show RA of J2000, and the Sun (and Moon, more or
+less) will be correct in J2000 terms.
+
+The RA "of date" positions of the Sun/Moon/nodes/planets given by the
+WB books will be off by the error in precession 2) used by their
+calculations.
+
+For the RA dial on the back of Geneva, the errors in LST will be due
+to the errors in 1) and 3), and again not due to precession.  The
+error in reading the Sun/Moon/nodes hands against the RA dial of date
+will similarly not be affected directly by precession (although the
+quantities involved use precession indirectly).  Reading the positions
+of those bodies against the constellation dial will depend on the
+accuracy with which we have displayed the precession, but we have
+verified that our precession calculation matches that of the WB code
+to within a few arcseconds so this is not an issue.
+
+Note again that 1) [Julian error] is not really an error, since the
+Julian date does in fact refer to a specific known date.  It is, in
+fact, exact in this sense.  2) [precession] will be accounted for to the
+best of our ability.  3) [DeltaT] could possibly cause the Julian date
+to be off by as much as a day from the reported value.

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hernandez I.xml
+  Emerald Chronometer
+
+  Copied from Hernandez.xml 2017 My 22
+ 
+  Created by Bill Arnett 2010 Feb 15
+  Copyright Emerald Sequoia LLC 2010. All rights reserved.
+-->
+
+<watch name='Hernandez I' beatsPerSecond='4' faceWidth='276' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='128' backHeight='256' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=276, backerWidth=faceWidth' />
+
+  <init expr='hairline=0.25, nMoons=16, nfgclr2=0xff008072, nightBg=black, azColor=0xff5050f0, altColor=0xff208020, azTickColor2=black, azColorB=0xff5050f0, altColorB=0xff006000' />
+  <init expr='azR=119, mainR=112, altR=79' />
+  <init expr='dateY=8, firstDateX=24, monthRadius=86, monthX=-monthRadius+firstDateX+40' />
+  <init expr='sunColor=0xfff2e407, sunStrokeColor=0xff120400, sunLen=azR+21, sunLen2=sunLen-25, moonLen=azR+6' />
+  <init expr='termR=10, termLeaves=6, termX=33, termY=41' />
+  <init expr='dayLogClr=black, ngtLogClr=white' />
+  <init expr='hrLen=altR, minLen=mainR, secLen=mainR' />
+  <init expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+  <QRect	name='day back'	    x='firstDateX+23'	y='dateY-7'	     modes='front' w='22' h='15' panes='2' />
+  <SWheel	name='day1s'	    x='firstDateX+12' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * 3600 * 24' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='14' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' />
+  <SWheel    refName='day1s'	    x='firstDateX'    y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()'    angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='14' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' />
+  <QRect	name='month back'   x='monthX+24'	y='dateY-7'	     modes='front' w='42' h='15' />
+  <Swheel	name='Qmonths'	    x='monthX-2'      y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='65' orientation='three' update='1 * days()'	angle='monthNumber()                     *2*pi/12' fontSize='14' fontName='Arial'				     text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC'/>
+  <QWheel	name='am/pm'	    x='0'  y='mainR-4'  animSpeed='5.0' dragAnimationType='dragAnimationAlways' modes='front'  radius='13' orientation='twelve' update='60'  angle='hour24Number() >= 12 ? 0 : pi' fontSize='14' fontName='Arial' marks='0' text='●,' strokeColor='black' bgColor='0xffffffe0' />
+
+  <QRect	name='term back'    x='termX-termR' y='termY-termR'  modes='front' w='termR*2' h='termR*2' />
+  <terminator   name='term'         x='termX'  y='termY'  modes='front' radius='termR+1' leavesPerQuadrant='termLeaves' incremental='0' leafBorderColor='0xff383838' leafFillColor='0xff080808' leafAnchorRadius='0' update='60' updateOffset='0' phaseAngle='moonAgeAngle()' rotation='moonRelativePositionAngle()'/>
+  <window	name='term hole'    x='termX'  y='termY'  modes='front' w='termR*2' h='termR*2' type='porthole'  border='1' strokeColor='0x7f202020' />
+
+  <window	name='day win'	    x='firstDateX+23'	y='dateY-7'	     modes='front' w='22' h='15' border='2' strokeColor='0x7f202020' shadowOpacity='0.4' shadowSigma='1.5' shadowOffset='0' />  <!-- days -->
+  <window	name='month win'    x='monthX+32'	y='dateY-7'	     modes='front' w='30' h='15' border='2' strokeColor='0x7f202020' shadowOpacity='0.4' shadowSigma='1.5' shadowOffset='0' />
+  <window	name='fr am/pm'	    x='0'   y='mainR'  modes='front' w=' 5' h='5' type='porthole' border='0.5' strokeColor='white' />
+
+  <static name='front' modes='front'>
+    <QRect      name='maskRect'     x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='face'	    x='0' y='0'	modes='front' src='../partsBin/HD/white/faceNight.png' />
+    <QDial	name='face darken'  x='0' y='0' modes='front' radius='r' bgColor='0x80000000' />
+    <QDial	name='az bg'	    x='0' y='0' modes='front' radius='(azR+18+mainR+1)/2' bgColor='clear' strokeColor='0x000000ff' marks='outer' markWidth='azR+18-mainR' />
+    <QDial	name='az dial NEW'  x='0' y='0' modes='front' radius='azR+27' orientation='upright' fontSize='14' fontName='Times New Roman' bgColor='clear' strokeColor='white' text='N,E,,W' marks='center' markWidth='4' />
+    <QDial	name='az dial S'    x='0'   y='0'   modes='front'  radius='azR+26' orientation='upright' fontSize='14' fontName='Times New Roman' bgColor='clear' strokeColor='white' text=',,S,' marks='center' markWidth='4' />
+    <QDial	name='az dial nn'   x='0'   y='0'   modes='front'  radius='azR+13' orientation='demi' fontSize='9' fontName='Times New Roman' bgColor='clear' strokeColor='white' text=',30,60,,120,150,,210,240,,300,330' marks='center' markWidth='4' />
+    <QDial	name='az dial arc'  x='0'   y='0'   modes='front'  radius='azR+18' bgColor='clear' strokeColor='white' marks='outer' markWidth='0.25' />
+    <QDial	name='az dial tic'  x='0'   y='0'   modes='front'  radius='azR+18' bgColor='clear' strokeColor='white' marks='tickOut' nMarks='180' markWidth='1.0' mSize=' 3' />
+    <QDial	name='az dial tic2' x='0'   y='0'   modes='front'  radius='azR+18' bgColor='clear' strokeColor='white' marks='tickOut' nMarks='36' markWidth='1.0' mSize=' 5' />
+    <QDial	name='main bg'	    x='0'   y='0'   modes='front'  radius='(altR+mainR+1)/2' bgColor='clear' strokeColor='0x20ffffff' marks='outer' markWidth='mainR-altR' />
+    <QDial	name='main dial'    x='0'   y='0'   modes='front'  radius='mainR-6' orientation='demi' fontSize='20' fontName='Times New Roman' bgColor='clear' strokeColor='white' text='12,1,2,3,4,5,6,7,8,9,10,11' marks='none' markWidth='0.25' />
+    <QDial	name='main   arc'   x='0'   y='0'   modes='front'  radius='mainR ' bgColor='clear' strokeColor='white' marks='outer' markWidth='0.25' />
+    <QDial	name='main   tic'   x='0'   y='0'   modes='front'  radius='mainR ' bgColor='clear' strokeColor='white' marks='tickOut' nMarks='240' markWidth='1.0' mSize=' 2' />
+    <QDial	name='main   tic2'  x='0'   y='0'   modes='front'  radius='mainR ' bgColor='clear' strokeColor='white' marks='tickOut' nMarks=' 60' markWidth='1.0' mSize=' 4' />
+    <QDial	name='main   tic3'  x='0'   y='0'   modes='front'  radius='mainR ' bgColor='clear' strokeColor='white' marks='tickOut' nMarks=' 12' markWidth='2.0' mSize=' 6' />
+    <QDial	name='altborder'    x='0'   y='0'   modes='front'  radius='altR+1' bgColor='clear' strokeColor='black' marks='outer' markWidth='3' />
+    <Image	name='twi arc'	    x='0'   y='0'   modes='front'  src='twilightDisk3.png' alpha='.5' />
+    <QDial	name='altborder2'   x='0'   y='0'   modes='front'  radius='altR+1.5' bgColor='clear' strokeColor='black' marks='outer' markWidth='2' />
+  </static>
+
+  <Qhand	name='sun alt-m 0'  x='0'   y='0' modes='front' length='altR' width='  1' tail='0' update='864000' angle=' log(1+ 0*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m 6'  x='0'   y='0' modes='front' length='altR' width='  1' tail='0' update='864000' angle=' log(1+ 6*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m12'  x='0'   y='0' modes='front' length='altR' width='  1' tail='0' update='864000' angle=' log(1+12*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m18'  x='0'   y='0' modes='front' length='altR' width='  1' tail='0' update='864000' angle=' log(1+18*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m24'  x='0'   y='0' modes='front' length='altR' width='.50' tail='0' update='864000' angle=' log(1+24*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m30'  x='0'   y='0' modes='front' length='altR' width='.50' tail='0' update='864000' angle=' log(1+30*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m36'  x='0'   y='0' modes='front' length='altR' width='.50' tail='0' update='864000' angle=' log(1+35*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m42'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+42*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m48'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+48*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m54'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+54*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m60'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+60*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m66'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+66*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m72'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+72*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m78'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+78*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt m86'  x='0'   y='0' modes='front' length='altR' width='.25' tail='0' update='864000' angle=' log(1+86*pi/180*198/pi)*pi/4-pi/2' strokeColor='dayLogClr' fillColor='dayLogClr' type='wire' />
+  <Qhand	name='sun alt-m 6'  x='0'   y='0' modes='front' length='altR' width='  1' tail='0' update='864000' angle='-log(1+ 6*pi/180*198/pi)*pi/4-pi/2' strokeColor='ngtLogClr' fillColor='ngtLogClr' type='wire' />
+  <Qhand	name='sun alt-m12'  x='0'   y='0' modes='front' length='altR' width='  1' tail='0' update='864000' angle='-log(1+12*pi/180*198/pi)*pi/4-pi/2' strokeColor='ngtLogClr' fillColor='ngtLogClr' type='wire' />
+  <Qhand	name='sun alt-m18'  x='0'   y='0' modes='front' length='altR' width='  1' tail='0' update='864000' angle='-log(1+18*pi/180*198/pi)*pi/4-pi/2' strokeColor='ngtLogClr' fillColor='ngtLogClr' type='wire' />
+
+  <hand         name='Moon az'      x='0'   y='0' z='1.5' thick='1.5' modes='front' src='moon25.png'    xAnchor= '8' yAnchor='8'				update='1' angle='sunAzimuth()-moonAzimuth()' offsetRadius='moonLen'  offsetAngle='moonAzimuth()' />
+  <Qhand        name='Sun az'	    x='0'   y='0' z='1.5' thick='1.5' modes='front' tail='0' type='sun' length='sunLen' length2='sunLen2' lineWidth='.25' nRays='8' update='1' angle='sunAzimuth()' strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Qhand	name='sun alt icon' x='0'   y='0' z='2.5' thick='1.5' modes='front' type='sun' length='altR+5' length2='altR-15' lineWidth='.25' nRays='8'		update='1' angle='( sunAltitude()>0 ?  log(1+ sunAltitude()*198/pi) : -log(1- sunAltitude()*198/pi))*pi/4-pi/2'    strokeColor='sunStrokeColor' fillColor='sunColor' />
+  <Hand		name='moon alt icn' x='0'   y='0' z='2.5' thick='1.5' modes='front' src='moon8.png'    xAnchor= '4' yAnchor='4' offsetRadius='altR-5'			update='1' offsetAngle='(moonAltitude()>0 ? -log(1+moonAltitude()*198/pi) :  log(1-moonAltitude()*198/pi))*pi/4+pi/2' angle='0' />
+
+<!-- Night -->
+  <static name='night' modes='night'>
+    <QRect      name='maskRectn'    x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <QDial	name='main dialn'   x='0'   y='0'   modes='night'  radius='mainR-6' orientation='demi' fontSize='20' fontName='Times New Roman' bgColor='clear' strokeColor='nfgclr2' text='12,1,2,3,4,5,6,7,8,9,10,11' marks='none' markWidth='0.25' />
+    <QDial	name='main   arcn'  x='0'   y='0'   modes='night'  radius='mainR ' bgColor='clear' strokeColor='nfgclr' marks='outer' markWidth='0.25' />
+    <QDial	name='main   ticn'  x='0'   y='0'   modes='night'  radius='mainR ' bgColor='clear' strokeColor='nfgclr2' marks='tickOut' nMarks='240' markWidth='1.0' mSize=' 2' />
+    <QDial	name='main   tic2n' x='0'   y='0'   modes='night'  radius='mainR ' bgColor='clear' strokeColor='nfgclr2' marks='tickOut' nMarks=' 60' markWidth='1.0' mSize=' 4' />
+  </static>
+
+<!--  No time-changing hidden buttons on Android -->
+<!--  <button	name='month but'    x='monthX+22' y='dateY-8' w='35' h='14' modes='front' action='advanceMonth()' />  month -->
+<!--  <button	name='day but'	    x='firstDateX+22' y='dateY-8' w='21' h='14'  modes='front' action='advanceDay()' />  day -->
+
+<!-- Time Hands -->
+    <Qhand	name='hr'	    x='0' y='0'  z='3'	modes='front'	kind='hour12Kind'  type='breguet'  length='hrLen'  width='16' update='  1' angle='hour12ValueAngle()' strokeColor='white' fillColor='white'/>
+    <Qhand	name='min'	    x='0' y='0'  z='3'	modes='front'	kind='minuteKind'  type='breguet'  length='minLen' width='13' update='.25' angle='minuteValueAngle()' strokeColor='white' fillColor='white'/>
+    <Qhand	name='sec'	    x='0' y='0'  z='3'	modes='front'	kind='secondKind'  type='tri'      length='secLen' width='1'  tail='28' oRadius='3.5' update='.25' oCenter='2' angle='secondValueAngle()' strokeColor='red' oStrokeColor='red' fillColor='red' oFillColor='red' />
+    <Qhand	name='hr n'	    x='0' y='0'  z='3'	modes='night|back'	kind='hour12Kind'  type='breguet'  length='hrLen'  width='16' update='10' angle='hour12ValueAngle()' strokeColor='nfgclr' fillColor='nfgclr'/>
+    <Qhand	name='min n'	    x='0' y='0'  z='3'	modes='night|back'	kind='minuteKind'  type='breguet'  length='minLen' width='13' update='10' angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='nfgclr'/>
+
+</watch>

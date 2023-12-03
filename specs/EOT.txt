@@ -1,0 +1,18 @@
+EOT for day is simple: Find the RA of the Sun at noon UT on the given
+day.  The time at which that RA crosses the meridian (at Greenwich) is
+given by the GMSiT that is equal to that RA (since sidereal time tells
+which RA is at the meridian).  Thus we take the RA, treat it as a
+GMSiT, and convert to UT; the answer will be close to, but not
+exactly, noon UT, and the difference is the EOT at noon UT.
+
+EOT at some other time is a bit trickier.  But the same idea can
+apply.  For any given UT within a day, there is some longitude for
+which the mean Sun crosses the meridian at that time (analogous to the
+mean Sun crossing the meridian at Greenwich at noon UT).  So we can
+treat the RA as the Local Actual Sidereal Time *for that longitude*,
+convert to Greenwich Actual Sidereal Time, and then convert again as
+before to UT.
+
+To find the magic longitude under the mean Sun, we simply take the
+hours-since-noon and convert to a longitude as an offset from
+Greenwich.

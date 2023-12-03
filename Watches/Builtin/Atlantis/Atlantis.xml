@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Atlantis.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett on 7/1/2008
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Atlantis' beatsPerSecond='2'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='512' backHeight='512' nightWidth='512' nightHeight='512'/>
+  <init expr='frontBg=0xffb0b0b0, backBg=0xff808080, dials=white, dialmarks=black, dial2=0xfff0f0f0, marks=black,
+	      latitudeY=38,firstLatX=-65,secondLatX=-25,thirdLatX=-secondLatX,fourthLatX=-firstLatX,
+	      firstLongX=-85,secondLongX=-45,thirdLongX=-5,fourthLongX=45,fifthLongX=85,
+	      latLongLabelX=0,latLabelY=78,latDirX=10,latDirY=106,
+	      latDegreesX=secondLatX+25,latMinutesX=fourthLatX+25,longDegreesX=thirdLongX+25,longMinutesX=fifthLongX+25,latDegreesY=latitudeY+12,
+	      longitudeY=-latitudeY,longLabelY=-75,longDirX=0,longDirY=-115,
+	      longDegreesY=longitudeY+12,
+	      nightBg=black, nbgclr=0xff00c0ac, nbg2clr=0xff00a08c,
+	      leapBitClr=marks, esClr=marks,
+	      indicClr=marks, indicHandClr=marks,
+	      wkdayBg=dials, wkdayText=dialmarks, wkdayHand=dialmarks,
+	      dayBg=dials,   dayText=dialmarks,   dayHand=dialmarks,
+	      monBg=dial2, monText=dialmarks, monHand=dialmarks,
+	      timBg=dials, timText=dialmarks, timHrHand=dialmarks, timMinHand=dialmarks, timSecHand=dialmarks,
+	      yrBg=dials, yrText=dialmarks, yrHand=dialmarks' />
+  <init	expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+  <button	name='stem'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='stemn'	    x='r-4'  y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	     src='../partsBin/HD/white/night/stem.png' rotation='0' xMotion='10' yMotion='0' enabled='always' action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' motion='manualSet() ? 1 : 0' opacity='1' />
+  <button	name='Reset'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset02.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+  <button	name='Reset b'	    x='bx'  y='by'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'       src='../partsBin/HD/reset02b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='mx*1.3' yMotion='my*1.3' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+  <button	name='F/R'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/HD/white/front/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+  <button	name='F/Rn'	    x='-3'  y='-r' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='../partsBin/HD/white/night/switch.png'				action='inReverse() ? goForward() : goBackward()'		xMotion='8'  yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+  <button	name='adv cents but'  x='-bx' y=' by' modes='front|back' src='../partsBin/HD/white/front/button10.png' action='advanceYears(100)' xMotion='-mx' yMotion=' my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv year  but'  x='-bx' y='-by' modes='front|back' src='../partsBin/HD/white/front/button08.png' action='advanceYear()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv cents butn' x='-bx' y=' by' modes='night'      src='../partsBin/HD/white/night/button10.png' action='advanceYears(100)' xMotion='-mx' yMotion=' my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button	name='adv year  butn' x='-bx' y='-by' modes='night'      src='../partsBin/HD/white/night/button08.png' action='advanceYear()'	     xMotion='-mx' yMotion='-my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <static name='front' modes='front' n='17'>
+    <QDial	name='bg and marks' x='0' y='  0'	modes='front'		radius='ri'  markWidth='1'   marks='tickOut' nMarks=' 10' mSize='8' bgColor='frontBg' />
+    <QDial	name='bg1'	    x='0' y='  0'	modes='front'		radius='ri'  markWidth='.75' marks='tickOut' nMarks=' 50' mSize='6' bgColor='clear' />
+    <QDial	name='bg2'	    x='0' y='  0'	modes='front'		radius='ri'  markWidth='.5'  marks='tickOut' nMarks='250' mSize='3' bgColor='clear' />
+<!--    <Qtext	name='es'	    x='0' y='-25'	modes='front'		fontSize='12' fontName='Times New Roman' text='Emerald ❖ Sequoia' strokeColor='esClr' /> -->
+    <Image	name='logo'	    x='0' y='-24.5'	modes='front'	        src='../partsBin/logos/black.png' />
+
+    <Qtext	name='ST'           x= '-94' y='65'	modes='front'           fontSize='8'	fontName='Times New Roman' text='ST' strokeColor='indicClr' />
+    <Qtext	name='DT'           x= '-78' y='65'	modes='front'           fontSize='8'	fontName='Times New Roman' text='DT' strokeColor='indicClr' />
+    <Qtext	name='am'           x= '78' y='65'	modes='front'           fontSize='8'	fontName='Times New Roman' text='AM' strokeColor='indicClr' />
+    <Qtext	name='pm'           x= '94' y='65'	modes='front'           fontSize='8'	fontName='Times New Roman' text='PM' strokeColor='indicClr' />
+    <QDial	name='wkday'	    x='-85' y='0'	modes='front'		radius='31' orientation='demi'    demiTweak='1' fontSize='10' fontName='Times New Roman' bgColor='wkdayBg' strokeColor='wkdayText' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat'  marks='outer' markWidth='1' />
+    <QDial	name='day'	    x=' 0' y='55'	modes='front'		radius='60' orientation='demi'   demiTweak='2'  fontSize='10' fontName='Times New Roman' bgColor='dayBg' strokeColor='dayText' text='1,●,3,●,5,●,7,●,9,●,11,●,13,●,15,●,17,●,19,●,21,●,23,●,25,●,27,●,29,●,31'  marks='outer' markWidth='1' />
+    <QDial	name='mon'	    x=' 0' y='55'	modes='front'		radius='44' orientation='demi'   fontSize='10' fontName='Times New Roman' bgColor='monBg' strokeColor='monText' text='Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'  marks='outer' markWidth='1' />
+    <QDial	name='yr 1000'	    x='- 66' y='-60'	modes='front'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='yr 100'	    x='- 22' y='-60'	modes='front'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='yr 10'	    x='  22' y='-60'	modes='front'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='yr 1'	    x='  66' y='-60'	modes='front'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='clock'        x='85' y='  0'	modes='front'		radius='32' orientation='upright' fontSize='10' fontName='Times New Roman' bgColor='timBg' strokeColor='timText' text='12,1,2,3,4,5,6,7,8,9,10,11' />
+    <QDial	name='clock ticks'  x='85' y='   0'	modes='front'		radius='32' bgColor='clear' marks='tickOut' nMarks='60' markWidth='.5' mSize='2'/>
+    <QDial	name='clock ticks2' x='85' y='   0'	modes='front'		radius='32' bgColor='clear' marks='tickOut|outer' nMarks='12' markWidth=' 1' mSize='3'/>
+    <QDial	name='leap'	    x='-30' y='-107'	modes='front'		radius='22' orientation='upright'   fontSize='8' fontName='Times New Roman' bgColor='clear' text=',C,,1,,,,,,,,,,4,,L'   strokeColor='indicClr' />
+    <Qtext	name='bc'           x='20' y='-92'	modes='front'           fontSize='8'	fontName='Times New Roman' text='BC' strokeColor='indicClr' />
+    <Qtext	name='ad'           x='40' y='-92'	modes='front'           fontSize='8'	fontName='Times New Roman' text='AD' strokeColor='indicClr' />
+    <Image	name='band'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <Image	name='case'	    x='0' y='   0'	modes='front'	src='../partsBin/HD/white/front/narrow/case.png' />
+    <window	name='f/r'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  </static>
+
+  <static name='night' modes='night' n='11'>
+    <QDial	name='background'   x='0' y='   0'	modes='night'	radius='ri'  bgColor='nightBg' fontName='Arial' text='' />
+    <QDial	name='wkdayn'	    x='-85' y='0'	modes='night'		radius='31' orientation='demi'    demiTweak='1' fontSize='10' fontName='Times New Roman' bgColor='nbgclr' strokeColor='wkdayText' text='Sun,Mon,Tue,Wed,Thu,Fri,Sat'  marks='outer' markWidth='1' />
+    <QDial	name='dayn'	    x=' 0' y='55'	modes='night'		radius='60' orientation='demi'    demiTweak='2' fontSize='10' fontName='Times New Roman' bgColor='nbg2clr' strokeColor='dayText' text='1,●,3,●,5,●,7,●,9,●,11,●,13,●,15,●,17,●,19,●,21,●,23,●,25,●,27,●,29,●,31'  marks='outer' markWidth='1' />
+    <QDial	name='monn'	    x=' 0' y='55'	modes='night'		radius='44' orientation='demi'   fontSize='10' fontName='Times New Roman' bgColor='nbgclr' strokeColor='monText' text='Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'  marks='outer' markWidth='1' />
+    <QDial	name='yr 1000n'	    x='- 66' y='-60'	modes='night'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='nbgclr' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='yr 100n'	    x='- 22' y='-60'	modes='night'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='nbgclr' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='yr 10n'	    x='  22' y='-60'	modes='night'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='nbgclr' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='yr n1'	    x='  66' y='-60'	modes='night'		radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='nbgclr' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9'  marks='outer' markWidth='1' />
+    <QDial	name='clockn'       x='85' y='  0'	modes='night'		radius='32' orientation='upright' fontSize='10' fontName='Times New Roman' bgColor='nbgclr' strokeColor='timText' text='12,1,2,3,4,5,6,7,8,9,10,11' />
+    <QDial	name='clock tickn'  x='85' y='   0'	modes='night'		radius='32' bgColor='clear' marks='tickOut' nMarks='60' markWidth='.5' mSize='2'/>
+    <QDial	name='clock tickn2' x='85' y='   0'	modes='night'		radius='32' bgColor='clear' marks='tickOut|outer' nMarks='12' markWidth=' 1' mSize='3'/>
+    <Image	name='band N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/black/night/straight/narrow/band.png' />
+    <Image	name='case N'	    x='0' y='   0'	modes='night'	src='../partsBin/HD/white/night/narrow/case.png' />
+    <window	name='f/r n'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  </static>
+
+  <Qhand	name='dst'	    x= '-86' y='47'	modes='front'		type='tri'  length='15' width='3'  tail='0'	update='12 * hours()'	angle='DSTNumber()?pi/8:-pi/8' strokeColor='indicHandClr' fillColor='indicHandClr'/>
+  <Qhand	name='am/pm'	    x=' 86' y='47'	modes='front'		type='tri'  length='15' width='3'  tail='0'	update='1 *hours()'	angle='hour24Number()>=12?pi/8:-pi/8' strokeColor='indicHandClr' fillColor='indicHandClr'/>
+  <Qhand	name='wkday h'	    x='-85' y='0'	modes='front | night'	kind='weekDayKind'	type='tri'  length='25' width='5'  tail='3'	update='3600*24'	angle='weekdayNumberAngle()' strokeColor='wkdayHand' fillColor='wkdayHand'/>
+  <Qhand	name='day h'	    x=' 0' y='55'	modes='front | night'	kind='dayKind'	    type='tri'  length='54' width='5'  tail='3'	update='3600*24'	angle='dayNumberAngle()' strokeColor='dayHand' fillColor='dayHand'/>
+  <Qhand	name='mon h'	    x=' 0' y='55'	modes='front | night'	kind='monthKind'    type='tri'  length='32' width='5'  tail='3'	update='3600*24'	angle='monthNumberAngle()' strokeColor='monHand' fillColor='monHand'/>
+  <Qhand	name='yr 1000 h'    x='- 66' y='-60'	modes='front | night'	kind='year1000Kind'	type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(floor(yearNumber()/1000),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='yr 100 h'	    x='- 22' y='-60'	modes='front | night'	kind='year100Kind'	type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(floor(yearNumber()/100),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='yr 10 h'	    x='  22' y='-60'	modes='front | night'	kind='year10Kind'	type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(floor(yearNumber()/10),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='yr 1 h'	    x='  66' y='-60'	modes='front | night'	kind='year1Kind'	type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(yearNumber(),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='leap h'	    x='-30' y='-109'	modes='front'		type='tri'  length='15' width='3'  tail='0'	update='3600*24'	angle='leapYearIndicatorAngle1()' strokeColor='indicHandClr' fillColor='indicHandClr'/>
+  <Qhand	name='adbc h'	    x=' 30' y='-109'	modes='front'		type='tri'  length='15' width='3'  tail='0'	update='3600*24'	angle='eraNumber() == 1 ? pi/8 : -pi/8' strokeColor='indicHandClr' fillColor='indicHandClr'/>
+
+  <static name='back' modes='back' n='23'>
+    <QDial	name='bbg and marks' x='0' y='  0'			modes='back' radius='ri'  markWidth='1'   marks='tickOut' nMarks=' 10' mSize='8' bgColor='backBg' />
+    <QDial	name='bbg1'	    x='0' y='  0'			modes='back' radius='ri'  markWidth='.75' marks='tickOut' nMarks=' 50' mSize='6' bgColor='clear' />
+    <QDial	name='bbg2'	    x='0' y='  0'			modes='back' radius='ri'  markWidth='.5'  marks='tickOut' nMarks='250' mSize='3' bgColor='clear' />
+    <Qtext	name='latitude'	    x='latLongLabelX'   y='latLabelY'	modes='back' fontSize='18'	fontName='Times New Roman' text='Latitude'/>
+    <Qtext	name='degrees'	    x='latDegreesX'	y='latDegreesY' modes='back' fontSize='14'	fontName='Verdana' text='º'/>
+    <Qtext	name='minutes'	    x='latMinutesX'	y='latDegreesY-2' modes='back'	fontSize='18'	fontName='Verdana' text="'"/>
+    <QDial	name='lat 10'	    x='firstLatX'	y='latitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9' marks='outer' markWidth='1' />
+    <QDial	name='lat 1'	    x='secondLatX'	y='latitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9' marks='outer' markWidth='1' />
+    <QDial	name='lat 10m'	    x='thirdLatX'	y='latitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5'	    marks='outer' markWidth='1' />
+    <QDial	name='lat 1m'	    x='fourthLatX'	y='latitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9' marks='outer' markWidth='1' />
+    <Qtext	name='S'            x='latDirX-18'	y='latDirY-7'	modes='back'	fontSize='10'	fontName='Times New Roman' text='S' strokeColor='indicClr' />
+    <Qtext	name='N'            x='latDirX-18'	y='latDirY+7'	modes='back'	fontSize='10'	fontName='Times New Roman' text='N' strokeColor='indicClr' />
+    <Qtext	name='longitude'    x='latLongLabelX'	y='longLabelY'	modes='back'	fontSize='18'	fontName='Times New Roman' text='Longitude'/>
+    <Qtext	name='degrees2'	    x='longDegreesX'	y='longDegreesY' modes='back'	fontSize='14'	fontName='Verdana' text='º'/>
+    <Qtext	name='minutes2'	    x='longMinutesX'	y='longDegreesY-2' modes='back'	fontSize='18'	fontName='Verdana' text="'"/>
+    <QDial	name='long 100'	    x='firstLongX'	y='longitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,,,,,,,,'	    marks='outer' markWidth='1' />
+    <QDial	name='long 100x'    x='firstLongX'	y='longitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='clear' strokeColor='0xff808080' text=',,2,3,4,5,6,7,8,9' />
+    <QDial	name='long 10'	    x='secondLongX'	y='longitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9' marks='outer' markWidth='1' />
+    <QDial	name='long 1'	    x='thirdLongX'	y='longitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9' marks='outer' markWidth='1' />
+    <QDial	name='long 10m'	    x='fourthLongX'	y='longitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5'	    marks='outer' markWidth='1' />
+    <QDial	name='long 1m'	    x='fifthLongX'	y='longitudeY'	modes='back'	radius='20' orientation='upright'   fontSize='10' fontName='Times New Roman' bgColor='yrBg' strokeColor='yrText' text='0,1,2,3,4,5,6,7,8,9' marks='outer' markWidth='1' />
+    <Qtext	name='W'            x='longDirX-8'	y='longDirY+18'	modes='back'	fontSize='10'	fontName='Times New Roman' text='W' strokeColor='indicClr' />
+    <Qtext	name='E'            x='longDirX+8'	y='longDirY+18'	modes='back'	fontSize='10'	fontName='Times New Roman' text='E' strokeColor='indicClr' />
+    <Image	name='band b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/straight/narrow/band.png' />
+    <Image	name='case b'	    x='0' y='   0'	modes='back'	src='../partsBin/HD/white/front/narrow/case.png' />
+    <Image	name='berry'	    x='0' y='   0'	modes='back'	src='../partsBin/berry.png'/>
+    <Image	name='band back'    x='0' y='   0'	modes='back'	src='../partsBin/HD/black/front/back.png'/>
+    <window	name='f/r b'	    x='-8' y='-r-4'  w='16' h='7' border='1' />
+  </static>
+
+  <Qhand	name='lat 10 h'	    x='firstLatX'   y='latitudeY'   modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(latitudeDegrees()),10,  1/60),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='lat 1 h'	    x='secondLatX'  y='latitudeY'   modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(latitudeDegrees()),1,   1/60),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='lat 10m h'    x='thirdLatX'   y='latitudeY'   modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(latitudeDegrees()),1/6, 1/60), 6)*2*pi/6 ' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='lat 1m h'	    x='fourthLatX'  y='latitudeY'   modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(latitudeDegrees()),1/60,1/60),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='latDir'	    x='latDirX'	    y='latDirY'	    modes='back'    type='tri'  length='15' width='3'  tail='0'	update='12 * hours()'	angle='latitudeDegrees()>0?-3*pi/8:-5*pi/8' strokeColor='indicHandClr' fillColor='indicHandClr'/>
+  <Qhand	name='long 100 h'   x='firstLongX'  y='longitudeY'  modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(longitudeDegrees()),100, 1/60),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='long 10 h'    x='secondLongX' y='longitudeY'  modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(longitudeDegrees()),10,  1/60),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='long 1 h'	    x='thirdLongX'  y='longitudeY'  modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(longitudeDegrees()),1,   1/60),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='long 10m h'   x='fourthLongX' y='longitudeY'  modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(longitudeDegrees()),1/6, 1/60), 6)*2*pi/6 ' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='long 1m h'    x='fifthLongX'  y='longitudeY'  modes='back'    type='tri'  length='12' width='5'  tail='3'	update='3600*24'	angle='fmod(digitValue(abs(longitudeDegrees()),1/60,1/60),10)*2*pi/10' strokeColor='yrHand' fillColor='yrHand'/>
+  <Qhand	name='lonDir'	    x='longDirX'    y='longDirY'    modes='back'    type='tri'  length='15' width='3'  tail='0'	update='12 * hours()'	angle='longitude()>0?pi/8:-pi/8' strokeColor='indicHandClr' fillColor='indicHandClr'/>
+  <Qhand	name='hr'	    x='85' y='  0'	modes='front | night'	kind='hour12Kind'  type='tri'  length=' 17.25'	width='2.5' tail='2'	update=' 1'	angle='hour12ValueAngle()' strokeColor='timHrHand' fillColor='timHrHand'/>
+  <Qhand	name='min'	    x='85' y='  0'	modes='front | night'	kind='minuteKind'  type='tri'  length=' 23'	width='2'   tail='1.5'	update=' 1'	angle='minuteValueAngle()' strokeColor='timMinHand' fillColor='timMinHand'/>
+  <Qhand	name='sec'	    x='85' y='  0'	modes='front | night'	kind='secondKind'  type='tri'  length=' 23'	width='0.5' tail='1'	update='.5'	angle='secondValueAngle()' strokeColor='timSecHand' fillColor='timSecHand'/>
+</watch>
+
+
+<!-- COMPLICATIONS
+
+[FRONT]
+[WIKI Daylight_saving_time DST]
+[WIKI Leap_year Leap year]
+Weekday
+Year
+Era
+
+[BACK]
+Latitude
+Longitude
+
+-->

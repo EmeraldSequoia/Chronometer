@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mauna Loa I.xml
+  Emerald Chronometer
+
+  Copied from Mauna Kea.xml 2017 May 22
+ 
+  Created by Bill Arnett on 6/4/2008
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Mauna Loa I' beatsPerSecond='10' faceWidth='271' statusBarLoc='bottom'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='128' backHeight='128' nightWidth='1024' nightHeight='512'/>
+  <init expr='faceWidth=271, backerWidth=faceWidth' />
+
+<init		expr='hairline=0.25, nMoons=16, demoing=0' />
+  <init		expr='hr12R=80, hr12Rn=72, hr12sz=8' />
+  <init		expr='fgclr=white, timeHandBorderClr=0xff909090, bgclr=black, sfgclr=red, sbgclr=red, utstroke=0xff402040, utfill=0xff80b080, zodbg=darkGray, meridianclr=0xffc0c0c0, sunriseclr=0xfff0f000, sunsetclr=sunriseclr, moonrisecolor=0xffd0d0d0, nfgclr2=0xff006056, nbg3clr=0xd0004036, nfgclr4=0xff00a088, solarclrn=0xffcc00ff' />
+  <init		expr='dlw=35, dll=135, dll2=107, dial24fclr=0xff808080, dial24clr=0xffd0d0d0, leafBorder=0xff808080, leafFill=white' />
+  <init	expr='r=143, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+  <init expr='sx=60*cos(pi/6), sy=60*sin(pi/6), sidr=38, sidclr=dial24clr, sidbg=0xff101010, sidHandcolor=fgclr'/>
+  <init expr='moonclrn=0xffc08711, moonclrnmask=0x90c08711, moondialbgn=0x40c08711' />
+
+<hand         name='littlemoon'   x=' 0'  y='-60'  modes='front|night'  src='../partsBin/moonES80.png'    update='updateAtEnvChangeOnly'	angle='latitude()>0 ? 0 : pi' />
+<hand         name='nightcast'    x='0' y='-60'  modes='night'          src='../partsBin/moonNightcastAW80.png'  update='0' angle='0' />
+<terminator   name='term'         x=' 0'  y='-60'  modes='front'   radius='40' leavesPerQuadrant='10' incremental='0' leafBorderColor='0xff282828' leafFillColor='0xff080808' leafAnchorRadius='0' update='1 * hours()' updateOffset='0' phaseAngle='moonAgeAngle()' rotation='latitude()>0 ? 0 : pi'/>
+<terminator   name='termn'        x=' 0'  y='-60'  modes='night'   radius='40' leavesPerQuadrant='10' incremental='0' leafBorderColor='black' leafFillColor='black' leafAnchorRadius='0' update='1 * hours()' updateOffset='0' phaseAngle='moonAgeAngle()' rotation='latitude()>0 ? 0 : pi'/>
+
+  <window	name='term cover'   x= '0'  y='-60'  w='80' h='80' type='porthole'  border='1' strokeColor='0x7f202020' />
+  <static name='front' modes='front'>
+    <QRect      name='maskRect' x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='face-back'    x=' 0'  y='0'   modes='front'    src='stars.png'/>
+    <Image      name='berry'        x=' 0'  y='82'  modes='front' src='../partsBin/berry-green.png' />
+    <Qtext      name='sidereal'     x='sx'  y='sy-sidr-8'  modes='front' text='Sidereal' fontName='Arial' fontSize='10' strokeColor='sidclr'/>
+    <QDial	name='sid dial'     x='sx'  y='sy'  modes='front' radius='sidr' bgColor='sidbg' strokeColor='sidclr' marks='outer' />
+    <QDial	name='sid hrs'      x='sx'  y='sy'  modes='front' radius='sidr-1' orientation='demi' demiTweak='0' fontSize='8' fontName='Arial' bgColor='clear' strokeColor='sidclr' text='0,∙,2,∙,4,∙,6,∙,8,∙,10,∙,12,∙,14,∙,16,∙,18,∙,20,∙,22,∙' />
+    <Qtext      name='solar'        x='-sx' y='sy-sidr-8'  modes='front' text='Solar' fontName='Arial' fontSize='10' strokeColor='sidclr'/>
+    <QDial	name='sol dial'     x='-sx' y='sy'  modes='front' radius='sidr' marks='outer'  bgColor='sidbg' strokeColor='sidclr' />
+    <QDial	name='sol hrs'      x='-sx' y='sy'  modes='front' radius='sidr-1' orientation='demi' demiTweak='0' fontSize='8' fontName='Arial' bgColor='clear' strokeColor='sidclr' text='12,1,2,3,4,5,6,7,8,9,10,11' />
+  </static>
+
+  <window	name='term cover'   x= '0'  y='-60'  w='80' h='80' type='porthole'  border='1' strokeColor='moonclrn' />
+  <static name='night' modes='night' >
+    <QRect      name='maskRectn'     x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <QDial	name='sid hrsn'      x='sx'  y='sy'  modes='night' radius='sidr-1' orientation='demi' demiTweak='0' fontSize='8' fontName='Arial' bgColor='clear' strokeColor='nfgclr4' text='0,∙,2,∙,4,∙,6,∙,8,∙,10,∙,12,∙,14,∙,16,∙,18,∙,20,∙,22,∙' />
+    <QDial	name='sol hrsn'      x='-sx' y='sy'  modes='night' radius='sidr-1' orientation='demi' demiTweak='0' fontSize='8' fontName='Arial' bgColor='clear' strokeColor='solarclrn' text='12,1,2,3,4,5,6,7,8,9,10,11' />
+    <Image	name='lumiberry'     x='0' y='82'	modes='night'	src='../partsBin/berry-lum.png' />
+  </static>
+
+  <Qwheel	name='dial 24b'	    x='0'   y='0'   modes='front'   radius='134' tradius='122' orientation='twelve' update='1' angle='pi-moonNoonAngle()' fontSize='12' fontName='Arial' bgColor='clear' strokeColor='dial24clr' text='12,11,10,9,8,7,6,5,4,3,2,1,0,23,22,21,20,19,18,17,16,15,14,13' tick='tick288' marks='outer' markWidth='1' />
+  <Qwheel	name='dial 24bn'    x='0'   y='0'   modes='night'   radius='134' tradius='122' orientation='twelve' update='1' angle='pi-moonNoonAngle()' fontSize='12' fontName='Arial' bgColor='clear' strokeColor='dial24clr' text='12,11,10,9,8,7,6,5,4,3,2,1,0,23,22,21,20,19,18,17,16,15,14,13' tick='tick96' marks='outer' markWidth='1' />
+  <Qhand	name='moonrise'	    x='0'   y='0'   modes='front|night'    length='127' width='10' length2='110' type='rise' update='1'   angle='moonrise24HourIndicatorAngle()-moonNoonAngle()' strokeColor='moonrisecolor' fillColor='moonrisecolor' />
+  <Qhand	name='moonset'	    x='0'   y='0'   modes='front|night'    length='127' width='10' length2='110' type='set'  update='1'  angle='moonset24HourIndicatorAngle() -moonNoonAngle()' strokeColor='moonrisecolor' fillColor='moonrisecolor' />
+  <Qhand	name='UT24 b'	    x='0'   y='0'   modes='front|night' kind='hour24Kind' length='130' length2='110' width='5'  tail='0' 	update='1'	angle='hour24ValueAngle()-moonNoonAngle()-tzOffsetAngle()' strokeColor='utstroke' fillColor='utfill' />
+  <hand         name='moon posn b'  x='0'   y='0'   modes='front|night'    xAnchor= '8' yAnchor='-101' src='moon25f.png'      update='1' angle='hour24ValueAngle()-moonNoonAngle()' kind='hour24Kind' />
+
+  <Qhand	name='sidHour'	    x='sx'  y='sy'  modes='front'    kind='hour24Kind' length='sidr-13' width='3'  update='1'  angle='fmod(lstValue()/3600,24)*2*pi/24' strokeColor='sidHandcolor' fillColor='sidHandcolor' />
+  <Qhand	name='sidHourn'	    x='sx'  y='sy'  modes='night'    kind='hour24Kind' length='sidr-13' width='3'  update='10'  angle='fmod(lstValue()/3600,24)*2*pi/24' strokeColor='nfgclr4' fillColor='nfgclr4' />
+  <Qhand	name='sidMin'	    x='sx'  y='sy'  modes='front'    kind='minuteKind' length='sidr- 2' width='2'  update='1'   angle='fmod(lstValue()/60  ,60)*2*pi/60' strokeColor='sidHandcolor' fillColor='sidHandcolor' />
+  <Qhand	name='sidMinn'	    x='sx'  y='sy'  modes='night'    kind='minuteKind' length='sidr- 2' width='2'  update='10'   angle='fmod(lstValue()/60  ,60)*2*pi/60' strokeColor='nfgclr4' fillColor='nfgclr4' />
+  <Qhand	name='sxhr b'	    x='-sx' y='sy'  modes='front'    kind='hour12Kind' length='sidr-13' width='3'  update='1' angle='fmod(hour12ValueAngle() + (longitude() - tzOffsetAngle() + EOTAngle()) * 2,  2*pi)' strokeColor='sidHandcolor' fillColor='sidHandcolor' />
+  <Qhand	name='sxhr n'	    x='-sx' y='sy'  modes='night'    kind='hour12Kind' length='sidr-13' width='3'  update='10' angle='fmod(hour12ValueAngle() + (longitude() - tzOffsetAngle() + EOTAngle()) * 2,  2*pi)' strokeColor='solarclrn' fillColor='solarclrn' />
+  <Qhand	name='sxmin b'	    x='-sx' y='sy'  modes='front'    kind='minuteKind' length='sidr- 2' width='2'  update=' 1' angle='fmod(minuteValueAngle() + (longitude() - tzOffsetAngle() + EOTAngle()) * 24, 2*pi)' strokeColor='sidHandcolor' fillColor='sidHandcolor' />
+  <Qhand	name='sxmin n'	    x='-sx' y='sy'  modes='night'    kind='minuteKind' length='sidr- 2' width='2'  update='10' angle='fmod(minuteValueAngle() + (longitude() - tzOffsetAngle() + EOTAngle()) * 24, 2*pi)' strokeColor='solarclrn' fillColor='solarclrn' />
+
+  <Qhand	name='12hour'	    x=' 0'  y='0' z='4'  modes='front | back' kind='hour12Kind' length=' 60' width='5'	      update=' 1'	angle='hour12ValueAngle()' strokeColor='timeHandBorderClr' fillColor='fgclr' />
+  <Qhand	name='12hourn'	    x=' 0'  y='0'   modes='night'	  kind='hour12Kind' length=' 60' width='5'	      update='10'	angle='hour12ValueAngle()' strokeColor='white' fillColor='white' />
+  <Qhand	name='minute'	    x=' 0'  y='0' z='4'  modes='front | back' kind='minuteKind' length=' 80' width='4'	      update='.1'	angle='minuteValueAngle()' strokeColor='timeHandBorderClr' fillColor='fgclr' />
+  <Qhand	name='minuten'	    x=' 0'  y='0'   modes='night'	  kind='minuteKind' length=' 80' width='4'	      update='10'	angle='minuteValueAngle()' strokeColor='white' fillColor='white' />
+  <Qhand	name='second'	    x=' 0'  y='0' z='4'  modes='front | back' kind='secondKind' length=' 81' width='2'  tail='25'  update='.1'	angle='secondValueAngle()' strokeColor='sfgclr' fillColor='sbgclr' oStrokeColor='sbgclr' oCenter='1.5' />
+
+</watch>

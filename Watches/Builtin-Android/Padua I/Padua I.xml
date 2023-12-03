@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Padua I.xml
+  Emerald Chronometer
+
+  (was Sol; was Strasbourg; was Firenze II)
+  
+  Copied from Firenze.xml 2017 May 20
+
+  Created by Bill Arnett 4/5/09
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Padua I' beatsPerSecond='0' faceWidth='285' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='32' backHeight='128' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=285, backerWidth=faceWidth' />
+
+<!-- lengths -->
+  <init	    expr='mercuryR=24, venusR=46, earthR=68, marsR=90, jupiterR=112, saturnR=134' />
+  <init	    expr='hrLen=marsR-5, hrArrow=hrLen-32, minLen=jupiterR, minArrow=minLen-35, secLen=saturnR, hrTail=9, minTail=7, arrowClr=clear, arrowWidth=.75, arrowWidth1=1, secArrow=19' />
+  <init	    expr='planetfs=18, wheelfs=11, wheelspace=10' />
+  <init	    expr='yearX=-wheelspace*1.5, yearY=-(marsR+jupiterR)/2, monX=-wheelspace*2.5, dayX=wheelspace, dayY=-yearY-3, monY=dayY' />
+  <init	    expr='datefs=14, dateY=30, yoff2=datefs/2-1' />
+  <init	    expr='outR=143, inR=175/2, azR=142, altR=110, selRadius=130, logoY=-96.5, selIconY=77' />
+  <init	    expr='off=0, satR=outR-32, jupR=satR-off, marR=jupR-off, sunR=marR-off, venR=sunR-off, merR=venR-off, monR=merR-off' />
+  <init	    expr='datefs=14, dateY=30, yoff2=datefs/2-1' />
+  <init	    expr='roseLW=.1' />
+  <init	    expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+<!-- colors -->
+  <init	    expr='lum=0xc000ffe4, planetColor=white, planetoColor=0xa0ffffff, bgclr=black, fgclr=0xc0ffffff, ticColor=white, dateBackColor=black, bfgclr=0xffe0e0e0' />
+  <init	    expr='timHrHand=0xfff0f0f0, otimHrHand=0xff808080, otimHrHandb=0xffc0c0c0, otimMinHandb=otimHrHandb, timHrHandb=black, timMinHand=timHrHand, otimMinHand=otimHrHand, timMinHandb=timHrHandb, timSecHand=0xff800000, arrowClr=clear' />
+  <init	    expr='dialColor=0xff202020, dialbackColor=lightGray, azFrontColor=0xffe0e0e0, sunColor=0xfff2e407, sunStrokeColor=0xff120400, armColor=white, hubColor=0xff808080' />
+  <init	    expr='colorA1=0x80303030, colorA2=0x80404040, colorB1=colorA1, colorB2=colorA2, colorC1=colorA2, colorC2=colorA1, roseStrokeColor=0xff000000' />
+  <init	    expr='dialColorn=0xff202020, colorA1n=0x40303030, colorA2n=0x40404040, colorB1n=colorA1, colorB2n=colorA2n, colorC1n=colorA2n, colorC2n=colorA1n, nfgclr2=0xff00a0a0, azNightColor=white' />
+
+<!-- infrastructure ================================================== -->
+
+<!-- Night ================================================== -->
+
+  <QRect    name='day bakbn'	x=' 33' y='dateY-yoff2' w='22' h='datefs' modes='night' bgColor='black' />
+  <SWheel   name='ddigitsn'	x=' 22' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='clear' />
+  <SWheel   refName='ddigitsn'  x=' 11' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='clear' />
+
+  <window   name='day win'	x=' 33' y='dateY-yoff2' w='22' h='datefs-2' border='0' />
+  <static   name='night' modes='night' >
+      <QRect  name='maskRectN'  x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+      <QDial  name='az dialn'	x='0'   y='0'   modes='night'   radius='azR' nMarks=' 36' markWidth=' 1' marks='tickOut' mSize='5' bgColor='clear' strokeColor='azNightColor' />
+      <QDial  name='axle2n'	x='0'   y='0'	modes='night' radius='3'	markWidth='.75' marks='outer'				bgColor='white' />
+      <QDial  name='az dial 4n'	x='0'   y='0'   modes='night'   radius='azR- 3' orientation='demi'    fontSize='12' fontName='Arial' bgColor='clear' strokeColor='azNightColor' text=',30,60,,120,150,,210,240,,300,330'  />
+  </static>
+
+<!-- front ================================================== -->
+
+<!-- below the face items -->
+  <QRect    name='day bakb'	x=' 33' y='dateY-yoff2' w='22' h='datefs' modes='front' bgColor='dateBackColor' panes='2' />
+  <SWheel   name='ddigits'	x=' 22' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x=' 11' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+
+  <QRect    name='mon bakb'	x='-8 ' y='dateY-yoff2' w='35' h='datefs' modes='front' bgColor='dateBackColor' />
+  <Swheel   name='Qmonthsb'	x='-30' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='58' orientation='three' update='1 * days()'	angle='monthNumber()	              *2*pi/12' fontSize='datefs' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='bfgclr' bgColor='clear' />
+
+  <QRect    name='year bakb'	x='-54' y='dateY-yoff2' w='40' h='datefs' modes='front'  bgColor='dateBackColor' panes='4' />
+  <SWheel   refName='ddigits'   x='-47' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),             10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x='-57' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),   10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear'  />
+  <SWheel   refName='ddigits'   x='-67' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x='-77' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <Qhand    name='bce coverb'    x='-54-(datefs-1)/2'    y='dateY-yoff2+(datefs-1)/2' modes='front' length='40+(datefs-1)/2' width='datefs-1' tail='0' type='rect' update='1 * days()' angle='eraNumber() == 1 ? 0 : pi/2' strokeColor='0x60ff0000' fillColor='0x60ff0000' />
+
+
+  <window   name='year win'	x='-54' y='dateY-yoff2' w='40' h='datefs-2' border='2' strokeColor='darkGray' modes='front' shadowOpacity='0.7' shadowSigma='2.5' shadowOffset='1.5' />
+  <window   name='mon win'	x='-4 ' y='dateY-yoff2' w='31' h='datefs-2' border='2' strokeColor='darkGray' modes='front' shadowOpacity='0.7' shadowSigma='2.5' shadowOffset='1.5' />
+  <window   name='day win'	x=' 33' y='dateY-yoff2' w='22' h='datefs-2' border='2' strokeColor='darkGray' modes='front' shadowOpacity='0.7' shadowSigma='2.5' shadowOffset='1.5' />
+  <static   name='front' modes='front'>
+    <QRect  name='maskRect'     x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <QDial  name='faceb'	x='0'	y='0'	modes='front'	radius='azR' bgColor='dialColor' />
+    <QDial  name='rose4'	x='0'	y='0'	modes='front' radius='20' radius2=' 5'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='12' markWidth='roseLW' />
+    <QDial  name='rose3'	x='0'	y='0'	modes='front' radius='25' radius2=' 5'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 6' markWidth='roseLW' />
+    <QDial  name='rose2'	x='0'	y='0'	modes='front' radius='75' radius2='35'  fillColor1='colorC1'    fillColor2='colorC2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='24' markWidth='roseLW' />
+    <QDial  name='rose1'	x='0'	y='0'	modes='front' radius='85' radius2='35'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='12' markWidth='roseLW' />
+    <QDial  name='rose0'	x='0'	y='0'	modes='front' radius='90' radius2='25'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 4' markWidth='roseLW' />
+    <QDial  name='az dial'	x='0'   y='0'   modes='front'   radius='azR' nMarks=' 36' markWidth=' 1' marks='tickOut' mSize='5' bgColor='clear' strokeColor='azFrontColor' />
+    <QDial  name='az dial 2'	x='0'   y='0'   modes='front'   radius='azR' nMarks='180' markWidth='.7' marks='tickOut' mSize='3' bgColor='clear' strokeColor='azFrontColor' />
+    <!-- Upright text is drawn (by ECQView.m) well inside of the part border (because the part dimension uses the raw radius but the text is drawn inside of that using ECDialRadiusFactor).
+         So we can make the atlas half the size simply by drawing text as labels instead. -->
+    <!-- <QDial  name='az dial 3'	x='0'   y='0'   modes='front'   radius='azR+12' orientation='upright' fontSize='18' fontName='Arial' bgColor='clear' strokeColor='azFrontColor' text='N,E,S,W' /> -->
+    <Qtext      name='az dial 3 N' x='0'   y='azR-12'  modes='front'  fontSize='18' fontName='Arial' text='N' strokeColor='azFrontColor'/>
+    <Qtext      name='az dial 3 S' x='0'   y='-azR+12' modes='front'  fontSize='18' fontName='Arial' text='S' strokeColor='azFrontColor'/>
+    <Qtext      name='az dial 3 E' x='azR-12'   y='0'  modes='front'  fontSize='18' fontName='Arial' text='E' strokeColor='azFrontColor'/>
+    <Qtext      name='az dial 3 W' x='-azR+13'  y='0'  modes='front'  fontSize='18' fontName='Arial' text='W' strokeColor='azFrontColor'/>
+    <QDial  name='az dial 4'	x='0'   y='0'   modes='front'   radius='azR- 3' orientation='demi'    fontSize='12' fontName='Arial' bgColor='clear' strokeColor='azFrontColor' text=',30,60,,120,150,,210,240,,300,330'  />
+    <QDial  name='axle2'	x='0'   y='0'	modes='front' radius='3'	markWidth='.75' marks='outer'				bgColor='timHrHand' />
+    <Image  name='logo'		x='0'	y='logoY'	modes='front'	src='../partsBin/logos/white.png' />
+  </static>
+
+
+<!-- hands ================================================== -->
+
+<!-- front planet hands and their MM arms -->
+  <QHand    name='Saturna'	x='0' y='0'	modes='front' type='rect' length='outR-2' length2='satR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetSaturn)'  kind='hour24Kind'  update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Jupitera'	x='0' y='0'	modes='front' type='rect' length='outR-2' length2='jupR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetJupiter)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Marsa'	x='0' y='0'	modes='front' type='rect' length='outR-2' length2='marR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetMars)   ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Sun-a'	x='0' y='0'	modes='front' type='rect' length='outR-2' length2='sunR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetSun)    ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Venusa'	x='0' y='0'	modes='front' type='rect' length='outR-2' length2='venR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetVenus)  ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Mercurya'	x='0' y='0'	modes='front' type='rect' length='outR-2' length2='merR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetMercury)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Moon-a'	x='0' y='0'	modes='front' type='rect' length='outR-2' length2='monR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetMoon)'    update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Saturnb'	x='0' y='0'	modes='front|night' src='../partsBin/planets/saturn.png'      xAnchor='22' yAnchor='10'  offsetRadius='satR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetSaturn)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Jupiterb'	x='0' y='0'	modes='front|night' src='../partsBin/planets/jupiter.png'     xAnchor='22' yAnchor='10'  offsetRadius='jupR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetJupiter)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Marsb'	x='0' y='0'	modes='front|night' src='../partsBin/planets/mars.png'        xAnchor='22' yAnchor='10'  offsetRadius='marR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetMars)   ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Sun-sb'	x='0' y='0'	modes='front|night' type='sun' length='sunR+17' length2='sunR-17' lineWidth='.25' nRays='8' tail='0' strokeColor='sunStrokeColor' fillColor='sunColor'    angle='azimuthOfPlanet(planetSun)    ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Venusb'	x='0' y='0'	modes='front|night' src='../partsBin/planets/venus.png'       xAnchor='22' yAnchor='10'  offsetRadius='venR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetVenus)  ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Mercuryb'	x='0' y='0'	modes='front|night' src='../partsBin/planets/mercury.png'     xAnchor='22' yAnchor='10'  offsetRadius='merR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetMercury)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Moon-sb'	x='0' y='0'	modes='front|night' src='../partsBin/planets/bighalfMoon.png' xAnchor='22' yAnchor='10'  offsetRadius='monR'  angle='sunAzimuth() - moonAzimuth()-pi/2'   offsetAngle='azimuthOfPlanet(planetMoon)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+
+  <hand	    name='hmask'	x='0' y='0'	modes='front|night'   src='horizonMask.png'  angle='azimuthOfHighestEclipticAltitude()+pi/2' xAnchor='0' yAnchor='143' update='10' />
+
+<!-- time hands -->
+  <Qhand    name='hrb'		x='0' y=' 0'	modes='front'   kind='hour12Kind'  type='rect' length='hrLen-hrArrow'   width='arrowWidth'   tail=' 2' update=' 1' angle='hour12ValueAngle()' strokeColor='timHrHand'  fillColor='timHrHand'  oLength='hrArrow'  oWidth='10' oTail='hrTail'  oLineWidth='arrowWidth*2' oStrokeColor='otimHrHandb'  oFillColor='arrowClr' />
+  <Qhand    name='minb'		x='0' y=' 0'	modes='front'   kind='minuteKind'  type='rect' length='minLen-minArrow' width='arrowWidth'   tail=' 2' update=' 1' angle='minuteValueAngle()' strokeColor='timMinHand' fillColor='timMinHand' oLength='minArrow' oWidth=' 8' oTail='minTail' oLineWidth='arrowWidth*2' oStrokeColor='otimMinHandb' oFillColor='arrowClr' />
+  <Qhand    name='hrn'		x='0' y=' 0'	modes='night|back'  kind='hour12Kind'  type='rect' length='hrLen-hrArrow'   width='arrowWidth' tail=' 3' update='60' angle='hour12ValueAngle()' strokeColor='white'	   fillColor='clear'	  oLength='hrArrow'  oWidth='10' oTail='hrTail'  oLineWidth='arrowWidth*2'   oStrokeColor='white'      oFillColor='clear' lineWidth='.5' />
+  <Qhand    name='minn'		x='0' y=' 0'	modes='night|back'  kind='minuteKind'  type='rect' length='minLen-minArrow' width='arrowWidth' tail=' 3' update='60' angle='minuteValueAngle()' strokeColor='white'	   fillColor='clear'	  oLength='minArrow' oWidth=' 8' oTail='minTail' oLineWidth='arrowWidth*2'   oStrokeColor='white'      oFillColor='clear' lineWidth='.5' />
+
+</watch>

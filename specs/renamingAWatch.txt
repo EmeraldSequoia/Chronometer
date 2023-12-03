@@ -1,0 +1,65 @@
+Renaming a watch is straightforward if the following steps are followed precisely.
+
+Note that it is not possible to commit all of the changes at once without creating an svn conflict.
+
+<FromWatch>  is the old name
+  <ToWatch>  is the new name
+
+1.  If there is an old watch already named <ToWatch>, get it out of the way first:
+    a.  cd Watches/Builtin
+    b.  svn rename <ToWatch> Old<ToWatch>
+    c.  svn commit -m "Rename <ToWatch> to Old<ToWatch> in preparation for rename of <FromWatch> to <ToWatch>" <ToWatch> Old<ToWatch>
+    d.  cd ../../Help
+    e.  svn rename <ToWatch> Old<ToWatch>
+    f.  svn commit -m "Rename <ToWatch> to Old<ToWatch> in preparation for rename of <FromWatch> to <ToWatch>" <ToWatch> Old<ToWatch>
+    g.  cd ..
+
+2.  Rename the Help and Watches directories (but do *not* make any changes to files within those directories):
+    a.  cd Watches/Builtin
+    b.  svn rename <FromWatch> <ToWatch>
+    c.  svn commit -m "Rename <FromWatch> to <ToWatch>
+[Note: At this point the svn archive will be in a non-buildable state, until the remainder of the steps are done.  But it is necessary
+ to do this here to avoid svn conflicts later.]
+    d.  cd ../../Help
+    e.  svn rename <FromWatch> <ToWatch>
+    f.  svn commit -m "Rename <FromWatch> to <ToWatch>
+    g.  cd ..
+    h.  scripts/clearArchives.pl
+[Note: do the above, but do it *before* the svn revert.]
+    i.  svn revert -R archive
+    j.  cd archive    
+    k.  svn rename <FromWatch> <ToWatch>
+    l.  svn commit -m "Rename <FromWatch> to <ToWatch>
+    m.  cd ..
+
+3.  Rename the files *inside* the Help and Watches directories:
+    a.  cd Watches/Builtin/<ToWatch>
+    b.  svn rename <FromWatch>.xml <ToWatch>.xml
+    c.  svn commit -m "Rename <FromWatch> to <ToWatch>
+    d.  cd ../../../Help/<ToWatch>
+    e.  svn rename <FromWatch>.html <ToWatch>.html
+    f.  svn rename <FromWatch>-icon-f.png <ToWatch>-icon-f.png
+    g.  svn rename <FromWatch>-icon-b.png <ToWatch>-icon-b.png
+    h.  svn rename <FromWatch>-icon-n.png <ToWatch>-icon-n.png
+    i.  svn commit -m "Rename <FromWatch> to <ToWatch>
+    j.  cd ../..
+
+3.  Find all of the places that refer to the watch name:
+
+find . -name .svn -prune -o -name locationData -prune -o -name build -prune -o -exec grep -n Auckland {} /dev/null \; | grep -v Help/FullVersion.txt
+
+4.  Edit the files found by the grep above.  Be careful about references to timezones and city defaults that should not change.
+
+<manual edit>
+
+5.  Commit the remaining changes:
+
+svn commit -m "Rename <FromWatch> to <ToWatch>
+
+====
+
+Note:  Before updating, other users (and other sandboxes) should do the following:
+
+scripts/superClean.pl
+scripts/clearArchives.pl
+svn revert -R archive

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tombstone.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett
+  (this was originally "Procase")
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Tombstone' landscapeZoomFactor='0.9' beatsPerSecond='4'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='1024' backHeight='1024' nightWidth='1024' nightHeight='512'/>
+  <init		expr='updateRate=0.25, amplitude=300, mainR=137, stat=0, tic=0' />
+  <init		expr='fgColor=black, nfgColor=0xff00c0ac, nfgColor2=0xff00a08c, gearNColor=0xff433108, breBlue=0xff0f0f26' />
+
+  <button   name='stem'		x='-.5'  y=' 176' repeatStrategy='ECPartDoesNotRepeat' modes='front|back' src='stem19.png'	       flipOnBack='0' enabled='always'	      immediate='0'  xMotion='0' yMotion='  7' action='stat==0 ? (stat=1) : stat==1 ? (stat=2, stemOut()) : (stat=0, stemIn())' motion='manualSet() ? 1 : stat==1 ? 2 : 0' />
+  <button   name='stem n'	x='-.5'  y=' 176' repeatStrategy='ECPartDoesNotRepeat' modes='night'      src='stem19n.png'	       flipOnBack='0' enabled='always'	      immediate='0'  xMotion='0' yMotion='  7' action='stat==0 ? (stat=1) : stat==1 ? (stat=2, stemOut()) : (stat=0, stemIn())' motion='manualSet() ? 1 : stat==1 ? 2 : 0' />
+  <button   name='reset'	x='  0'  y='-145' repeatStrategy='ECPartDoesNotRepeat' modes='all'	      src='../Kyoto/reset.png' flipOnBack='0' enabled='wrongTimeOnly' immediate='1'              yMotion='-15' action='reset(), stat=0'								motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+
+<!-- Front ================================================== -->
+
+  <Qhand    name='keyless1f'	z='3' x='  0' y='105' modes='front' type='gear' tipRadius='36' rimOuterRadius='30' rimInnerRadius=' 1' hubRadius=' 1' leafRadius='    0' nSpokes='0' nTeeth='40' nLeaves=' 0' fillColor='0xff443320'			     update='1/60'	 animate='0' angle='stat==1 ? tic=tic+2*pi/180 : tic' />
+  <Qhand    name='thirdWheel'	z='3' x=' 48' y=' 37' modes='front' type='gear' tipRadius='54' rimOuterRadius='50' rimInnerRadius='47' hubRadius='17' leafRadius='80/10' nSpokes='5' nTeeth='72' nLeaves=' 8' fillColor='0xffefb412' oFillColor='0xff800000' update='updateRate' animate='0' angle='-currentTime()*2*pi/360+pi/72' />
+  <Qhand    name='fourthWheel'  z='3' x=' 81' y='-14' modes='front' type='gear' tipRadius='40' rimOuterRadius='37' rimInnerRadius='35' hubRadius='12' leafRadius='54/ 6' nSpokes='4' nTeeth='84' nLeaves='12' fillColor='0xffecb011' oFillColor='0xff800000' update='updateRate' animate='0' angle='secondValueAngle()' kind='secondKind' />
+  <hand	    name='escapeWheel'  z='3' x=' 37' y='-19' modes='front'    update='updateRate' src='escWheelf.png'	angle='-secondValueAngle()*24*updateRate+pi/20' animate='1' /> <!-- has 7 leaves -->
+  <hand	    name='palletLever'  z='3' x=' 13' y='-52' modes='front'    update='updateRate' src='escapeLever.png' angle='fmod(secondValue()/updateRate,2)*pi/12-81*pi/96' yAnchor='15' xAnchor='29' animate='1' />
+  <Qhand    name='balanceWheel' z='3' x=' -6' y='-75' modes='front' type='gear' tipRadius='60' rimOuterRadius='60' rimInnerRadius='56'                                   nSpokes='2' nTeeth=' 0' nLeaves=' 0' fillColor='0xffffcd13' oFillColor='0xff800000' update='updateRate/30'	  animate='1' angle='sin(fmod(secondValue()*2,1)*2*pi)*amplitude/2*pi/180-3*pi/12' />
+  <Qhand    name='centerWheel'  z='3' x='  0' y='  0' modes='front' type='gear' tipRadius='54' rimOuterRadius='50' rimInnerRadius='47' hubRadius='20' leafRadius='11'    nSpokes='6' nTeeth='80' nLeaves='12' fillColor='0xffefb412' oFillColor='0xff800000' update='updateRate' animate='0' angle='minuteValueAngle()' kind='minuteKind' />
+  <Qhand    name='mainspBarrel' z='3' x='-60' y=' 40' modes='front' type='gear' tipRadius='67' rimOuterRadius='63' rimInnerRadius=' 1' hubRadius=' 1' leafRadius=' 0'    nSpokes='0' nTeeth='99' nLeaves=' 0' fillColor='0xffe7a70a' oFillColor='0xff800000' overlay='blender.png' update='updateRate' animate='0' angle='-hour24ValueAngle()'  kind='hour24Kind' />
+  <Qhand    name='minuteWheel'	z='3' x='-30' y='-20' modes='front' type='gear' tipRadius='32' rimOuterRadius='29' rimInnerRadius='27' hubRadius='10' leafRadius='32/7'  nSpokes='3' nTeeth='72' nLeaves=' 7' fillColor='0xffefb412' oFillColor='0xff800000' update='updateRate' animate='0' angle='-hour12ValueAngle()*10' />
+  <Qhand    name='hourWheel'	z='3' x='  0' y='  0' modes='front' type='gear' tipRadius='32' rimOuterRadius='29' rimInnerRadius='27' hubRadius='10' leafRadius=' 0'    nSpokes='5' nTeeth='70' nLeaves=' 0' fillColor='0xffefb412' oFillColor='0xff800000' update='updateRate' animate='0' angle='hour12ValueAngle()' kind='hour12Kind' />
+
+ <static name='st front' modes='front' >
+  <Image    name='case'		x='0'   y=' 35'	modes='front'   src='case19.png' opaque='1'/>
+  <QDial    name='main dial1'   x='0'   y='-30'	modes='front'   radius='mainR'	bgColor='clear' strokeColor='black' marks='tickOut' nMarks='240' markWidth='0.7' mSize=' 4' />
+  <QDial    name='main dial2'   x='0'   y='-30'	modes='front'   radius='mainR'	bgColor='clear' strokeColor='black' marks='tickOut' nMarks=' 60' markWidth='0.5' mSize=' 9' />
+  <QDial    name='main dial3'   x='0'   y='-30'	modes='front'   radius='mainR'	bgColor='clear' strokeColor='black' marks='tickOut' nMarks=' 12' markWidth='1.0' mSize='12' />
+  <QDial    name='dial main'    x='0'   y='-30'	modes='front'   radius='mainR-3'	bgColor='clear' orientation='radial' fontSize='24' fontName='Times New Roman' text='XII,I,II,III,IV,V,VI,VII,VIII,IX,X,XI'/>
+  <Image    name='logo'		x='0'   y=' 88'	modes='front'   src='../partsBin/berry.png' />
+ </static>
+  
+  <Qhand    name='hr'		z='3' x='0'   y='0'   modes='front'	kind='hour12Kind'  type='breguet'  length='100' width='16' update='updateRate' angle='hour12ValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand    name='min'		z='3' x='0'   y='0'   modes='front'	kind='minuteKind'  type='breguet'  length='118' width='13' update='updateRate' angle='minuteValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand    name='second'	z='3' x='0'   y='0'   modes='front'   length='120' width='2'	update='updateRate' tail='40' oRadius='5' oLineWidth='0.8' oStrokeColor='black' oFillColor='clear' angle='secondValueAngle()' kind='secondKind' />
+
+<!-- Night ================================================== -->
+
+  <Qhand    name='keyless1n'	    x='  0' y='105' modes='night' type='gear' tipRadius='36' rimOuterRadius='30' rimInnerRadius=' 1' hubRadius=' 1' leafRadius='    0' nSpokes='0' nTeeth='40' nLeaves=' 0' fillColor='0xff443320'			   update='1/60'       animate='0' angle='stat==1 ? tic=tic+2*pi/180 : tic' />
+  <Qhand    name='thirdWheeln'	    x=' 48' y=' 37' modes='night' type='gear' tipRadius='54' rimOuterRadius='50' rimInnerRadius='47' hubRadius='17' leafRadius='80/10' nSpokes='5' nTeeth='72' nLeaves=' 8' fillColor='gearNColor' oFillColor='0xff400000' update='updateRate' animate='0' angle='-currentTime()*2*pi/360+pi/72' />
+  <Qhand    name='fourthWheeln'	    x=' 81' y='-14' modes='night' type='gear' tipRadius='40' rimOuterRadius='37' rimInnerRadius='35' hubRadius='12' leafRadius='54/ 6' nSpokes='4' nTeeth='84' nLeaves='12' fillColor='gearNColor' oFillColor='0xff800000' update='updateRate' animate='0' angle='secondValueAngle()' kind='secondKind' />
+  <hand	    name='escapeWheenl'	    x=' 37' y='-19' modes='night'    update='updateRate' src='escWheelf.png'	angle='-secondValueAngle()*24*updateRate+pi/20' animate='1' /> <!-- has 7 leaves -->
+  <hand	    name='palletLevern'	    x=' 13' y='-52' modes='night'    update='updateRate' src='escapeLevern.png' angle='fmod(secondValue()/updateRate,2)*pi/12-81*pi/96' yAnchor='15' xAnchor='29' animate='1' />
+  <Qhand    name='balanceWheeln'    x=' -6' y='-75' modes='night' type='gear' tipRadius='60' rimOuterRadius='60' rimInnerRadius='56'                                   nSpokes='2' nTeeth=' 0' nLeaves=' 0' fillColor='gearNColor' oFillColor='0xff400000' update='1/60'	  animate='1' angle='sin(fmod(secondValue()*2,1)*2*pi)*amplitude/2*pi/180-3*pi/12' />
+  <Qhand    name='centerWheeln'	    x='  0' y='  0' modes='night' type='gear' tipRadius='54' rimOuterRadius='50' rimInnerRadius='47' hubRadius='20' leafRadius='11'    nSpokes='6' nTeeth='80' nLeaves='12' fillColor='gearNColor' oFillColor='0xff400000' update='updateRate' animate='0' angle='minuteValueAngle()' kind='minuteKind' />
+  <Qhand    name='mainspBarreln'    x='-60' y=' 40' modes='night' type='gear' tipRadius='67' rimOuterRadius='63' rimInnerRadius=' 1' hubRadius=' 1' leafRadius=' 0'    nSpokes='0' nTeeth='99' nLeaves=' 0' fillColor='gearNColor' oFillColor='0xff400000' update='updateRate' animate='0' angle='-hour24ValueAngle()'  kind='hour24Kind' />
+  <Qhand    name='minuteWheeln'	    x='-30' y='-20' modes='night' type='gear' tipRadius='32' rimOuterRadius='29' rimInnerRadius='27' hubRadius='10' leafRadius='32/7'  nSpokes='3' nTeeth='72' nLeaves=' 7' fillColor='gearNColor' oFillColor='0xff400000' update='updateRate' animate='0' angle='-hour12ValueAngle()*10' />
+  <Qhand    name='hourWheeln'	    x='  0' y='  0' modes='night' type='gear' tipRadius='32' rimOuterRadius='29' rimInnerRadius='27' hubRadius='10' leafRadius=' 0'    nSpokes='5' nTeeth='70' nLeaves=' 0' fillColor='gearNColor' oFillColor='0xff400000' update='updateRate' animate='0' angle='hour12ValueAngle()' kind='hour12Kind' />
+
+ <static name='st night' modes='night' >
+  <Image    name='casen'	x='0'   y=' 35'	modes='night'   src='case19n.png' opaque='1'/>
+  <QDial    name='main dialn'   x='0'   y='-30'	modes='night'   radius='mainR'	bgColor='clear' strokeColor='nfgColor' marks='tickOut' nMarks=' 12' markWidth='1' mSize='12' />
+  <Image    name='lumiberry'	x='0'   y=' 88'	modes='night'   src='../partsBin/berry-lum.png' />
+ </static>
+
+  <Qhand    name='hrn'		z='3' x='0'   y='0'   modes='night' kind='hour12Kind' type='breguet' length='100' width='16' update='updateRate' angle='hour12ValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand    name='minn'		z='3' x='0'   y='0'   modes='night' kind='minuteKind' type='breguet' length='118' width='13' update='updateRate' angle='minuteValueAngle()' strokeColor='breBlue' fillColor='breBlue'/>
+  <Qhand    name='secondn'	z='3' x='0'   y='0'   modes='night' kind='secondKind' type='tri'     length='120' width='2'  update='updateRate' tail='40' oRadius='5' oLineWidth='0.8' oStrokeColor='breBlue' oFillColor='clear' angle='secondValueAngle()' fillColor='breBlue' />
+
+<!-- Back ================================================== -->
+
+  <Qhand    name='second b'	z='3' x='0'   y='0'   modes='back'    length='115' width='2'	update='updateRate' tail='40' oRadius='5' oLineWidth='0.8' oStrokeColor='black' oFillColor='clear' angle='-secondValueAngle()' kind='secondKind' />
+  <Qhand    name='minute b'	z='3' x='0'   y='0'   modes='back'    length='110' width='4'	update='updateRate'	angle='-minuteValueAngle()' kind='minuteKind' />
+  <Qhand    name='hour b'	z='3' x='0'   y='0'   modes='back'    length=' 90' width='8'	update='updateRate'	angle='-hour12ValueAngle()' kind='hour12Kind' />
+      
+ <static name='st back' modes='back' >
+  <Image    name='case b'	x='   0' y='  36'	modes='back'    src='case19.png' opaque='1'/>
+  <Image    name='logo B'	x='   0' y=' 100'	modes='back'   src='../partsBin/berry.png' />
+  <Image refName='logo B'	x=' 100' y='   0'	modes='back'   src='../partsBin/berry.png' />
+  <Image refName='logo B'	x='   0' y='-100'	modes='back'   src='../partsBin/berry.png' />
+  <Image refName='logo B'	x='-100' y='   0'	modes='back'   src='../partsBin/berry.png' />
+ </static>
+
+  <Qhand    name='hourWheel b'	  z='3' x='  0' y='  0' modes='back' type='gear' tipRadius='32' rimOuterRadius='29' rimInnerRadius='27' hubRadius='10' leafRadius=' 0'    nSpokes='5' nTeeth='70' nLeaves=' 0' fillColor='0xffefb412' oFillColor='0xff800000'			     update='updateRate' animate='0' angle='-hour12ValueAngle()' kind='hour12Kind' />
+  <Qhand    name='minuteWheel b'  z='3' x=' 30' y='-20' modes='back' type='gear' tipRadius='32' rimOuterRadius='29' rimInnerRadius='27' hubRadius='10' leafRadius='32/7'  nSpokes='3' nTeeth='72' nLeaves=' 7' fillColor='0xffefb412' oFillColor='0xff800000'			     update='updateRate' animate='0' angle='hour12ValueAngle()*10' />
+  <Qhand    name='mainspBarrel b' z='3' x=' 60' y=' 40' modes='back' type='gear' tipRadius='67' rimOuterRadius='63' rimInnerRadius=' 1' hubRadius=' 1' leafRadius=' 0'    nSpokes='0' nTeeth='99' nLeaves=' 0' fillColor='0xffe7a70a' oFillColor='0xff800000' overlay='blender.png'  update='updateRate' animate='0' angle='hour24ValueAngle()'  kind='hour24Kind' />
+  <Qhand    name='centerWheel b'  z='3' x='  0' y='  0' modes='back' type='gear' tipRadius='54' rimOuterRadius='50' rimInnerRadius='47' hubRadius='20' leafRadius='11'    nSpokes='6' nTeeth='80' nLeaves='12' fillColor='0xffefb412' oFillColor='0xff800000'			     update='updateRate' animate='0' angle='-minuteValueAngle()' kind='minuteKind' />
+  <Qhand    name='balanceWheel b' z='3' x=' 6' y='-75' modes='back' type='gear' tipRadius='55' rimOuterRadius='55' rimInnerRadius='51'                                   nSpokes='2' nTeeth=' 0' nLeaves=' 1' fillColor='0xffffcd13' oFillColor='0xff800000'			     update='1/60'	 animate='1' angle='-sin(fmod(secondValue()*2,1)*2*pi)*amplitude/2*pi/180-3*pi/12' />
+  <hand	    name='palletLever b'  z='3' x='-13' y='-52' modes='back'    update='updateRate' src='escapeLever.png'		angle='-fmod(secondValue()/updateRate,2)*pi/12+81*pi/96' yAnchor='15' xAnchor='29' animate='1' />
+  <hand	    name='escapeWheel b'  z='3' x='-37' y='-19' modes='back'    update='updateRate' src='escWheel.png'	angle='secondValueAngle()*24*updateRate+pi/20' animate='1' /> <!-- has 7 leaves -->
+  <Qhand    name='secsPinion b'   z='3' x='  0' y='  0' modes='back' type='gear' tipRadius='12' rimOuterRadius='12' rimInnerRadius='12' hubRadius='12' leafRadius='54/ 6' nSpokes='0' nTeeth=' 0' nLeaves='12' fillColor='0xffecb011' oFillColor='0xff800000'			     update='updateRate' animate='0' angle='-secondValueAngle()' kind='secondKind' />
+  <Qhand    name='fourthWheel b'  z='3' x='-81' y='-14' modes='back' type='gear' tipRadius='40' rimOuterRadius='37' rimInnerRadius='35' hubRadius='12' leafRadius='54/ 6' nSpokes='4' nTeeth='84' nLeaves='12' fillColor='0xffecb011' oFillColor='0xff800000'			     update='updateRate' animate='0' angle='-secondValueAngle()' kind='secondKind' />
+  <Qhand    name='thirdWheel b'	  z='3' x='-48' y=' 37' modes='back' type='gear' tipRadius='54' rimOuterRadius='50' rimInnerRadius='47' hubRadius='17' leafRadius='80/10' nSpokes='5' nTeeth='72' nLeaves=' 0' fillColor='0xffefb412' oFillColor='0xff800000'			     update='updateRate' animate='0' angle='currentTime()*2*pi/360+pi/72' />
+  <Qhand    name='keyless1'	  z='3' x='  0' y='105' modes='back' type='gear' tipRadius='36' rimOuterRadius='30' rimInnerRadius=' 1' hubRadius=' 1' leafRadius='    0' nSpokes='0' nTeeth='36' nLeaves=' 0' fillColor='0xff443320'                         overlay='blenderk.png' update='1/60'	 animate='0' angle='stat==1 ? tic=tic+2*pi/180 : tic'	     />
+  <Qhand    name='keyless2'	  z='3' x=' 60' y=' 40' modes='back' type='gear' tipRadius='56' rimOuterRadius='50' rimInnerRadius=' 1' hubRadius=' 1' leafRadius='    0' nSpokes='0' nTeeth='56' nLeaves=' 0' fillColor='0xff544330'			      overlay='blenderk.png' update='1/60'	 animate='0' angle='stat==1 ? -tic-pi/50       : -tic-pi/56' />
+  
+  <Image    name='backcover'	x='0' y='   0'	modes='back'	src='back.png' />
+
+</watch>
+
+<!-- COMPLICATIONS
+
+-->

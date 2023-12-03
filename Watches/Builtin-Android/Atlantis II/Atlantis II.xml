@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Atlantis II.xml
+  Emerald Chronometer
+
+  Copied from AtlantisIV.xml 2017 May 25
+ 
+  Created 4/29/2009 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Atlantis II' beatsPerSecond='0' faceWidth='288' statusBarLoc='top'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='128' backHeight='128' nightWidth='1024' nightHeight='512'/>
+  <init expr='faceWidth=288, backerWidth=faceWidth' />
+
+<init	    expr='monClr=cyan, dateClr=yellow, wkdayClr=magenta, timClr=0xc0ffffff, timFill=0x80ffffff, secClr=red, fgclr=white, bgclr=black' />
+  <init	    expr='gClr=monClr, gaClr=dateClr, dialbg=black, dialfg=0xffe0e0e0, leapClr=black, backdialbg=black' />
+  <init	    expr='outR=135, berryR=30' />
+  <init	    expr='timR=140, monR=80, datR=monR, wkdR=60' />
+  <init	    expr='hrL=timR*.58, minL=timR*.78, secL=timR*.85, monL=monR-12, datL=datR-12, wkdL=wkdR-12' />
+  <init	    expr='wheelfs=24, whs=wheelfs*.63, wr=44, timsp=40, hrX=-timsp-whs, minX=-whs, secX=timsp-whs, timY=43, gimY=-43, woff=wr-whs*2, yoff=wheelfs/2-1, weekdayRadius=100, wdY=-5' />
+  <init	    expr='dgX=-timsp-whs-5, pminX=-whs-5, psecX=timsp-whs-5, pimY=43, gimY=-43' />
+  <init	    expr='datefs=16, dateY=-45, yoff2=datefs/2-1' />
+  <init	    expr='ampmX=-25, ampmY=90, ampmfs=10, ampms=ampmfs*.9, yoffa=ampmfs/2-1, ar=30, aoff=ar-ampms*2+1, tzX=10, tzr=112, tzoff=tzr-ampmfs+3' />
+  <init	    expr='sp=1, wheelspace=10, errY=-86, errX=-wheelspace*2, altX=-wheelspace*1.5, altY=-errY, eyoff=1' />
+  <init	    expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+  <init     expr='buttonWidth=268, buttonHeight=268' />
+
+<!-- infrastructure ================================================== -->
+
+<!--  No toggleSIUnits in Android (yet)
+<button	name='ftmeters'   x='-buttonWidth/2' y='-buttonHeight/2' w='buttonWidth' h='buttonHeight' modes='front|night' enabled='always' action='toggleSIUnits()' /> 
+-->
+
+<!-- Front latitude wheels -->
+  <QRect    name='tns bak'	x='psecX+woff*2+whs-2'	    y='pimY-yoff+1'   modes='front' w='whs+2' h='wheelfs-3' bgColor='bgclr' panes='1' />
+  <SWheel   name='ns'		x='psecX+whs-3'	    y='pimY-1+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='latitudeDegrees()>=0 ? 0 : pi/2' fontSize='wheelfs-4' fontName='Arial' text='N,S,,' strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='tsec bak'	x='psecX'	    y='pimY-yoff'   modes='front' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   name='tdigits'	x='psecX-woff'	    y='pimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='round(fmod(abs(latitudeDegrees())*3600, 3600)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   name='6tdigits'	x='psecX-whs-woff'   y='pimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())*3600, 3600)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'	    strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='tmin bak'	x='pminX'	    y='pimY-yoff'   modes='front' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   refName='tdigits'	x='pminX-woff'	    y='pimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())*60, 60)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='6tdigits'	x='pminX-whs-woff'   y='pimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())*60, 60)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'		strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='tdegree bak'	x='dgX '	    y='pimY-yoff'   modes='front' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   refName='tdigits'	x='dgX-woff'	    y='pimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'   angle='floor(fmod(abs(latitudeDegrees()),    10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='tdigits'	x='dgX-whs-woff'    y='pimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())/10, 10))*2*pi/10'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,a,b,c,d' strokeColor='fgclr' bgColor='clear' />
+
+<!-- Front longitude wheels -->
+  <QRect    name='tew bak'	x='psecX+woff*2+whs-2' y='gimY-yoff+1'   modes='front' w='whs+10' h='wheelfs' bgColor='bgclr' panes='1' />
+  <SWheel   name='ew'		x='psecX+whs+3'	    y='gimY-1+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='longitudeDegrees()>=0 ? 0 : pi/2' fontSize='wheelfs-4' fontName='Arial' text='E,W,,' strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='gsec bak'	x='psecX'	    y='gimY-yoff'   modes='front' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   refName='tdigits'	x='psecX-woff'	    y='gimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='round(fmod(abs(longitudeDegrees())*3600, 3600)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='6tdigits'	x='psecX-whs-woff'   y='gimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())*3600, 3600)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'	    strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='gmin bak'	x='pminX'	    y='gimY-yoff'   modes='front' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   refName='tdigits'	x='pminX-woff'	    y='gimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())*60, 60)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='6tdigits'	x='pminX-whs-woff'   y='gimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())*60, 60)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'		strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='gdegree bak'	x='dgX-whs'	    y='gimY-yoff'   modes='front' w='whs*3' h='wheelfs' bgColor='bgclr' panes='3' />
+  <SWheel   refName='tdigits'	x='dgX-woff'	    y='gimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'   angle='floor(fmod(abs(longitudeDegrees()),    10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='tdigits'	x='dgX-whs-woff'    y='gimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())/10, 10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   name='2gdigits'	x='dgX-whs*2-woff'   y='gimY+eyoff'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'   angle='floor(fmod(abs(longitudeDegrees())/100,10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text=' ,1,,,,,,,,' strokeColor='fgclr' bgColor='clear' />
+
+<!-- Front position error wheels -->
+<!-- No position error on Android (yet)
+  <QRect    name='err bak'	x='errX-wheelspace/2-1' y='errY-wheelspace/2' modes='front' w='wheelspace*5.5' h='wheelfs' bgColor='bgclr' />
+  <SWheel   name='erru'		x='errX+wheelspace+4'	y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='33' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), SIUnits() ? (e>1000 ? pi : 0) : (e>304.7999 ? pi*3/2 : pi/2)' fontSize='9' fontName='Arial' text='m,ft,km,mi' strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   name='err'		x='errX'		y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e>1000 ? e/100 : e) : (e=e*3.2808399, e>1000 ? e/528 : e)), fmod(round(e),      10)*2*pi/10' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   name='derr'		x='errX-wheelspace  '   y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e) : (e*3.2808399)), (e>1000 ? 10 : fmod(floor(e/10),   10))*2*pi/11' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9,.' strokeColor='fgclr' bgColor='bgclr'  />
+  <SWheel   refName='err'	x='errX-wheelspace*2'   y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e>1000 ? e/10 : e) : (e=e*3.2808399, e>1000 ? e/52.8 : e)), fmod(floor(e/100),  10)*2*pi/10' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   refName='err'	x='errX-wheelspace*3'   y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e>1000 ? e/10 : e) : (e=e*3.2808399, e>1000 ? e/52.8 : e)), fmod(floor(e/1000), 10)*2*pi/10' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <Qhand    name='err invalid'  x='errX-wheelspace/2-13' y='errY+eyoff'	       modes='front'  type='rect' length='wheelspace*6+13' width='10'  tail=' 0' update='updateForLocSyncIndicator'     angle='locationIndicatorAngle()==pi/4 ? pi/2 : pi*3/4'  strokeColor='bgclr'   fillColor='bgclr' />
+-->
+
+<!-- Front altitude wheels -->
+<!-- No altitude or SIUnits() on Android (yet)
+  <QRect    name='alt bak'	x='altX-wheelspace*3/2-1' y='altY-wheelspace/2' modes='front' w='wheelspace*6.5' h='wheelfs' bgColor='bgclr' />
+  <SWheel   name='altu'		x='altX+wheelspace+4'	y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='33' orientation='three' update='updateAtEnvChangeOnly' angle='(1-SIUnits())*pi/4' fontSize='12' fontName='Arial' text='m,ft,,,,,,' strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   name='alt'		x='altX'		y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(round(altitude()),       10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   refName='alt'	x='altX-wheelspace  '   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/10),    10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr'  />
+  <SWheel   refName='alt'	x='altX-wheelspace*2'   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/100),   10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   refName='alt'	x='altX-wheelspace*3'   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/1000),  10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <SWheel   refName='alt'	x='altX-wheelspace*4'   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/10000), 10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='bgclr' />
+  <Qhand    name='alt invalid'  x='altX-wheelspace*3/2-13' y='altY+eyoff'	       modes='front'  type='rect' length='wheelspace*8+13' width='12'  tail=' 0' update='updateForLocSyncIndicator'     angle='locationIndicatorAngle()==pi/4 ? pi/2 : pi/4'  strokeColor='bgclr'   fillColor='bgclr' />
+ -->
+
+<!-- Night latitude wheels -->
+<QRect    name='tns bakn'	x='psecX+woff*2+whs-2'	    y='pimY-yoff+1'   modes='night' w='whs+2' h='wheelfs-3' bgColor='bgclr' panes='1' />
+<SWheel   name='nsn'		x='psecX+whs-3'	    y='pimY-1+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='latitudeDegrees()>=0 ? 0 : pi/2' fontSize='wheelfs-4' fontName='Arial' text='N,S,,' strokeColor='nfgclr' bgColor='clear' />
+
+<QRect    name='tsec bakn'	x='psecX'	    y='pimY-yoff'   modes='night' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+<SWheel   name='tdigitsn'	x='psecX-woff'	    y='pimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='round(fmod(abs(latitudeDegrees())*3600, 3600)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+<SWheel   name='6tdigitsn'	x='psecX-whs-woff'   y='pimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())*3600, 3600)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'	    strokeColor='nfgclr' bgColor='clear' />
+
+<QRect    name='tmin bakn'	x='pminX'	    y='pimY-yoff'   modes='night' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+<SWheel   refName='tdigitsn'	x='pminX-woff'	    y='pimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())*60, 60)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+<SWheel   refName='6tdigitsn'	x='pminX-whs-woff'   y='pimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())*60, 60)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'		strokeColor='nfgclr' bgColor='clear' />
+
+<QRect    name='tdegree bakn'	x='dgX '	    y='pimY-yoff'   modes='night' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+<SWheel   refName='tdigitsn'	x='dgX-woff'	    y='pimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'   angle='floor(fmod(abs(latitudeDegrees()),    10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+<SWheel   refName='tdigitsn'	x='dgX-whs-woff'    y='pimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(latitudeDegrees())/10, 10))*2*pi/10'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,a,b,c,d' strokeColor='nfgclr' bgColor='clear' />
+
+<!-- Night longitude wheels -->
+<QRect    name='tew bakn'	x='psecX+woff*2+whs-2' y='gimY-yoff+1'   modes='night' w='whs+10' h='wheelfs' bgColor='bgclr' panes='1' />
+<SWheel   name='ewn'		x='psecX+whs+3'	    y='gimY-1+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='longitudeDegrees()>=0 ? 0 : pi/2' fontSize='wheelfs-4' fontName='Arial' text='E,W,,' strokeColor='nfgclr' bgColor='clear' />
+
+<QRect    name='gsec bakn'	x='psecX'	    y='gimY-yoff'   modes='night' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+<SWheel   refName='tdigitsn'	x='psecX-woff'	    y='gimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='updateAtEnvChangeOnly'	angle='round(fmod(abs(longitudeDegrees())*3600, 3600)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+<SWheel   refName='6tdigitsn'	x='psecX-whs-woff'   y='gimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())*3600, 3600)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'	    strokeColor='nfgclr' bgColor='clear' />
+
+<QRect    name='gmin bakn'	x='pminX'	    y='gimY-yoff'   modes='night' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+<SWheel   refName='tdigitsn'	x='pminX-woff'	    y='gimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())*60, 60)   )*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+<SWheel   refName='6tdigitsn'	x='pminX-whs-woff'   y='gimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())*60, 60)/10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'		strokeColor='nfgclr' bgColor='clear' />
+
+<QRect    name='gdegree bakn'	x='dgX-whs'	    y='gimY-yoff'   modes='night' w='whs*3' h='wheelfs' bgColor='bgclr' panes='3' />
+<SWheel   refName='tdigitsn'	x='dgX-woff'	    y='gimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'   angle='floor(fmod(abs(longitudeDegrees()),    10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+<SWheel   refName='tdigitsn'	x='dgX-whs-woff'    y='gimY+eyoff'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'	angle='floor(fmod(abs(longitudeDegrees())/10, 10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+<SWheel   name='2gdigitsn'	x='dgX-whs*2-woff'   y='gimY+eyoff'	    modes='night|back'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='updateAtEnvChangeOnly'   angle='floor(fmod(abs(longitudeDegrees())/100,10))*2*pi/10' fontSize='wheelfs' fontName='Arial' text=' ,1,,,,,,,,' strokeColor='nfgclr' bgColor='clear' />
+
+<!-- Night position error wheels -->
+<!-- No position error on Android (yet)
+<QRect    name='err bakn'	x='errX-wheelspace/2-1' y='errY-wheelspace/2' modes='night' w='wheelspace*5.5' h='wheelfs' bgColor='bgclr' />
+<SWheel   name='errun'		x='errX+wheelspace+4'	y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='33' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), SIUnits() ? (e>1000 ? pi : 0) : (e>304.7999 ? pi*3/2 : pi/2)' fontSize='9' fontName='Arial' text='m,ft,km,mi' strokeColor='nfgclr' bgColor='bgclr' />
+<SWheel   name='errn'		x='errX'		y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e>1000 ? e/100 : e) : (e=e*3.2808399, e>1000 ? e/528 : e)), fmod(round(e),      10)*2*pi/10' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr' />
+<SWheel   name='derrn'		x='errX-wheelspace  '   y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e) : (e*3.2808399)), (e>1000 ? 10 : fmod(floor(e/10),   10))*2*pi/11' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9,.' strokeColor='nfgclr' bgColor='bgclr'  />
+<SWheel   refName='errn'	x='errX-wheelspace*2'   y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e>1000 ? e/10 : e) : (e=e*3.2808399, e>1000 ? e/52.8 : e)), fmod(floor(e/100),  10)*2*pi/10' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr' />
+<SWheel   refName='errn'	x='errX-wheelspace*3'   y='errY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='e=horizontalPositionError(), e=(SIUnits() ? (e>1000 ? e/10 : e) : (e=e*3.2808399, e>1000 ? e/52.8 : e)), fmod(floor(e/1000), 10)*2*pi/10' fontSize='10' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr' />
+<Qhand    name='err invalidn'  x='errX-wheelspace/2-13' y='errY+eyoff'	       modes='night'  type='rect' length='wheelspace*6+13' width='10'  tail=' 0' update='updateForLocSyncIndicator'     angle='locationIndicatorAngle()==pi/4 ? pi/2 : pi*3/4'  strokeColor='bgclr'   fillColor='bgclr' />
+-->
+
+<!-- Night altitude wheels -->
+<!-- No altitude or SIUnits() on Android (yet)
+<QRect    name='alt bakn'	x='altX-wheelspace*3/2-1' y='altY-wheelspace/2' modes='night' w='wheelspace*6.5' h='wheelfs' bgColor='bgclr' />
+<SWheel   name='altun'		x='altX+wheelspace+4'	y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='33' orientation='three' update='updateAtEnvChangeOnly' angle='(1-SIUnits())*pi/4' fontSize='12' fontName='Arial' text='m,ft,,,,,,' strokeColor='nfgclr' bgColor='bgclr' />
+<SWheel   name='altn'		x='altX'		y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(round(altitude()),       10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr' />
+<SWheel   refName='altn'	x='altX-wheelspace  '   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/10),    10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr'  />
+<SWheel   refName='altn'	x='altX-wheelspace*2'   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/100),   10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr' />
+<SWheel   refName='altn'	x='altX-wheelspace*3'   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/1000),  10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr' />
+<SWheel   refName='altn'	x='altX-wheelspace*4'   y='altY+eyoff'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='updateAtEnvChangeOnly' angle='fmod(floor(altitude()/10000), 10)*2*pi/10' fontSize='12' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='bgclr' />
+<Qhand    name='alt invalidn'  x='altX-wheelspace*3/2-13' y='altY+eyoff'	       modes='night|back'  type='rect' length='wheelspace*8+13' width='12'  tail=' 0' update='updateForLocSyncIndicator'     angle='locationIndicatorAngle()==pi/4 ? pi/2 : pi/4'  strokeColor='bgclr'   fillColor='bgclr' />
+-->
+
+<!-- Front ================================================== -->
+
+<window  name='ns win'		x='psecX+woff*2+whs-3' y='pimY-yoff+2' w='whs+2' h='wheelfs-5' border='1' strokeColor='darkGray' />
+<window  name='tsec win'	x='psecX' y='pimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+<window  name='tmin win'	x='pminX' y='pimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+<window  name='thour win'	x='dgX'  y='pimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+<window  name='ew win'		x='psecX+woff*2+whs-3' y='gimY-yoff+2' w='whs+10' h='wheelfs-5' border='1' strokeColor='darkGray' />
+<window  name='gsec win'	x='psecX' y='gimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+<window  name='gmin win'	x='pminX' y='gimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+<window  name='ghour win'	x='dgX-whs'  y='gimY-yoff+1' w='whs*3' h='wheelfs-2' border='1' strokeColor='darkGray' />
+<!-- No position error on Android (yet)
+<window  name='alt win'	x='altX-wheelspace*3/2-1' y='altY-wheelspace/2' w='wheelspace*6.5' h='12' border='1' strokeColor='darkGray' />
+<window  name='err win'	x='errX-wheelspace/2-1' y='errY-wheelspace/2+1' w='wheelspace*5.5' h='10' border='1' strokeColor='darkGray' />
+-->
+<static name='Front' modes='front'>
+    <QRect  name='maskRect' x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image  name='decor b'  x='0' y='0' modes='front'	src='polarGrey.png' />
+    <Image  name='logo b'   x='0' y='0.5' modes='front'	src='../partsBin/logos/white-blackback.png' />
+    <!-- No position error on Android (yet)
+    <QText  name='err lab'  x='errX-wheelspace-1' y='errY+eyoff*2'   modes='front'  strokeColor='black'  fontSize='10' fontName='Arial' text='±'/>
+     -->
+</static>
+
+<!-- Night ================================================== -->
+
+ <window  name='ns win'		x='psecX+woff*2+whs-3' y='pimY-yoff+2' w='whs+2' h='wheelfs-5' border='1' strokeColor='darkGray' />
+ <window  name='tsec win'	x='psecX' y='pimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='tmin win'	x='pminX' y='pimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='thour win'	x='dgX'  y='pimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='ew win'		x='psecX+woff*2+whs-3' y='gimY-yoff+2' w='whs+10' h='wheelfs-5' border='1' strokeColor='darkGray' />
+ <window  name='gsec win'	x='psecX' y='gimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='gmin win'	x='pminX' y='gimY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='ghour win'	x='dgX-whs'  y='gimY-yoff+1' w='whs*3' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <!-- No position error on Android (yet)
+ <window  name='alt win'	x='altX-wheelspace*3/2-1' y='altY-wheelspace/2' w='wheelspace*6.5' h='12' border='1' strokeColor='darkGray' />
+ <window  name='err win'	x='errX-wheelspace/2-1' y='errY-wheelspace/2+1' w='wheelspace*5.5' h='10' border='1' strokeColor='darkGray' />
+-->
+ <static name='Night' modes='night'>
+    <QRect  name='maskRectn'    x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image  name='decor bn'     x='0' y='0' modes='night'	src='polarGreyn.png' />
+    <Image  name='lumiberry'    x='0' y='0.5'   modes='night' src='../partsBin/berry-lum.png' />
+    <!-- No position error on Android (yet)
+    <QText  name='err labn'     x='errX-wheelspace-1' y='errY+eyoff*2'   modes='night'  strokeColor='nfgclr'  fontSize='10' fontName='Arial' text='±'/>
+    -->
+ </static>
+ 
+<!-- Look Ma, no hands! ================================================== -->
+
+</watch>

@@ -1,0 +1,68 @@
+# Good watches
+Alexandria I	yes
+Alexandria I-south	yes
+Atlantis I	yes
+Babylon I	yes
+Babylon I-monday	yes
+Babylon I-saturday	yes
+Chandra I	yes
+Selene I	yes
+Firenze I	yes
+Padua I	        yes
+Geneva I	yes
+Basel I	        yes
+Haleakala I	yes
+Hana I	        yes
+Mauna Kea I	yes
+Mauna Loa I	yes
+McAlester I	yes
+Miami I		yes
+Venezia I	yes
+Milano I	yes
+Paris I		yes
+Paris I-black	yes
+Terra I		yes
+Gaia I		yes
+Vienna I	yes
+Vienna I-midnight	yes
+
+Demo Control	yes
+
+# Infrastructure not supported yet
+Istanbul I	no
+Olympia I	no
+Olympia II	no
+Thebes I	no
+
+# Watches rejected for Android
+Atlantis II	no
+Cairo I		no
+Hernandez I	no
+Kyoto I		no
+Kyoto II	no
+Uraniborg I	no
+Uraniborg II	no
+
+# non-existant Android watches
+AtlantisIOS I	no
+AtlantisIOS II	no
+London I	no
+London II	no
+Neuchatel I	no
+Neuchatel II	no
+Cairo II	no
+Babylon II	no
+ChandraII I	no
+ChandraII II	no
+Hernandez II	no
+Istanbul II	no
+McAlester II	no
+Milano II	no
+Thebes II	no
+Tombstone I	no
+Tombstone II	no
+
+OldGreenwich I	no
+OldGreenwich II	no
+OldTerra I	no
+OldTerra II	no

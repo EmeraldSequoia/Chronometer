@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+
+ <title>Emerald Chronometer Babylon</title>
+ <meta name="viewport" content="width=device-width" />
+ <link rel="apple-touch-icon" href="../../images/eblogo57-1.png">
+ <link rel="shortcut icon" href="../../images/GlyphBerry.png" type="image/png">
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <link rel="stylesheet" href="../product.css"/>
+</head>
+<body>
+
+<div display='inline' class='device'>
+<div style="float:right"><p><a href="../Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink1' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<div align=center><img src="Babylon-icon-f.png" height=60></div>
+<p>
+</div>
+<div display='inline' class='website'>
+<div class='floatL'>
+ <a href="../../index.php">Home</a>&nbsp;&nbsp;
+ <a href="../index.html">Chronometer</a>
+</div>
+<div class='floatR'>
+ <a href="../../buy.html">Where to Buy</a>
+</div>
+<br>
+<hr size=1>
+
+<h1>Babylon</h1>
+<center>
+<img src="Babylon-1.png" alt="Emerald Chronometer Babylon" width=640 height=460>
+</center>
+<p>
+</div>
+
+<b>Babylon</b> takes its name from the ancient city
+of <a href="http://en.m.wikipedia.org/wiki/Babylon">Babylon<img src="../extlink.png"></a>,
+where early calendars were invented.
+<p>
+Babylon displays a whole-month calendar in the usual format, including
+the last days of the previous month
+and the first days of the following month.  See <a href="#mechanical">below</a> for a description of the mechanics being simulated.
+<p>
+A setting is available to choose which day (Sunday, Monday, or Saturday) is considered the first day of the week. To change this, tap the "Settings" (gear) button 
+<img src="../aoption.png" align="right">
+at the bottom right of the screen, to bring up the settings panel; scroll down to "Watch-specific Settings", select "Babylon Week Start", and choose the day you would like to be first.
+<p>
+Two sets of red indicator wires (two horizontal and two vertical) move linearly to indicate the current day of the month (more precisely, the two horizontal indicators show the week, the two vertical ones show the weekday, and their intersection shows the current day).
+<p>
+A moon phase indicator like that of <a href="../Chandra/Chandra.html">Chandra</a> is present at the lower left, along with a month display at the top and a year display at the lower right.
+<p>
+In Set mode, 
+the two pushers advance by a day and by a month.  You can also drag the hands and tap the month and year windows as usual.  Tapping the moon phase indicator advances to the next quarter.
+<p>
+In keeping with tradition in Emerald Chronometer, the transition from the Julian to the Gregorian calendar is shown in October 1582; see <a href="../Application.html">the page about controls</a> for how to display that date.
+<p>
+<a name="mechanical"><b>Mechanical model</b></a>
+<p>
+The calendar display is implemented with three stacked wheels which rotate to show the 
+configuration for the current month in the window at the top of the dial.
+There are two primary wheels:
+<p>
+<center>
+<img src="SundayWheel012@2x.png" width='240'/>
+<img src="SundayWheel3456@2x.png" width='239'/>
+</center>
+<p>
+Spread over these two wheels are the seven possible 31-day month
+configurations, corresponding to the seven weekdays that the first
+falls on.  The bottom wheel shows four of these seven, and the top one
+shows the remaining three and has a "cutout" in the fourth position.
+When one of the top wheel's configurations is needed for the current month, that
+configuration rotates around to be at the top and thus visible in the
+window; when one of the bottom wheel's configurations is needed, the
+top wheel rotates so its cutout section is at the top, letting the
+bottom wheel show through.
+<p>
+Above the primary two is a third wheel with a cutout and a special configuration just for October 1582.
+<p>
+Since all of the configurations on the primary wheels display 31-day months, covers slide in from the right to cover days which don't exist in the current month (for example, as shown below, the missing days 30 and 31 in a leap-year February).  These covers are inscribed with the days of the following month, and their numbers align with the correct days of the week:
+<p>
+<center>
+<img src="NextMonthCovers@2x.png" width='110'/>
+</center>
+<p>
+Similarly, the last few days of the previous month are shown with sliders that slide underneath the current month, sliding to show the days in their proper weekday positions:
+<p>
+<center>
+<img src="PrevMonthUnderlays@2x.png" width='106'/>
+</center>
+<br>
+<br>
+<p>
+<div display='inline' class='device'>
+<p>
+<hr>
+<div style="font-size:8pt; text-align:center">
+<div style="float:right"><p><a href="../Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink2' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<iframe src="../versionGen.html" scrolling="auto" width=100% height=30 frameborder=0>
+<a href="../versionGen.html">Version</a>
+</iframe>
+<a href="../Credits.html">Copyright Information</a>
+</div>
+</body></html>

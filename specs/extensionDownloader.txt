@@ -1,0 +1,39 @@
+## THE EXTENSION DOWNLOADER, LIKE ECSTORE, WAS NEVER RELEASED.
+# They were intended to allow in-app purchasing of higher-definition atlases.
+
+There are several components to the ECStore / extension download system:
+
+1.  ECStore is an Objective-C class that interfaces with the Apple Store Kit (SK*) API.
+  It also starts a connection with the ES CGI server (for convenience).  It does not handle
+  the return from the connection, other than to pass through all bytes to the following class.
+
+2.  ECStoreConnectionReader is responsible for reading the bytes coming back on the connection
+  from the ES CGI server.
+
+3.  On the ES website, in cgi-bin, is downloadExtension.pl.  That routine confirms the
+  transaction receipt with Apple's server, and if it's ok, sends back a set of files.
+
+4.  In the sandbox, scripts/extractZ1Archives.pl extracts the archives to be downloaded from
+  the archive directory in the sandbox, and copies them to a separate area, from which they
+  should be uploaded to http://emeraldsequoia.com/extensions (a password-controlled area).
+
+Each extensions is identified by its product id, of the form
+com.emeraldsequoia.Chronometer.<id>, and its archive version number,
+of the form 3.3_r5967.  This is necessary to avoid using the wrong
+archives with the a given executable.  The version number is derived
+from the Info.plist and by examining the most recent checkin in the
+archive directory.  If the archive directory has uncommitted
+modifications, the form will include the date of the most recent
+uncommitted modification, so that every time the archive directory is
+modified, the implied version of the archives is incremented.  This version
+will look like 3.3_r5967M_2010.06.27-15.44.53
+
+Extensions, once downloaded and received by ECStoreConnectionReader, are placed in the
+application sandbox Documents area, by version number.  It is illegal to use these extension
+files until the downloader has downloaded the complete product id; this is flagged by setting
+an appropriate defaults setting for the combination productID-version, as in
+  extensionComplete-<productID>-<version>  true
+
+It is possible to restart a connection in the middle, both at a file
+level and within a file.  This is to make it easier for someone to do
+a little bit at a time, especially on pre-OS4 devices.

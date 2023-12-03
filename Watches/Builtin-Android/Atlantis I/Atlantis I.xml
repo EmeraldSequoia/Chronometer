@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Atlantis I.xml
+  Emerald Chronometer
+
+  Copied from AtlantisIV.xml 2017 May 25
+ 
+  Created 4/29/2009 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Atlantis I' beatsPerSecond='0' faceWidth='250' statusBarLoc='top'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='128' backHeight='32' nightWidth='1024' nightHeight='512'/>
+  <init expr='faceWidth=250, backerWidth=faceWidth' />
+
+  <init	    expr='monClr=cyan, dateClr=yellow, wkdayClr=magenta, timClr=0xc0ffffff, timFill=0x80ffffff, secClr=red, fgclr=white, bgclr=black' />
+  <init	    expr='gClr=monClr, gaClr=dateClr, dialbg=black, dialfg=0xffe0e0e0, leapClr=black, backdialbg=black' />
+  <init	    expr='outR=135, berryR=30' />
+  <init	    expr='timR=140, monR=80, datR=monR, wkdR=60' />
+  <init	    expr='hrL=timR*.58, minL=timR*.78, secL=timR*.85, monL=monR-12, datL=datR-12, wkdL=wkdR-12' />
+  <init	    expr='wheelfs=24, whs=wheelfs*.63, wr=44, timsp=40, hrX=-timsp-whs, minX=-whs, secX=timsp-whs, timY=43, gimY=-43, woff=wr-whs*2, yoff=wheelfs/2, weekdayRadius=100, wdY=-5' />
+  <init	    expr='dgX=-timsp-whs-5, pminX=-whs-5, psecX=timsp-whs-5, pimY=43, gimY=-43' />
+  <init	    expr='datefs=16, dateY=-45, yoff2=datefs/2' />
+  <init	    expr='ampmX=-25, ampmY=90, ampmfs=10, ampms=ampmfs*.9, yoffa=ampmfs/2-1, ar=30, aoff=ar-ampms*2+1, tzX=10, tzr=700, tzoff=tzr-ampmfs+4' />
+  <init	    expr='sp=1, wheelspace=10, errY=-86, errX=-wheelspace*2, altX=-wheelspace*1.5, altY=-errY'/>
+  <init	    expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+<!-- infrastructure ================================================== -->
+
+<!-- front time wheels -->
+  <QRect    name='sec bak'	x='secX'	    y='timY-yoff'   modes='front' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   name='digits'	x='secX-woff'	    y='timY'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationNever' update='1'	      angle='fmod(secondNumber(),	      10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' animSpeed='sp' />
+  <SWheel   name='6digits'	x='secX-whs-woff'   y='timY'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1'	      angle='fmod(floor((secondNumber())/10), 10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'	  strokeColor='fgclr' bgColor='clear' animSpeed='sp*10/6' />
+
+  <QRect    name='min bak'	x='minX'	    y='timY-yoff'   modes='front' w='whs*2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   refName='digits'	x='minX-woff'	    y='timY'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * minutes()' angle='fmod(minuteNumber(),	      10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' animSpeed='sp' />
+  <SWheel   refName='6digits'	x='minX-whs-woff'   y='timY'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * minutes()' angle='fmod(floor(minuteNumber()/10),  10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'	  strokeColor='fgclr' bgColor='clear' animSpeed='sp*10/6'  />
+
+  <QRect    name='hr bak'	x='hrX '	    y='timY-yoff'   modes='front' w='whs*2+2' h='wheelfs' bgColor='bgclr' panes='2' />
+  <SWheel   refName='digits'	x='hrX-woff'	    y='timY'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * hours()'   angle='fmod(hour12Number12(),           10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' animSpeed='sp'/>
+  <SWheel   name='hdigits'	x='hrX-whs-woff'    y='timY'	    modes='front'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * hours()'   angle='fmod(floor(hour12Number12()/10), 10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text=' ,1,2,3,4,5'	   strokeColor='fgclr' bgColor='clear' animSpeed='sp*10/6' />
+
+<!-- front year/month/day wheels -->
+  <QRect    name='day bak'	x=' 33' y='dateY-yoff2' w='22' h='datefs' modes='front' bgColor='bgclr' panes='2' />
+  <SWheel   name='ddigits'	x=' 22' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'	x=' 11' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='mon bak'	x='-8 ' y='dateY-yoff2' w='35' h='datefs' modes='front' bgColor='bgclr' />
+  <Swheel   name='Qmonths'	x='-30' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='58' orientation='three' update='1 * days()'	angle='monthNumber()	              *2*pi/12' fontSize='datefs' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='fgclr' bgColor='clear' />
+
+  <QRect    name='year bak'	x='-54' y='dateY-yoff2' w='40' h='datefs' modes='front'  bgColor='bgclr' panes='4' />
+  <SWheel   refName='ddigits'	x='-47' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),             10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'	x='-57' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),   10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='fgclr' bgColor='clear'  />
+  <SWheel   refName='ddigits'	x='-67' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'	x='-77' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='fgclr' bgColor='clear' />
+  <Qhand    name='bce cover'    x='-54-(datefs-1)/2'    y='dateY-yoff2+(datefs-1)/2' modes='front' length='40+(datefs-1)/2' width='datefs-1' tail='0' type='rect' update='1 * days()' angle='eraNumber() == 1 ? 0 : pi/2' strokeColor='0x60ff0000' fillColor='0x60ff0000' />
+
+<!-- front weekday wheel -->
+  <QRect    name='wkday back'	x='-37' y='wdY-weekdayRadius+8' modes='front' w='74' h='15' bgColor='bgclr' />
+  <Swheel   name='Qweekdays'    x=' 0'  y='wdY+1'      dragAnimationType='dragAnimationAlways' modes='front'  radius='weekdayRadius-8' orientation='six' update='1 * days()'	angle='weekdayNumberAngle()' fontSize='11' fontName='Arial' text='SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY' strokeColor='fgclr' bgColor='clear' />
+
+<!-- front ampm & tz wheels -->
+  <QRect    name='tz bak'	x='tzX-10'		y='ampmY-yoffa' modes='front' w='ampms*2+20' h='ampmfs' bgColor='bgclr' />
+  <SWheel   name='tz'		x='tzX+ampmfs'	y='ampmY-tzoff' modes='front' dragAnimationType='dragAnimationAlways' radius='tzr' orientation='twelve' update='15 * minutes()' angle='tzOffset()/3600*2*pi/30' fontSize='ampmfs' fontName='Arial' text='00,+0:15,+0:30,+0:45,+1,+1:15,+1:30,+1:45,+2,+2:15,+2:30,+2:45,+3,+3:15,+3:30,+3:45,+4,+4:15,+4:30,+4:45,+5,+5:15,+5:30,+5:45,+6,+6:15,+6:30,+6:45,+7,+7:15,+7:30,+7:45,+8,+8:15,+8:30,+8:45,+9,+9:15,+9:30,+9:45,+10,+10:15,+10:30,+10:45,+11,+11:15,+11:30,+11:45,+12,+12:15,+12:30,+12:45,+13,+13:15,+13:30,+13:45,+14,+14:15,+14:30,+14:45,+15,-14:45,-14:30,-14:15,-14,-13:45,-13:30,-13:15,-13,-12:45,-12:30,-12:15,-12,-11:45,-11:30,-11:15,-11,-10:45,-10:30,-10:15,-10,-9:45,-9:30,-9:15,-9,-8:45,-8:30,-8:15,-8,-7:45,-7:30,-7:15,-7,-6:45,-6:30,-6:15,-6,-5:45,-5:30,-5:15,-5,-4:45,-4:30,-4:15,-4,-3:45,-3:30,-3:15,-3,-2:45,-2:30,-2:15,-2,-1:45,-1:30,-1:15,-1,-0:45,-0:30,-0:15'  strokeColor='fgclr' bgColor='clear' />
+  <QRect    name='ampm bak'	x='ampmX'	y='ampmY-yoffa' modes='front' w='ampms*2' h='ampmfs' bgColor='bgclr' />
+  <SWheel   name='ampm'		x='ampmX-aoff'	y='ampmY'	modes='front' dragAnimationType='dragAnimationAlways' radius='ar' orientation='three' update='15 * minutes()' angle='hour24Value()>=12 ? 0 : pi/4' fontSize='ampmfs' fontName='Arial' text='PM,AM,,,,,,'  strokeColor='fgclr' bgColor='clear' />
+
+<!-- night time wheels -->
+  <QRect    name='sec bakn'	x='secX'	    y='timY-yoff'   modes='night' w='whs*2' h='wheelfs' bgColor='bgclr'  />
+
+  <QRect    name='min bakn'	x='minX'	    y='timY-yoff'   modes='night' w='whs*2' h='wheelfs' bgColor='bgclr'  />
+  <SWheel   name='digitsn'	x='minX-woff'	    y='timY'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * minutes()' angle='fmod(minuteNumber(),	      10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='clear' animSpeed='sp' />
+  <SWheel   name='6digitsn'	x='minX-whs-woff'   y='timY'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * minutes()' angle='fmod(floor(minuteNumber()/10),   10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5'	  strokeColor='white' bgColor='clear' animSpeed='sp*10/6'  />
+
+  <QRect    name='hr bakn'	x='hrX '	    y='timY-yoff'   modes='night' w='whs*2+2' h='wheelfs' bgColor='bgclr'  />
+  <SWheel   refName='digitsn'	x='hrX-woff'	    y='timY'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * hours()'   angle='fmod(hour12Number12(),           10)*2*pi/10' fontSize='wheelfs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='white' bgColor='clear' animSpeed='sp'/>
+  <SWheel   name='hdigitsn'	x='hrX-whs-woff'    y='timY'	    modes='night'  radius='wr' orientation='three' dragAnimationType='dragAnimationAlways' update='1 * hours()'   angle='fmod(floor(hour12Number12()/10), 10)*2*pi/6'  fontSize='wheelfs' fontName='Arial' text=' ,1,2,3,4,5'	  strokeColor='white' bgColor='clear' animSpeed='sp*10/6' />
+
+<!-- night year/month/day wheels -->
+  <QRect    name='day bakn'	x=' 33' y='dateY-yoff2' w='22' h='datefs' modes='night' bgColor='bgclr'  />
+  <SWheel   name='ddigitsn'	x=' 22' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+  <SWheel   refName='ddigitsn'	x=' 11' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear' />
+
+  <QRect    name='mon bakn'	x='-8 ' y='dateY-yoff2' w='35' h='datefs' modes='night' bgColor='bgclr' />
+  <Swheel   name='Qmonthsn'	x='-30' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='58' orientation='three' update='1 * days()'	angle='monthNumber()	              *2*pi/12' fontSize='datefs' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='nfgclr' bgColor='clear' />
+
+  <QRect    name='year bakn'	x='-54' y='dateY-yoff2' w='40' h='datefs' modes='night'  bgColor='bgclr' />
+  <SWheel   refName='ddigitsn'	x='-47' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),             10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='nfgclr' bgColor='clear' />
+  <SWheel   refName='ddigitsn'	x='-57' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),   10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='nfgclr' bgColor='clear'  />
+  <SWheel   refName='ddigitsn'	x='-67' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='nfgclr' bgColor='clear' />
+  <SWheel   refName='ddigitsn'	x='-77' y='dateY'  dragAnimationType='dragAnimationAlways' modes='night'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9'  strokeColor='nfgclr' bgColor='clear' />
+
+<!-- night weekday wheel -->
+  <QRect    name='wkday backn'	x='-37' y='wdY-weekdayRadius+8' modes='night|back' w='74' h='15' bgColor='bgclr' />
+  <Swheel   name='Qweekdaysn'    x=' 0'  y='wdY+1'      dragAnimationType='dragAnimationAlways' modes='night'  radius='weekdayRadius-8' orientation='six' update='1 * days()'	angle='weekdayNumberAngle()' fontSize='11' fontName='Arial' text='SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY' strokeColor='nfgclr' bgColor='clear' />
+
+<!-- night ampm & tz wheels -->
+  <QRect    name='tz bakn'	x='tzX-10'		y='ampmY-yoffa' modes='night' w='ampms*2+20' h='ampmfs' bgColor='bgclr' />
+  <SWheel   name='tzn'		x='tzX+ampmfs'	y='ampmY-tzoff' modes='night' dragAnimationType='dragAnimationAlways' radius='tzr' orientation='twelve' update='15 * minutes()' angle='tzOffset()/3600*2*pi/30' fontSize='ampmfs' fontName='Arial' text='00,+0:15,+0:30,+0:45,+1,+1:15,+1:30,+1:45,+2,+2:15,+2:30,+2:45,+3,+3:15,+3:30,+3:45,+4,+4:15,+4:30,+4:45,+5,+5:15,+5:30,+5:45,+6,+6:15,+6:30,+6:45,+7,+7:15,+7:30,+7:45,+8,+8:15,+8:30,+8:45,+9,+9:15,+9:30,+9:45,+10,+10:15,+10:30,+10:45,+11,+11:15,+11:30,+11:45,+12,+12:15,+12:30,+12:45,+13,+13:15,+13:30,+13:45,+14,+14:15,+14:30,+14:45,+15,-14:45,-14:30,-14:15,-14,-13:45,-13:30,-13:15,-13,-12:45,-12:30,-12:15,-12,-11:45,-11:30,-11:15,-11,-10:45,-10:30,-10:15,-10,-9:45,-9:30,-9:15,-9,-8:45,-8:30,-8:15,-8,-7:45,-7:30,-7:15,-7,-6:45,-6:30,-6:15,-6,-5:45,-5:30,-5:15,-5,-4:45,-4:30,-4:15,-4,-3:45,-3:30,-3:15,-3,-2:45,-2:30,-2:15,-2,-1:45,-1:30,-1:15,-1,-0:45,-0:30,-0:15'  strokeColor='nfgclr' bgColor='clear' />
+  <QRect    name='ampm bakn'	x='ampmX'	y='ampmY-yoffa' modes='night' w='ampms*2' h='ampmfs' bgColor='bgclr' />
+  <SWheel   name='ampmn'	x='ampmX-aoff'	y='ampmY'	modes='night' dragAnimationType='dragAnimationAlways' radius='ar' orientation='three' update='15 * minutes()' angle='hour24Value()>=12 ? 0 : pi/4' fontSize='ampmfs' fontName='Arial' text='PM,AM,,,,,,'  strokeColor='nfgclr' bgColor='clear' />
+
+<!-- Front ================================================== -->
+
+ <window  name='ampm win'	x='ampmX' y='ampmY-yoffa' w='ampms*2' h='ampmfs-1' border='1' strokeColor='darkGray' />
+ <window  name='tz win'		x='tzX-6'	 y='ampmY-yoffa' w='ampms*2+14' h='ampmfs-1' border='1' strokeColor='darkGray' />
+ <window  name='sec win'	x='secX' y='timY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='min win'	x='minX' y='timY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='hour win'	x='hrX'  y='timY-yoff+1' w='whs*2' h='wheelfs-2' border='1' strokeColor='darkGray' />
+ <window  name='year win'	x='-54'	 y='dateY-yoff2' w='40' h='datefs-1' border='2' strokeColor='darkGray' />
+ <window  name='mon win'	x='-8 '  y='dateY-yoff2' w='35' h='datefs-1' border='2' strokeColor='darkGray' />
+ <window  name='day win'	x=' 33'  y='dateY-yoff2' w='22' h='datefs-1' border='2' strokeColor='darkGray' />
+ <window  name='wkday win'	x='-37'	 y='wdY-weekdayRadius+8' w='74' h='15' border='2' strokeColor='darkGray' />
+
+ <static name='front' modes='front' >
+  <Image  name='starrySquare' x='0' y='0'     modes='front' src='../partsBin/starrySquare.png' />
+  <Image  name='logo'	    x='0' y='0.5' modes='front'	src='../partsBin/logos/white.png' />
+ </static>
+ 
+<!-- Night ================================================== -->
+
+ <window  name='ampm win'	x='ampmX' y='ampmY-yoffa' w='ampms*2' h='ampmfs-1' border='0' strokeColor='darkGray' />
+ <window  name='tz win'		x='tzX-6'	 y='ampmY-yoffa' w='ampms*2+14' h='ampmfs-1' border='0' strokeColor='darkGray' />
+ <window  name='sec win'	x='secX' y='timY-yoff+1' w='whs*2' h='wheelfs-2' border='0' strokeColor='darkGray' />
+ <window  name='min win'	x='minX' y='timY-yoff+1' w='whs*2' h='wheelfs-2' border='0' strokeColor='darkGray' />
+ <window  name='hour win'	x='hrX'  y='timY-yoff+1' w='whs*2' h='wheelfs-2' border='0' strokeColor='darkGray' />
+ <window  name='year win'	x='-54'	 y='dateY-yoff2' w='40' h='datefs-1' border='0' strokeColor='darkGray' />
+ <window  name='mon win'	x='-8 '  y='dateY-yoff2' w='35' h='datefs-1' border='0' strokeColor='darkGray' />
+ <window  name='day win'	x=' 33'  y='dateY-yoff2' w='22' h='datefs-1' border='0' strokeColor='darkGray' />
+ <window  name='wkday win'	x='-37'	 y='wdY-weekdayRadius+8' w='74' h='15' border='0' strokeColor='darkGray' />
+
+ <static name='night' modes='night'>
+  <Image  name='starrySquarn' x='0' y='0'     modes='night' src='../partsBin/starrySquare.png' />
+  <Image  name='lumiberry'    x='0' y='0.5'   modes='night' src='../partsBin/berry-lum.png' />
+ </static>
+ 
+<!-- buttons for testing -->
+<!-- <button	name='adv day but'  x='0' y='200' modes='front|night' src='../partsBin/HD/yellow/front/button10.png' action='advanceSeconds(86400)'  xMotion='-mx' yMotion=' my' motion='thisButtonPressed() || !manualSet() ? 0 : 1' enabled='always'  />  -->
+<!-- <button	name='Reset'	    x='0'  y='-200'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/HD/reset09.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='-16' yMotion='0' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' /> -->
+
+<!-- Look Ma, no hands! ================================================== -->
+
+</watch>

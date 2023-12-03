@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Kyoto I.xml
+  Emerald Chronometer
+
+  Copied from Kyoto.xml 2017 May 22
+ 
+  Created 12/3/2009 by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Kyoto II' landscapeZoomFactor='0.9' beatsPerSecond='5' faceWidth='276' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='64' backHeight='128' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=276, backerWidth=faceWidth' />
+
+  <init expr='faceRad=136, outrRad=135, jSignRad=145, midoRad=109, jNumbRad=116, midiRad=88,innRad=82, hrRad=67' />
+  <init expr='jhrRad=(midoRad+outrRad)/2, jstRad=(midiRad+midoRad)/2-2' />
+  <init expr='subfs=9, subR=30, subRIn=subR-subfs-1' />
+  <init expr='jhrLen=innRad, hrLen=hrRad*.65, minLen=hrRad*.80, secLen=hrRad, mWidth=1.25' />
+  <init expr='faceColor=0xffe0e0e0, textColor=black, timText=textColor, innerBg=0x80e0e0e0, dstBorder=0x80a0a0a0, subBg=0xffe7e7e7, midbg=0x40000000' />
+  <init expr='hrColor=minColor=black, secColor=0xff000000, nfgclr2=0xff008072' />
+
+  <static   name='front'	modes='front' >
+    <QRect    name='maskRect'       x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image      name='face'         x='0' y='0' modes='front' src='face.png' />
+    <QDial	name='outerb'	    x='0' y='0'	modes='front'	radius='outrRad'    markWidth='mWidth' marks='outer'   bgColor='clear' />
+    <QDial	name='midob'	    x='0' y='0'	modes='front'	radius='midoRad'    markWidth='mWidth' marks='outer'   bgColor='midbg' />
+    <QDial	name='midib'	    x='0' y='0'	modes='front'	radius='midiRad'    markWidth='mWidth' marks='outer'   bgColor='clear' />
+    <QDial	name='innerb'	    x='0' y='0'	modes='front'	radius='innRad'	    markWidth='mWidth+1' marks='outer'   bgColor='clear' />
+    <QDial	name='24 nums'      x='0' y='0'	modes='front'	radius='innRad-1'   orientation='demi' demiTweak='1' fontSize='11' fontName='Times New Roman' bgColor='0x40ffffff' strokeColor='black' text='12,13,14,15,16,17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,10,11' />
+    <QDial	name='inn2'	    x='0' y='0'	modes='front'	radius='hrRad'      markWidth='mWidth' marks='outer'   bgColor='clear' />
+    <QDial	name='hour tic24  ' x='0' y='0'	modes='front'	radius='hrRad'	    markWidth='2.0' marks='tickOut' nMarks='12' mSize='5' bgColor='clear' />
+    <QDial	name='hour tic96  ' x='0' y='0'	modes='front'	radius='hrRad'	    markWidth='0.5' marks='tickOut' nMarks='60' mSize='5' bgColor='clear' />
+    <QDial	name='inn3'	    x='0' y='0'	modes='front'	radius='hrRad-5'    markWidth='mWidth' marks='outer'   bgColor='0x20000000' />
+<!--    <QDial	name='hr ticks'     x='0' y='0' modes='front'	radius='hrRad-20' bgColor='clear' strokeColor='black' marks='dot' nMarks='24' mSize='2.5' /> -->
+    <Image	name='berry shadowb' x='0.7' y='33.7' modes='front'	src='../partsBin/berry-shadow.png'/>
+    <Image	name='berryb'	    x='0' y='35' modes='front'	src='../partsBin/berry.png'/>
+    <Image	name='decoration'   x='0' y='0' modes='front'	src='rose.png' />
+  </static>
+
+  <static    name='night' modes='night' >
+      <QRect    name='maskRectn'    x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+      <QDial	name='24 numsn'     x='0' y='0'	modes='night'	radius='innRad-1'   orientation='demi' demiTweak='1' fontSize='8' fontName='Times New Roman' bgColor='clear' strokeColor='white' text='12,,14,,16,,18,,20,,22,,24,,2,,4,,6,,8,,10,' />
+      <QDial	name='hour tic24n ' x='0' y='0'	modes='night'	radius='hrRad'	    markWidth='2.0' marks='tickOut' nMarks='12' mSize='5' bgColor='clear' strokeColor='white' />
+  </static>
+  
+
+  <QdayNightRing name='daytime' x='0' y='0' modes='front' outerRadius='midoRad+1.5' innerRadius='midoRad-1.5' update='updateAtNextSunriseOrSunset' strokeColor='black'  fillColor='black' input='0' numWedges='12' planetNumber='planetMidnightSun' masterOffset='pi' />
+
+  <Qhand    name='jh00'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='午' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 0)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh01'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='未' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 1)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh02'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='申' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 2)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh03'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='酉' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 3)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh04'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='戌' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 4)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh05'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='亥' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 5)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh06'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='子' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 6)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh07'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='丑' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 7)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh08'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='寅' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 8)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh09'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='卯' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 9)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh10'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='辰' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(10)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh11'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jhrRad' fillColor='black' strokeColor='black' text='巳' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(11)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js00'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='九' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 0)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js01'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='八' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 1)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js02'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='七' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 2)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js03'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='六' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 3)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js04'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='五' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 4)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js05'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='四' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 5)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js06'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='九' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 6)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js07'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='八' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 7)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js08'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='七' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 8)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js09'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='六' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 9)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js10'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='五' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(10)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js11'		    x='0'   y='0'   modes='front'  type='spoke' offsetRadius='jstRad' fillColor='black' strokeColor='black' text='四' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(11)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic00'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 0.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic01'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 0.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic02'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 0.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic03'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 0.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic10'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 1.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic11'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 1.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic12'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 1.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic13'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 1.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic20'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 2.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic21'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 2.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic22'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 2.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic23'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 2.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic30'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 3.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic31'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 3.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic32'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 3.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic33'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 3.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic40'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 4.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic41'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 4.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic42'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 4.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic43'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 4.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic50'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 5.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic51'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 5.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic52'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 5.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic53'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 5.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic60'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 6.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic61'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 6.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic62'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 6.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic63'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 6.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic70'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 7.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic71'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 7.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic72'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 7.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic73'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 7.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic80'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 8.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic81'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 8.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic82'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 8.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic83'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 8.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic90'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 9.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic91'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 9.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic92'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour( 9.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tic93'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour( 9.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tica0'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour(10.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tica1'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour(10.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tica2'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour(10.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='tica3'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour(10.75)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='ticb0'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour(11.00)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='ticb1'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour(11.25)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='ticb2'	    x='0'   y='0'   modes='front'  type='wire' width='2' lineWidth='1.5' length='outrRad' length2='midiRad-5' angle='angleForJapanHour(11.50)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='ticb3'	    x='0'   y='0'   modes='front'  type='wire' width='1' lineWidth='.75' length='midiRad' length2='midiRad-5' angle='angleForJapanHour(11.75)' update='updateAtNextSunriseOrSunset'  />
+
+<!--
+  <Qhand    name='jh00n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='午' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 0)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh01n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='未' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 1)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh02n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='申' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 2)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh03n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='酉' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 3)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh04n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='戌' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 4)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh05n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='亥' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 5)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh06n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='子' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 6)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh07n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='丑' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 7)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh08n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='寅' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 8)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh09n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='卯' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 9)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh10n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='辰' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(10)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='jh11n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jhrRad' fillColor='nfgclr2' strokeColor='nfgclr2' text='巳' fontSize='21' fontName='Helvetica-Bold' oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(11)' update='updateAtNextSunriseOrSunset'  />
+-->
+  <Qhand    name='js00n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='九' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 0)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js01n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='八' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 1)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js02n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='七' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 2)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js03n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='六' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 3)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js04n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='五' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 4)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js05n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='四' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 5)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js06n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='九' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 6)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js07n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='八' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 7)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js08n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='七' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 8)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js09n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='六' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour( 9)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js10n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='五' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(10)' update='updateAtNextSunriseOrSunset'  />
+  <Qhand    name='js11n'		    x='0'   y='0'   modes='night'  type='spoke' offsetRadius='jstRad' fillColor='white' strokeColor='white' text='四' fontSize='15' fontName='AppleGothic'    oFillColor='clear' angle='0' offsetAngle='angleForJapanHour(11)' update='updateAtNextSunriseOrSunset'  />
+
+  <Qhand	name='hr '	    x='0' y='0' z='2' modes='front' kind='hour24Kind' type='rect' length='hrLen'  width='3' tail=' hrLen*.33' update='1' angle='hour24ValueAngle()+pi' strokeColor='hrColor'   fillColor=' hrColor' grabPrio='0' />
+  <Qhand	name='min '	    x='0' y='0' z='2' modes='front' kind='minuteKind' type='rect' length='minLen' width='2' tail='minLen*.33' update='.2' angle='minuteValueAngle()'    strokeColor='minColor'  fillColor='minColor' grabPrio='0' />
+  <Qhand	name='sec '	    x='0' y='0' z='2' modes='front' kind='secondKind' type='rect' length='secLen' width='1' tail='secLen*.33' update='.2' angle='secondValueAngle()'    strokeColor='secColor'  fillColor='secColor' grabPrio='0' />
+  <Qhand	name='hr n'	    x='0' y='0' z='2' modes='night|back' kind='hour24Kind' type='rect' length='hrLen'  width='3' tail=' hrLen*.33' update='10' angle='hour24ValueAngle()+pi' strokeColor='white'   fillColor=' white' grabPrio='0' />
+  <Qhand	name='min n'	    x='0' y='0' z='2' modes='night|back' kind='minuteKind' type='rect' length='minLen' width='2' tail='minLen*.33' update='10' angle='minuteValueAngle()'    strokeColor='white'  fillColor='white' grabPrio='0' />
+
+</watch>

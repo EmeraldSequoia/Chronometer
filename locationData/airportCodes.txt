@@ -1,0 +1,35 @@
+# This file was created by scripts/fetchAirportCodes.pl and then manually massaged
+ATL Hartsfield-Jackson Atlanta International	Atlanta, GA	US	33.6366666666667	-84.4280555555556	America/New_York
+ORD Chicago O'Hare International	Chicago, Il	US	41.9786111111111	-87.9047222222222	America/Chicago
+LHR London Heathrow	London	GB	51.4697222222222	-0.451388888888889	Europe/London
+HND Tokyo Haneda International	Tokyo	JP	35.5522222222222	139.779722222222	Asia/Tokyo
+LAX Los Angeles International	Los Angeles	US	33.9425	-118.407222222222	America/Los_Angeles
+DFW Dallas/Fort Worth International	Dallas, TX	US	32.8969444444444	-97.0380555555556	America/Chicago
+FRA Frankfurt International Airport (Rhein-Main)	Frankfurt	DE	50.0263888888889	8.54305555555556	Europe/Berlin
+CDG Charles De Gaulle	Paris	FR	49.0097222222222	2.54777777777778	Europe/Paris
+AMS Schiphol	Amsterdam	NL	52.3086111111111	4.76388888888889	Europe/Amsterdam
+DEN Denver International	Denver	US	39.8616666666667	-104.673055555556	America/Denver
+PHX Sky Harbor Intl	Phoenix	US	33.4333333333333	-112.033333333333	America/Phoenix
+LAS McCarran Intl	Las Vegas	US	36.0833333333333	-115.166666666667	America/Los_Angeles
+MAD Barajas	Madrid	ES	40.4666666666667	-3.56666666666667	Europe/Madrid
+IAH George Bush Intercontinental	Houston	US	29.9844444444444	-95.3413888888889	America/Chicago
+HKG Hong Kong International	Hong Kong	HK	22.3088888888889	113.914722222222	Asia/Hong_Kong
+MSP Minneapolis - St. Paul Intl	Minneapolis	US	44.8833333333333	-93.2169444444445	America/Chicago
+DTW Detroit Metropolitan Wayne County	Detroit, MI	US	42.2125	-83.3533333333333	America/Detroit
+BKK Suvarnabhumi International	Bangkok	TH	13.6811111111111	100.747222222222	Asia/Bangkok
+SFO San Francisco International	San Francisco, CA	US	37.6188888888889	-122.375	America/Los_Angeles
+MIA Miami International Airport	Miami	US	25.7833333333333	-80.2666666666667	America/New_York
+JFK John F Kennedy Intl	New York	US	40.6333333333333	-73.7833333333333	America/New_York
+LGW London Gatwick	London	GB	51.1480555555556	-0.190277777777778	Europe/London
+EWR Newark Liberty International	Newark	US	40.6925	-74.1686111111111	America/New_York
+SIN Changi	Singapore	SG	1.35027777777778	103.994444444444	Asia/Singapore
+NRT Narita International Airport	Tokyo	JP	35.7638888888889	140.391666666667	Asia/Tokyo
+PEK Beijing Capital Int.	Beijing	CN	40.0633333333333	116.584444444444	Asia/Harbin
+SEA Seattle-Tacoma International	Seattle, WA	US	47.4655555555556	-122.311666666667	America/Los_Angeles
+MCO Orlando International	Orlando	US	28.4294444444444	-81.3088888888889	America/New_York
+YYZ Lester B. Pearson International	Toronto, ON	CA	43.6772222222222	-79.6305555555555	America/New_York
+STL Lambert-St. Louis International	St Louis	US	38.7486111111111	-90.37	America/Chicago
+SJC Mineta San Jose International	San Jose	US	37.366695		-121.925906	America/Los_Angeles
+BOS Logan International			Boston		US	42.362983439922544	-71.013565063476	 America/New_York
+OAK Oakland International		Oakland		US	37.711496		-122.213291	    America/Los_Angeles
+HNL Honolulu International		Honolulu	US	21.332898		-157.921418	Pacific/Honolulu

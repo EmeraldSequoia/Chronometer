@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Paris.xml
+  Emerald Chronometer
+
+  Created by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Paris I' beatsPerSecond='0' faceWidth='286' statusBarLoc='bottom'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='16' backHeight='16' nightWidth='512' nightHeight='512'/>
+
+  <init		expr='cr=135, gm=30, go=50, s3=1.732, gw=.2, gc1=black, gc2=0xff101040, r0=135+go, hrLen=80, minLen=110' />
+  <init         expr='xCal=0, yCal=-15' />
+  <init         expr='calendarFontSize=8, calendarRadius=120, calendarWidth=96, calendarHeight=82, calendarYOffset=39, calendarOrientation=twelve' />
+  <init         expr='calendarCellWidth=13.5, calendarCellHeight=14, calendarCellXSpacing=calendarCellWidth/2, calendarCellYSpacing=calendarCellHeight/4' />
+  <init         expr='calendarDayIndicatorClr=black' />
+  <init		expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
+
+  <static   name='front' modes='front' n='3'>
+    <QRect      name='face'         x='-r' y='-r'       modes='front'  w='r*2' h='r*2' bgColor='0xffe0e0e0'/>
+    <Image	name='berry shadow' x='0.7' y='  93.7'	modes='front'	src='../partsBin/berry-shadow.png'/>
+    <Image	name='berry'	    x='0' y='  95'	modes='front'	src='../partsBin/berry.png'/>
+  </static>
+  <Qhand	name='hr'	    x='0' y='   0'  z='4'	modes='front'	kind='hour12Kind'  type='tri'  length=' hrLen' width='5'  tail=' 8'    update=' 1'	angle='hour12ValueAngle()' strokeColor='black' fillColor='black'/>
+  <Qhand	name='min'	    x='0' y='   0'  z='4'	modes='front'	kind='minuteKind'  type='tri'  length='minLen' width='4'  tail='10'    update=' 1'	angle='minuteValueAngle()' strokeColor='black' fillColor='black'/>
+ 
+  <static    name='night' modes='night' >
+    <QRect      name='facen'        x='-r' y='-r'       modes='night'  w='r*2' h='r*2' bgColor='black'/>
+    <Image	name='lumiberry'    x='0' y='  95'	modes='night'	src='../partsBin/berry-lum.png' />
+  </static>
+  <Qhand	name='hr-n'	    x='0' y='   0'	modes='night'	kind='hour12Kind'  type='tri'  length=' hrLen' width='5'  tail=' 8'    update='10'	angle='hour12ValueAngle()' strokeColor='white'   fillColor='white'/>
+  <Qhand	name='min-n'	    x='0' y='   0'	modes='night'	kind='minuteKind'  type='tri'  length='minLen' width='4'  tail='10'    update='10'	angle='minuteValueAngle()' strokeColor='white'   fillColor='white'/>
+
+  <static   name='back'	modes='back' >
+    <Image	name='berryb'	    x='0' y='   0'	modes='back'	src='../partsBin/berry.png' />
+  </static>
+
+</watch>

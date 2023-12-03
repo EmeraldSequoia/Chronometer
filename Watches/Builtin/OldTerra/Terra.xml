@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Terra.xml
+  Emerald Chronometer
+
+  (was Hven and Hven II)
+
+  Created by Bill Arnett on 4/14/2009
+  Copyright Emerald Sequoia LLC 2009. All rights reserved.
+-->
+
+<watch name='Terra' beatsPerSecond='4' >
+  <atlas frontWidth='512' frontHeight='512' backWidth='1024' backHeight='512' nightWidth='512' nightHeight='512'/>
+
+<!-- positions & lengths -->
+  <init	    expr='outR=143, inR=175/2, azR=142, altR=110, earthR=50, selRadius=130, logoY=-97, blogoY=54, selIconY=77' />
+  <init	    expr='off=0, satR=outR-32, jupR=satR-off, marR=jupR-off, sunR=marR-off, venR=sunR-off, merR=venR-off, monR=merR-off' />
+  <init	    expr='datefs=14, dateY=30, yoff2=datefs/2-1' />
+  <init	    expr='eclR=outR-7, eclfs=9, espeed=2' />
+  <init	    expr='roseLW=.1' />
+
+<!-- colors -->
+  <init	    expr='fgclr=black, sbgclr=black, sfgclr=red, nfgclr=0xff00c0ac' />
+  <init	    expr='dialColor=0xff202020, dialbackColor=lightGray, azFrontColor=0xffe0e0e0, sunColor=0xfff2e407, sunStrokeColor=0xff120400, armColor=white' />
+  <init	    expr='azColor=black, bfgclr=0xffe0e0e0, dateBackColor=black' />
+  <init	    expr='eclColor=white, eclBorderColor=0xff606060' />
+  <init	    expr='colorA1=0x80303030, colorA2=0x80404040, colorB1=colorA1, colorB2=colorA2, colorC1=colorA2, colorC2=colorA1, roseStrokeColor=0xff000000' />
+
+
+<!-- infrastructure ================================================== -->
+
+<!-- case buttons -->
+  <button   name='stem'		x='145' y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/stemRose.png'   enabled='always'		action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' xMotion='8'		 motion='manualSet() ? 1 : 0' opacity='1' />
+  <button   name='stem n'	x='144' y='0'    expanded='1'  repeatStrategy='ECPartDoesNotRepeat' modes='night'	  src='../partsBin/stemRosen.png'  enabled='always'		action='manualSet() ? (tick(), stemIn()) : (tock(), stemOut())' xMotion='8'		 motion='manualSet() ? 1 : 0' opacity='1' />
+  <button   name='Reset'	x='121' y='67'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|night' src='../partsBin/reset3.png'  enabled='wrongTimeOnly'  action='reset()'						xMotion='13' yMotion='9' motion='(!timeIsCorrect()) || manualSet() ? (runningDemo() == 1 ? 0 : 1) : 0' />
+  <button   name='Reset b'	x='121' y='67'   immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='back'        src='../partsBin/reset3b.png' enabled='wrongTimeOnly'  action='reset()'						xMotion='13' yMotion='9' motion='(!timeIsCorrect()) || manualSet() ? 1 : 0' />
+  <button   name='adv day but'  x='-127' y=' 70' modes='front|back' src='../partsBin/button410.png'   action='advanceSeconds(86400)' xMotion='-5' yMotion=' 4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button   name='adv hr  but'  x='-127' y='-70' modes='front|back' src='../partsBin/button28.png'   action='advanceHour()'	   xMotion='-5' yMotion='-4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button   name='adv day butn' x='-127' y=' 70' modes='night'	src='../partsBin/button410n.png' action='advanceSeconds(86400)' xMotion='-5' yMotion=' 4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button   name='adv hr  butn' x='-127' y='-70' modes='night'      src='../partsBin/button28n.png' action='advanceHour()'	   xMotion='-5' yMotion='-4' motion='thisButtonPressed() || !manualSet() ? 0 : 1' />
+  <button   name='F/R'		x='-3'   y='-144' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='front|back'  src='../partsBin/slider2a.png' action='inReverse() ? goForward() : goBackward()' xMotion='8' yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+  <button   name='F/Rn'		x='-3'   y='-144' immediate='1' repeatStrategy='ECPartDoesNotRepeat' modes='night'  src='../partsBin/slider2n.png' action='inReverse() ? goForward() : goBackward()' xMotion='8' yMotion='0' motion='manualSet() ? (inReverse() ? 1 : 0) : (inReverse() ? 2 : -1)'/>
+
+<!-- window buttons -->
+  <button   name='adv yearb'    x='-55'  y='dateY-yoff2'  modes='front' w='42' h='datefs'  action='advanceYear()' />
+  <button   name='adv monb'	x='-4 '  y='dateY-yoff2'  modes='front' w='35' h='datefs'  action='advanceMonth()' />
+  <button   name='adv dayb'	x='35'   y='dateY-yoff2'  modes='front' w='21' h='datefs'  action='advanceDay()' />
+
+<!-- below the face items -->
+  <QRect    name='day bakb'	x=' 33' y='dateY-yoff2' w='22' h='datefs' modes='front' bgColor='dateBackColor' panes='2' />
+  <SWheel   name='ddigits'	x=' 22' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod((dayNumber()+1),          10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x=' 11' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor((dayNumber()+1)/10),10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+
+  <QRect    name='mon bakb'	x='-8 ' y='dateY-yoff2' w='35' h='datefs' modes='front' bgColor='dateBackColor' />
+  <Swheel   name='Qmonthsb'	x='-30' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='58' orientation='three' update='1 * days()'	angle='monthNumber()	              *2*pi/12' fontSize='datefs' fontName='Arial' text='JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC' strokeColor='bfgclr' bgColor='clear' />
+
+  <QRect    name='year bakb'	x='-54' y='dateY-yoff2' w='40' h='datefs' modes='front'  bgColor='dateBackColor' panes='4' />
+  <SWheel   refName='ddigits'   x='-47' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(yearNumber(),             10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x='-57' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/10),   10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear'  />
+  <SWheel   refName='ddigits'   x='-67' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/100),  10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <SWheel   refName='ddigits'   x='-77' y='dateY'  dragAnimationType='dragAnimationAlways' modes='front'  radius='32' orientation='three' update='1 * days()' angle='fmod(floor(yearNumber()/1000), 10)*2*pi/10' fontSize='datefs' fontName='Arial' text='0,1,2,3,4,5,6,7,8,9' strokeColor='bfgclr' bgColor='clear' />
+  <Qhand    name='bce cover'    x='-54-(datefs-1)/2'    y='dateY-yoff2+(datefs-1)/2' modes='front' length='40+(datefs-1)/2' width='datefs-1' tail='0' type='rect' update='1 * days()' angle='eraNumber() == 1 ? 0 : pi/2' strokeColor='0x60ff0000' fillColor='0x60ff0000' />
+
+<!-- Front ================================================== -->
+
+  <window   name='year win'	x='-54' y='dateY-yoff2' w='40' h='datefs-1' border='2' strokeColor='darkGray' />
+  <window   name='mon win'	x='-4 ' y='dateY-yoff2' w='31' h='datefs-1' border='2' strokeColor='darkGray' />
+  <window   name='day win'	x=' 33' y='dateY-yoff2' w='22' h='datefs-1' border='2' strokeColor='darkGray' />
+  <window   name='F/R win'	x='-7'   y='-148' w='15' h='4' border='1' />
+  <static   name='front' modes='front'>
+    <Image  name='case'		x='0'	y='0'	modes='front'   src='planets3.png' />
+    <Image  name='band'		x='0'	y='0'	modes='front'   src='../partsBin/band-brown.png'/>
+    <QDial  name='face'		x='0'	y='0'	modes='front'	radius='azR' bgColor='dialColor' />
+    <QDial  name='rose4'	x='0'	y='0'	modes='front' radius='20' radius2=' 5'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='12' markWidth='roseLW' />
+    <QDial  name='rose3'	x='0'	y='0'	modes='front' radius='25' radius2=' 5'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 6' markWidth='roseLW' />
+    <QDial  name='rose2'	x='0'	y='0'	modes='front' radius='75' radius2='35'  fillColor1='colorC1'    fillColor2='colorC2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='24' markWidth='roseLW' />
+    <QDial  name='rose1'	x='0'	y='0'	modes='front' radius='85' radius2='35'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='12' markWidth='roseLW' />
+    <QDial  name='rose0'	x='0'	y='0'	modes='front' radius='90' radius2='25'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 4' markWidth='roseLW' />
+    <QDial  name='az dial'	x='0'   y='0'   modes='front'   radius='azR' nMarks=' 36' markWidth=' 1' marks='tickOut' mSize='5' bgColor='clear' strokeColor='azFrontColor' />
+    <QDial  name='az dial 2'	x='0'   y='0'   modes='front'   radius='azR' nMarks='180' markWidth='.7' marks='tickOut' mSize='3' bgColor='clear' strokeColor='azFrontColor' />
+    <QDial  name='az dial 3'	x='0'   y='0'   modes='front'   radius='azR+12' orientation='upright' fontSize='18' fontName='Arial' bgColor='clear' strokeColor='azFrontColor' text='N,E,S,W'  />
+    <QDial  name='az dial 4'	x='0'   y='0'   modes='front'   radius='azR- 3' orientation='demi'    fontSize='12' fontName='Arial' bgColor='clear' strokeColor='azFrontColor' text=',30,60,,120,150,,210,240,,300,330'  />
+    <Image  name='logo'		x='0.5'	y='logoY'	modes='front'	src='../partsBin/eslogo-whiteclear.png' />
+  </static>
+ 
+<!-- Night ================================================== -->
+
+  <window   name='F/R win'	x='-7'   y='-148' w='15' h='4' border='1' />
+  <static   name='night' modes='night' >
+    <Image  name='case night'	x='0' y='0'	modes='night'   src='planets3n.png'/>
+    <Image  name='face n'	x='0' y='0'	modes='night'   src='gem.png'/>
+    <QDial  name='az dialn'	x='0'   y='0'   modes='night'   radius='azR' nMarks=' 36' markWidth=' 1' marks='tickOut' mSize='5' bgColor='clear' strokeColor='nfgclr' />
+    <QDial  name='az dial 2n'	x='0'   y='0'   modes='night'   radius='azR' nMarks='180' markWidth='.7' marks='tickOut' mSize='3' bgColor='clear' strokeColor='nfgclr' />
+    <QDial  name='az dial 3n'	x='0'   y='0'   modes='night'   radius='azR+12' orientation='upright' fontSize='18' fontName='Arial' bgColor='clear' strokeColor='nfgclr' text='N,E,S,W'  />
+  </static>
+
+<!-- Back ================================================== -->
+
+  <window   name='F/R win'	x='-7'   y='-148' w='15' h='4' border='1' />
+  <static   name='back' modes='back' >
+    <Image  name='case b'	x='0' y='0' modes='back'    src='planets3.png' />
+    <Image  name='band back'    x='0' y='0' modes='back'    src='../partsBin/band-brown-back.png'/>
+    <QDial  name='face backg'	x='0' y='0' modes='back'    radius='outR' bgColor='dialColor' />
+    <QDial  name='rose4b'	x='0' y='0' modes='back'    radius='20' radius2=' 5'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='12' markWidth='roseLW' />
+    <QDial  name='rose3b'	x='0' y='0' modes='back'    radius='25' radius2=' 5'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 6' markWidth='roseLW' />
+    <QDial  name='rose2b'	x='0' y='0' modes='back'    radius='75' radius2='35'  fillColor1='colorC1'    fillColor2='colorC2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='24' markWidth='roseLW' />
+    <QDial  name='rose1b'	x='0' y='0' modes='back'    radius='85' radius2='35'  fillColor1='colorB1'    fillColor2='colorB2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks='12' markWidth='roseLW' />
+    <QDial  name='rose0b'	x='0' y='0' modes='back'    radius='90' radius2='25'  fillColor1='colorA1'    fillColor2='colorA2'   bgColor='clear' strokeColor='roseStrokeColor' marks='rose'  nMarks=' 4' markWidth='roseLW' />
+    <Image  name='altring'	x='0' y='0' modes='back'    src='altring.png' alpha='1' />
+    <QDial  name='face center'	x='0' y='0' modes='back'    radius='28' bgColor='dialColor' />
+    <Image  name='logo b'	x='0.5'	y='logoY' modes='back'	src='../partsBin/eslogo-whiteclear.png' />
+  </static>
+ 
+
+<!-- hands ================================================== -->
+
+<!-- front/night planet hands and their MM arms -->
+  <QHand    name='Saturna'	x='0' y='0'	modes='front|night' type='rect' length='outR' length2='satR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetSaturn)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Jupitera'	x='0' y='0'	modes='front|night' type='rect' length='outR' length2='jupR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetJupiter)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Marsa'	x='0' y='0'	modes='front|night' type='rect' length='outR' length2='marR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetMars)   ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Sun-a'	x='0' y='0'	modes='front|night' type='rect' length='outR' length2='sunR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetSun)    ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Venusa'	x='0' y='0'	modes='front|night' type='rect' length='outR' length2='venR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetVenus)  ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Mercurya'	x='0' y='0'	modes='front|night' type='rect' length='outR' length2='merR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetMercury)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Moon-a'	x='0' y='0'	modes='front|night' type='rect' length='outR' length2='monR' width='.25' tail='0' strokeColor='armColor' fillColor='armColor' angle='azimuthOfPlanet(planetMoon)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Saturn'	x='0' y='0'	modes='front|night' src='../partsBin/planets/saturn.png'      xAnchor='22' yAnchor='10'  offsetRadius='satR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetSaturn)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Jupiter'	x='0' y='0'	modes='front|night' src='../partsBin/planets/jupiter.png'     xAnchor='22' yAnchor='10'  offsetRadius='jupR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetJupiter)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Mars'		x='0' y='0'	modes='front|night' src='../partsBin/planets/mars.png'        xAnchor='22' yAnchor='10'  offsetRadius='marR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetMars)   ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Sun-s'	x='0' y='0'	modes='front|night' type='sun' length='sunR+17' length2='sunR-17' lineWidth='.25' nRays='8' tail='0' strokeColor='sunStrokeColor' fillColor='sunColor'    angle='azimuthOfPlanet(planetSun)    ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Venus'	x='0' y='0'	modes='front|night' src='../partsBin/planets/venus.png'       xAnchor='22' yAnchor='10'  offsetRadius='venR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetVenus)  ' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Mercury'	x='0' y='0'	modes='front|night' src='../partsBin/planets/mercury.png'     xAnchor='22' yAnchor='10'  offsetRadius='merR'  angle='0'				    offsetAngle='azimuthOfPlanet(planetMercury)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Moon-s'	x='0' y='0'	modes='front|night' src='../partsBin/planets/bighalfMoon.png' xAnchor='22' yAnchor='10'  offsetRadius='monR'  angle='sunAzimuth() - moonAzimuth()-pi/2'   offsetAngle='azimuthOfPlanet(planetMoon)' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+
+<!-- back hands -->
+ <!-- rotating ecliptic dial -->
+  <QWedge   name='cover  1'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 0)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 0) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 1'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Psc' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 0) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  2'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 1)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 1) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 2'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Ari' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 1) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  3'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 2)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 2) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 3'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Tau' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 2) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  4'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 3)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 3) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 4'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Gem' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 3) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  5'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 4)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 4) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 5'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Can' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 4) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  6'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 5)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 5) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 6'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Leo' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 5) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  7'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 6)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 6) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 7'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Vir' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 6) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  8'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 7)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 7) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 8'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Lib' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 7) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  9'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 8)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 8) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial 9'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Sco' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 8) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  a'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation( 9)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 9) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial a'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Sgr' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation( 9) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  b'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation(10)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation(10) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial b'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Cap' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation(10) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+  <QWedge   name='cover  c'     x='0'   y='0'	modes='back' outerRadius='eclR+eclfs/2' innerRadius='eclR-eclfs/2' angleSpan='widthOfZodiacConstellation(11)/1.05'  animSpeed='espeed' dragAnimationType='dragAnimationAlways' update='60' angle='-apparentEclipticSign()*(-centerOfZodiacConstellation(11) + longitudeOfHighestEclipticAltitude())' strokeColor='eclBorderColor' fillColor='dialColor'/>
+  <Qhand    name='ecl dial c'	x='0'   y='0'   modes='back'  type='spoke' offsetRadius='eclR' text='Aqr' fontSize='eclfs' fontName='Arial' fillColor='eclColor' oFillColor='clear' angle='0' offsetAngle='-apparentEclipticSign()*(-centerOfZodiacConstellation(11) + longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='espeed' />
+
+ <!-- meridian indicator for planets -->
+  <Qhand    name='meridian'	x=' 0'  y='0'   modes='back' length='outR' length2='inR' width='1' tail='0' update='60' angle='apparentEclipticSign() * (longitudeAtNorthMeridian() - longitudeOfHighestEclipticAltitude())'	 strokeColor='white'  dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <Qhand    name='meridian2'	x=' 0'  y='0'   modes='back' length='outR' length2='inR' width='1' tail='0' update='60' angle='apparentEclipticSign() * (longitudeAtNorthMeridian() - longitudeOfHighestEclipticAltitude()) + pi' strokeColor='white'  dragAnimationType='dragAnimationAlways' animSpeed='4' />
+
+ <!-- planet hands -->
+  <hand	    name='Saturn b'	x='0' y='0'	modes='back' src='../partsBin/planets/saturn.png'      xAnchor='22' yAnchor='10'  offsetRadius='satR'  angle='0'	offsetAngle='apparentEclipticSign() * (ELongitudeOfPlanet(planetSaturn) -longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Jupiter b'	x='0' y='0'	modes='back' src='../partsBin/planets/jupiter.png'     xAnchor='22' yAnchor='10'  offsetRadius='jupR'  angle='0'	offsetAngle='apparentEclipticSign() * (ELongitudeOfPlanet(planetJupiter)-longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Mars b'	x='0' y='0'	modes='back' src='../partsBin/planets/mars.png'        xAnchor='22' yAnchor='10'  offsetRadius='marR'  angle='0'	offsetAngle='apparentEclipticSign() * (ELongitudeOfPlanet(planetMars)   -longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='Sun-s b'	x='0' y='0'	modes='back' type='sun' length='sunR+17' length2='sunR-17' lineWidth='.25' nRays='8' tail='0' strokeColor='sunStrokeColor' fillColor='sunColor'    angle='apparentEclipticSign() * (ELongitudeOfPlanet(planetSun)    -longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Venus b'	x='0' y='0'	modes='back' src='../partsBin/planets/venus.png'       xAnchor='22' yAnchor='10'  offsetRadius='venR'  angle='0'	offsetAngle='apparentEclipticSign() * (ELongitudeOfPlanet(planetVenus)  -longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Mercury b'	x='0' y='0'	modes='back' src='../partsBin/planets/mercury.png'     xAnchor='22' yAnchor='10'  offsetRadius='merR'  angle='0'	offsetAngle='apparentEclipticSign() * (ELongitudeOfPlanet(planetMercury)-longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <hand	    name='Moon-s b'	x='0' y='0'	modes='back' src='../partsBin/planets/bighalfMoon.png' xAnchor='22' yAnchor='10'  offsetRadius='monR'  angle='sunAzimuth() - moonAzimuth()-pi/2'   offsetAngle='apparentEclipticSign() * (ELongitudeOfPlanet(planetMoon)   -longitudeOfHighestEclipticAltitude())' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+
+ <!-- alt/az indicators for orienting yourself to the ecliptic -->
+  <hand     name='orient'	x=' 0'  y='0'   modes='back' src='orientationRose4.png' update='60' angle='-azimuthOfHighestEclipticAltitude()' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+  <QHand    name='o-alt'	x='0'   y='0'	modes='back' type='rect' length='29' length2='29' lineWidth='.1' width='3' strokeColor='lightGray' fillColor='lightGray'    angle='eclipticAltitude()-pi/2' update='60' dragAnimationType='dragAnimationAlways' animSpeed='4' />
+
+<!-- horizon masks -->
+  <hand	    name='hmask'	x='0' y='0'	modes='front'   src='horizonMask4.png'  angle='azimuthOfHighestEclipticAltitude()+pi/2' xAnchor='0' yAnchor='145' update='60' />
+  <hand	    name='hmaskn'	x='0' y='0'	modes='night'   src='horizonMask4n.png' angle='azimuthOfHighestEclipticAltitude()+pi/2' xAnchor='0' yAnchor='145' update='60' />
+  <Image    name='hmaskb'	x='0'   y='0'	modes='back'   src='horizonMask2.png' />
+
+<!-- time hands -->
+  <Qhand    name='12hour'	x=' 0'  y='0'   modes='front|back'  kind='hour12Kind' length=' 40' width='7' tail=' 6' update='60' animSpeed='4' angle='hour12ValueAngle()' strokeColor='fgclr'  fillColor='white' oLength='20' oWidth='12' oTail='3' lineWidth='2' oLineWidth='2' oStrokeColor='black' oFillColor='white' />
+  <Qhand    name='minute'	x=' 0'  y='0'   modes='front|back'  kind='minuteKind' length=' 60' width='5' tail=' 8' update=' 1' animSpeed='4' angle='minuteValueAngle()' strokeColor='fgclr'  fillColor='white' oLength='25' oWidth='10' oTail='3' lineWidth='2' oLineWidth='2' oStrokeColor='black' oFillColor='white' oCenter='1.85' />
+  <Qhand    name='12hourn'	x=' 0'  y='0'   modes='night'	    kind='hour12Kind' length=' 40' width='7' tail=' 6' update='60' animSpeed='4' angle='hour12ValueAngle()' strokeColor='nfgclr' fillColor='clear' oLength='20' oWidth='12' oTail='3' lineWidth='2' oLineWidth='2' oStrokeColor='nfgclr' oFillColor='clear' />
+  <Qhand    name='minuten'	x=' 0'  y='0'   modes='night'	    kind='minuteKind' length=' 60' width='5' tail=' 8' update=' 1' animSpeed='4' angle='minuteValueAngle()' strokeColor='nfgclr' fillColor='clear' oLength='25' oWidth='10' oTail='3' lineWidth='2' oLineWidth='2' oStrokeColor='nfgclr' oFillColor='clear' oCenter='1.85' />
+
+</watch>
+
+<!-- COMPLICATIONS
+
+-->

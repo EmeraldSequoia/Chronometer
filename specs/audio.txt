@@ -1,0 +1,40 @@
+Currently using AudioServices for alarm sounds (and for silence sounds
+to keep us going when the dislay is locked)
+
+Could instead use AudioQueue methods.  I wrote Audio/ECQAudio.[hm] to
+do a queue.  Has precise timing, although I didn't attempt to use
+that.  Mostly works.  But:
+1) If you stop the queue and restart it, there is a huge gap (1 sec?)
+2) So I'm currently just resetting the file position pointer to the
+beginning
+3) but this is in filling the buffers; the pipeline is still full, so
+there is a delay
+4) and the delay is not deterministic because it depends on when the
+timer comes in compared to when the buffer fill request comes in
+5) so another approach would be to give the class knowledge of the
+repeat delays, so it could deterministically restart the sound at the right
+point
+6) but then there would (presumably) be a lag when we want to stop
+repeating and let the last song ring, again because the pipeline has
+been filled.
+7) the pipeline delay is 3x0.1 seconds, I think, which is big enough
+to worry about.  We could try making the pipeline smaller but I
+hesitate to, given that the heartbeat has detected delays on that
+order already and it's running at highest possible priority
+8) Also, AudioQueue doesn't adhere to system UI state (I think) and there
+is no way (I think) of determining the state of the silent button.
+Not sure about this, but if it's true, it's a deal-killer.  In any
+event it doesn't adhere to the ring volume, which only applies to
+system sounds.
+
+Could instead use AVAudioPlayer. But
+1) That framework is only available in iPhone OS 2.2 and above
+2) It has similar issues with the AudioQueue wrt volume and adhering
+to the silent switch
+3) From the documentation it also appears to not be precise wrt timing.
+
+So I'm giving up for 1.6
+
+PS One side note: To get AudioQueueNewOutput not to hang in the
+simulator, it was necessary to move the Divx decoder out of
+/LibraryQuicktime.  I put mine in ~/Development.

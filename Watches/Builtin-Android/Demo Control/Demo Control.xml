@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Demo Control.xml
+  Emerald Chronometer
+
+  Copied from Mauna Kea.xml 2018 Apr 08
+ 
+  Created by Bill Arnett on 6/4/2008
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='Demo Control' beatsPerSecond='10' faceWidth='268' statusBarLoc='bottom'>
+  <atlas frontWidth='1024' frontHeight='512' backWidth='128' backHeight='128' nightWidth='1024' nightHeight='512'/>
+
+  <button       name='pause'	    x='0' y='100' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front|back|night' src='../partsBin/demo_control_pause.png'	action='demoControlPause()' xMotion='0' yMotion='100' motion='!demoControlOnscreen()' animSpeed='4' enabled='always' cornerRelative='0' />
+  <button       name='back'	    x='-100' y='0' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front|back|night' src='../partsBin/demo_control_back.png'	action='demoControlBack()' xMotion='-100' yMotion='0' motion='!demoControlOnscreen()' animSpeed='4' enabled='always' cornerRelative='0' />
+  <button       name='forward'	    x='100' y='0' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front|back|night' src='../partsBin/demo_control_forward.png'	action='demoControlForward()' xMotion='100' yMotion='0' motion='!demoControlOnscreen()' animSpeed='4' enabled='always' cornerRelative='0' />
+  <button       name='info'	    x='0' y='-100' flipOnBack='0' repeatStrategy='ECPartDoesNotRepeat' modes='front|back|night' src='../partsBin/demo_control_info.png'	action='demoControlInfo()' xMotion='0' yMotion='-100' motion='!demoControlOnscreen()' animSpeed='4' enabled='always' cornerRelative='0' />
+
+</watch>

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+
+<head>
+ <title>Emerald Chronometer Time Synchronization</title>
+ <meta name="viewport" content="width=device-width" />
+ <link rel="apple-touch-icon" href="../images/eblogo57-1.png">
+ <link rel="shortcut icon" href="../images/GlyphBerry.png" type="image/png">
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <link rel="stylesheet" href="product.css"/>
+</head>
+<body>
+
+<div display='inline' class='device'>
+<div style="float:right"><p><a href="Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink1' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<br clear=all>
+</div>
+<div display='inline' class='website'>
+<div class='floatL'>
+ <a href="../index.php">Home</a>&nbsp;&nbsp;
+ <a href="index.html">Chronometer</a>
+</div>
+<div class='floatR'>
+ <a href="../buy.html">Where to Buy</a>
+</div>
+<br>
+<hr size=1>
+
+<h1>Emerald Chronometer Time Synchronization</h1>
+
+</div>
+
+
+
+EMERALD_PRODUCT uses a simplified version of
+<a href="http://en.m.wikipedia.org/wiki/Network_Time_Protocol">Network Time Protocol (NTP)<img src="extlink.png"></a>
+to synchronize its time displays with time servers on the Internet.
+That's the short and simple version.  The longer, more technical, version
+follows:
+<p>
+Every time EMERALD_PRODUCT starts up and the "Use NTP" option is ON
+or whenever that option is changed to ON, the app
+goes out to NTP servers on the Internet and asks for the current
+time. It chooses a pool of servers based on the user's country
+setting: first from the local country's pool, then the continent pool
+for that country, then the global pool, and finally time.apple.com.
+This progression happens each time we get a new synchronization; there
+are four sets of servers in each pool.  EMERALD_PRODUCT compares
+the time thus obtained with the time supplied by the iPhone, and
+stores the difference as a "skew" value.  This skew is applied
+globally throughout the application to every watch
+display.
+<p>
+In modern iOS versions, the size of this skew is very close to zero, as
+Apple keeps iPhones' and iPads' times very accurately.
+<span display='inline' class='device'>
+(You can see the current skew value by tapping on
+the upper left indicator light on the main screen.)
+</span>
+<p>
+When you shut down and restart EMERALD_PRODUCT, it will start with the same
+skew value as it determined during the previous session, but it will
+also go get a new skew value in case it has changed since the last
+time the application was run.  If the skew has changed (or if this is the first
+time the application has ever been run), then the hands showing the time will jump
+to the new correct value.
+<p>
+When the iPhone gets a new cell-phone time (for example, when it
+switches to a different tower), the iPhone OS changes its internal
+time base used by all applications, and sends a notification to
+running applications that the time has changed.  When EMERALD_PRODUCT
+gets this notification, again goes out to the NTP servers to get the skew.
+Occasionally,
+especially in fringe-reception areas, you will see the time indicator
+blink for a few seconds while it does this.
+<p>
+<span class='Chronometer'>
+  When waking up after the screen has been locked, EMERALD_PRODUCT resynchronizes with NTP, because it doesn't know what has happened while it was asleep.
+<p>
+</span>
+</div>
+<span class='Chronometer'>
+<h2>Notifications</h2>
+EMERALD_PRODUCT does not maintain NTP synchronization when it is running in the background.   Therefore,
+if the iPhone's time base changes while EMERALD_PRODUCT is not running, then alarm notifications for Istanbul and Thebes may be offset from their requested time.  That can happen in a number of circumstances:
+<ul>
+ <li> The iPhone or iPad has "Set time automatically" turned off, and the iPhone's time base was manually changed.
+ <li> The iPhone or iPad has "Set time automatically" turned off, and the internal clock on the device drifts by a few seconds.
+</ul>
+<p>
+In addition, the OS does not guarantee that local notifications are delivered at the exact time specified; there may be a few-second delay if the device is busy with other activity.
+</span>
+
+<div display='inline' class='website'>
+<br clear=all>
+<br>
+<hr size=1>
+<h3>The Watches</h3>
+<a href="Alexandria/Alexandria.html"><img src="Alexandria/Alexandria-icon-f.png" width=50 border=0  align=center vspece=4></a>
+<a href="Atlantis/Atlantis.html"><img src="Atlantis/Atlantis-icon-f.png"   width=50 border=0 align=center vspece=4></a>
+<a href="Chandra/Chandra.html"><img src="Chandra/Chandra-icon-f.png"    width=50 border=0 align=center vspece=4></a>
+<a href="Haleakala/Haleakala.html"><img src="Haleakala/Haleakala-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="Mauna Kea/Mauna Kea.html"><img src="Mauna Kea/Mauna Kea-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="McAlester/McAlester.html"><img src="McAlester/McAlester-icon-f.png"  width=50 border=0 align=center vspece=4></a>
+<a href="Paris/Paris.html"><img src="Paris/Paris-icon-f.png"      width=50 border=0 align=center vspece=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Geneva/Geneva.html"><img src="Geneva/Geneva-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Istanbul/Istanbul.html"><img src="Istanbul/Istanbul-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Olympia/Olympia.html"><img src="Olympia/Olympia-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Thebes/Thebes.html"><img src="Thebes/Thebes-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="Firenze/Firenze.html"><img src="Firenze/Firenze-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Miami/Miami.html"><img src="Miami/Miami-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<a href="Vienna/Vienna.html"><img src="Vienna/Vienna-icon-f.png"      width=50 border=0 align=center vspace=4></a>
+<hr size=4>
+Copyright&nbsp;&copy;&nbsp;2009, <a href="../index.html"><span class='emerald'>Emerald Sequoia LLC</span></a>; last&nbsp;updated:&nbsp;2009&nbsp;November&nbsp;25
+</div>
+<div display='inline' class='device'>
+<hr>
+<div style="font-size:8pt; text-align:center">
+<div style="float:right"><p><a href="Help Contents.html" target="_top">Help Contents</a></div>
+<div id='printLink2' style="float:left; visibility:hidden"><p><a href="PrintMe" target="_top">Print this page</a></div>
+<iframe src="versionGen.html" scrolling="auto" width=100% height=30 frameborder=0>
+<a href="versionGen.html">Version</a>
+</iframe>
+<a href="Credits.html">Copyright Information</a>
+</div>
+</div>
+</body></html>

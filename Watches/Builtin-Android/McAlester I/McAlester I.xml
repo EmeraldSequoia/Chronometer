@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  McAlester I.xml
+  Emerald Chronometer
+
+  Copied from McAlester.xml 2017 May 22
+ 
+  Created by Bill Arnett
+  Copyright Emerald Sequoia LLC 2008. All rights reserved.
+-->
+
+<watch name='McAlester I' landscapeZoomFactor='0.9' beatsPerSecond='6' faceWidth='276' statusBarLoc='center'>
+  <atlas frontWidth='512' frontHeight='512' backWidth='64' backHeight='256' nightWidth='512' nightHeight='512'/>
+  <init expr='faceWidth=276, backerWidth=faceWidth' />
+  
+  <static name='front' modes='front'>
+    <QRect      name='maskRect'     x='-backerWidth/2' y='-backerWidth/2'  modes='front'  w='backerWidth' h='backerWidth' bgColor='black'/>
+    <Image	name='face'	    x=' 0'  y=' 0'   modes='front'  src='face.png' opaque='0'/>
+  </static>
+
+  <static name='night' modes='night'>
+      <QRect    name='maskRectn'     x='-backerWidth/2' y='-backerWidth/2'  modes='night'  w='backerWidth' h='backerWidth' bgColor='black'/>
+      <Image	name='face n'       x='0'   y='0'   modes='night' src='face-night.png' opaque='0'/>
+  </static>
+
+  <hand		name='sec'	    x=' 0'  y='-75' z='3' thick='2' modes='front'  xAnchor= '6' yAnchor='22' src='second.png'	update='1/6'		angle='secondValueAngle()' opaque='1' kind='secondKind' grabPrio='2' />
+  <hand         name='hour'	    x=' 0'  y='0' z='5'  modes='front'  xAnchor='12 ' yAnchor='12' src='hour.png'	update='1'	angle='hour12ValueAngle()' opaque='1' kind='hour12Kind' grabPrio='2' />
+  <hand		name='minute'	    x=' 0'  y='0' z='4'  modes='front'  xAnchor='7.5' yAnchor='7' src='minute.png'	update='.25'		angle='minuteValueAngle()' opaque='1' kind='minuteKind' grabPrio='2' />
+
+  <hand         name='hour-l'	    x=' 0'  y='0'   modes='night|back'  xAnchor='12 ' yAnchor='12' src='hour-white.png'   update='10' angle='hour12ValueAngle()' opaque='1' kind='hour12Kind' grabPrio='2' />
+  <hand		name='minute-l'	    x=' 0'  y='0'   modes='night|back'  xAnchor='7.5' yAnchor='7.5'  src='minute-white.png' update='10' angle='minuteValueAngle()' opaque='1' kind='minuteKind' grabPrio='2' />
+  
+</watch>

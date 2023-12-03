@@ -1,0 +1,37 @@
+# These watches are the only ones that will be installed
+
+Background
+
+# Standard EC / ECHD watches
+Alexandria
+Atlantis
+Babylon
+Chandra
+Firenze
+Geneva
+Haleakala
+Istanbul
+Mauna Kea
+McAlester
+Miami
+Olympia
+Paris
+Terra
+Thebes
+Vienna
+
+# ChronoAll aka Chrono Plus watches
+AtlantisIV
+ChandraII
+Hernandez
+Kyoto
+London
+Milano
+Neuchatel
+Tombstone
+Uraniborg
+
+# Other watches used nowhere
+# Haleakala-Android
+# Cairo
+# Wimm-1
