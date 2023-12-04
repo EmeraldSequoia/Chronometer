@@ -21,24 +21,6 @@ local.properties
 
 android/playstore/apks/*
 
-/archive/AtlantisIV/
-/archive/ChandraII/
-/archive/Hernandez/
-/archive/Kyoto/
-/archive/London/
-/archive/Milano/
-/archive/Neuchatel/
-/archive/Tombstone/
-/archive/Uraniborg/
-/archiveHD/AtlantisIV/
-/archiveHD/ChandraII/
-/archiveHD/Hernandez/
-/archiveHD/Kyoto/
-/archiveHD/London/
-/archiveHD/Milano/
-/archiveHD/Neuchatel/
-/archiveHD/Tombstone/
-/archiveHD/Uraniborg/
 .externalNativeBuild
 /android/project/*/version.properties
 /android/logs
