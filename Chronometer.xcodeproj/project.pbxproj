@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1449,7 +1449,6 @@
 		92691AB71082AE6B007577C0 /* loc-a1Codes.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = "loc-a1Codes.dat"; path = "locationData/loc-a1Codes.dat"; sourceTree = "<group>"; };
 		927EE1910F35173E0088C957 /* Triangle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Triangle.wav; path = Sounds/Triangle.wav; sourceTree = "<group>"; };
 		927EE1F60F367BBA0088C957 /* Silence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Silence.wav; path = Sounds/Silence.wav; sourceTree = "<group>"; };
-		9285F9761809A3D6008E2D66 /* iOS 7 To Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "iOS 7 To Do.txt"; path = "specs/iOS 7 To Do.txt"; sourceTree = "<group>"; };
 		9285F9791809E62E008E2D66 /* loc-tzOffsets-2013d-3961994294.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = "loc-tzOffsets-2013d-3961994294.dat"; path = "locationData/loc-tzOffsets-2013d-3961994294.dat"; sourceTree = "<group>"; };
 		928EF6771FC902EC004AF2D4 /* AppVMOps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppVMOps.cpp; path = android/project/BaseLib/src/vm/AppVMOps.cpp; sourceTree = "<group>"; };
 		928EF6801FC9031C004AF2D4 /* ESVirtualMachine_gen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ESVirtualMachine_gen.cpp; path = android/project/BaseLib/src/vm/gen/ESVirtualMachine_gen.cpp; sourceTree = "<group>"; };
@@ -1604,7 +1603,6 @@
 		A951E9530F789D23007D112A /* Istanbul.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Istanbul.xml; path = Watches/Builtin/Istanbul/Istanbul.xml; sourceTree = "<group>"; };
 		A951E9540F789D23007D112A /* Olympia.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Olympia.xml; path = Watches/Builtin/Olympia/Olympia.xml; sourceTree = "<group>"; };
 		A951E9550F789D23007D112A /* London.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = London.xml; path = Watches/Builtin/London/London.xml; sourceTree = "<group>"; };
-		A951EB050F79F7F6007D112A /* 700Characters.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 700Characters.txt; sourceTree = "<group>"; };
 		A951EB060F79F80F007D112A /* ReleaseNotes.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = ReleaseNotes.html; path = Version/ReleaseNotes.html; sourceTree = "<group>"; };
 		A95D20A61ED0F11D00EC7A0B /* Paris II.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Paris II.xml"; path = "Watches/Builtin-Android/Paris II/Paris II.xml"; sourceTree = "<group>"; };
 		A95D20AE1ED115AD00EC7A0B /* Firenze I.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Firenze I.xml"; path = "Watches/Builtin-Android/Firenze I/Firenze I.xml"; sourceTree = "<group>"; };
@@ -1698,7 +1696,6 @@
 		A9A9297C0DE531AD005DE143 /* ECQView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECQView.m; path = Classes/ECQView.m; sourceTree = "<group>"; };
 		A9AEFBE61175998200EBDA19 /* ECBackgroundData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECBackgroundData.h; sourceTree = "<group>"; };
 		A9AEFBE71175998200EBDA19 /* ECBackgroundData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECBackgroundData.m; sourceTree = "<group>"; };
-		A9B66BAB0DB6071400A97D58 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		A9B67738107C5C6400F8033C /* scaleBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = scaleBar.png; path = Images/scaleBar.png; sourceTree = "<group>"; };
 		A9B67813107C8FE400F8033C /* ECOptionsTZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECOptionsTZ.h; sourceTree = "<group>"; };
 		A9B67814107C8FE400F8033C /* ECOptionsTZ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECOptionsTZ.m; sourceTree = "<group>"; };
@@ -2394,10 +2391,7 @@
 		A951E9400F789C64007D112A /* Editing Only */ = {
 			isa = PBXGroup;
 			children = (
-				9285F9761809A3D6008E2D66 /* iOS 7 To Do.txt */,
-				A9B66BAB0DB6071400A97D58 /* ReadMe.txt */,
 				A9C89F4411BE1BAF002AA81B /* TestPlan.txt */,
-				A951EB050F79F7F6007D112A /* 700Characters.txt */,
 				A951EB060F79F80F007D112A /* ReleaseNotes.html */,
 				A94A94C21138FF7100C34351 /* Approvals.txt */,
 				A951E94E0F789D23007D112A /* Alexandria.xml */,
@@ -3672,6 +3666,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		921411DE0F0848990057A1FB /* Install chooser images */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3682,7 +3677,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/scripts/installChooserImages.pl Chronometer";
+			shellScript = "${SRCROOT}/scripts/installChooserImages.pl Chronometer\n";
 			showEnvVarsInLog = 0;
 		};
 		921411E40F0848E50057A1FB /* Install chooser images */ = {
@@ -3702,6 +3697,7 @@
 		};
 		921ABACF11B4498800CE7C41 /* Check for NSCalendar */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3712,7 +3708,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = scripts/checkForNSCalendar.pl;
+			shellScript = "scripts/checkForNSCalendar.pl\n";
 			showEnvVarsInLog = 0;
 		};
 		921ABAD111B449E600CE7C41 /* Check for NSCalendar */ = {
@@ -3776,7 +3772,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/Parser/genCode.pl ${SRCROOT}/ECVirtualMachineOps.m";
+			shellScript = "${SRCROOT}/Parser/genCode.pl ${SRCROOT}/ECVirtualMachineOps.m\n";
 			showEnvVarsInLog = 0;
 		};
 		92413DAA152396890019A517 /* Check for NSCalendar */ = {
@@ -3905,6 +3901,7 @@
 		};
 		9250A64D10A3B0D100C8079D /* Generate Help files */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3915,7 +3912,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = scripts/genHelp.pl;
+			shellScript = "scripts/genHelp.pl\n";
 			showEnvVarsInLog = 0;
 		};
 		9250A64F10A3B0F300C8079D /* Generate Help files */ = {
@@ -4168,6 +4165,7 @@
 		};
 		92A456D50FC5133B00F59DD7 /* Generate strings file */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4197,6 +4195,7 @@
 		};
 		92B5B7240E25C70B0062B454 /* Record SVN version */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4212,6 +4211,7 @@
 		};
 		92BFF3850F3D44DC00F63F0E /* Remove Henry files */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4227,6 +4227,7 @@
 		};
 		92BFF3C60F3E05BB00F63F0E /* Install help */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4237,7 +4238,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/scripts/installHelp.pl Chronometer";
+			shellScript = "${SRCROOT}/scripts/installHelp.pl Chronometer\n";
 			showEnvVarsInLog = 0;
 		};
 		92D9972C1C4DAB8C008ADF84 /* Check for NSCalendar */ = {
@@ -4385,6 +4386,7 @@
 		};
 		92DDC0E50E5F4A9800B9339E /* Install archives */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4395,7 +4397,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/scripts/installArchives.pl Chronometer";
+			shellScript = "${SRCROOT}/scripts/installArchives.pl Chronometer\n";
 			showEnvVarsInLog = 0;
 		};
 		92E4A7DB1EC9166600AE474B /* Check for NSCalendar */ = {
@@ -5363,15 +5365,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					deps/esutil/src,
-					deps/esvm/src,
-					deps/eschrono/src,
-					deps/eslocation/src,
-					deps/estime/src,
-					deps/esastro/src,
-					android/project/BaseLib/src/vm/gen/,
-				);
+				HEADER_SEARCH_PATHS = ../esastro/src;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5810,15 +5804,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					deps/esutil/src,
-					deps/esvm/src,
-					deps/eschrono/src,
-					deps/eslocation/src,
-					deps/estime/src,
-					deps/esastro/src,
-					android/project/BaseLib/src/vm/gen/,
-				);
+				HEADER_SEARCH_PATHS = ../esastro/src;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5968,15 +5954,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					deps/esutil/src,
-					deps/esvm/src,
-					deps/eschrono/src,
-					deps/eslocation/src,
-					deps/estime/src,
-					deps/esastro/src,
-					android/project/BaseLib/src/vm/gen/,
-				);
+				HEADER_SEARCH_PATHS = ../esastro/src;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6383,15 +6361,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					deps/esutil/src,
-					deps/esvm/src,
-					deps/eschrono/src,
-					deps/eslocation/src,
-					deps/estime/src,
-					deps/esastro/src,
-					android/project/BaseLib/src/vm/gen/,
-				);
+				HEADER_SEARCH_PATHS = ../esastro/src;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6469,15 +6439,7 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					deps/esutil/src,
-					deps/esvm/src,
-					deps/eschrono/src,
-					deps/eslocation/src,
-					deps/estime/src,
-					deps/esastro/src,
-					android/project/BaseLib/src/vm/gen/,
-				);
+				HEADER_SEARCH_PATHS = ../esastro/src;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
