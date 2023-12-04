@@ -135,8 +135,9 @@ sub getVersion {
         $version = "g$shortVersion";
     } else {
         warn "Checking gitVersion...\n";
-        system('git describe --match "r1"');
-        chomp(my $gitVersion = `git describe --match "r1"`);
+        chomp(my $gitVersion = `git rev-parse --short HEAD`);
+        $gitVersion =~ /^(.......)$/
+          or die "No git rev-parse fails for $gitVersion\n";
         warn "gitVersion is '$gitVersion'\n";
         $gitVersion =~ /^r1-(\d+)-(g[\dA-Za-z]+)$/
           or die "git describe fails to produce expected pattern:  Is there no 'r1' tag in this git repository, or has the format of 'git describe' changed?\n";
