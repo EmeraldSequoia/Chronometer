@@ -78,7 +78,7 @@ sub makeZoomPartImage {
 my @zoomPowers;
 share @zoomPowers;
 sub initZoomPowers {
-    my $filename = "deps/esastro/src/ECConstants.h";
+    my $filename = "../esastro/src/ECConstants.h";
     open CONSTANTS, "$filename"
       or die "Couldn't read $filename: $!\n";
     my $minZoom;

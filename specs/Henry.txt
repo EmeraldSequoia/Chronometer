@@ -12,7 +12,6 @@ You need to run a command server:
 
 - scripts/clearArchives.pl (deletes *ALL* (Henry) archive directories in all simulator apps)
 
-- run ChronometerWithHenry in the simulator, iPhone 5s, iOS 11.4
-- run ChronometerWithHenryHD in the simulator, iPhone 5s, iOS 11.4  (note: NOT iPad)
+- run ChronometerWithHenryHD in the simulator, smallest iPhone, latest iOS  (note: NOT iPad)
 
 - scripts/extractArchives.pl to extract the archives from the simulator app directory.

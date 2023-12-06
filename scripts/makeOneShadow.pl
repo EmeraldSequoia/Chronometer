@@ -36,7 +36,7 @@ if (-e $cachedInput &&
 }
 
 -e "tools"
-  or die "Must run out of sandbox scripts directory\n";
+  or die "Must be run at root of Chronometer directory.\n";
 
 my $imageMagick = cwd() . "/tools/ImageMagick-7.0.10";
 my $imageMagickBin = "$imageMagick/bin";

@@ -292,6 +292,8 @@ static void printBounds() {
     printf("**** BOUNDS ****\n");
     CGSize sz = [[UIScreen mainScreen] bounds].size;
     printf("Screen size from OS: %d x %d\n", (int)round(sz.width), (int)round(sz.height));
+    sz = [UIScreen mainScreen].nativeBounds.size;
+    printf("NATIVE Screen size from OS: %d x %d\n", (int)round(sz.width), (int)round(sz.height));
     sz = theWindow.bounds.size;
     printf("Window size: %d x %d\n", (int)round(sz.width), (int)round(sz.height));
     sz = theTopLevelView.bounds.size;
@@ -3680,16 +3682,6 @@ NSTimer *DSTEventTimer = nil;
     ECMaxLoadedTextureSize = ECHenryMaxTextureSize;
 #else
     ECMaxLoadedTextureSize = ECInitialMaxTextureSize;
-#endif
-    
-#ifdef EC_HENRY
-    NSString *iosVersion = [[UIDevice currentDevice] systemVersion];
-    NSString *henryVersion = @"11.4";
-    if (/*screenScale > 1 || screenScaleZoomTweak > 0 || */ ![iosVersion isEqualToString:henryVersion]) {
-	printf("Run Henry on iPhone iOS %s simulator only (your version is %s) (see line %d of %s).\n",
-               [henryVersion UTF8String], [iosVersion UTF8String], __LINE__, __FILE__);
-	assert(false);
-    }
 #endif
     
     shouldShowQuickStart = [self setupDefaults];  // Put this *BEFORE* the location manager init

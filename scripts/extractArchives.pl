@@ -51,7 +51,10 @@ my $ageThresholdInMinutes = 120;
 sub ageInMinutesOfOldestFileInTree {
     my $tree = shift;
     my $shortName = shift;
-    die "No $shortName archive directory\n" if not -d $tree;
+    if (not -d $tree) {
+        warn "No $shortName archive directory\n" if not -d $tree;
+        die "... looking at $tree\n";
+    }
     my $oldestAge = 0;
     my $oldestFile;
     find(sub {
@@ -170,13 +173,15 @@ sub copyChangedAtlasesAndDataForRoot {
   or die "Run from the top level of a 'chronometer' sandbox.\n";
 
 # First, set up links to most recent simulator apps.
-my $cmd = "(cd ../../..; scripts/recordInstalls.pl -s)";
+my $cmd = "scripts/recordInstalls.pl -s";
 warn "$cmd\n";
 system($cmd);
 
+my $sims = "./sims";
+
 # Now go find the archives, check the age.
 if ($android) {
-    my $cwhArchive = "../../../sims/app/com.emeraldsequoia.HenryForAndroid/latest/Documents/archive";
+    my $cwhArchive = "$sims/app/com.emeraldsequoia.HenryForAndroid/latest/Documents/archive";
     my $ageInMinutesCWH = ageInMinutesOfOldestFileInTree $cwhArchive, "HenryForAndroid";
 
     if ($ageInMinutesCWH > $ageThresholdInMinutes) {
@@ -197,16 +202,12 @@ if ($android) {
         copyChangedAtlasesAndDataForWatch "$cwhArchive/$face", "$dst/$face";
     }
 } else {
-    my $cwhArchive = "../../../sims/app/com.emeraldsequoia.ChronoWithH/latest/Documents/archive";
-    my $ageInMinutesCWH = ageInMinutesOfOldestFileInTree $cwhArchive, "CwH";
-
-    my $cwhHDArchive = "../../../sims/app/com.emeraldsequoia.ChronoWithHHD/latest/Documents/archive";
+    my $cwhHDArchive = "$sims/app/com.emeraldsequoia.ChronoWithHHD/latest/Documents/archive";
     my $ageInMinutesCWHHD = ageInMinutesOfOldestFileInTree $cwhHDArchive, "CwHHD";
 
-    if ($ageInMinutesCWH > $ageThresholdInMinutes || $ageInMinutesCWHHD > $ageThresholdInMinutes) {
+    if ($ageInMinutesCWHHD > $ageThresholdInMinutes) {
         die "You must run this script within $ageThresholdInMinutes minutes of running *both* CwH and CwHHD, after first clearing the archives with clearArchives.pl\n";
     }
 
-    copyChangedAtlasesAndDataForRoot $cwhArchive, "./archive";
     copyChangedAtlasesAndDataForRoot $cwhHDArchive, "./archiveHD";
 }
