@@ -8,7 +8,7 @@
 -->
 
 <watch name='ChandraII' beatsPerSecond='0' >
-  <atlas frontWidth='512' frontHeight='1024' backWidth='512' backHeight='512' nightWidth='512' nightHeight='1024'/>
+  <atlas frontWidth='512' frontHeight='1024' backWidth='512' backHeight='1024' nightWidth='512' nightHeight='1024'/>
   <init expr='hairline=0.25, demoing=0, handFillColor=white, handStrokeColor=white, nfgclr=0xff00c0ac, fgclr=black, bgclr=white, gwclr=0xffffffff, gbclr=black' />
   <init expr='r=143, ri=r-5, th=26, bx=r*cos(th*pi/180), by=r*sin(th*pi/180), dr=8, mx=dr*cos(th*pi/180), my=dr*sin(th*pi/180)' />
 
