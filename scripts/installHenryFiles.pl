@@ -12,7 +12,7 @@ STDERR->autoflush(1);
 my $isDistributionBuild = ($ENV{BUILD_STYLE} =~ /distrib/i);
 
 if ($isDistributionBuild) {
-    die "Why on earth are you making a distribution build of Chronometer with Henry? :-)\n";
+    die "Henry is not intended for distribution builds.\n";
 }
 
 defined $ENV{BUILT_PRODUCTS_DIR} && defined $ENV{SRCROOT}
