@@ -127,8 +127,8 @@ static NSMutableSet *specialTextures = nil;
 
 static bool qualifyTextureDimension(size_t dimension) {
     switch (dimension) {
+      case 4096:
       case 2048:
-	return true;
       case 1024:
       case 512:
       case 256:
