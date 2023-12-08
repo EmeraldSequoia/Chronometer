@@ -300,8 +300,7 @@ root_expression
 extern char *yytext;
 extern int lexColumn;
 
-static void yyerror(s)
-char *s;
+static void yyerror(char *s)
 {
     EBReportYaccError(s, lexColumn);
 }

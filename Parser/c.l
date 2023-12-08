@@ -102,12 +102,12 @@ void EBSetInputString(const char *s)
 
 %%
 
-static int yywrap()
+static int yywrap(void)
 {
     return(1);
 }
 
-static void comment()
+static void comment(void)
 {
     char c, c1;
 loop:
@@ -122,7 +122,7 @@ loop:
     }
 }
 
-static void count()
+static void count(void)
 {
     int i;
     for (i = 0; yytext[i] != '\0'; i++) {
