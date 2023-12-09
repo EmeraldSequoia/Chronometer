@@ -433,7 +433,7 @@ static void setupSkewsFromDateSkewOnly(NSTimeInterval dateTime,
 #endif
 }
    
-static void setupSkewsFromMediaSkewOnly() {
+static void setupSkewsFromMediaSkewOnly(void) {
     NSTimeInterval dateTime = [NSDate timeIntervalSinceReferenceDate];
     // CFTimeInterval mediaTime = CACurrentMediaTime();
     NSTimeInterval mediaTime = dateTime;
@@ -521,7 +521,7 @@ static void setupSkewsFromMediaSkewOnly() {
     }
 }
 
-static NSTimeInterval fetchCurrentTime() {
+static NSTimeInterval fetchCurrentTime(void) {
     // No lock here for performance.  The only non-atomic piece is whether we use date or media time, and both should always be "correct" as far as we can tell anyway
     if (asleep) {
 	NSTimeInterval dateTime = [NSDate timeIntervalSinceReferenceDate];
@@ -533,7 +533,7 @@ static NSTimeInterval fetchCurrentTime() {
     }
 }
 
-static NSTimeInterval fetchCurrentDateRTime() {
+static NSTimeInterval fetchCurrentDateRTime(void) {
     if (asleep) {
 	NSTimeInterval dateTime = [NSDate timeIntervalSinceReferenceDate];
 	return dateTime + dateROffset;  // eq (5)(a)

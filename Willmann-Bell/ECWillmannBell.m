@@ -2044,7 +2044,7 @@ void someFunctionToUseAllThosePlanetDescriptorsToShutUpTheCompiler(void) {
 #ifndef STANDALONE
 static NSNumberFormatter *sizeFormatter;
 
-static void initializeSizeFormatter() {
+static void initializeSizeFormatter(void) {
     sizeFormatter = [[NSNumberFormatter alloc] init];
 #if 0 // TARGET_IPHONE_SIMULATOR
     [sizeFormatter setFormat:@"#,##0"];
@@ -2097,7 +2097,7 @@ static void printOuterPlanet(const OuterPlanetDescriptor *descriptor,
     *totalMemory += sz;		    
 }
 
-void WB_printMemoryUsage() {
+void WB_printMemoryUsage(void) {
     printf("\nMemory usage for Willmann-Bell data tables:\n");
     size_t totalMemory = 0;
     size_t sunDatumSize = sizeof(SunDatum);
@@ -2184,7 +2184,7 @@ static void checkExample(const char *exampleName,
     }
 }
 
-static void EXAMPLE1() {
+static void EXAMPLE1(void) {
     // Compute t on 1563 B.C. February 10 at 16h5m ET
     double JD = JDForDate(-1562, 2, 10, 16, 5, 0);
     checkExample("EXAMPLE1:JD", JD, 1150578.170139, 0.0000005);
@@ -2192,7 +2192,7 @@ static void EXAMPLE1() {
     checkExample("EXAMPLE1:t", t, -35.6185305917, 0.0000000001);
 }
 
-static void EXAMPLE2() {
+static void EXAMPLE2(void) {
     // Compute t on 251 B.C. April 10 at 18h12m UT
     double JD = JDForDate(-250, 4, 10, 18, 12, 0);
     checkExample("EXAMPLE2:JD", JD, 1629845.258333, 0.0000005);
@@ -2202,7 +2202,7 @@ static void EXAMPLE2() {
     checkExample("EXAMPLE2:t", t, -22.4969088840, 0.0000000001);
 }
 
-static void EXAMPLE3() {
+static void EXAMPLE3(void) {
     // Compute t on 1590 January 15 at 2h25m30s UT
     double JD = JDForDate(1590, 1, 15, 2, 25, 30);
     checkExample("EXAMPLE3:JD", JD, 2301809.601042, 0.0000005);
@@ -2212,7 +2212,7 @@ static void EXAMPLE3() {
     checkExample("EXAMPLE3:t", t, -4.0995317709, 0.0000000001);
 }
 
-static void EXAMPLE4() {
+static void EXAMPLE4(void) {
     // Compute t on 1986 August 7 at 22h 15m 12s UT
     double JD = JDForDate(1986, 8, 7, 22, 15, 12);
     checkExample("EXAMPLE4:JD", JD, 2446650.4272222, 0.00000005);
@@ -2222,7 +2222,7 @@ static void EXAMPLE4() {
     checkExample("EXAMPLE4:t", t, -0.13400608189, 0.00000000001);
 }
 
-static void EXAMPLE4A() {
+static void EXAMPLE4A(void) {
     // MY EXAMPLE, NOT IN BOOK
     // Compute deltaT on 1986 August 7 at 22h 15m 12s UT
     double deltaT = deltaTForUT(TDTForTDTDate(1986, 8, 7, 22, 15, 12));
@@ -2242,7 +2242,7 @@ static void EXAMPLE4A() {
 }
 
 // Example from table 5 on p14, and table 11 on p21
-static void EXAMPLE5() {
+static void EXAMPLE5(void) {
     double t;
     double U, V, R;
     double rightAscension;
@@ -2299,7 +2299,7 @@ static void EXAMPLE5() {
 }
 
 // Example from table 12 on p25
-static void EXAMPLE12() {
+static void EXAMPLE12(void) {
     ECAstroCache *currentCache = NULL;
 
     double t = TDTForTDTDate(-497, 4, 1, 2, 6, 0);
@@ -2437,7 +2437,7 @@ static void EXAMPLE12() {
 
 }
 
-static void EXAMPLEX() {
+static void EXAMPLEX(void) {
     ECAstroCache *currentCache = NULL;
 
     double t = TDTForTDTDate(1979, 2, 26, 16, 0, 0);
@@ -2578,7 +2578,7 @@ static void EXAMPLEPx(double     tdt,
     printAngle2(apparentDeclination, desc, "neptune decl");
 }
 
-static void EXAMPLEP() {
+static void EXAMPLEP(void) {
     ECAstroCache *currentCache = NULL;
 
     // Detailed example Bretagnon p9-10

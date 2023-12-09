@@ -102,11 +102,11 @@ typedef struct ECGLAnimatingValue {
     unsigned int specialParameter:4;     // varies by special part, 0-15
     unsigned int dragType:2;               // really ECDragType, 0-2
     unsigned int dragAnimationType:3;      // really ECDragAnimationType, 0-3
-    int flipX:1;
-    int flipY:1;
-    int animating:1;
-    int isSlave:1;
-    int norotate:1;                        // boolean
+    unsigned int flipX:1;
+    unsigned int flipY:1;
+    unsigned int animating:1;
+    unsigned int isSlave:1;
+    unsigned int norotate:1;                        // boolean
     ECGLPart *nextSlave; // aka firstSlaveOfMaster // 4 bytes
     
     // Main hand angle:

@@ -48,7 +48,7 @@ bool ECSingleWatchProduct = false;
 double ECVisualZoomFactors[ECNumVisualZoomFactors];
 int ECCalendarWeekdayStart = 0;
 
-bool isIpad() {
+bool isIpad(void) {
 #if __IPHONE_3_2
     static bool initialized = false;
     static bool isipad = false;

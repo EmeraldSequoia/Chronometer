@@ -190,7 +190,7 @@ static int maxZoomIndex = 0;
 // Returns a rect with origin at lower left.
 // Note that this function uses the bounds of glView, so is not a direct representation of the
 // device, except insofar as the view uses the device bounds when it is constructed.
-static CGRect getApplicationBoundsPoints() {
+static CGRect getApplicationBoundsPoints(void) {
     assert(theWindow != nil);
     CGSize windowSize = theWindow.bounds.size;
     if (glView) {
@@ -211,7 +211,7 @@ static CGRect getApplicationBoundsPoints() {
 
 // Note that this function uses the bounds of glView, so is not a direct representation of the
 // device, except insofar as the view uses the device bounds when it is constructed.
-static CGSize getApplicationSizePoints() {
+static CGSize getApplicationSizePoints(void) {
     assert(theWindow != nil);
     CGSize windowSize = theWindow.bounds.size;
     if (glView) {
@@ -229,7 +229,7 @@ static CGSize getApplicationSizePoints() {
 
 // Note that this function uses the bounds of glView, so is not a direct representation of the
 // device, except insofar as the view uses the device bounds when it is constructed.
-static CGSize getApplicationViewSizePoints() {
+static CGSize getApplicationViewSizePoints(void) {
     assert(theWindow != nil);
     CGSize windowSize = theWindow.bounds.size;
     assert(glView);
@@ -239,14 +239,14 @@ static CGSize getApplicationViewSizePoints() {
     return windowSize;
 }
 
-static CGSize getApplicationWindowSizePoints() {
+static CGSize getApplicationWindowSizePoints(void) {
     assert(theWindow != nil);
     return theWindow.bounds.size;
 }
 
 // The amount by which we scale up archived watch coordinates, which are based on a 320-pixel
 // screen, in order to match the current device bounds.
-static void getIphoneScaleFactor() {
+static void getIphoneScaleFactor(void) {
     assert(glView != nil);
     CGSize screenBounds = getApplicationSizePoints();
     assert(screenBounds.width > 0);
@@ -263,20 +263,20 @@ static void getIphoneScaleFactor() {
 
 // Note that this function uses the bounds of glView, so is not a direct representation of the
 // device, except insofar as the view uses the device bounds when it is constructed.
-static CGSize getApplicationSizeWatchCoordinates() {
+static CGSize getApplicationSizeWatchCoordinates(void) {
     assert(iPhoneScaleFactor != 0);
     CGSize appSize = getApplicationSizePoints();
     return CGSizeMake(appSize.width / iPhoneScaleFactor, appSize.height / iPhoneScaleFactor);
 }
 
-static CGRect getApplicationBoundsWatchCoordinates() {
+static CGRect getApplicationBoundsWatchCoordinates(void) {
     assert(iPhoneScaleFactor != 0);
     CGRect appBounds = getApplicationBoundsPoints();
     return CGRectMake(appBounds.origin.x / iPhoneScaleFactor, appBounds.origin.y / iPhoneScaleFactor, 
                       appBounds.size.width / iPhoneScaleFactor, appBounds.size.height / iPhoneScaleFactor);
 }
 
-static ssize_t realMemoryAvailableOnDevice() {
+static ssize_t realMemoryAvailableOnDevice(void) {
     static ssize_t cachedValue = 0;
     if (cachedValue == 0) {
         cachedValue = (ssize_t) [NSProcessInfo processInfo].physicalMemory;
@@ -288,7 +288,7 @@ static ssize_t realMemoryAvailableOnDevice() {
     return cachedValue;
 }
 
-static void printBounds() {
+static void printBounds(void) {
     printf("**** BOUNDS ****\n");
     CGSize sz = [[UIScreen mainScreen] bounds].size;
     printf("Screen size from OS: %d x %d\n", (int)round(sz.width), (int)round(sz.height));
@@ -307,7 +307,7 @@ static void printBounds() {
 // The max zoom index is the largest atlas size we will actually use, regardless of what is shipped
 // in the app.  The number is derived from two components:  The physical size of the memory on the
 // device, and the number of pixels (it must be both safe and useful).
-static int getMaxZoomIndex() {
+static int getMaxZoomIndex(void) {
     int realMemoryGB = (int)(realMemoryAvailableOnDevice() / 1024 / 1024 / 1024);
     printf("realMemoryGB %d\n", realMemoryGB);
 
@@ -325,7 +325,7 @@ static int getMaxZoomIndex() {
     }
 }
 
-static bool getCurrentOrientationIsLandscape() {
+static bool getCurrentOrientationIsLandscape(void) {
     CGSize appSize = getApplicationViewSizePoints();
     return appSize.width > appSize.height;
 }
@@ -523,11 +523,11 @@ static double zoomForCountOtherRotation(int count) {
     }
 }
 
-static double nogridZoom() {
+static double nogridZoom(void) {
     return zoomForCount(1);
 }
 
-static double nogridZoomForBG() {
+static double nogridZoomForBG(void) {
     if (!isIpad()) {
         return 1.0 / rowsForCount(1);
     } else if (getCurrentOrientationIsLandscape()) {
@@ -573,7 +573,7 @@ static int zoomTweakForScreenScale(CGFloat aScreenScale) {
     }
 }
 
-static void initWatchModeDescriptorArray() {
+static void initWatchModeDescriptorArray(void) {
     int availableWatchCount = [availableWatches count];
     numWatchModeDescriptors = availableWatchCount * ECNumWatchDrawModes * ECNumLogicalVisualZoomFactors;
     watchModeDescriptorLock = [[NSLock alloc] init];
@@ -667,13 +667,13 @@ static void printWatchDescriptorArrayToSize(int numDescriptors) {
     printf("\n");
 }
 
-static void printWatchDescriptorArray() {
+static void printWatchDescriptorArray(void) {
     printWatchDescriptorArrayToSize([availableWatches count] * ECNumWatchDrawModes * ECNumLogicalVisualZoomFactors);
 }
 #endif
 
 #ifndef NDEBUG
-static void printWatchArrays()
+static void printWatchArrays(void)
 {
     printf("=======\n");
     for (int i = 0; i < [availableWatches count]; i++) {
@@ -1630,7 +1630,7 @@ extern void printADateWithTimeZone(NSTimeInterval dt, ESTimeZone *estz);
 }
 
 #ifndef NDEBUG
-static void checkWatchArrayConsistency() {
+static void checkWatchArrayConsistency(void) {
     int availIndex = 0;
     int activeCount = 0;
     assert([glWatches count] == glWatchCount);
@@ -1647,7 +1647,7 @@ static void checkWatchArrayConsistency() {
 }
 #endif
 
-static void resetWatchIndices() {
+static void resetWatchIndices(void) {
     int activeCount = 0;
     int availableIndex = 0;
     for (ECGLWatch *watch in availableWatches) {
@@ -1660,7 +1660,7 @@ static void resetWatchIndices() {
     }
 }
 
-static void resetActiveWatchIndices() {
+static void resetActiveWatchIndices(void) {
     int activeCount = 0;
     for (ECGLWatch *watch in availableWatches) {
 	[watch setActiveIndex:activeCount];
@@ -2588,7 +2588,7 @@ bool isNewbie;
     return shouldShowQuickStart;
 }
 
-static void calculateDefaultWeekdayStart() {
+static void calculateDefaultWeekdayStart(void) {
     NSString *locale = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
     if (locale) {
         if ([locale caseInsensitiveCompare:@"us"] == NSOrderedSame ||
@@ -2785,7 +2785,7 @@ static void setDefaultPropertiesForWatchName(NSMutableDictionary *defaultsDict,
 }
 
 static void
-saveWatchDefaults() {
+saveWatchDefaults(void) {
     NSMutableArray *watchNameSortOrder = [NSMutableArray arrayWithCapacity:[availableWatches count]];
     for (ECGLWatch *watch in availableWatches) {
 	[watchNameSortOrder addObject:[watch name]];
@@ -5298,7 +5298,7 @@ syntax error;  // Don't try to build Henry for the device
 #endif
 #endif
 
-static void initializeSizeFormatter() {
+static void initializeSizeFormatter(void) {
     sizeFormatter = [[NSNumberFormatter alloc] init];
     [sizeFormatter setUsesGroupingSeparator:YES];
 }

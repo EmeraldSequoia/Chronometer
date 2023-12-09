@@ -25,7 +25,7 @@ static ECWatchTimeCycle *nextCycleForFF = NULL;
 static ECWatchTimeCycle *nextCycleForRewind = NULL;
 
 static void
-initializeWarpValues() {
+initializeWarpValues(void) {
     if (!warpValuesForCycle) {
 	warpValuesForCycle = (double *)malloc(sizeof(double) * ECNumWatchCycles);
 	nextCycleForFF = (ECWatchTimeCycle *)malloc(sizeof(ECWatchTimeCycle) * ECNumWatchCycles);

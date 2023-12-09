@@ -384,7 +384,7 @@ EOF
       ;
     print $outfileCRef <<EOF
 
-void EBCallBackWithOpcodeStrings()
+void EBCallBackWithOpcodeStrings(void)
 {
 #ifdef EC_HENRY
 EOF

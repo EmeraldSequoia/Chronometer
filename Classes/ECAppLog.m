@@ -23,7 +23,7 @@ static NSString *logFile = nil;
 
 @implementation ECAppLog
 
-static void initLogName() {
+static void initLogName(void) {
     assert(ECDocumentDirectory);   // Don't try to log before [ECGlobals initGlobals]
     logFile = [[ECDocumentDirectory stringByAppendingString:@"/ECAppLog.html"] retain];
 }

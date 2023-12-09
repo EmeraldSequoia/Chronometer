@@ -330,7 +330,7 @@ static double convertUTtoET(double ut,
 }
 
 #ifndef NDEBUG
-static void testConversion() {
+static void testConversion(void) {
     //for (int year = 900; year < 2110; year += 2) {
     for (int year = -500; year < 2110; year += 50) {
 	useMeeusDeltaT = true;
@@ -1024,7 +1024,7 @@ static void moonRAandDeclJ2000(NSTimeInterval dateInterval,
 }
 
 static void
-testConvertJ2000() {
+testConvertJ2000(void) {
     double julianCenturiesSince2000Epoch = -60;
     double raJ2000 = 41.054063 * M_PI / 180;
     double declJ2000 = 49.227750 * M_PI / 180;

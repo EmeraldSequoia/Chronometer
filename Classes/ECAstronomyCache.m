@@ -109,7 +109,7 @@ void printCache(ECAstroCache     *valueCache,
     }
 }
 
-void initializeAstroCache() {
+void initializeAstroCache(void) {
     astroCachePools[0].currentGlobalCacheFlag = 1;
     astroCachePools[1].currentGlobalCacheFlag = 1;
 }
@@ -126,7 +126,7 @@ void assertCacheValidForTDTHundredCenturies(ECAstroCache *cache,
     assert(!cache || (cache->cacheSlotValidFlag[tdtHundredCenturiesSlotIndex] == cache->currentFlag && fabs(cache->cacheSlots[tdtHundredCenturiesSlotIndex] - hundredCenturiesSinceEpochTDT) < 0.00000000001));
 }
 
-ECAstroCachePool *getCachePoolForThisThread() {
+ECAstroCachePool *getCachePoolForThisThread(void) {
     int cacheIndex = [NSThread isMainThread] ? 0 : 1;
     return &astroCachePools[cacheIndex];
 }
@@ -153,7 +153,7 @@ void releaseCachePoolForThisThread(ECAstroCachePool *cachePool) {
     popECAstroCacheToInPool(cachePool, NULL);
 }
 
-void clearAllCaches() {
+void clearAllCaches(void) {
     astroCachePools[0].currentGlobalCacheFlag++;
     astroCachePools[1].currentGlobalCacheFlag++;
 }

@@ -332,7 +332,7 @@ ESCalendar_hybridToGregorian(int *era,
 }
 
 #ifndef NDEBUG
-static void testHybridConversion() {
+static void testHybridConversion(void) {
     NSTimeInterval timeInterval = ESCalendar_timeIntervalFromUTCComponents(0, 3999, 1, 1, 12, 0, 0);
     for (int i = 0; i < 1000; i++) {
 	int eraReturn;
@@ -377,7 +377,7 @@ static NSDateFormatter *timeFormatter = nil;
 static ESTimeZone *localTimeZone;
 
 void
-ESCalendar_init() {
+ESCalendar_init(void) {
     NSTimeInterval testTimeInterval = kECJulianGregorianSwitchoverTimeInterval - 10;
     NSCalendar *utcCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     [utcCalendar setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
@@ -815,14 +815,14 @@ ESCalendar_isDSTAtTimeInterval(ESTimeZone     *estz,
 }
 
 extern ESTimeZone *
-ESCalendar_localTimeZone() {
+ESCalendar_localTimeZone(void) {
     assert(ESCalendar_initialized);
     assert(localTimeZone);
     return localTimeZone;
 }
 
 extern void
-ESCalendar_localTimeZoneChanged() {
+ESCalendar_localTimeZoneChanged(void) {
     assert(localTimeZone);
     [NSTimeZone resetSystemTimeZone];	// resets the cached version of it
     ESCalendar_releaseTimeZone(localTimeZone);
@@ -832,7 +832,7 @@ ESCalendar_localTimeZoneChanged() {
 }
 
 const char *
-ESCalendar_localTimeZoneName() {
+ESCalendar_localTimeZoneName(void) {
     return [[localTimeZone->nsTimeZone name] UTF8String];
 }
 
@@ -929,7 +929,7 @@ ESCalendar_formatInfoForTZ(ESTimeZone *estz,
 }
 
 const char *
-ESCalendar_version() {
+ESCalendar_version(void) {
 #if __IPHONE_4_0
     if ([NSTimeZone respondsToSelector:@selector(timeZoneDataVersion)]) {
 #if __IPHONE_4_0
@@ -947,7 +947,7 @@ ESCalendar_version() {
 }
 
 const char *
-ESCalendar_formatTime() {
+ESCalendar_formatTime(void) {
     NSDate *now = [NSDate dateWithTimeIntervalSinceReferenceDate:[TSTime currentTime]];
     return [[NSString stringWithFormat:NSLocalizedString(@"%@ %@", @"date time"),[dateFormatter stringFromDate:now], [timeFormatter stringFromDate:now]] UTF8String];
 }
@@ -1398,7 +1398,7 @@ waitForThreadTestCompletion(pthread_t thread) {
     printf("... thread is complete\n");
 }
 
-static void testAllOlsonIDs() {
+static void testAllOlsonIDs(void) {
     ECGeoNames *geoNames = [[ECGeoNames alloc] init];
     NSArray *tzNames = [[geoNames tzNames] retain];
     printf("There are %lu timezones to test\n", (unsigned long)[tzNames count]);
@@ -1429,7 +1429,7 @@ static void testAllOlsonIDs() {
     [geoNames release];
 }
 
-static void sampleAllOlsonIDs() {
+static void sampleAllOlsonIDs(void) {
     ECGeoNames *geoNames = [[ECGeoNames alloc] init];
     NSArray *tzNames = [[geoNames tzNames] retain];
     printf("There are %lu timezones to sample\n", (unsigned long)[tzNames count]);
@@ -1504,7 +1504,7 @@ static void sampleAllOlsonIDs() {
     [geoNames release];
 }
 
-void ESTestCalendar() {
+void ESTestCalendar(void) {
     if (!printLock) {
 	printLock = [[NSLock alloc] init];
     }

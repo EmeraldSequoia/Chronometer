@@ -949,7 +949,7 @@ static bool zoomsEqual(double zoom1,
     return fabs(zoom1 - zoom2) < .0001;
 }
 
-static void updateExtendedHalfSize() {
+static void updateExtendedHalfSize(void) {
     double rotationRadians = currentRotation * M_PI / 180;
     double canonicalRotation = EC_fmod(rotationRadians, M_PI);
     if (canonicalRotation > M_PI/2) {
