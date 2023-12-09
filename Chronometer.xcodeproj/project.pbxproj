@@ -4112,6 +4112,7 @@
 		};
 		92EE6C19135D06660078A819 /* Check for NSCalendar */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4122,11 +4123,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = scripts/checkForNSCalendar.pl;
+			shellScript = "scripts/checkForNSCalendar.pl\n";
 			showEnvVarsInLog = 0;
 		};
 		92EE6C1A135D06660078A819 /* Generate strings file */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4141,6 +4143,7 @@
 		};
 		92EE6C1B135D06660078A819 /* Remove Henry files */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4156,6 +4159,7 @@
 		};
 		92EE6C1C135D06660078A819 /* Generate Help files */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4166,7 +4170,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = scripts/genHelp.pl;
+			shellScript = "scripts/genHelp.pl\n";
 			showEnvVarsInLog = 0;
 		};
 		92EE6C6C135D06660078A819 /* Generate Parser code */ = {
@@ -4190,6 +4194,7 @@
 		};
 		92EE6CB9135D06660078A819 /* Install archives */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4200,11 +4205,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/scripts/installArchives.pl ChronometerHD";
+			shellScript = "${SRCROOT}/scripts/installArchives.pl ChronometerHD\n";
 			showEnvVarsInLog = 0;
 		};
 		92EE6CBA135D06660078A819 /* Install chooser images */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4215,11 +4221,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/scripts/installChooserImages.pl ChronometerHD";
+			shellScript = "${SRCROOT}/scripts/installChooserImages.pl ChronometerHD\n";
 			showEnvVarsInLog = 0;
 		};
 		92EE6CBB135D06660078A819 /* Install help */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4235,6 +4242,7 @@
 		};
 		92EE6CBC135D06660078A819 /* Record SVN version */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
