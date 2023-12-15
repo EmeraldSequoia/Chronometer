@@ -29,7 +29,7 @@ divided into two main pieces:
 ```mermaid
 flowchart
     xml[Watch Definition Files]
-    henry[Henry\n(ChronoWithHHD)]
+    henry[Henry aka\nChronoWithHHD]
     archives[archive files]
     cDotL[c.l]
     lex
