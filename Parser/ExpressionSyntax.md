@@ -67,13 +67,13 @@ important differences between this virtual machine and a standard C or C++ progr
 12.  It is not possible to define your own functions.  The following built-in functions are available, and additional functions
      are built into EC ([here](https://github.com/EmeraldSequoia/Chronometer/blob/main/ECVirtualMachineOps.m)).  Note that all functions
      return a double, and any arguments are also double:
-     `pi()` returns π.
-     `sin(arg)` returns the sine of arg with arg in radians starting at 3pm going ccw
-     `cos(arg)` returns the cosine of arg with arg in radians starting at 3pm going ccw
-     `atan2(y, x)` returns the angle in radians from 3pm ccw of a radial line with coordinates x, y
-     `ecnow()` returns a representation of the "current" time for a watch (which may be not be the current time if the watch has been set manually)
-     `tzOffset()` returns the number of seconds the current time zone is offset from GMT.
-     `fmod(arg1, arg2)` is like an integer mod operator except it returns fractional amounts, e.g., fmod(75.44, 60) == 15.44
-     `round(arg1)` returns the closest integer to arg1, recast as a double, e.g., round(1.2) == 1.0
+     * `pi()` returns π.
+     * `sin(arg)` returns the sine of arg with arg in radians starting at 3pm going ccw
+     * `cos(arg)` returns the cosine of arg with arg in radians starting at 3pm going ccw
+     * `atan2(y, x)` returns the angle in radians from 3pm ccw of a radial line with coordinates x, y
+     * `ecnow()` returns a representation of the "current" time for a watch (which may be not be the current time if the watch has been set manually)
+     * `tzOffset()` returns the number of seconds the current time zone is offset from GMT.
+     * `fmod(arg1, arg2)` is like an integer mod operator except it returns fractional amounts, e.g., fmod(75.44, 60) == 15.44
+     * `round(arg1)` returns the closest integer to arg1, recast as a double, e.g., round(1.2) == 1.0
 13.  Literal values may be specified in floating point (256.0), exponential form (2.56E2), decimal integer (256),
      hexadecimal integer (0x100), or octal integer (0400).
