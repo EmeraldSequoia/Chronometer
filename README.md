@@ -108,7 +108,9 @@ use in remote areas (all of the astronomy calculations are done on the device, f
 example). Similarly, the help files are also all bundled with the application and don't
 require a network to view (though most of them are mirrored in a slightly different way
 on the website). At build time, a script is invoked (in an Xcode "build phase") to copy
-the files out of the source area into the app bundle.
+the files out of
+[the source area](https://github.com/EmeraldSequoia/Chronometer/tree/main/Help) into
+the app bundle.
 
 ### OpenGL
 
@@ -132,7 +134,10 @@ In simplified terms, what EC does is
    [atlas](https://github.com/EmeraldSequoia/docs/blob/main/Glossary.md#atlas) with the
    images of each part in it.
 3. Give OpenGL a pair of triangle lists: One list has the dimensions of the part triangles in
-   the atlas image, and the other list has the coordinates on the screen to draw.
+   the atlas image, and the other list has the corresponding coordinates on the screen to draw
+   each triangle. This has the effect of drawing a given part with a given texture background
+   at the given coordinates (parts are rectangular in shape, but a rectangle is trivially
+   decomposed into two triangles with a diagonal line).
 
 ### Memory management
 
