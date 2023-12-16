@@ -154,6 +154,13 @@ In particular:
 *   OpenGL is used to minimize the amount of code and data required to be in memory in
     order to draw.
 
+## The Mechanical Model
+
+EC watches are intentionally models of mechanical devices. For an internal manifesto, see
+[here](https://github.com/EmeraldSequoia/Chronometer/blob/main/MM-manifesto.md). For a less
+polemic view intended for the public :), see
+[here](https://emeraldsequoia.github.io/h/mmm.html).
+
 ## Adding a new watch
 
 Adding a new watch is normally as "simple" as creating a new directory in `Watches/Builtin`,
