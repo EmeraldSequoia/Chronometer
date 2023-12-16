@@ -165,6 +165,8 @@ to support a 26th watch, since the current grid of 5x5 watches in "grid mode" is
 maximum size currently supported. To go beyond this, various hand-coded layout arrays
 would need to be expanded starting around
 [here](https://github.com/EmeraldSequoia/Chronometer/blob/main/Classes/ChronometerAppDelegate.m#L333).
+Alternatively, one of the nine "bonus parting gift" watches could be removed, as they are of lesser
+value anyway.
 
 ## Testing
 
