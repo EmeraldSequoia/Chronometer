@@ -1,11 +1,8 @@
 ## Overview
 
 This directory currently contains code only for the iOS version of
-Emerald Chronometer.  Code for the WearOS version of Chronometer will
-eventually be included here as well, under the `android` tree at the
-top level, and documentation for building that app will be put there
-at that time.
-
+Emerald Chronometer.  Code for the WearOS version of Chronometer is not included
+in directory and is not currently on GitHub.
 The build process for the iOS version of Emerald Chronometer is
 divided into two main pieces:
 
@@ -115,8 +112,7 @@ the app bundle.
 ### OpenGL
 
 All of Emerald Chromnometer's watch displays are drawn with OpenGL. This protocol is
-currently deprecated on both iOS and WearOS (Android), but so far is fully supported
-by both OS runtimes.
+currently deprecated on iOS, but so far is fully supported by the OS runtime.
 
 EC uses only a small portion of the OpenGL API. In particular, it only
 uses 2D primitves, and it only draws triangles with textures. While
