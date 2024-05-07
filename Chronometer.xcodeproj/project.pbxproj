@@ -83,7 +83,6 @@
 		922A77C61801AE7D004E3645 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 922A77C51801AE7D004E3645 /* CoreMotion.framework */; };
 		922D014C2558BA05007CFC20 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 922D01452558BA05007CFC20 /* SystemConfiguration.framework */; };
 		92352ACF18034AF800AE200C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92352ACE18034AF800AE200C /* AVFoundation.framework */; };
-		923674141C5EA431008D7649 /* libeslocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9290A1A71C531B3500F94EDF /* libeslocation.a */; };
 		923674161C5EA431008D7649 /* libesvm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 920EA14D1C4DB3DC007AC21D /* libesvm.a */; };
 		923674291C5ED715008D7649 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 923674281C5ED715008D7649 /* ExternalAccessory.framework */; };
 		923799770E46180A00184FF7 /* ECWatchArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 923799760E46180A00184FF7 /* ECWatchArchive.m */; };
@@ -1154,13 +1153,6 @@
 			remoteGlobalIDString = 92EF200513CB6EB1006FC2D2;
 			remoteInfo = esvm;
 		};
-		9290A1A61C531B3500F94EDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9290A1A21C531B3500F94EDF /* eslocation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 92C3B271139448F300880094;
-			remoteInfo = eslocation;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -1256,7 +1248,7 @@
 		928EF6801FC9031C004AF2D4 /* ESVirtualMachine_gen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ESVirtualMachine_gen.cpp; path = android/project/BaseLib/src/vm/gen/ESVirtualMachine_gen.cpp; sourceTree = "<group>"; };
 		9290A18E1C531B1800F94EDF /* esastro.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = esastro.xcodeproj; path = ../esastro/ios/esastro.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9290A19C1C531B2700F94EDF /* ESTime.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ESTime.xcodeproj; path = ../estime/ios/ESTime.xcodeproj; sourceTree = SOURCE_ROOT; };
-		9290A1A21C531B3500F94EDF /* eslocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eslocation.xcodeproj; path = ../../../libs/eslocation/m1/ios/eslocation.xcodeproj; sourceTree = "<group>"; };
+		9290A1A21C531B3500F94EDF /* eslocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eslocation.xcodeproj; path = ../eslocation/ios/eslocation.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9290A1A81C531B4C00F94EDF /* eschrono.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eschrono.xcodeproj; path = ../../../libs/eschrono/m1/ios/eschrono/eschrono.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9293AA6F106553B000539D1D /* ECGeoNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECGeoNames.h; sourceTree = "<group>"; };
 		9293AA70106553B000539D1D /* ECGeoNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECGeoNames.m; sourceTree = "<group>"; };
@@ -1661,7 +1653,6 @@
 				923674291C5ED715008D7649 /* ExternalAccessory.framework in Frameworks */,
 				9214CC3B23946989002BB173 /* WebKit.framework in Frameworks */,
 				9217C11C1E282FEC0046C677 /* ContactsUI.framework in Frameworks */,
-				923674141C5EA431008D7649 /* libeslocation.a in Frameworks */,
 				923674161C5EA431008D7649 /* libesvm.a in Frameworks */,
 				9296EB22239C21D700757FA6 /* UserNotifications.framework in Frameworks */,
 				92D997CA1C4DAB8C008ADF84 /* CoreMotion.framework in Frameworks */,
@@ -1924,14 +1915,6 @@
 				92413E651523971E0019A517 /* Info.plist */,
 			);
 			name = CwHHD;
-			sourceTree = "<group>";
-		};
-		9290A1A31C531B3500F94EDF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9290A1A71C531B3500F94EDF /* libeslocation.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		92AA851011C971D500A33833 /* Base64 */ = {
@@ -2610,10 +2593,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 9290A1A31C531B3500F94EDF /* Products */;
-					ProjectRef = 9290A1A21C531B3500F94EDF /* eslocation.xcodeproj */;
-				},
-				{
 					ProductGroup = 920EA1481C4DB3DB007AC21D /* Products */;
 					ProjectRef = 920EA1471C4DB3DB007AC21D /* esvm.xcodeproj */;
 				},
@@ -2637,13 +2616,6 @@
 			fileType = archive.ar;
 			path = libesvm.a;
 			remoteRef = 920EA14C1C4DB3DC007AC21D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9290A1A71C531B3500F94EDF /* libeslocation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libeslocation.a;
-			remoteRef = 9290A1A61C531B3500F94EDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
