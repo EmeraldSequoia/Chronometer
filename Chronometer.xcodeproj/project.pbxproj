@@ -21,7 +21,6 @@
 		920D44B21068891C00C94325 /* loc-regiondesc.dat in Resources */ = {isa = PBXBuildFile; fileRef = 920D44A81068891C00C94325 /* loc-regiondesc.dat */; };
 		920D44B31068891C00C94325 /* loc-tz.dat in Resources */ = {isa = PBXBuildFile; fileRef = 920D44A91068891C00C94325 /* loc-tz.dat */; };
 		920D44B41068891C00C94325 /* loc-tzNames.dat in Resources */ = {isa = PBXBuildFile; fileRef = 920D44AA1068891C00C94325 /* loc-tzNames.dat */; };
-		920EA13C1C4DB309007AC21D /* libesutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 920EA13B1C4DB2D5007AC21D /* libesutil.a */; };
 		9213DDBA215699C9003A6E45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9213DDB9215699C9003A6E45 /* Launch Screen.storyboard */; };
 		9213DDBB215699C9003A6E45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9213DDB9215699C9003A6E45 /* Launch Screen.storyboard */; };
 		9213DDBD215699C9003A6E45 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9213DDB9215699C9003A6E45 /* Launch Screen.storyboard */; };
@@ -84,10 +83,7 @@
 		922A77C61801AE7D004E3645 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 922A77C51801AE7D004E3645 /* CoreMotion.framework */; };
 		922D014C2558BA05007CFC20 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 922D01452558BA05007CFC20 /* SystemConfiguration.framework */; };
 		92352ACF18034AF800AE200C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92352ACE18034AF800AE200C /* AVFoundation.framework */; };
-		923674121C5EA431008D7649 /* libesastro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9290A1991C531B1800F94EDF /* libesastro.a */; };
-		923674131C5EA431008D7649 /* libeschrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9290A1AD1C531B4C00F94EDF /* libeschrono.a */; };
 		923674141C5EA431008D7649 /* libeslocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9290A1A71C531B3500F94EDF /* libeslocation.a */; };
-		923674151C5EA431008D7649 /* libESTime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9290A1A11C531B2700F94EDF /* libESTime.a */; };
 		923674161C5EA431008D7649 /* libesvm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 920EA14D1C4DB3DC007AC21D /* libesvm.a */; };
 		923674291C5ED715008D7649 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 923674281C5ED715008D7649 /* ExternalAccessory.framework */; };
 		923799770E46180A00184FF7 /* ECWatchArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 923799760E46180A00184FF7 /* ECWatchArchive.m */; };
@@ -1151,13 +1147,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		920EA13A1C4DB2D5007AC21D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 920EA1361C4DB2D5007AC21D /* esutil.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = esutil;
-		};
 		920EA14C1C4DB3DC007AC21D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 920EA1471C4DB3DB007AC21D /* esvm.xcodeproj */;
@@ -1165,33 +1154,12 @@
 			remoteGlobalIDString = 92EF200513CB6EB1006FC2D2;
 			remoteInfo = esvm;
 		};
-		9290A1981C531B1800F94EDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9290A18E1C531B1800F94EDF /* esastro.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9233F3D5138DED9B005A6A23;
-			remoteInfo = esastro;
-		};
-		9290A1A01C531B2700F94EDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9290A19C1C531B2700F94EDF /* ESTime.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = ESTime;
-		};
 		9290A1A61C531B3500F94EDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9290A1A21C531B3500F94EDF /* eslocation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 92C3B271139448F300880094;
 			remoteInfo = eslocation;
-		};
-		9290A1AC1C531B4C00F94EDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9290A1A81C531B4C00F94EDF /* eschrono.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 920EA1571C4DB4B9007AC21D;
-			remoteInfo = eschrono;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1213,7 +1181,7 @@
 		920D44A81068891C00C94325 /* loc-regiondesc.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = "loc-regiondesc.dat"; path = "locationData/loc-regiondesc.dat"; sourceTree = "<group>"; };
 		920D44A91068891C00C94325 /* loc-tz.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = "loc-tz.dat"; path = "locationData/loc-tz.dat"; sourceTree = "<group>"; };
 		920D44AA1068891C00C94325 /* loc-tzNames.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = "loc-tzNames.dat"; path = "locationData/loc-tzNames.dat"; sourceTree = "<group>"; };
-		920EA1361C4DB2D5007AC21D /* esutil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = esutil.xcodeproj; path = ../../../libs/esutil/m1/ios/esutil.xcodeproj; sourceTree = "<group>"; };
+		920EA1361C4DB2D5007AC21D /* esutil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = esutil.xcodeproj; path = ../esutil/ios/esutil.xcodeproj; sourceTree = SOURCE_ROOT; };
 		920EA1471C4DB3DB007AC21D /* esvm.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = esvm.xcodeproj; path = ../../../libs/esvm/m1/ios/esvm.xcodeproj; sourceTree = "<group>"; };
 		9213DDB9215699C9003A6E45 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9214CC342394578F002BB173 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ChronometerHD/Images.xcassets; sourceTree = "<group>"; };
@@ -1286,10 +1254,10 @@
 		9285F9791809E62E008E2D66 /* loc-tzOffsets-2013d-3961994294.dat */ = {isa = PBXFileReference; lastKnownFileType = file; name = "loc-tzOffsets-2013d-3961994294.dat"; path = "locationData/loc-tzOffsets-2013d-3961994294.dat"; sourceTree = "<group>"; };
 		928EF6771FC902EC004AF2D4 /* AppVMOps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppVMOps.cpp; path = android/project/BaseLib/src/vm/AppVMOps.cpp; sourceTree = "<group>"; };
 		928EF6801FC9031C004AF2D4 /* ESVirtualMachine_gen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ESVirtualMachine_gen.cpp; path = android/project/BaseLib/src/vm/gen/ESVirtualMachine_gen.cpp; sourceTree = "<group>"; };
-		9290A18E1C531B1800F94EDF /* esastro.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = esastro.xcodeproj; path = ../../../libs/esastro/m1/ios/esastro.xcodeproj; sourceTree = "<group>"; };
-		9290A19C1C531B2700F94EDF /* ESTime.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ESTime.xcodeproj; path = ../../../libs/estime/m1/ios/ESTime.xcodeproj; sourceTree = "<group>"; };
+		9290A18E1C531B1800F94EDF /* esastro.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = esastro.xcodeproj; path = ../esastro/ios/esastro.xcodeproj; sourceTree = SOURCE_ROOT; };
+		9290A19C1C531B2700F94EDF /* ESTime.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ESTime.xcodeproj; path = ../estime/ios/ESTime.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9290A1A21C531B3500F94EDF /* eslocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eslocation.xcodeproj; path = ../../../libs/eslocation/m1/ios/eslocation.xcodeproj; sourceTree = "<group>"; };
-		9290A1A81C531B4C00F94EDF /* eschrono.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eschrono.xcodeproj; path = ../../../libs/eschrono/m1/ios/eschrono/eschrono.xcodeproj; sourceTree = "<group>"; };
+		9290A1A81C531B4C00F94EDF /* eschrono.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eschrono.xcodeproj; path = ../../../libs/eschrono/m1/ios/eschrono/eschrono.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9293AA6F106553B000539D1D /* ECGeoNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECGeoNames.h; sourceTree = "<group>"; };
 		9293AA70106553B000539D1D /* ECGeoNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECGeoNames.m; sourceTree = "<group>"; };
 		9295BA0A0DC586DD00668B50 /* ECErrorReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECErrorReporter.h; sourceTree = "<group>"; };
@@ -1692,14 +1660,10 @@
 				9217C1141E2817C80046C677 /* Contacts.framework in Frameworks */,
 				923674291C5ED715008D7649 /* ExternalAccessory.framework in Frameworks */,
 				9214CC3B23946989002BB173 /* WebKit.framework in Frameworks */,
-				923674121C5EA431008D7649 /* libesastro.a in Frameworks */,
-				923674131C5EA431008D7649 /* libeschrono.a in Frameworks */,
 				9217C11C1E282FEC0046C677 /* ContactsUI.framework in Frameworks */,
 				923674141C5EA431008D7649 /* libeslocation.a in Frameworks */,
-				923674151C5EA431008D7649 /* libESTime.a in Frameworks */,
 				923674161C5EA431008D7649 /* libesvm.a in Frameworks */,
 				9296EB22239C21D700757FA6 /* UserNotifications.framework in Frameworks */,
-				920EA13C1C4DB309007AC21D /* libesutil.a in Frameworks */,
 				92D997CA1C4DAB8C008ADF84 /* CoreMotion.framework in Frameworks */,
 				92D997CB1C4DAB8C008ADF84 /* AVFoundation.framework in Frameworks */,
 				92D997CC1C4DAB8C008ADF84 /* MapKit.framework in Frameworks */,
@@ -1918,14 +1882,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		920EA1371C4DB2D5007AC21D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				920EA13B1C4DB2D5007AC21D /* libesutil.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		920EA1481C4DB3DB007AC21D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1970,34 +1926,10 @@
 			name = CwHHD;
 			sourceTree = "<group>";
 		};
-		9290A18F1C531B1800F94EDF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9290A1991C531B1800F94EDF /* libesastro.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9290A19D1C531B2700F94EDF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9290A1A11C531B2700F94EDF /* libESTime.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		9290A1A31C531B3500F94EDF /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				9290A1A71C531B3500F94EDF /* libeslocation.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9290A1A91C531B4C00F94EDF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9290A1AD1C531B4C00F94EDF /* libeschrono.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2678,24 +2610,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 9290A18F1C531B1800F94EDF /* Products */;
-					ProjectRef = 9290A18E1C531B1800F94EDF /* esastro.xcodeproj */;
-				},
-				{
-					ProductGroup = 9290A1A91C531B4C00F94EDF /* Products */;
-					ProjectRef = 9290A1A81C531B4C00F94EDF /* eschrono.xcodeproj */;
-				},
-				{
 					ProductGroup = 9290A1A31C531B3500F94EDF /* Products */;
 					ProjectRef = 9290A1A21C531B3500F94EDF /* eslocation.xcodeproj */;
-				},
-				{
-					ProductGroup = 9290A19D1C531B2700F94EDF /* Products */;
-					ProjectRef = 9290A19C1C531B2700F94EDF /* ESTime.xcodeproj */;
-				},
-				{
-					ProductGroup = 920EA1371C4DB2D5007AC21D /* Products */;
-					ProjectRef = 920EA1361C4DB2D5007AC21D /* esutil.xcodeproj */;
 				},
 				{
 					ProductGroup = 920EA1481C4DB3DB007AC21D /* Products */;
@@ -2716,13 +2632,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		920EA13B1C4DB2D5007AC21D /* libesutil.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libesutil.a;
-			remoteRef = 920EA13A1C4DB2D5007AC21D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		920EA14D1C4DB3DC007AC21D /* libesvm.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2730,32 +2639,11 @@
 			remoteRef = 920EA14C1C4DB3DC007AC21D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9290A1991C531B1800F94EDF /* libesastro.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libesastro.a;
-			remoteRef = 9290A1981C531B1800F94EDF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9290A1A11C531B2700F94EDF /* libESTime.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libESTime.a;
-			remoteRef = 9290A1A01C531B2700F94EDF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9290A1A71C531B3500F94EDF /* libeslocation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libeslocation.a;
 			remoteRef = 9290A1A61C531B3500F94EDF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9290A1AD1C531B4C00F94EDF /* libeschrono.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libeschrono.a;
-			remoteRef = 9290A1AC1C531B4C00F94EDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
