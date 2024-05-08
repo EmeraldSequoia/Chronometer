@@ -67,6 +67,23 @@ flowchart
 
 ```
 
+## Building
+
+You will need some additional libraries that may be found in parallel repositories to this
+one, and they must be also placed parallel to this one on your local disk. One way to do
+this would be:
+
+```
+mkdir emeraldsequoia
+cd emeraldsequoia
+git clone git@github.com:EmeraldSequoia/Chronometer.git
+git clone git@github.com:EmeraldSequoia/buildscripts.git
+git clone git@github.com:EmeraldSequoia/esutil.git
+git clone git@github.com:EmeraldSequoia/estime.git
+git clone git@github.com:EmeraldSequoia/eslocation.git
+git clone git@github.com:EmeraldSequoia/esastro.git
+```
+
 ## Selected details
 
 ### Watch definition files (XML)
