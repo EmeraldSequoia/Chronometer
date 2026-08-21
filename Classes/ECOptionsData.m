@@ -5,6 +5,12 @@
 //  Created by Bill Arnett on 2/11/2010.
 //  Copyright 2010 Emerald Sequoia LLC. All rights reserved.
 //
+//  NOTE (2026): This file is not part of any target -- it has been orphaned
+//  since ECBackgroundData was created from it in April 2010 -- and its
+//  correctForParallax:true calls (the app's only ones) have never run in a
+//  shipping build.  If you revive this file or use it as a model, treat
+//  those code paths as untested.
+//
 
 #import "ECOptionsData.h"
 #import "Constants.h"
@@ -625,6 +631,7 @@
 		    cell.detailTextLabel.text = [ECAstronomyManager zodiacConstellationOf:[watchAstro planetEclipticLongitude:category-10]];
 		    break;
 		case 6:
+		    // Never run in a shipping build; see note at top of file.
 		    cell.textLabel.text = @"Right Ascension";
 		    cell.detailTextLabel.text = [self formatRA:[watchAstro planetRA:category-10 correctForParallax:true]];
 		    break;
@@ -757,6 +764,7 @@
 		    cell.detailTextLabel.text = [ECAstronomyManager zodiacConstellationOf:[watchAstro planetEclipticLongitude:category-10]];
 		    break;
 		case 10:
+		    // Never run in a shipping build; see note at top of file.
 		    cell.textLabel.text = @"Right Ascension";
 		    cell.detailTextLabel.text = [self formatRA:[watchAstro planetRA:category-10 correctForParallax:true]];
 		    break;
@@ -899,6 +907,7 @@
 		    cell.detailTextLabel.text = [ECAstronomyManager zodiacConstellationOf:[watchAstro planetEclipticLongitude:category-10]];
 		    break;
 		case 6:
+		    // Never run in a shipping build; see note at top of file.
 		    cell.textLabel.text = @"Right Ascension";
 		    cell.detailTextLabel.text = [self formatRA:[watchAstro planetRA:category-10 correctForParallax:true]];
 		    break;

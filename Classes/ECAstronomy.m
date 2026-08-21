@@ -3692,8 +3692,13 @@ static NSTimeInterval (*ECsaveCalculationMethod)(NSTimeInterval calculationDate,
 	    double planetHourAngle = lst - planetRightAscension;
 	    double planetTopoRightAscension;
 	    double planetTopoDeclination;
+	    double planetTopoHourAngle;
 	    topocentricParallax(planetRightAscension, planetDeclination, planetHourAngle, planetGeocentricDistance, observerLatitude, 0/*observerAltitude*/,
-				&planetTopoRightAscension, &planetTopoDeclination, NULL);
+				&planetTopoHourAngle, &planetTopoDeclination, NULL);
+	    planetTopoRightAscension = lst - planetTopoHourAngle;
+	    if (planetTopoRightAscension < 0) {
+		planetTopoRightAscension += M_PI * 2;
+	    }
 	    if (currentCache) {
 		currentCache->cacheSlotValidFlag[planetDeclTopoSlotIndex+planetNumber] = currentCache->currentFlag;
 		currentCache->cacheSlotValidFlag[planetRATopoSlotIndex+planetNumber] = currentCache->currentFlag;
