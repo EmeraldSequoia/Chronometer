@@ -2487,7 +2487,7 @@ columnOfFirstOfMonth(ECWatchTime *watchTime,
     }
     int month = [mainTime monthNumberUsingEnv:mainEnv];  // 0-11; October is 9
     int year = [mainTime yearNumberUsingEnv:mainEnv];
-    if (year == 1582 && month == 9) {
+    if (year == 1582 && month == 9 && [mainTime eraNumberUsingEnv:mainEnv] == 1) {
         return 0;
     } else {
         return M_PI /2;   // The cutout section (well, anything but 0 is the cutout section, but this avoids having the lower right poke into the area

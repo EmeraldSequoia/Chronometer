@@ -55,16 +55,16 @@
     <QDial	name='reference'    x='0.5'   y='139.5' modes='front' radius='4' bgColor='clear' strokeColor='0x40000000' marks='line' markWidth='1.5' nMarks='1' angle1='pi/2' />
     <window	name='f/r 2'	    x='-8'  y='-r-3'  w='16' h='7' border='1' />
   </static>
-  <Qhand	name='EOT'	    x=' 0'  y='27' modes='front'  length='20' width='1'  tail='0' type='tri'    update='1*days()'	angle='24 * EOTAngle()' strokeColor='fgclr' fillColor='fgclr' />
+  <Qhand	name='EOT'	    x=' 0'  y='27' modes='front'  length='20' width='1'  tail='0' type='tri'    update='30 * minutes()'	angle='24 * EOTAngle()' strokeColor='fgclr' fillColor='fgclr' />
   <button	name='adv day'	    x='35'  y='-32' w='21' h='14' modes='front' action='advanceSeconds(86400)' />
   <button	name='adv year'     x='-53' y='-31' w='42' h='12' modes='front' action='advanceYear()' repeatStrategy='ECPartRepeatsAndAcceleratesTwice' />
   <button	name='adv mon'	    x='-5 ' y='-32' w='35' h='14' modes='front' action='advanceMonth()' />
 
   <QdayNightRing name='daytime' x='0' y='0' modes='front' outerRadius='r-10' innerRadius='108' update='3600' strokeColor='leafBorder'  fillColor='leafFill' input='0' numWedges='24'
 						    planetNumber='planetSun' masterOffset='pi + longitude()-tzOffsetAngle()+EOTAngle()' />
-  <hand		name='dawn'         x=' 0'  y='0'   modes='front'  xAnchor= '39' yAnchor='-105' src='morningHD.png'   update='updateAtNextSunset'   input='0' dragAnimationType='dragAnimationAlways' animSpeed='2'
+  <hand		name='dawn'         x=' 0'  y='0'   modes='front'  xAnchor= '37.85' yAnchor='-105' src='morningHD.png'   update='updateAtNextSunset'   input='0' dragAnimationType='dragAnimationAlways' animSpeed='2'
 						    angle='sunrise24HourIndicatorAngle() + pi+longitude()-tzOffsetAngle()+EOTAngle()' />
-  <hand		name='dusk'         x=' 0'  y='0'   modes='front'  xAnchor= '42' yAnchor='-104' src='eveningHD.png'   update='updateAtNextSunrise'  input='0' dragAnimationType='dragAnimationAlways' animSpeed='2'
+  <hand		name='dusk'         x=' 0'  y='0'   modes='front'  xAnchor= '42.5' yAnchor='-104' src='eveningHD.png'   update='updateAtNextSunrise'  input='0' dragAnimationType='dragAnimationAlways' animSpeed='2'
 						    angle='sunset24HourIndicatorAngle () + pi+longitude()-tzOffsetAngle()+EOTAngle()' />  
   <QWedge	name='ringMaskW'    x='0'   y=' 13.5' modes='front'  outerRadius='122' innerRadius='95' angleSpan='pi/5' animSpeed='2' dragAnimationType='dragAnimationAlways' update='updateAtNextSunriseOrSunset' angle='polarWinter() ? 0 : pi' strokeColor='0xffc0c0c0' fillColor='black'/>
   <QWedge	name='ringMaskS'    x='0'   y=' 13.5' modes='front'  outerRadius='122' innerRadius='95' angleSpan='pi/5' animSpeed='2' dragAnimationType='dragAnimationAlways' update='updateAtNextSunriseOrSunset' angle='polarSummer() ? 0 : pi' strokeColor='0xff404040' fillColor='white'/>
