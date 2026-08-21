@@ -320,12 +320,128 @@ static double espenakDeltaT(double yearValue) {  // year value as in 2008.5 for 
 
 static bool useMeeusDeltaT = false;
 
+// From 1972-01-01 on, TT - UTC is exact by definition:  TT - TAI is fixed at
+// 32.184s, and TAI - UTC is an integer that changes only at announced leap
+// seconds.  That makes deltaT a lookup rather than a fitted polynomial for the
+// whole modern era.  The Espenak polynomial assumed the Earth would keep
+// decelerating; instead it sped up (no leap second since 2017), so by 2026 its
+// 2005-2050 branch reads ~5.9s high -- about 3 arcseconds of Moon position --
+// and drifts ~0.5s/yr worse.  Mirror of chronometer-web's es-time.ts, where the
+// fix was made and verified first.
+//
+// Chronometer does not link estime, so the leap-second table from estime's
+// ESLeapSecond.cpp is vendored here, entry-for-entry identical.  Both copies
+// were verified 2026-08-18 against the canonical IERS leap-seconds.list; leap
+// seconds are never revised retroactively, and there have been none since 2017,
+// so the only possible future divergence is a newly announced leap second,
+// which must be added in both places (and would move the ValidUntil horizon).
+typedef struct {
+    NSTimeInterval beginningOfChange;
+    NSTimeInterval leapSeconds;
+    NSTimeInterval cumulativeLeapSeconds;
+} ECLeapSecondEvent;
+
+static ECLeapSecondEvent leapSecondTable[] = {
+  {    -899510400,   1,    1 },   // 1972 Jul 01 00:00:00
+  {    -883612800,   1,    2 },   // 1973 Jan 01 00:00:00
+  {    -852076800,   1,    3 },   // 1974 Jan 01 00:00:00
+  {    -820540800,   1,    4 },   // 1975 Jan 01 00:00:00
+  {    -789004800,   1,    5 },   // 1976 Jan 01 00:00:00
+  {    -757382400,   1,    6 },   // 1977 Jan 01 00:00:00
+  {    -725846400,   1,    7 },   // 1978 Jan 01 00:00:00
+  {    -694310400,   1,    8 },   // 1979 Jan 01 00:00:00
+  {    -662774400,   1,    9 },   // 1980 Jan 01 00:00:00
+  {    -615513600,   1,   10 },   // 1981 Jul 01 00:00:00
+  {    -583977600,   1,   11 },   // 1982 Jul 01 00:00:00
+  {    -552441600,   1,   12 },   // 1983 Jul 01 00:00:00
+  {    -489283200,   1,   13 },   // 1985 Jul 01 00:00:00
+  {    -410313600,   1,   14 },   // 1988 Jan 01 00:00:00
+  {    -347155200,   1,   15 },   // 1990 Jan 01 00:00:00
+  {    -315619200,   1,   16 },   // 1991 Jan 01 00:00:00
+  {    -268358400,   1,   17 },   // 1992 Jul 01 00:00:00
+  {    -236822400,   1,   18 },   // 1993 Jul 01 00:00:00
+  {    -205286400,   1,   19 },   // 1994 Jul 01 00:00:00
+  {    -157852800,   1,   20 },   // 1996 Jan 01 00:00:00
+  {    -110592000,   1,   21 },   // 1997 Jul 01 00:00:00
+  {     -63158400,   1,   22 },   // 1999 Jan 01 00:00:00
+  {     157766400,   1,   23 },   // 2006 Jan 01 00:00:00
+  {     252460800,   1,   24 },   // 2009 Jan 01 00:00:00
+  {     362793600,   1,   25 },   // 2012 Jul 01 00:00:00
+  {     457401600,   1,   26 },   // 2015 Jul 01 00:00:00
+  {     504921600,   1,   27 },   // 2017 Jan 01 00:00:00
+};
+
+#define kECNumberOfLeapSecondEntries 27
+#define kECTotalLeapSeconds 27
+#define kECFirstLeapSecondTransition -899510400
+#define kECLastLeapSecondTransition 504921600
+// The expiry (#@ line) of the IERS leap-seconds.list against which the table was
+// verified (fetched 2026-08-18).  The IERS announces leap seconds only about six
+// months ahead (Bulletin C), so through this instant the absence of entries after
+// 2017 is authoritative; past it a new leap second could have been announced
+// without this table knowing.  Update alongside the table (and estime's copy).
+#define kECLeapSecondTableValidUntil 835833600   // 2027 Jun 28 00:00:00
+#define kECTTMinusTAI (32.184)  // TT - TAI, fixed by definition
+#define kECTAIMinusUTCAtLeapEraStart (10.0)  // TAI - UTC on 1972-01-01, before the first tabulated leap second
+#define kECLeapEraStart (kECFirstLeapSecondTransition - 182 * 24 * 3600.0)  // 1972-01-01 GMT, the first line of the IERS table: 182 days (Jan-Jun of leap year 1972) before the first transition; == -915235200
+
+static double cumulativeLeapSecondsForUTC(NSTimeInterval utc) {
+    // Sanity checks to make sure we copied the table correctly
+    assert(leapSecondTable[0].beginningOfChange == kECFirstLeapSecondTransition);
+    assert(leapSecondTable[kECNumberOfLeapSecondEntries - 1].beginningOfChange == kECLastLeapSecondTransition);
+    assert(leapSecondTable[kECNumberOfLeapSecondEntries - 1].cumulativeLeapSeconds == kECTotalLeapSeconds);
+    if (utc > kECLastLeapSecondTransition) {  // by far the most common case: no leap second since 2017
+	return kECTotalLeapSeconds;
+    }
+    for (int i = kECNumberOfLeapSecondEntries - 1; i >= 0; i--) {
+	if (utc > leapSecondTable[i].beginningOfChange) {
+	    return leapSecondTable[i].cumulativeLeapSeconds;
+	}
+    }
+    return 0;  // at or before the first transition, 1972 Jul 01
+}
+
+// TT - UTC for an instant within the leap-second era (kECLeapEraStart through
+// kECLeapSecondTableValidUntil), exact to the millisecond.
+static double leapTTMinusUTC(NSTimeInterval ut) {
+    return kECTTMinusTAI + kECTAIMinusUTCAtLeapEraStart + cumulativeLeapSecondsForUTC(ut);
+}
+
+// Espenak's deltaT at the table's validity horizon minus the exact value there --
+// the constant that makes the polynomial rejoin the table without a step.  The
+// parabola's curvature (tidal braking) is the trustworthy part of the physics on
+// century scales; its unpredictable decadal level is what this offset absorbs.
+static double leapRejoinOffset(void) {
+    static bool offsetValid = false;
+    static double offset;
+    if (!offsetValid) {
+	ESDateComponents cs;
+	ESCalendar_UTCDateComponentsFromTimeInterval(kECLeapSecondTableValidUntil, &cs);
+	int year = cs.era ? cs.year : 1 - cs.year;
+	cs.month = 1;
+	cs.day = 1;
+	cs.hour = 0;
+	cs.minute = 0;
+	cs.seconds = 0;
+	NSTimeInterval firstOfThatYear = ESCalendar_timeIntervalFromUTCDateComponents(&cs);
+	// The same year-plus-fraction convention convertUTtoET's caller feeds the polynomials.
+	double yearValue = year + (kECLeapSecondTableValidUntil - firstOfThatYear) / (365.25 * 24 * 3600);
+	offset = espenakDeltaT(yearValue) - leapTTMinusUTC(kECLeapSecondTableValidUntil);
+	offsetValid = true;
+    }
+    return offset;
+}
+
 static double convertUTtoET(double ut,
 			    double yearValue) {
     if (useMeeusDeltaT) {
 	return ut + ECMeeusDeltaT(yearValue);
-    } else {
+    } else if (ut < kECLeapEraStart) {  // pre-1972: no leap seconds; the polynomial is all there is
 	return ut + espenakDeltaT(yearValue);
+    } else if (ut <= kECLeapSecondTableValidUntil) {  // 1972 through the table's horizon: exact
+	return ut + leapTTMinusUTC(ut);
+    } else {  // past the horizon: the polynomial again, shifted to be continuous at the handover
+	return ut + espenakDeltaT(yearValue) - leapRejoinOffset();
     }
 }
 
@@ -333,11 +449,12 @@ static double convertUTtoET(double ut,
 static void testConversion(void) {
     //for (int year = 900; year < 2110; year += 2) {
     for (int year = -500; year < 2110; year += 50) {
+	double ut = (year - 2001.0) * (365.25 * 24 * 3600);  // approximate instant, so convertUTtoET's branch on ut sees the right era
 	useMeeusDeltaT = true;
-	double newValue = convertUTtoET(0, year);
+	double newValue = convertUTtoET(ut, year) - ut;
 	printf("\n%04d %10.3f Meeus\n", year, newValue);
 	useMeeusDeltaT = false;
-	newValue = convertUTtoET(0, year);
+	newValue = convertUTtoET(ut, year) - ut;
 	printf("%04d %10.3f Espenak\n", year, newValue);
     }
 }
