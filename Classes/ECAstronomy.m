@@ -543,7 +543,8 @@ static void topocentricParallax(double ra,  // radians
 				double observerLatitude,  // radians
 				double observerAltitude,  // m
 				double *Hprime,
-				double *declPrime) {
+				double *declPrime,
+				double *distanceRatio) {  // topocentric distance over geocentric distance (may be NULL): ~1 on the horizon, 1 - sin(horizontal parallax) at the zenith
     static const double bOverA = 0.99664719;
     double u = atan(bOverA * tan(observerLatitude));
     double delta = observerAltitude/6378140;
@@ -559,6 +560,9 @@ static void topocentricParallax(double ra,  // radians
 	*Hprime += (M_PI * 2);
     }
     *declPrime = asin(C/q);
+    if (distanceRatio) {
+	*distanceRatio = q;
+    }
 }
 
 static void moonRAAndDecl(NSTimeInterval dateInterval,
@@ -1136,7 +1140,7 @@ planetAltAz(int            planetNumber,
 	if (correctForParallax) {
 	    double planetTopoHourAngle;
 	    double planetTopoDecl;
-	    topocentricParallax(planetRightAscension, planetDeclination, planetHourAngle, planetGeocentricDistance, observerLatitude, 0, &planetTopoHourAngle, &planetTopoDecl);
+	    topocentricParallax(planetRightAscension, planetDeclination, planetHourAngle, planetGeocentricDistance, observerLatitude, 0, &planetTopoHourAngle, &planetTopoDecl, NULL);
 	    //printAngle(planetDeclination, [[NSString stringWithFormat:@"%@ Decl", nameOfPlanetWithNumber(planetNumber)] UTF8String]);
 	    //printAngle(planetTopoDecl, [[NSString stringWithFormat:@"%@ Topo Decl", nameOfPlanetWithNumber(planetNumber)] UTF8String]);
 	    planetDeclination = planetTopoDecl;
@@ -3503,7 +3507,7 @@ static NSTimeInterval (*ECsaveCalculationMethod)(NSTimeInterval calculationDate,
 	    double planetTopoDeclination;
 	    double planetTopoHourAngle;
 	    topocentricParallax(planetRightAscension, planetDeclination, planetHourAngle, planetGeocentricDistance, observerLatitude, 0/*observerAltitude*/,
-				&planetTopoHourAngle, &planetTopoDeclination);
+				&planetTopoHourAngle, &planetTopoDeclination, NULL);
 	    planetTopoRightAscension = lst - planetTopoHourAngle;
 	    if (planetTopoRightAscension < 0) {
 		planetTopoRightAscension += M_PI * 2;
@@ -3572,7 +3576,7 @@ static NSTimeInterval (*ECsaveCalculationMethod)(NSTimeInterval calculationDate,
 	    double planetTopoRightAscension;
 	    double planetTopoDeclination;
 	    topocentricParallax(planetRightAscension, planetDeclination, planetHourAngle, planetGeocentricDistance, observerLatitude, 0/*observerAltitude*/,
-				&planetTopoRightAscension, &planetTopoDeclination);
+				&planetTopoRightAscension, &planetTopoDeclination, NULL);
 	    if (currentCache) {
 		currentCache->cacheSlotValidFlag[planetDeclTopoSlotIndex+planetNumber] = currentCache->currentFlag;
 		currentCache->cacheSlotValidFlag[planetRATopoSlotIndex+planetNumber] = currentCache->currentFlag;
@@ -4245,19 +4249,33 @@ calculateEclipse(NSTimeInterval calculationDateInterval,
 	    double sunHourAngle = lst - sunRightAscension;
 	    double sunTopoHourAngle;
 	    double sunTopoDecl;
-	    topocentricParallax(sunRightAscension, sunDeclination, sunHourAngle, sunGeocentricDistance, observerLatitude, 0/*observerAltitude*/, &sunTopoHourAngle, &sunTopoDecl);
+	    double sunDistanceRatio;
+	    topocentricParallax(sunRightAscension, sunDeclination, sunHourAngle, sunGeocentricDistance, observerLatitude, 0/*observerAltitude*/, &sunTopoHourAngle, &sunTopoDecl, &sunDistanceRatio);
 	    double sunTopoRA = lst - sunTopoHourAngle;
 	    
 	    double moonHourAngle = lst - moonRightAscension;
 	    double moonTopoHourAngle;
 	    double moonTopoDecl;
-	    topocentricParallax(moonRightAscension, moonDeclination, moonHourAngle, moonGeocentricDistance, observerLatitude, 0/*observerAltitude*/, &moonTopoHourAngle, &moonTopoDecl);
+	    double moonDistanceRatio;
+	    topocentricParallax(moonRightAscension, moonDeclination, moonHourAngle, moonGeocentricDistance, observerLatitude, 0/*observerAltitude*/, &moonTopoHourAngle, &moonTopoDecl, &moonDistanceRatio);
 	    double moonTopoRA = lst - moonTopoHourAngle;
 	    
+	    // Size the discs at the *topocentric* distances: the separation they are
+	    // compared against is topocentric, so the radii must be too.  The Moon's
+	    // disc is up to 1.7% larger overhead than seen from the Earth's center --
+	    // precisely the margin that separates a total eclipse from an annular one,
+	    // and geocentric radii misclassify hybrid eclipses as partial.
+	    double sunTopoAngularSize;
+	    double sunTopoParallax;
+	    planetSizeAndParallax(ECPlanetSun, sunGeocentricDistance * sunDistanceRatio, &sunTopoAngularSize, &sunTopoParallax);
+	    double moonTopoAngularSize;
+	    double moonTopoParallax;
+	    planetSizeAndParallax(ECPlanetMoon, moonGeocentricDistance * moonDistanceRatio, &moonTopoAngularSize, &moonTopoParallax);
+	    
 	    physicalSeparation = angularSeparation(sunTopoRA, sunTopoDecl, moonTopoRA, moonTopoDecl);
-	    separationAtPartialEclipse        =  sunAngularSize / 2 + moonAngularSize / 2;
-	    separationAtTotalEclipse          = moonAngularSize / 2 - sunAngularSize / 2;  // might be negative (no total)
-	    double separationAtAnnularEclipse =  sunAngularSize / 2 - moonAngularSize / 2;  // might be negative (no annular)
+	    separationAtPartialEclipse        =  sunTopoAngularSize / 2 + moonTopoAngularSize / 2;
+	    separationAtTotalEclipse          = moonTopoAngularSize / 2 - sunTopoAngularSize / 2;  // might be negative (no total)
+	    double separationAtAnnularEclipse =  sunTopoAngularSize / 2 - moonTopoAngularSize / 2;  // might be negative (no annular)
 	    
 	    double altitude = planetAltAz(ECPlanetSun, calculationDateInterval, observerLatitude, observerLongitude,
 					  true/*correctForParallax*/, true/*altNotAz*/, currentCache);  // already incorporates topocentric parallax
