@@ -2,7 +2,10 @@
 
 This directory currently contains code only for the iOS version of
 Emerald Chronometer.  Code for the WearOS version of Chronometer is not included
-in directory and is not currently on GitHub.
+in directory and is not currently on GitHub. Code for the web version of Chronometer
+is at https://github.com/EmeraldSequoia/chronometer-web.
+
+
 The build process for the iOS version of Emerald Chronometer is
 divided into two main pieces:
 
